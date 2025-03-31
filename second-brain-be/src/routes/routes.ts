@@ -11,14 +11,15 @@ import jwt from 'jsonwebtoken';
 app.use(express.json());
 app.use(cors())
 
-async function verifyPassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
-    return await compare(plainPassword, hashedPassword)
-}
-
 async function hashPassword(password: string): Promise<string> {
     const saltRounds = 10;
     return await hash(password, saltRounds)
 }
+
+async function verifyPassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
+    return await compare(plainPassword, hashedPassword)
+}
+
 
 app.post("/api/v1/second-brain/signup", validateInput, async (req: Request, res: Response) => {
     try {
@@ -41,7 +42,7 @@ app.post("/api/v1/second-brain/signup", validateInput, async (req: Request, res:
     }
 })
 
-app.post("/api/v1/second-brain/signin", validateInput, async (req: Request, res: Response)=> {
+app.post("/api/v1/second-brain/signin", validateInput, async (req: Request, res: Response) => {
     try {
         const { username, password } = req.body
 
@@ -58,8 +59,8 @@ app.post("/api/v1/second-brain/signin", validateInput, async (req: Request, res:
             return;
         }
 
-        const token = jwt.sign({ username }, process.env.JWT_PASSWORD as string, { expiresIn: "1h" })
-        res.json({ token})
+        const token = jwt.sign({ id: foundUser._id }, process.env.JWT_PASSWORD as string, { expiresIn: "1h" })
+        res.json({ token })
     }
     catch (err) {
         console.log("Signin error: " + err);
@@ -70,11 +71,19 @@ app.post("/api/v1/second-brain/signin", validateInput, async (req: Request, res:
 
 })
 
-app.post("/api/v1/second-brain/signup", async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/content", async (req: Request, res: Response) => {
+    const { title, link, type } = req.body;
 
+    await ContentModel.create({
+        title: title,
+        link: link,
+        type: type
+    })
+    res.status(201).json({ message: "Content has been updated successfully." })
 })
 
-app.post("/api/v1/second-brain/signup", async (req: Request, res: Response) => {
+app.get("/api/v1/second-brain/content", async (req: Request, res: Response) => {
+
 
 })
 
