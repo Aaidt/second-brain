@@ -4,7 +4,7 @@ import cors from "cors";
 import { hash, compare } from "bcrypt-ts";
 import dotenv from "dotenv";
 dotenv.config();
-import { UserModel, ContentModel } from "../db/db"
+import { UserModel, ContentModel, LinkModel } from "../db/db"
 import { validateInput } from "../middleware/validateInput"
 import { userMiddleware } from "../middleware/userMiddleware"
 import jwt from 'jsonwebtoken';
@@ -95,15 +95,26 @@ app.get("/api/v1/second-brain/content", userMiddleware, async (req: Request, res
     })
 })
 
-app.post("/api/v1/second-brain/signup", userMiddleware, async (req: Request, res: Response) => {
+app.delete("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
+    const { contentId } = req.body;
+    await ContentModel.deleteMany({
+        _id: contentId,
+        userId: req.userId
+    })
+    res.status(201).json({
+        message: "Content deleted successfully."
+    })
 
 })
 
-app.post("/api/v1/second-brain/signup", userMiddleware, async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/share", userMiddleware, async (req: Request, res: Response) => {
+    const { share } = req.body;
+    if(share){
 
+    } 
 })
 
-app.post("/api/v1/second-brain/signup", userMiddleware, async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/:shareLink", userMiddleware, async (req: Request, res: Response) => {
 
 })
 
