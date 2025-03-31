@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import { UserModel, ContentModel } from "../db/db"
 import { validateInput } from "../middleware/validateInput"
+import { userMiddleware } from "../middleware/userMiddleware"
 import jwt from 'jsonwebtoken';
 
 app.use(express.json());
@@ -71,31 +72,38 @@ app.post("/api/v1/second-brain/signin", validateInput, async (req: Request, res:
 
 })
 
-app.post("/api/v1/second-brain/content", async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
     const { title, link, type } = req.body;
 
     await ContentModel.create({
         title: title,
         link: link,
-        type: type
+        type: type,
+        user: req.userId
     })
     res.status(201).json({ message: "Content has been updated successfully." })
 })
 
-app.get("/api/v1/second-brain/content", async (req: Request, res: Response) => {
+app.get("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
+    const userId = req.userId;
+    const content = await ContentModel.find({
+        userId: userId
+    }).populate("userId", "username")
 
+    res.status(201).json({
+        content
+    })
+})
+
+app.post("/api/v1/second-brain/signup", userMiddleware, async (req: Request, res: Response) => {
 
 })
 
-app.post("/api/v1/second-brain/signup", async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/signup", userMiddleware, async (req: Request, res: Response) => {
 
 })
 
-app.post("/api/v1/second-brain/signup", async (req: Request, res: Response) => {
-
-})
-
-app.post("/api/v1/second-brain/signup", async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/signup", userMiddleware, async (req: Request, res: Response) => {
 
 })
 

@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 const JWT_PASSWORD = process.env.JWT_PASSWORD as string
 
-const userMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const userMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const header = req.headers["authorization"]
     const decoded = jwt.verify(header as string, JWT_PASSWORD );
 
