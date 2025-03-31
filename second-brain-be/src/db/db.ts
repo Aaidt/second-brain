@@ -2,7 +2,13 @@ import mongoose, { Schema, model } from "mongoose"
 import dotenv from "dotenv";
 dotenv.config();
 
-mongoose.connect(process.env.conn ?);
+const mongoURL = process.env.CONN as string
+if(!mongoURL){
+    throw new Error("MongoDB connection string is missing in the env file.")
+}
+
+mongoose.connect(mongoURL);
+
 
 const UserSchema = new Schema({
     username: { type: String, unique: true },
