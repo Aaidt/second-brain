@@ -2,7 +2,7 @@ import { z } from "zod";
 import express, { Request, Response, NextFunction } from "express";
 
 const inputSchema = z.object({
-    username: z.string().min(8, 
+    username: z.string().min(8,
         {
             message: "username must be atleast 8 characters long."
         }).email({
@@ -15,14 +15,14 @@ const inputSchema = z.object({
 });
 
 export const validateInput = (req: Request, res: Response, next: NextFunction) => {
-   const result = inputSchema.safeParse(req.body);
+    const result = inputSchema.safeParse(req.body);
 
-   if(!result.success){
-        return res.status(400).json({
+    if (!result.success) {
+        res.status(400).json({
             error: result.error.format()
         })
-   }
-
-   next();
+    } else {
+        next();
+    }
 }
 
