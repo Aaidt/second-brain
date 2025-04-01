@@ -7,6 +7,8 @@ const inputSchema = z.object({
             message: "username must be atleast 8 characters long."
         }).email({
             message: "Invalid email address."
+        }).endsWith(".com", {
+            message: "Invalid mail address"
         }),
 
     password: z.string().min(8, {

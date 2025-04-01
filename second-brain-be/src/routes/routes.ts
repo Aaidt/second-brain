@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction, RequestHandler } from "express"
 const app = express();
 import cors from "cors";
-import { hash, compare } from "bcrypt-ts";
+import { hash, compare } from "bcrypt"
 import dotenv from "dotenv";
 dotenv.config();
 import { UserModel, ContentModel, LinkModel } from "../db/db"
