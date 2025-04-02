@@ -7,21 +7,21 @@ import { ShareIcon } from "./components/icons/ShareIcon"
 function App() {
 
   return (
-    <div className="flex justify-between bg-purple-300">
+    <div className="flex justify-between bg-[#F5EEDC] font-serif text-[#DDA853]">
       <div>{<Sidebar />}</div>
 
       <div className="flex justify-end">
         <div className="">
           <Button
             size="md" text="Add content"
-            bg_color="purple" fullWidth={false}
+            bg_color="blue" fullWidth={false}
             startIcon={<PlusIcon />}
           />
         </div>
         <div className="">
           <Button
             size="md" text="Share Brain"
-            bg_color="purple" fullWidth={false}
+            bg_color="blue" fullWidth={false}
             startIcon={<ShareIcon />}
           />
         </div>

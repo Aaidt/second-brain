@@ -7,7 +7,7 @@ interface SideBarItemProps {
 
 export const SideBarItems = (props: SideBarItemProps) => {
     return (
-        <div className="m-3 flex justify-between rounded-lg font-bold text-xl p-4 hover:bg-purple-600 transition-all duration-200 hover:-translate-y-1 hover:text-purple-400">
+        <div className="items-center m-3 flex justify-between rounded-lg font-bold text-xl p-4 hover:bg-[#27548A] transition-all duration-200 hover:-translate-y-1">
             {props.icon} {props.text}
         </div>
     )

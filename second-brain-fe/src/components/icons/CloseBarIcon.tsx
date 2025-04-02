@@ -9,7 +9,7 @@ export const CloseBarIcon = () => {
 
     return <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px"
         viewBox="-4.32 -4.32 32.64 32.64"
-        fill="none" stroke="#000000"
+        fill="none" stroke="currentColor"
         strokeWidth="1.2" strokeLinecap="round"
         strokeLinejoin="round" transform="matrix(1, 0, 0, 1, 0, 0)">
         <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>

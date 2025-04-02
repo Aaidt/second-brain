@@ -3,11 +3,12 @@ import { BrainIcon } from "../icons/BrainIcon"
 import { CloseBarIcon } from "../icons/CloseBarIcon"
 import { TwitterIcon } from "../icons/TwitterIcon"
 import { YoutubeIcon } from "../icons/YoutubeIcon"
+import { RedditIcon } from "../icons/RedditIcon"
 import { SideBarItems } from "./SideBarItems"
 
 export const Sidebar = () => {
     return (
-        <div className="h-screen bg-purple-500 w-72 border-black rounded-r">
+        <div className="h-screen bg-[#183B4E] w-72 border-black rounded-r">
             <div className="">
                 <div className="p-3 hover:-translate-x-1 duration-200">
                     {<CloseBarIcon />}
@@ -19,6 +20,7 @@ export const Sidebar = () => {
             <div>
                 {<SideBarItems text="Twitter" icon={<TwitterIcon />} />}
                 {<SideBarItems text="YouTube" icon={<YoutubeIcon />} />}
+                {<SideBarItems text="Reddit" icon={<RedditIcon />} />}
             </div>
         </div>
     )

@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 interface ButtonProps {
     size: "sm" | "md" | "lg",
     text: string,
-    bg_color: "black" | "white" | "green" | "purple",
+    bg_color: "black" | "white" | "green" | "purple" | "blue",
     startIcon?: ReactElement,
     endIcon?: ReactElement,
     fullWidth: boolean,
@@ -24,7 +24,8 @@ const colorStyles = {
     "black": "bg-gray-700 text-white",
     "white": "bg-white hover:underline underline-offset-6",
     "green": "bg-green-400",
-    "purple": "bg-purple-500"
+    "blue": "bg-[#183B4E]",
+    "purple": "bg-[#A594F9]"
 }
 
 export const Button = (props: ButtonProps) => {
