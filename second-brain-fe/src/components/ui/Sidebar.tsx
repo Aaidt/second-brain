@@ -14,8 +14,7 @@ export const Sidebar = () => {
 
     return <div className="">
         {sidebarClose ? (
-            <div
-                className="h-screen transition-all duration-700 bg-[#183B4E]">
+            <div className="h-screen transition-all duration-200 hover:p-1 bg-[#183B4E]">
                 <div onClick={() => setSidebarClose(!sidebarClose)}
                     className="pt-3 hover:translate-x-1">
                     {<OpenBarIcon />}
