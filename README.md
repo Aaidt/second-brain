@@ -1,1 +1,1 @@
-# second-brain
+# Second-Brain
