@@ -15,7 +15,7 @@ export const CloseBarIcon = () => {
         <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
         <g id="SVGRepo_tracerCarrier" strokeLinecap="round"
             strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.336"></g>
-        <g id="SVGRepo_iconCarrier">
+        <g id="SVGRepo_iconCarrier" transform="rotate(0 12 12)">
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
             <line x1="9" y1="3" x2="9" y2="21"></line>
             <path d="M17 16l-4-4 4-4"></path>
