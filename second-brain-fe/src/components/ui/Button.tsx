@@ -16,19 +16,22 @@ const sizeStyles = {
     "lg": "px-4 py-2"
 }
 
-const fixedStyles = "rounded-md flex justify-center items-center duration-300"
+const fixedStyles = "rounded-md flex duration-300 m-1"
 
-const hoverStyles = "hover:-translate-y-1"
+const hoverStyles = "hover:-translate-y-2"
 
 const colorStyles = {
     "black": "bg-black text-white",
-    "white": "bg-white hover:underline underline-offset-8",
-    "green": "bg-green-400"
+    "white": "bg-white hover:underline underline-offset-6",
+    "green": "bg-green-400 "
 }
 
 export const Button = (props: ButtonProps) => {
     return (
-        <button className={`${fixedStyles} ${hoverStyles} ${sizeStyles[props.size]} ${props.fullWidth? 'w-full' : null} ${colorStyles[props.bg_color]} `}>
+        <button
+            className={`${'gap-1'} ${fixedStyles} ${hoverStyles} ${sizeStyles[props.size]} ${props.fullWidth ? 'w-full m-4 flex justify-center' : null} ${colorStyles[props.bg_color]} `}
+            onClick={() => props.onClick}
+        >
             {props.startIcon} {props.text} {props.endIcon}
         </button>
     )
