@@ -8,7 +8,7 @@ import { ShareIcon } from "./components/icons/ShareIcon"
 function App() {
 
   return (
-    <div className="flex">
+    <div className="flex justify-between">
       <div>{<Sidebar />}</div>
 
       <div className="flex justify-end">
@@ -19,7 +19,6 @@ function App() {
             startIcon={<PlusIcon />}
           />
         </div>
-
         <div className="">
           <Button
             size="md" text="Share Brain"

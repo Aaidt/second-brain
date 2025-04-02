@@ -16,12 +16,12 @@ const sizeStyles = {
     "lg": "px-4 py-2"
 }
 
-const fixedStyles = "rounded-md flex duration-300 m-6"
+const fixedStyles = "rounded-md flex duration-300 m-2 mt-6 mr-2"
 
 const hoverStyles = "hover:-translate-y-2"
 
 const colorStyles = {
-    "black": "bg-black text-white",
+    "black": "bg-gray-700 text-white",
     "white": "bg-white hover:underline underline-offset-6",
     "green": "bg-green-400 "
 }
