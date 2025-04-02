@@ -90,15 +90,14 @@ app.post("/api/v1/second-brain/content", userMiddleware, async (req: Request, re
         title: title,
         link: link,
         type: type,
-        user: req.userId
+        userId: req.userId
     })
     res.status(201).json({ message: "Content has been updated successfully." })
 })
 
 app.get("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
-    const userId = req.userId;
     const content = await ContentModel.find({
-        userId: userId
+        userId: req.userId
     }).populate("userId", "username")
 
     res.status(201).json({
