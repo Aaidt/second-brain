@@ -24,7 +24,7 @@ const colorStyles = {
     "black": "bg-gray-700 text-white",
     "white": "bg-[#F5EEDC] hover:underline underline-offset-6",
     "blue": "bg-[#183B4E]",
-    "gold": "bg-[#DDA853]"
+    "gold": "bg-[#DDA853] text-[#183B4E]"
 }
 
 export const Button = (props: ButtonProps) => {
