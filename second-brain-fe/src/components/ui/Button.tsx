@@ -31,7 +31,7 @@ export const Button = (props: ButtonProps) => {
     return (
         <button
             className={`${'gap-1'} ${fixedStyles} ${hoverStyles} ${sizeStyles[props.size]} ${props.fullWidth ? 'w-full flex justify-center' : null} ${colorStyles[props.bg_color]} `}
-            onClick={() => props.onClick}
+            onClick={props.onClick}
         >
             {props.startIcon} {props.text} {props.endIcon}
         </button>

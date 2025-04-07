@@ -1,6 +1,7 @@
 import { Button } from "../components/ui/Button"
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 export const Signin = () => {
@@ -16,7 +17,7 @@ export const Signin = () => {
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
 
-        const response = await axios.post<LoginResponse>(`${BACKEND_URL}/api/v1/brain/signin`, {
+        const response = await axios.post<LoginResponse>(`${BACKEND_URL}/api/v1/second-brain/signin`, {
             username,
             password
         });
@@ -41,7 +42,7 @@ export const Signin = () => {
                     placeholder="Enter the password..." />
             </div>
 
-            <div className="pr-3">
+            <div className="pr-3 font-bold">
                 <Button size="md" text="Signin" bg_color="gold" fullWidth={true} onClick={() => signin()} />
             </div>
         </div>
