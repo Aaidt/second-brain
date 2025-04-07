@@ -16,7 +16,7 @@ const sizeStyles = {
     "lg": "px-4 py-2"
 }
 
-const fixedStyles = "rounded-md flex duration-200 m-2 mt-6 mr-2"
+const fixedStyles = "rounded-md flex duration-200 m-2 mt-6"
 
 const hoverStyles = "hover:-translate-y-1"
 
@@ -30,7 +30,7 @@ const colorStyles = {
 export const Button = (props: ButtonProps) => {
     return (
         <button
-            className={`${'gap-1'} ${fixedStyles} ${hoverStyles} ${sizeStyles[props.size]} ${props.fullWidth ? 'w-full m-2 flex justify-center' : null} ${colorStyles[props.bg_color]} `}
+            className={`${'gap-1'} ${fixedStyles} ${hoverStyles} ${sizeStyles[props.size]} ${props.fullWidth ? 'w-full flex justify-center' : null} ${colorStyles[props.bg_color]} `}
             onClick={() => props.onClick}
         >
             {props.startIcon} {props.text} {props.endIcon}
