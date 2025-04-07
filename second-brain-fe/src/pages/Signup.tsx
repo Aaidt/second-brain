@@ -1,12 +1,26 @@
 import { Button } from "../components/ui/Button"
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import dotenv from "dotenv";
+dotenv.config();
+
+const BACKEND_URL = process.env.BACKEND_URL
 
 export const Signup = () => {
-    const usernameRef = useRef(null);
-    const passwordRef = useRef(null);
+    const usernameRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const navigate = useNavigate();
 
-    const signup = () => {
-        const username = usernameRef.current.value;
+    const signup = async () => {
+        const username = usernameRef.current?.value;
+        const password = passwordRef.current?.value;
+
+        await axios.post(`${BACKEND_URL}/api/v1/brain/signup`, {
+            username,
+            password
+        });
+        alert("You have successfully signed-up!!!!");
+        navigate("/signin");
     }
 
     return <div className="h-screen w-screen text-[#DDA853] bg-[#F5EEDC] flex justify-center items-center">
