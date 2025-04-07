@@ -1,9 +1,31 @@
 import { Button } from "../components/ui/Button"
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import dotenv from "dotenv";
+dotenv.config();
+const BACKEND_URL = process.env.BACKEND_URL
 
 export const Signin = () => {
+    const usernameRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const navigate = useNavigate();
 
-    const signin = () => {
-        
+    type LoginResponse = {
+        token: String
+    }
+
+    const signin = async() => {
+        const username = usernameRef.current?.value;
+        const password = passwordRef.current?.value;
+
+        const response = await axios.post<LoginResponse>(`${BACKEND_URL}/api/v1/brain/signin`, {
+            username,
+            password
+        });
+        const jwt = response.data.token as string
+        localStorage.setItem("token", jwt)
+        alert("You have successfully signed-in!!!!");
+        navigate("/Dashboard");
     }
 
 
@@ -13,11 +35,11 @@ export const Signin = () => {
                 Sign-in
             </div>
             <div className="pr-2 pl-2">
-                <input type="text" className="w-full rounded-md p-2 border"
+                <input ref={usernameRef} type="text" className="w-full rounded-md p-2 border"
                     placeholder="Enter the username..." />
             </div>
             <div className="pt-4 pr-2 pl-2">
-                <input type="text" className="w-full  rounded-md p-2 border"
+                <input ref={passwordRef} type="text" className="w-full  rounded-md p-2 border"
                     placeholder="Enter the password..." />
             </div>
 

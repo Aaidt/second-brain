@@ -20,7 +20,7 @@ export const Signup = () => {
             password
         });
         alert("You have successfully signed-up!!!!");
-        navigate("/signin");
+        navigate("/Signin");
     }
 
     return <div className="h-screen w-screen text-[#DDA853] bg-[#F5EEDC] flex justify-center items-center">
