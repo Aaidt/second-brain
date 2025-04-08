@@ -11,7 +11,8 @@ export const Dashboard = () => {
                 <Sidebar />
             </div>
             <div className="flex p-4">
-                <div className="pt-25 p-6">{<CardComponent />}</div>
+                <div className="pt-25 p-6">{<CardComponent title="asd" type="youtube" link="https://www.youtube.com/watch?v=q_edsSpDzHg&t=1192s" />}</div>
+                <div className="pt-25 p-6">{<CardComponent title="asd" type="twitter" link="https://x.com/Observer_ofyou/status/1909211398002950349" />}</div>
                 <div className="pt-5 p-3 fixed right-0 top-0 flex">
                     <div className="">
                         <Button
