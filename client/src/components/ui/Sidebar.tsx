@@ -12,7 +12,7 @@ export const Sidebar = () => {
 
   return (
     <div
-      className={`h-full bg-[#183B4E] border-black rounded-r transition-all duration-300 ease-in-out ${
+      className={`h-full min-h-screen bg-[#183B4E] border-black rounded-r transition-all duration-300 ease-in-out ${
         sidebarClose ? "w-15" : "w-72"
       }`}
     >
