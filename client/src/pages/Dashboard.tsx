@@ -12,7 +12,7 @@ export const Dashboard = () => {
             </div>
             <div className="flex p-4">
                 <div className="pt-25 p-6">{<CardComponent title="asd" type="youtube" link="https://www.youtube.com/watch?v=q_edsSpDzHg&t=1192s" />}</div>
-                <div className="pt-25 p-6">{<CardComponent title="asd" type="twitter" link="https://x.com/googleaidevs/status/1909712857421201870" />}</div>
+                <div className="pt-25 p-6">{<CardComponent title="asd" type="twitter" link="https://x.com/BhatAasim9/status/1909201396483731617" />}</div>
                 <div className="pt-5 p-3 fixed right-0 top-0 flex">
                     <div className="">
                         <Button
