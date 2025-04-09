@@ -23,8 +23,8 @@ export const Signup = () => {
     }
 
     return <div className="h-screen w-screen text-[#DDA853] bg-[#F5EEDC] flex justify-center items-center">
-        <div className="w-96 h-90 bg-[#183B4E] rounded-md p-5 ">
-            <div className="text-4xl flex justify-center items-center pt-5 pb-15 font-bold">
+        <div className="w-96 h-80 bg-[#183B4E] rounded-md p-5 ">
+            <div className="text-4xl flex justify-center items-center pt-5 pb-10 font-bold">
                 Sign-up
             </div>
             <div className="pr-2 pl-2">

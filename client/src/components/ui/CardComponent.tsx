@@ -15,7 +15,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
             <Page />
             <div className="flex gap-4">
                 <Delete />
-                <ShareIcon />
+                <ShareIcon style="zoom" />
             </div>
         </div>
         <div className="flex justify-center">
@@ -30,15 +30,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
             </iframe>}
 
             {cardProps.type == "twitter" && <blockquote className="twitter-tweet">
-                {/* <p lang="zxx" dir="ltr">
-                    <a href="https://t.co/ZXngsiEYP2">
-                        pic.twitter.com/ZXngsiEYP2
-                    </a>
-                </p>&mdash; Observer (@Observer_ofyou)
-                <a href={cardProps.link}>
-                    April 7, 2025
-                </a> */}
-                <a href="https://x.com/Observer_ofyou/status/1909211398002950349" />
+                <a href={cardProps.link} />
             </blockquote>}
 
         </div>
