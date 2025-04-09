@@ -57,7 +57,15 @@ export const CardComponent = (cardProps: cardPropTypes) => {
                     </blockquote>
                 </div>
             }
+            {cardProps.type == "reddit" &&
+                <blockquote className="reddit-embed-bq" data-embed-height="316">
+                    <a href={cardProps.link}>View this post on Reddit.</a>
+                </blockquote>
+            }
+
         </div>
     </div >
 }
+
+
 
