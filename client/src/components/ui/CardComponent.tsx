@@ -10,6 +10,19 @@ interface cardPropTypes {
 
 
 export const CardComponent = (cardProps: cardPropTypes) => {
+
+    const getYTEmbedLink = (url: string) => {
+        try {
+            const parsed = new URL(url);
+            const videoId = parsed.searchParams.get('v');
+            if (!videoId) return null;
+
+            return `https://www.youtube.com/embed/${videoId}`
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     return <div className="min-w-72 min-h-96 shadow-lg bg-[#183B4E] rounded-md ">
         <div className="flex justify-between p-5 transition-all duration-800">
             <Page />
@@ -19,15 +32,23 @@ export const CardComponent = (cardProps: cardPropTypes) => {
             </div>
         </div>
         <div className="flex justify-center min-h-24 w-full">
-            {cardProps.type == "youtube" && <iframe
-                width="250"
-                height="200"
-                src={cardProps.link.replace("watch", "embed")}
-                title='YouTube video player'
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
-            </iframe>}
+            {cardProps.type === "youtube" && (() => {
+                const embedUrl = getYTEmbedLink(cardProps.link);
+                if (!embedUrl) return <p>Invalid YouTube link</p>;
+
+                return (
+                    <iframe
+                        width="250"
+                        height="200"
+                        src={embedUrl}
+                        title={cardProps.title}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                    />
+                );
+            })()}
 
             {cardProps.type == "twitter" &&
                 <div className="pb-2">
@@ -37,6 +58,6 @@ export const CardComponent = (cardProps: cardPropTypes) => {
                 </div>
             }
         </div>
-    </div>
+    </div >
 }
 
