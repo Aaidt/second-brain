@@ -3,7 +3,7 @@ import { Button } from "./Button"
 import { DropDownMenu } from "./dropdown-menu"
 
 export const CreateContentModal = () => {
-    const [selectedLabel, setSelectedLabel] = useState("");
+    const [selectedVal, setSelectedVal] = useState("");
 
     return <div className="flex justify-center items-center pt-20">
         <div className="bg-[#183B4E] rounded-md min-w-90 h-96 p-5 text-[#DDA853]">
@@ -25,7 +25,7 @@ export const CreateContentModal = () => {
                         { label: "Reddit", value: "reddit" },
                         { label: "Others", value: "others" },
                     ]}
-                    onSelect={(val) => console.log("Selected:", val)}
+                    onSelect={(val) => setSelectedVal(val)}
                 />
 
                 <div className="font-bold">
