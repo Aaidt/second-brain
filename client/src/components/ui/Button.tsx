@@ -16,7 +16,7 @@ const sizeStyles = {
     "lg": "px-4 py-2"
 }
 
-const fixedStyles = "rounded-md flex duration-200 m-2 mt-6"
+const fixedStyles = "rounded-md duration-200 m-2 mt-6 mr-1 flex"
 
 const hoverStyles = "hover:-translate-y-1"
 
