@@ -34,6 +34,7 @@ export const Sidebar = () => {
             <SideBarItems text="Twitter" icon={<TwitterIcon />} />
             <SideBarItems text="YouTube" icon={<YoutubeIcon />} />
             <SideBarItems text="Reddit" icon={<RedditIcon />} />
+            {/* <SideBarItems text="Others" /> */}
           </div>
         </>
       )}

@@ -41,12 +41,13 @@ export const CardComponent = (cardProps: cardPropTypes) => {
                     <h1 className="flex text-xl justify-center p-1 font-bold">{cardProps.title}</h1>
                     <iframe
                         width="250"
-                        height="200"
+                        height="300"
                         src={embedUrl}
                         title={cardProps.title}
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin"
+                        className="rounded-lg"
                         allowFullScreen
                     />
                     </div>

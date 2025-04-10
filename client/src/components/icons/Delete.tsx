@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const Delete = ({contentId}: {contentId: string}) => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-    const { contents, refresh } = useContent()
+    const { refresh } = useContent()
 
     const deletePost = async () => {
         try {

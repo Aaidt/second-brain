@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 
 interface SideBarItemProps {
-    icon: ReactElement,
+    icon?: ReactElement,
     text: string
 }
 
