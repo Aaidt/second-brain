@@ -11,7 +11,7 @@ export const Dashboard = () => {
 
     return (
         <>
-            <CreateContentModal open={modalOpen} />
+            <CreateContentModal open={modalOpen} setOpen={setModalOpen} />
             <div className="bg-[#F5EEDC] flex font-serif text-[#DDA853]">
                 <div>
                     <Sidebar />
