@@ -23,7 +23,7 @@ export const Signin = () => {
             password
         });
         const jwt = response.data.token as string
-        localStorage.setItem("token", jwt)
+        localStorage.setItem("authorization", jwt)
         alert("You have successfully signed-in!!!!");
         navigate("/dashboard");
     }

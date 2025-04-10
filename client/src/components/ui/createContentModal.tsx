@@ -21,7 +21,11 @@ export const CreateContentModal = ({ open, setOpen }: modalProps) => {
             title: titleRef.current?.value,
             link: linkRef.current?.value,
             type
-        })
+        }, {
+            headers: {
+                "Authorization": localStorage.getItem("authorization")
+        } 
+    })
         alert("Content added sucessfully!!!");
     }
 
