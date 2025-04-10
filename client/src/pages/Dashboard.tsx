@@ -4,10 +4,17 @@ import { PlusIcon } from "../components/icons/PlusIcon"
 import { ShareIcon } from "../components/icons/ShareIcon"
 import { CardComponent } from "../components/ui/CardComponent"
 import { CreateContentModal } from "../components/ui/createContentModal"
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useContent } from "../hooks/useContent"
 
 export const Dashboard = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const { contents, refresh } = useContent()
+
+    useEffect(() => {
+        refresh()
+    }, [modalOpen])
+
 
     return (
         <>
@@ -16,21 +23,21 @@ export const Dashboard = () => {
                 <div>
                     <Sidebar />
                 </div>
-                <div className="flex p-4 flex-wrap">
-                    <div className="pt-25 p-6">{<CardComponent title="asd" type="youtube" link="https://www.youtube.com/watch?v=q_edsSpDzHg&t=1192s" />}</div>
-                    <div className="pt-25 p-6">{<CardComponent title="asd" type="twitter" link="https://x.com/KevinVanCott/status/1909222844891865105" />}</div>
-                    <div className="pt-25 p-6">{<CardComponent title="asd" type="reddit" link="https://www.reddit.com/r/IndianWorkplace/comments/1juzqw8/my_manager_backstabbed_me/" />}</div>
-                    <div className="pt-5 p-3 fixed right-0 top-0 flex">
+                <div className="flex p-4 pt-20 flex-wrap">
+                    {contents.map(({title, link, type}) => 
+                        <CardComponent title={title} type={type} link={link} />
+                    )}
+                    <div className="pt-1 p-2 fixed right-0 top-0 flex">
                         <div className="">
                             <Button
-                                size="md" text="Add content" bg_color="blue"
+                                size="md" text="Add content" bg_color="gold"
                                 fullWidth={false} startIcon={<PlusIcon />}
                                 onClick={() => setModalOpen(true)}
                             />
                         </div>
                         <div className="">
                             <Button
-                                size="md" text="Share Brain" bg_color="blue"
+                                size="md" text="Share Brain" bg_color="gold"
                                 fullWidth={false} startIcon={<ShareIcon style='float' />}
                             />
                         </div>
