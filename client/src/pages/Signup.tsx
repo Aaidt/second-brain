@@ -29,19 +29,19 @@ export const Signup = () => {
             </div>
             <div className="pr-2 pl-2">
                 <input ref={usernameRef} type="text" className="w-full rounded-md p-2 border"
-                    placeholder="Enter the username..." />
+                    placeholder="Username..." />
             </div>
             <div className="pt-4 pr-2 pl-2">
                 <input ref={passwordRef} type="text" className="w-full  rounded-md p-2 border"
-                    placeholder="Enter the password..." />
+                    placeholder="Password..." />
             </div>
 
-            <div className="pr-3 font-bold">
+            <div className="pr-3 font-bold text-lg">
                 <Button size="md" text="Signup" bg_color="gold" fullWidth={true} onClick={() => signup()} />
             </div>
             <div className="flex justify-center">
                 If you already have an account....
-                <div className="hover:underline hover:-translate-y-1 duration-200 hover:underline-offset-4 cursor-pointer"
+                <div className="underline hover:-translate-y-1 duration-200 hover:underline-offset-4 cursor-pointer"
                 onClick={() => navigate("/signin")}>
                     Sign-in
                 </div>

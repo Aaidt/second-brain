@@ -26,7 +26,6 @@ export const useContent = () => {
             })
                 .then((response) => {
                     setContents(response.data?.content)
-                    console.log(response.data?.content)
                 })
         } catch (err) {
             console.log(err)
