@@ -1,0 +1,41 @@
+import { useState, useEffect } from "react";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+type Content = {
+    title: string,
+    link: string,
+    type: string
+}
+
+type ResponseData = {
+    content: Content[]
+}
+
+export const useContent = () => {
+    const [contents, setContents] = useState<Content[]>([]);
+
+    function refresh() {
+        try {
+            axios.get<ResponseData>(`${BACKEND_URL}/api/v1/second-brain/content`, {
+                headers: {
+                    "Authorization": localStorage.getItem("authorization")
+                }
+            })
+                .then((response) => {
+                    setContents(response.data?.content)
+                })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        refresh()
+        const interval = setInterval(refresh, 10*1000)
+
+        return () => clearInterval(interval)
+    }, [])
+
+    return {contents, refresh}
+}
