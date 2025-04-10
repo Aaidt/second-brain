@@ -6,15 +6,44 @@ import { CardComponent } from "../components/ui/CardComponent"
 import { CreateContentModal } from "../components/ui/createContentModal"
 import { useState, useEffect } from "react";
 import { useContent } from "../hooks/useContent"
+import axios from "axios";
 
 export const Dashboard = () => {
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
     const [modalOpen, setModalOpen] = useState(false);
     const { contents, refresh } = useContent()
+    const [share, setShare] = useState(false)
 
     useEffect(() => {
         refresh()
     }, [modalOpen])
 
+    interface ResponseData {
+        link: string
+    }
+
+    async function handleShare() {
+        setShare(!share)
+        try {
+            const response = await axios.post<ResponseData>(`${BACKEND_URL}/api/v1/second-brain/share`,
+                {
+                    share: share
+                },
+                {
+                    headers: {
+                        Authorization: localStorage.getItem("authorization")
+                    }
+                });
+            { share ? (alert("👍 Share this link to give access to others: " + response.data?.link)) : (
+                alert('Share is set to false.👎👎👎')
+            )}
+
+        }
+        catch (err) {
+            alert('err:' + err);
+        }
+    }
 
     return (
         <>
@@ -24,7 +53,7 @@ export const Dashboard = () => {
                     <Sidebar />
                 </div>
                 <div className="flex p-4 pt-20 flex-wrap">
-                    {contents.map(({title, link, type, _id}) => 
+                    {contents.map(({ title, link, type, _id }) =>
                         <CardComponent title={title} type={type} link={link} id={_id} />
                     )}
                     <div className="pt-1 p-2 fixed right-0 top-0 flex">
@@ -39,6 +68,7 @@ export const Dashboard = () => {
                             <Button
                                 size="md" text="Share Brain" bg_color="gold"
                                 fullWidth={false} startIcon={<ShareIcon style='float' />}
+                                onClick={handleShare}
                             />
                         </div>
                     </div>
