@@ -36,7 +36,7 @@ export const Dashboard = () => {
                     }
                 });
             { share ? (alert("Share this link to give access to others:👍👍👍 " + response.data?.link)) : (
-                alert('Share is set to false.👎👎👎')
+                alert('You have tuned OFF sharing now.👎👎👎 click the button again to turn it ON')
             )}
 
         }

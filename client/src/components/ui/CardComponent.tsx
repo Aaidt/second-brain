@@ -23,12 +23,16 @@ export const CardComponent = (cardProps: cardPropTypes) => {
         }
     }
 
+    
     return <div className="min-w-72 min-h-96 shadow-lg bg-[#183B4E] rounded-md m-2">
         <div className="flex justify-between p-5 transition-all duration-800">
             <Page />
             <div className="flex gap-4">
                 <Delete contentId={cardProps.id} />
-                <ShareIcon style="zoom" />
+                <ShareIcon style="zoom" onClick={() => {
+                    console.log("handleShare called.")
+                    alert("Share using this link👍👍👍: " + cardProps.link)
+                }} />
             </div>
         </div>
         <div className="flex justify-center min-h-24 w-full">

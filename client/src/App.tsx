@@ -1,6 +1,5 @@
-// import { useState } from 'react'
 import { Dashboard } from "./pages/Dashboard"
-import { BrowserRouter, Routes, Route, Link, Outlet } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { Signup } from "./pages/Signup"
 import { Signin } from "./pages/Signin"
 import { SharedBrainPage } from "./pages/SharedBrainPage"
@@ -28,13 +27,5 @@ function App() {
 
   )
 }
-
-
-// function Layout(){
-//   return (
-
-//   )
-// }
-
 
 export default App
