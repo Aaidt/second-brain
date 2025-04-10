@@ -166,7 +166,7 @@ app.post("/api/v1/second-brain/share", userMiddleware, async (req: Request, res:
 
 })
 
-app.post("/api/v1/second-brain/:shareLink", userMiddleware, async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/:shareLink", async (req: Request, res: Response) => {
     const link = req.params.shareLink
     try {
         if (!link) {

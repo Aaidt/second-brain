@@ -32,7 +32,7 @@ export const Sidebar = () => {
             <BrainIcon /> Second Brain
           </div>
           <div>
-            <SideBarItems text="All" icon={<FullBrainIcon />} />
+            <SideBarItems text="My brain" icon={<FullBrainIcon />} />
             <SideBarItems text="Twitter" icon={<TwitterIcon />} />
             <SideBarItems text="YouTube" icon={<YoutubeIcon />} />
             <SideBarItems text="Reddit" icon={<RedditIcon />} />

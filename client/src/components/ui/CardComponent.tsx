@@ -6,7 +6,7 @@ interface cardPropTypes {
     title: string,
     type: 'youtube' | 'twitter' | 'reddit' | 'others',
     link: string,
-    id: string
+    id?: string
 }
 
 export const CardComponent = (cardProps: cardPropTypes) => {

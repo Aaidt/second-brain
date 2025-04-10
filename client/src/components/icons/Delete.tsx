@@ -1,9 +1,12 @@
 import { useContent } from "../../hooks/useContent"
 import axios from "axios";
 
-export const Delete = ({contentId}: {contentId: string}) => {
+export const Delete = ({contentId}: {contentId?: string}) => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
     const { refresh } = useContent()
+    if(!contentId){
+        console.log("Invalid contentId.")
+    }
 
     const deletePost = async () => {
         try {
