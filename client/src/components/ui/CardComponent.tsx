@@ -5,7 +5,8 @@ import { ShareIcon } from "../icons/ShareIcon"
 interface cardPropTypes {
     title: string,
     type: 'youtube' | 'twitter' | 'reddit' | 'others',
-    link: string
+    link: string,
+    id: string
 }
 
 export const CardComponent = (cardProps: cardPropTypes) => {
@@ -26,7 +27,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
         <div className="flex justify-between p-5 transition-all duration-800">
             <Page />
             <div className="flex gap-4">
-                <Delete />
+                <Delete contentId={cardProps.id} />
                 <ShareIcon style="zoom" />
             </div>
         </div>

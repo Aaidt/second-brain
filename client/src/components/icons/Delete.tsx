@@ -1,9 +1,28 @@
+import { useContent } from "../../hooks/useContent"
+import axios from "axios";
 
+export const Delete = ({contentId}: {contentId: string}) => {
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+    const { contents, refresh } = useContent()
 
-export const Delete = () => {
-
-    const deletePost = () => {
-        
+    const deletePost = async () => {
+        try {
+            await axios.request({
+                method: 'DELETE',
+                url: `${BACKEND_URL}/api/v1/second-brain/content`,
+                data: {
+                    contentId: contentId
+                },
+                headers: {
+                    "Authorization": localStorage.getItem("authorization")
+                }
+            })
+            refresh()
+            alert("Post has been deleted successfully!!!")
+        } catch (err) {
+            console.log("Error deleting post." + err)
+            alert("Failed to delete post.")
+        }
     }
 
     return <div onClick={deletePost} >

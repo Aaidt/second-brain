@@ -24,8 +24,8 @@ export const Dashboard = () => {
                     <Sidebar />
                 </div>
                 <div className="flex p-4 pt-20 flex-wrap">
-                    {contents.map(({title, link, type}) => 
-                        <CardComponent title={title} type={type} link={link} />
+                    {contents.map(({title, link, type, _id}) => 
+                        <CardComponent title={title} type={type} link={link} id={_id} />
                     )}
                     <div className="pt-1 p-2 fixed right-0 top-0 flex">
                         <div className="">
