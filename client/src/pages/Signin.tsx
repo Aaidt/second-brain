@@ -1,7 +1,6 @@
 import { Button } from "../components/ui/Button"
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-// import { }
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -14,7 +13,7 @@ export const Signin = () => {
         token: String
     }
 
-    const signin = async() => {
+    const signin = async () => {
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
 
@@ -30,8 +29,8 @@ export const Signin = () => {
 
 
     return <div className="h-screen w-screen text-[#DDA853] bg-[#F5EEDC] flex justify-center items-center">
-        <div className="w-96 h-90 bg-[#183B4E] rounded-md p-5 ">
-            <div className="text-4xl flex justify-center items-center pt-5 pb-15 font-bold">
+        <div className="w-96 h-85 bg-[#183B4E] rounded-md p-5">
+            <div className="text-4xl flex justify-center items-center pt-5 pb-10 font-bold">
                 Sign-in
             </div>
             <div className="pr-2 pl-2">
@@ -45,6 +44,13 @@ export const Signin = () => {
 
             <div className="pr-3 font-bold">
                 <Button size="md" text="Signin" bg_color="gold" fullWidth={true} onClick={() => signin()} />
+            </div>
+            <div className="flex justify-center">
+                If you dont have an account....
+                <div className="hover:underline hover:-translate-y-1 duration-200 hover:underline-offset-4 cursor-pointer"
+                onClick={() => navigate("/signup")}>
+                    Sign-up
+                </div>
             </div>
         </div>
     </div>

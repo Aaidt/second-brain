@@ -23,7 +23,7 @@ export const Signup = () => {
     }
 
     return <div className="h-screen w-screen text-[#DDA853] bg-[#F5EEDC] flex justify-center items-center">
-        <div className="w-96 h-80 bg-[#183B4E] rounded-md p-5 ">
+        <div className="w-96 h-85 bg-[#183B4E] rounded-md p-5 ">
             <div className="text-4xl flex justify-center items-center pt-5 pb-10 font-bold">
                 Sign-up
             </div>
@@ -38,6 +38,13 @@ export const Signup = () => {
 
             <div className="pr-3 font-bold">
                 <Button size="md" text="Signup" bg_color="gold" fullWidth={true} onClick={() => signup()} />
+            </div>
+            <div className="flex justify-center">
+                If you already have an account....
+                <div className="hover:underline hover:-translate-y-1 duration-200 hover:underline-offset-4 cursor-pointer"
+                onClick={() => navigate("/signin")}>
+                    Sign-in
+                </div>
             </div>
         </div>
     </div>
