@@ -86,13 +86,18 @@ app.post("/api/v1/second-brain/signin", validateInput, async (req: Request, res:
 app.post("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
     const { title, link, type } = req.body;
 
-    await ContentModel.create({
-        title: title,
-        link: link,
-        type: type,
-        userId: req.userId
-    })
-    res.status(201).json({ message: "Content has been updated successfully." })
+    try {
+        await ContentModel.create({
+            title: title,
+            link: link,
+            type: type,
+            userId: req.userId
+        })
+        res.status(201).json({ message: "Content has been updated successfully." })
+    }catch(err){
+        res.status(403).json({ message: "Content not added...", error: err })
+    }
+
 })
 
 app.get("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
@@ -137,7 +142,7 @@ app.post("/api/v1/second-brain/share", userMiddleware, async (req: Request, res:
         res.json({
             link
         })
-    }else{
+    } else {
         await LinkModel.deleteMany({
             userId: req.userId
         })
@@ -149,7 +154,7 @@ app.post("/api/v1/second-brain/share", userMiddleware, async (req: Request, res:
 
 app.post("/api/v1/second-brain/:shareLink", userMiddleware, async (req: Request, res: Response) => {
     const link = req.params.shareLink
-    if(!link){
+    if (!link) {
         res.json({
             message: "Link is required."
         })
@@ -159,11 +164,11 @@ app.post("/api/v1/second-brain/:shareLink", userMiddleware, async (req: Request,
     const hashLink = await LinkModel.findOne({
         hash: link
     })
-    if(!hashLink){
+    if (!hashLink) {
         res.json({
             message: "Invalid link."
         })
-        return 
+        return
     }
 
     const content = await ContentModel.find({
@@ -173,7 +178,7 @@ app.post("/api/v1/second-brain/:shareLink", userMiddleware, async (req: Request,
     const user = await UserModel.findOne({
         _id: hashLink.userId
     })
-    if(!user){
+    if (!user) {
         res.json({
             message: "User not found."
         })

@@ -1,14 +1,29 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState, useRef, Dispatch, SetStateAction } from "react";
 import { Button } from "./Button"
 import { DropDownMenu } from "./dropdown-menu"
+import axios from "axios";
 
 type modalProps = {
     open: Boolean,
     setOpen: Dispatch<SetStateAction<boolean>>
 }
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL 
+
 export const CreateContentModal = ({ open, setOpen }: modalProps) => {
     const [selectedVal, setSelectedVal] = useState("");
+    const titleRef = useRef<HTMLInputElement>(null)
+    const linkRef = useRef<HTMLInputElement>(null)
+    const type = selectedVal
+
+    const handleRequest = async () => {
+        await axios.post(`${BACKEND_URL}/api/v1/second-brain/content`, {
+            title: titleRef.current?.value,
+            link: linkRef.current?.value,
+            type
+        })
+        alert("Content added sucessfully!!!");
+    }
 
     return (open &&
         <div onClick={() => {
@@ -19,11 +34,11 @@ export const CreateContentModal = ({ open, setOpen }: modalProps) => {
                     <div className="font-bold text-4xl pb-6  flex justify-center">Add Content</div>
                     <div className="p-1">
                         <div className="m-4">
-                            <input type="text" className="w-full rounded-md p-2 border"
+                            <input ref={titleRef} type="text" className="w-full rounded-md p-2 border"
                                 placeholder="Title..." />
                         </div>
                         <div className="m-4">
-                            <input type="text" className="w-full rounded-md p-2 border"
+                            <input ref={linkRef} type="text" className="w-full rounded-md p-2 border"
                                 placeholder="Link..." />
                         </div>
 
@@ -39,6 +54,7 @@ export const CreateContentModal = ({ open, setOpen }: modalProps) => {
 
                         <div className="font-bold">
                             <Button size="md" text="Submit" bg_color="gold" fullWidth={true} onClick={() => {
+                                handleRequest()
                                 setOpen(!open)
                             }} />
                         </div>

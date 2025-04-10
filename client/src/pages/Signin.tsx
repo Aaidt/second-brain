@@ -1,6 +1,7 @@
 import { Button } from "../components/ui/Button"
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+// import { }
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -24,7 +25,7 @@ export const Signin = () => {
         const jwt = response.data.token as string
         localStorage.setItem("token", jwt)
         alert("You have successfully signed-in!!!!");
-        navigate("/Dashboard");
+        navigate("/dashboard");
     }
 
 
