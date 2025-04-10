@@ -8,7 +8,6 @@ interface cardPropTypes {
     link: string
 }
 
-
 export const CardComponent = (cardProps: cardPropTypes) => {
 
     const getYTEmbedLink = (url: string) => {
@@ -38,7 +37,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
 
                 return (
                     <div>
-                    <h1 className="flex justify-center p-2 font-bold">{cardProps.title}</h1>
+                    <h1 className="flex text-xl justify-center p-1 font-bold">{cardProps.title}</h1>
                     <iframe
                         width="250"
                         height="200"
@@ -55,7 +54,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
 
             {cardProps.type == "twitter" &&
                 <div className="pb-2">
-                    <h1 className="flex justify-center p-2 font-bold">{cardProps.title}</h1>
+                    <h1 className="flex justify-center text-xl p-1 font-bold">{cardProps.title}</h1>
                     <blockquote className="twitter-tweet bg-[#F5EEDC]">
                         <a href={cardProps.link.replace("x.com", "twitter.com")} />
                     </blockquote>
@@ -63,7 +62,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
             }
             {cardProps.type == "reddit" &&
             <div className="m-2 p-1">
-                <h1 className="flex justify-center p-2 font-bold">{cardProps.title}</h1>
+                <h1 className="flex justify-center p-1 font-bold text-xl">{cardProps.title}</h1>
                 <blockquote className="reddit-embed-bq" data-embed-height="316">
                     <a href={cardProps.link}>View this post on Reddit.</a>
                 </blockquote>

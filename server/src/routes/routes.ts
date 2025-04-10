@@ -80,7 +80,6 @@ app.post("/api/v1/second-brain/signin", validateInput, async (req: Request, res:
             error: "Internal server error."
         })
     }
-
 })
 
 app.post("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
@@ -94,100 +93,120 @@ app.post("/api/v1/second-brain/content", userMiddleware, async (req: Request, re
             userId: req.userId
         })
         res.status(201).json({ message: "Content has been updated successfully." })
-    }catch(err){
+    } catch (err) {
         res.status(403).json({ message: "Content not added...", error: err })
     }
 
 })
 
 app.get("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
-    const content = await ContentModel.find({
-        userId: req.userId
-    }).populate("userId", "username")
-
-    res.status(201).json({
-        content
-    })
+    try {
+        const content = await ContentModel.find({
+            userId: req.userId
+        }).populate("userId", "username")
+    
+        res.status(201).json({
+            content
+        })
+    } catch (err) {
+        res.json({ err })
+        console.log(err)
+    }
 })
 
 app.delete("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
     const { contentId } = req.body;
-    await ContentModel.deleteMany({
-        _id: contentId,
-        userId: req.userId
-    })
-    res.status(201).json({
-        message: "Content deleted successfully."
-    })
-
+    try {
+        await ContentModel.deleteMany({
+            _id: contentId,
+            userId: req.userId
+        })
+        res.status(201).json({
+            message: "Content deleted successfully."
+        })
+    } catch (err) {
+        res.json({ err })
+        console.log(err)
+    }
 })
 
 app.post("/api/v1/second-brain/share", userMiddleware, async (req: Request, res: Response) => {
     const { share } = req.body;
-    if (share) {
-        const link = hashLink(20);
-        const existingLink = await LinkModel.findOne({
-            userId: req.userId
-        })
-        if (existingLink) {
-            res.json({
-                link: existingLink.hash
+    try {
+        if (share) {
+            const link = hashLink(20);
+            const existingLink = await LinkModel.findOne({
+                userId: req.userId
             })
-            return;
+            if (existingLink) {
+                res.json({
+                    link: existingLink.hash
+                })
+                return;
+            }
+            await LinkModel.create({
+                userId: req.userId,
+                hash: link
+            })
+            res.json({
+                link
+            })
+        } else {
+            await LinkModel.deleteMany({
+                userId: req.userId
+            })
+            res.json({
+                message: "Removed link"
+            })
         }
-        await LinkModel.create({
-            userId: req.userId,
-            hash: link
-        })
-        res.json({
-            link
-        })
-    } else {
-        await LinkModel.deleteMany({
-            userId: req.userId
-        })
-        res.json({
-            message: "Removed link"
-        })
+    } catch (err) {
+        res.json({ err })
+        console.log(err)
     }
+
 })
 
 app.post("/api/v1/second-brain/:shareLink", userMiddleware, async (req: Request, res: Response) => {
     const link = req.params.shareLink
-    if (!link) {
-        res.json({
-            message: "Link is required."
+    try {
+        if (!link) {
+            res.json({
+                message: "Link is required."
+            })
+            return
+        }
+
+        const hashLink = await LinkModel.findOne({
+            hash: link
         })
-        return
-    }
+        if (!hashLink) {
+            res.json({
+                message: "Invalid link."
+            })
+            return
+        }
 
-    const hashLink = await LinkModel.findOne({
-        hash: link
-    })
-    if (!hashLink) {
-        res.json({
-            message: "Invalid link."
+        const content = await ContentModel.find({
+            userId: hashLink.userId
         })
-        return
-    }
 
-    const content = await ContentModel.find({
-        userId: hashLink.userId
-    })
-
-    const user = await UserModel.findOne({
-        _id: hashLink.userId
-    })
-    if (!user) {
-        res.json({
-            message: "User not found."
+        const user = await UserModel.findOne({
+            _id: hashLink.userId
         })
-    }
+        if (!user) {
+            res.json({
+                message: "User not found."
+            })
+        }
 
-    res.json({
-        username: user?.username,
-        content
-    })
+        res.json({
+            username: user?.username,
+            content
+        })
+    } catch (err) {
+        res.json({ err })
+        console.log(err)
+    }
 })
 
 const PORT = process.env.PORT as unknown as number
