@@ -7,7 +7,7 @@ export const Page = () => {
         fill="none" viewBox="0 0 24 24" 
         strokeWidth="1.5" 
         stroke="currentColor" 
-        className="size-6 hover:scale-110 duration-200">
+        className="size-6 hover:scale-110 cursor-pointer duration-200">
             <path 
             strokeLinecap="round" 
             strokeLinejoin="round" 
