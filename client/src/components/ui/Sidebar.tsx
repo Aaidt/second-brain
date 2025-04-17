@@ -28,7 +28,7 @@ export const Sidebar = () => {
 
       {!sidebarClose && (
         <>
-          <div className="flex p-2 font-bold text-3xl text-[#183B4E] items-center gap-3 text-white">
+          <div className="flex p-2 font-bold text-3xl text-[#DDA853] items-center gap-3">
             <BrainIcon /> Second Brain
           </div>
           <div>
