@@ -41,7 +41,7 @@ export const Signup = () => {
             </div>
             <div className="flex justify-center">
                 If you already have an account....
-                <div className="underline hover:-translate-y-1 duration-200 hover:underline-offset-4 cursor-pointer"
+                <div className="font-bold hover:underline hover:-translate-y-1 duration-200 hover:underline-offset-4 cursor-pointer"
                 onClick={() => navigate("/signin")}>
                     Sign-in
                 </div>
