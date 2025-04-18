@@ -29,10 +29,10 @@ export const Sidebar = () => {
       {!sidebarClose && (
         <>
           <div className="flex p-2 font-bold text-3xl text-[#DDA853] items-center gap-3">
-            <BrainIcon /> Second Brain
+            <p className="pl-6">Second Brain</p>
           </div>
           <div>
-            <SideBarItems text="My brain" icon={<FullBrainIcon />} />
+            <SideBarItems text="My brain" icon={<BrainIcon />} />
             <SideBarItems text="Twitter" icon={<TwitterIcon />} />
             <SideBarItems text="YouTube" icon={<YoutubeIcon />} />
             <SideBarItems text="Reddit" icon={<RedditIcon />} />
