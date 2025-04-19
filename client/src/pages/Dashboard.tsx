@@ -13,7 +13,7 @@ export const Dashboard = () => {
 
     const [modalOpen, setModalOpen] = useState(false);
     const { contents, refresh } = useContent()
-    const [share, setShare] = useState(false)
+    const [share, setShare] = useState(true)
 
     useEffect(() => {
         refresh()
