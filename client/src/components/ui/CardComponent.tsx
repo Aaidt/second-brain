@@ -23,7 +23,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
         }
     }
 
-    
+
     return <div className="min-w-72 min-h-96 shadow-lg bg-[#183B4E] rounded-md m-2 font-playfair">
         <div className="flex justify-between p-5 transition-all duration-800">
             <Page />
@@ -31,29 +31,33 @@ export const CardComponent = (cardProps: cardPropTypes) => {
                 <Delete contentId={cardProps.id} />
                 <ShareIcon style="zoom" onClick={() => {
                     console.log("handleShare called.")
-                    alert("Share using this link👍👍👍: " + cardProps.link)
+                    alert("Share using this link: " + cardProps.link)
                 }} />
             </div>
         </div>
-        <div className="flex justify-center min-h-24 w-full">
+        <div className="flex justify-center min-h-24 w-full max-w-80">
             {cardProps.type === "youtube" && (() => {
                 const embedUrl = getYTEmbedLink(cardProps.link);
                 if (!embedUrl) return <p>Invalid YouTube link</p>;
 
                 return (
-                    <div>
-                    <h1 className="flex text-xl justify-center p-1 font-bold">{cardProps.title}</h1>
-                    <iframe
-                        width="250"
-                        height="300"
-                        src={embedUrl}
-                        title={cardProps.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        className="rounded-md m-4"
-                        allowFullScreen
-                    />
+                    <div className="">
+                        <div className="flex flex-wrap justify-center ">
+                            <h1 className="text-xl p-1 font-bold">{cardProps.title}</h1>
+                        </div>
+                        <div className="flex justify-center">
+                            <iframe
+                                width="250"
+                                height="300"
+                                src={embedUrl}
+                                title={cardProps.title}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerPolicy="strict-origin-when-cross-origin"
+                                className="rounded-md m-4 "
+                                allowFullScreen
+                            />
+                        </div>
                     </div>
                 );
             })()}
@@ -67,12 +71,12 @@ export const CardComponent = (cardProps: cardPropTypes) => {
                 </div>
             }
             {cardProps.type == "reddit" &&
-            <div className="m-2 p-1">
-                <h1 className="flex justify-center p-1 font-bold text-xl">{cardProps.title}</h1>
-                <blockquote className="reddit-embed-bq" data-embed-height="316">
-                    <a href={cardProps.link}>View this post on Reddit.</a>
-                </blockquote>
-            </div>
+                <div className="m-2 p-1">
+                    <h1 className="flex justify-center p-1 font-bold text-xl">{cardProps.title}</h1>
+                    <blockquote className="reddit-embed-bq" data-embed-height="316">
+                        <a href={cardProps.link}>View this post on Reddit.</a>
+                    </blockquote>
+                </div>
             }
 
         </div>

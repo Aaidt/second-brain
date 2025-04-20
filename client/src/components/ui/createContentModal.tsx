@@ -34,7 +34,7 @@ export const CreateContentModal = ({ open, setOpen }: modalProps) => {
             setOpen(!open)
         }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 ">
             <div className="flex justify-center items-center h-screen pb-10">
-                <div onClick={(e) => e.stopPropagation()} className="bg-[#183B4E] rounded-md min-w-90 h-78 p-5 text-[#DDA853]">
+                <div onClick={(e) => e.stopPropagation()} className="bg-[#183B4E] rounded-md min-w-90 h-76 p-5 text-[#DDA853]">
                     <div className="font-bold text-4xl pb-3 flex justify-center">Add Content</div>
                     <div className="">
                         <div className="m-2">

@@ -5,7 +5,6 @@ import { OpenBarIcon } from "../icons/OpenBarIcon";
 import { TwitterIcon } from "../icons/TwitterIcon";
 import { YoutubeIcon } from "../icons/YoutubeIcon";
 import { RedditIcon } from "../icons/RedditIcon";
-import { FullBrainIcon } from "../icons/FullBrainIcon";
 import { SideBarItems } from "./SideBarItems";
 
 export const Sidebar = () => {
@@ -36,7 +35,6 @@ export const Sidebar = () => {
             <SideBarItems text="Twitter" icon={<TwitterIcon />} />
             <SideBarItems text="YouTube" icon={<YoutubeIcon />} />
             <SideBarItems text="Reddit" icon={<RedditIcon />} />
-            {/* <SideBarItems text="Others" /> */}
           </div>
         </>
       )}
