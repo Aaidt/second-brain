@@ -35,8 +35,8 @@ export const Dashboard = () => {
                         Authorization: localStorage.getItem("authorization")
                     }
                 });
-            { share ? (alert("Share this link to give access to others:👍👍👍 " + response.data?.link)) : (
-                alert('You have tuned OFF sharing now.👎👎👎 click the button again to turn it ON')
+            { share ? (alert("Share this link to give access to others: " + response.data?.link)) : (
+                alert('You have tuned OFF sharing now. Click the button again to turn it ON')
             )}
 
         }

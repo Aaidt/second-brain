@@ -23,15 +23,15 @@ export const Signup = () => {
     }
 
     return <div className="h-screen w-screen text-[#DDA853] bg-[#F5EEDC] flex justify-center items-center">
-        <div className="w-96 h-85 bg-[#183B4E] rounded-md p-5 ">
-            <div className="text-4xl flex justify-center items-center pt-5 pb-10 font-bold">
+        <div className="w-96 h-75 bg-[#183B4E] rounded-md p-5 ">
+            <div className="text-4xl flex justify-center items-center pb-5 font-bold">
                 Sign-up
             </div>
-            <div className="pr-2 pl-2">
+            <div className="pr-1 pl-2">
                 <input ref={usernameRef} type="text" className="w-full rounded-md p-2 border"
                     placeholder="Username..." />
             </div>
-            <div className="pt-4 pr-2 pl-2">
+            <div className="pt-4 pr-1 pl-2">
                 <input ref={passwordRef} type="text" className="w-full  rounded-md p-2 border"
                     placeholder="Password..." />
             </div>
