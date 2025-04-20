@@ -28,7 +28,7 @@ export const Sidebar = () => {
 
       {!sidebarClose && (
         <>
-          <div className="flex p-2 font-bold text-5xl text-[#DDA853] items-center gap-3">
+          <div className="flex p-2 font-bold font-playfair text-5xl text-[#DDA853] items-center gap-3">
             <p className="pl-6">Second Brain</p>
           </div>
           <div className=" pt-5">

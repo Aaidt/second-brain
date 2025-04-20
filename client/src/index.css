@@ -117,7 +117,17 @@
   * {
     @apply border-border outline-ring/50;
   }
+  :root {
+    --font-playfair: 'Playfair Display', serif;
+  }
   body {
     @apply bg-background text-foreground;
+    font-family: var(  --font-playfair); 
+  }
+}
+
+@layer utilities {
+  .font-playfair {
+    font-family: var(--font-playfair);
   }
 }
