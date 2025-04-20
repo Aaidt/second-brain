@@ -1,6 +1,10 @@
 @custom-variant dark (&:where(.dark, .dark *));
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
 @import "tailwindcss";
 @import "tw-animate-css";
+
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);

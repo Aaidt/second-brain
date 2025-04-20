@@ -13,12 +13,12 @@ export const Sidebar = () => {
 
   return (
     <div
-      className={`h-full min-h-screen bg-[#183B4E] border-black rounded-r transition-all duration-300 ease-in-out ${
+      className={`h-full min-h-screen bg-[#183B4E] border-black rounded-r transition-all duration-300 ease-in-out overflow-hidden ${
         sidebarClose ? "w-15" : "w-72"
       }`}
     >
       <div
-        className={`p-3 hover:scale-105 cursor-pointer transition-transform duration-200 ${
+        className={`p-3 hover:scale-105 cursor-pointer transition-transform duration-300 ${
           sidebarClose ? "text-center" : ""
         }`}
         onClick={() => setSidebarClose(!sidebarClose)}
@@ -28,7 +28,7 @@ export const Sidebar = () => {
 
       {!sidebarClose && (
         <>
-          <div className="flex p-2 font-bold text-3xl text-[#DDA853] items-center gap-3">
+          <div className="flex p-2 font-bold text-5xl text-[#DDA853] items-center gap-3">
             <p className="pl-6">Second Brain</p>
           </div>
           <div className=" pt-5">
