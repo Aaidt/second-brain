@@ -45,7 +45,7 @@ export const Signin = () => {
             <div className="pr-3 font-bold text-lg">
                 <Button size="md" text="Signin" bg_color="gold" fullWidth={true} onClick={() => signin()} />
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center pt-1">
                 If you dont have an account....
                 <div className="font-bold hover:underline hover:-translate-y-1 duration-200 hover:underline-offset-4 cursor-pointer"
                 onClick={() => navigate("/signup")}>

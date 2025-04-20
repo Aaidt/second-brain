@@ -34,7 +34,7 @@ export const DropDownMenu = ({ options, onSelect }: DropDownMenuProps) => {
       />
 
       {dropDown && (
-        <div className="absolute mt-2 bg-white border rounded shadow-md w-full z-10">
+        <div className="absolute mt-2 bg-white border rounded shadow-md w-full z-10 ">
           {options.map((option) => (
             <div
               key={option.value}
