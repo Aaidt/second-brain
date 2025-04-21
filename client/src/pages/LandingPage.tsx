@@ -8,11 +8,12 @@ export const LandingPage = () => {
 
             <main className="flex flex-col items-center justify-center flex-grow px-6 text-center duration-200">
                 <h1 className="tracking-tight text-[#DDA853] text-5xl sm:text-7xl md:text-8xl font-light leading-tighter max-w-5xl mt-20 ">
-                    Store in a second brain and learn new things about yourself.
+                    Your mind deserves a second brain.
                 </h1>
 
                 <p className="text-[#DDA853] text-xl sm:text-2xl mt-10 max-w-3xl">
-                    Why you need to store your memories and learn about yourself.
+                Capture ideas. Reflect on your thoughts. <br />
+                Learn more about yourself — over time.
                 </p>
             </main>
 

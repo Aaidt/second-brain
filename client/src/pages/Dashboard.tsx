@@ -59,14 +59,14 @@ export const Dashboard = () => {
                         <CardComponent title={title} type={type} link={link} id={_id} />
                     )}
                     <div className="pt-1 p-2 fixed right-0 top-0 flex">
-                        <div className="">
+                        <div className="text-lg">
                             <Button
                                 size="md" text="Add content" bg_color="gold"
                                 fullWidth={false} shadow={true} startIcon={<PlusIcon />}
                                 onClick={() => setModalOpen(true)}
                             />
                         </div>
-                        <div className="">
+                        <div className="text-lg">
                             <Button
                                 size="md" text="Share Brain" bg_color="gold"
                                 fullWidth={false} shadow={true} startIcon={<ShareIcon style='float' />}
