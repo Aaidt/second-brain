@@ -58,7 +58,7 @@ export const CreateContentModal = ({ open, setOpen }: modalProps) => {
                             />
                         </div>
 
-                        <div className="font-bold pr-3">
+                        <div className="font-bold pr-3 ">
                             <Button size="md" text="Submit" bg_color="gold" fullWidth={true} onClick={() => {
                                 handleRequest()
                                 setOpen(!open)

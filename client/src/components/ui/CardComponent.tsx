@@ -24,7 +24,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
     }
 
 
-    return <div className="min-w-72 min-h-96 shadow-lg bg-[#183B4E] rounded-md m-2 font-playfair">
+    return <div className="min-w-72 min-h-96 shadow-lg bg-[#183B4E] rounded-md m-2 font-roboto">
         <div className="flex justify-between p-5 transition-all duration-800">
             <Page />
             <div className="flex gap-4">

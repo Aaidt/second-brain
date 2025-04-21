@@ -30,7 +30,7 @@ export const Sidebar = () => {
           <div className="flex p-2 font-bold font-playfair text-5xl text-[#DDA853] items-center gap-3">
             <p className="pl-6">Second Brain</p>
           </div>
-          <div className=" pt-5">
+          <div className=" pt-2">
             <SideBarItems text="My brain" icon={<BrainIcon />} />
             <SideBarItems text="Twitter" icon={<TwitterIcon />} />
             <SideBarItems text="YouTube" icon={<YoutubeIcon />} />
