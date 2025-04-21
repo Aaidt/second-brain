@@ -13,10 +13,10 @@ export const Navbar = () => {
         </div>
 
         <div className="flex p-4 pl-30">
-            <div className="font-semibold text-xl pr-8">
+            <div className="font-light text-xl pr-8">
                 Login
             </div>
-            <div className="font-semibold text-xl ">
+            <div className="font-light text-xl ">
                 Signup
             </div>
         </div>
