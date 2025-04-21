@@ -26,6 +26,7 @@ export const DropDownMenu = ({ options, onSelect }: DropDownMenuProps) => {
   return (
     <div className="relative">
       <Button
+        shadow={false}
         size="md"
         fullWidth={true}
         bg_color="gold"

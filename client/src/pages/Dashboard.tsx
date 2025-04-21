@@ -62,14 +62,14 @@ export const Dashboard = () => {
                         <div className="">
                             <Button
                                 size="md" text="Add content" bg_color="gold"
-                                fullWidth={false} startIcon={<PlusIcon />}
+                                fullWidth={false} shadow={true} startIcon={<PlusIcon />}
                                 onClick={() => setModalOpen(true)}
                             />
                         </div>
                         <div className="">
                             <Button
                                 size="md" text="Share Brain" bg_color="gold"
-                                fullWidth={false} startIcon={<ShareIcon style='float' />}
+                                fullWidth={false} shadow={true} startIcon={<ShareIcon style='float' />}
                                 onClick={handleShare}
                             />
                         </div>
