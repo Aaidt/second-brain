@@ -1,24 +1,25 @@
 import { BrainIcon } from "../icons/BrainIcon"
+import { useNavigate } from "react-router-dom"
 
 
 export const Navbar = () => {
-    return <div className="flex justify-center justify-between p-2 bg-[#DDA853] text-[#183B4E] rounded-full w-180 h-18 shadow-xl shadow-gray-800 hover:shadow-gray-900 border-b-black border-r-black">
-        <div className="flex pr-70">
-            <div className="pl-1 p-1">
+    const navigate = useNavigate();
+    return (
+        <nav className="flex items-center justify-between px-8 py-7 text-[#DDA853]">
+            <div className="flex items-center gap-3">
                 <BrainIcon />
+                <div className="font-bold text-4xl leading-10">
+                    Second Brain
+                </div>
             </div>
-            <div className="p-2 font-bold flex justify-center items-center pb-2 text-xl">
-                Second <br /> Brain
-            </div>
-        </div>
 
-        <div className="flex p-4 pl-30">
-            <div className="cursor-pointer font-light text-xl pr-8 hover:underline hover:underline-offset-5 hover:-translate-y-1 duration-200">
-                Login
+            <div className="flex gap-6 text-xl font-light">
+                <div className="cursor-pointer hover:underline hover:underline-offset-5 hover:-translate-y-1 transition duration-300"
+                    onClick={() => navigate("/signup")}>Register</div>
+
+                <div className="cursor-pointer hover:underline hover:underline-offset-5 hover:-translate-y-1 transition duration-300"
+                    onClick={() => navigate("/signin")}>Login</div>
             </div>
-            <div className="cursor-pointer font-light text-xl hover:underline hover:underline-offset-5 hover:-translate-y-1 duration-200 ">
-                Signup
-            </div>
-        </div>
-    </div>
+        </nav>
+    );
 }
