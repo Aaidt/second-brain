@@ -13,10 +13,10 @@ export const Navbar = () => {
         </div>
 
         <div className="flex p-4 pl-30">
-            <div className="font-light text-xl pr-8 hover:underline hover:underline-offset-5 hover:-translate-y-1 duration-200">
+            <div className="cursor-pointer font-light text-xl pr-8 hover:underline hover:underline-offset-5 hover:-translate-y-1 duration-200">
                 Login
             </div>
-            <div className="font-light text-xl hover:underline hover:underline-offset-5 hover:-translate-y-1 duration-200 ">
+            <div className="cursor-pointer font-light text-xl hover:underline hover:underline-offset-5 hover:-translate-y-1 duration-200 ">
                 Signup
             </div>
         </div>
