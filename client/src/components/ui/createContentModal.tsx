@@ -35,7 +35,7 @@ export const CreateContentModal = ({ open, setOpen }: modalProps) => {
         }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 ">
             <div className="flex justify-center items-center h-screen pb-10">
                 <div onClick={(e) => e.stopPropagation()} className="bg-[#183B4E] rounded-md min-w-90 h-76 p-5 text-[#DDA853]">
-                    <div className="font-bold text-4xl pb-3 flex justify-center">Add Content</div>
+                    <div className="font-bold font-playfair text-4xl pb-3 flex justify-center">Add Content</div>
                     <div className="">
                         <div className="m-2">
                             <input ref={titleRef} type="text" className="w-full rounded-md p-2 border"
@@ -46,7 +46,7 @@ export const CreateContentModal = ({ open, setOpen }: modalProps) => {
                                 placeholder="Link..." />
                         </div>
 
-                        <div className="pr-3 font-semibold">
+                        <div className="pr-3 ">
                             <DropDownMenu
                                 options={[
                                     { label: "YouTube", value: "youtube" },
@@ -58,7 +58,7 @@ export const CreateContentModal = ({ open, setOpen }: modalProps) => {
                             />
                         </div>
 
-                        <div className="font-bold pr-3 ">
+                        <div className="font-bold pr-3">
                             <Button size="md" text="Submit" bg_color="gold" fullWidth={true} onClick={() => {
                                 handleRequest()
                                 setOpen(!open)

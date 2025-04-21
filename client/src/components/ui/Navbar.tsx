@@ -8,12 +8,12 @@ export const Navbar = () => {
         <nav className="flex items-center justify-between px-8 py-7 text-[#DDA853]">
             <div className="flex items-center gap-3">
                 <BrainIcon />
-                <div className="font-bold text-4xl leading-10">
+                <div className="font-light text-4xl leading-10">
                     Second Brain
                 </div>
             </div>
 
-            <div className="flex gap-6 text-xl font-light">
+            <div className="flex tracking-wide gap-6 text-xl font-light">
                 <div className="cursor-pointer hover:underline hover:underline-offset-5 hover:-translate-y-1 transition duration-300"
                     onClick={() => navigate("/signup")}>Register</div>
 
