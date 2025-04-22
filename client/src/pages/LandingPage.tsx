@@ -17,7 +17,7 @@ export const LandingPage = () => {
                 </p>
             </main>
 
-            <div className="pt-20">
+            <div className="pt-15">
                 <Footer />
             </div>
         </div>
