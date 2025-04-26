@@ -13,7 +13,7 @@ export const LandingPage = () => {
 
                 <p className="text-[#DDA853] text-xl sm:text-2xl mt-10 max-w-3xl">
                 Capture ideas. Reflect on your thoughts. <br />
-                Learn more about yourself — over time.
+                Learn more about yourself.
                 </p>
             </main>
 
