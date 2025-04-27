@@ -61,7 +61,6 @@ export const Dashboard = () => {
                         <CardComponent title={title} type={type} link={link} id={_id} />
                     )}
                     <div className="pt-1 p-2 fixed right-0 top-0 flex">
-                        <SearchBar />
                         <div className="text-md">
                             <Button
                                 size="md" text="Add content" bg_color="gold"
@@ -75,6 +74,9 @@ export const Dashboard = () => {
                                 fullWidth={false} shadow={false} startIcon={<ShareIcon style='float' />}
                                 onClick={handleShare}
                             />
+                        </div>
+                        <div className="text-md pt-5 p-3">
+                            <SearchBar />
                         </div>
                     </div>
                 </div>
