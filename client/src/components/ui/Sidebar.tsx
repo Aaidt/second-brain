@@ -6,10 +6,17 @@ import { YoutubeIcon } from "../icons/YoutubeIcon";
 import { RedditIcon } from "../icons/RedditIcon";
 import { SideBarItems } from "./SideBarItems";
 import { useSideBar } from "../../hooks/sidebarContext"
+import { Button } from "./Button"
+import { useNavigate } from "react-router-dom"
 
 export const Sidebar = () => {
+  const navigate = useNavigate()
+  const { sidebarClose, setSidebarClose } = useSideBar()
 
-  const { sidebarClose, setSidebarClose } = useSideBar() 
+  const Logout = () => {
+    localStorage.removeItem("authorization");
+    navigate("/signin");
+  }
 
   return (
     <div
@@ -30,11 +37,16 @@ export const Sidebar = () => {
           <div className="flex p-2 font-bold font-playfair text-5xl text-[#DDA853] items-center gap-3">
             <p className="pl-6">Second Brain</p>
           </div>
-          <div className=" pt-2">
+          <div className="pt-2">
             <SideBarItems text="My brain" icon={<BrainIcon />} />
             <SideBarItems text="Twitter" icon={<TwitterIcon />} />
             <SideBarItems text="YouTube" icon={<YoutubeIcon />} />
             <SideBarItems text="Reddit" icon={<RedditIcon />} />
+          </div>
+
+          <div className="pr-5 text-xl pt-2 pl-1 font-semibold"
+          onClick={Logout}>
+            <Button size="md" text="Logout" bg_color="gold" fullWidth={true} shadow={false} />
           </div>
         </>
       )}
