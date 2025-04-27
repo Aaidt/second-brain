@@ -7,7 +7,8 @@ import { CreateContentModal } from "../components/ui/createContentModal"
 import { useState, useEffect } from "react";
 import { useContent } from "../hooks/useContent"
 import axios from "axios";
-import { Footer } from "../components/ui/Footer"
+import { SearchBar } from "../components/ui/SearchBar"
+// import { Footer } from "../components/ui/Footer"
 
 export const Dashboard = () => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -60,6 +61,7 @@ export const Dashboard = () => {
                         <CardComponent title={title} type={type} link={link} id={_id} />
                     )}
                     <div className="pt-1 p-2 fixed right-0 top-0 flex">
+                        <SearchBar />
                         <div className="text-md">
                             <Button
                                 size="md" text="Add content" bg_color="gold"
