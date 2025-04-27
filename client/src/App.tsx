@@ -5,6 +5,7 @@ import { Signin } from "./pages/Signin"
 import { LandingPage } from "./pages/LandingPage"
 import { SharedBrainPage } from "./pages/SharedBrainPage"
 import { ProtectedRoute } from "./pages/ProtectedRoute"
+import { SidebarProvider } from "./hooks/sidebarContext"
 
 function App() {
 
@@ -20,7 +21,9 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <SidebarProvider>
+                <Dashboard />
+              </SidebarProvider>
             </ProtectedRoute>
           }>
         </Route>

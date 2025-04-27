@@ -9,7 +9,7 @@ import { useContent } from "../hooks/useContent"
 import axios from "axios";
 import { SearchBar } from "../components/ui/SearchBar"
 // import { Footer } from "../components/ui/Footer"
-import { SidebarProvider } from "../hooks/sidebarContext";
+import { useSideBar } from "../hooks/sidebarContext";
 
 export const Dashboard = () => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -50,8 +50,9 @@ export const Dashboard = () => {
         }
     }
 
+    const { sidebarClose } = useSideBar(); 
+
     return (
-        <SidebarProvider>
             <div className="bg-[#F5EEDC] font-serif text-[#DDA853]">
                 <CreateContentModal open={modalOpen} setOpen={setModalOpen} />
 
@@ -61,7 +62,7 @@ export const Dashboard = () => {
                 <div className="text-md pt-5 p-1">
                     <SearchBar />
                 </div>
-                <div className="flex pl-75 p-4 pt-20 flex-wrap">
+                <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-20 flex-wrap duration-400`}>
                     {contents.map(({ title, link, type, _id }) =>
                         <CardComponent title={title} type={type} link={link} id={_id} />
                     )}
@@ -85,6 +86,5 @@ export const Dashboard = () => {
 
                 {/* <Footer /> */}
             </div>
-        </SidebarProvider>
     )
 }
