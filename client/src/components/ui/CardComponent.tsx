@@ -24,7 +24,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
     }
 
 
-    return <div className="min-w-72 min-h-96 shadow-lg bg-[#183B4E] rounded-md m-2 font-inter">
+    return <div className={`${cardProps.type === "youtube" ? 'max-h-110' : 'undefined'} min-w-72 min-h-96 shadow-lg bg-[#183B4E] rounded-md m-2 font-inter`}>
         <div className="flex justify-between p-5 transition-all duration-800">
             <Page />
             <div className="flex gap-4">
@@ -43,7 +43,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
                 return (
                     <div className="">
                         <div className="flex flex-wrap justify-center ">
-                            <h1 className="text-xl p-1 font-bold">{cardProps.title}</h1>
+                            <h1 className="text-xl px-4 font-bold">{cardProps.title}</h1>
                         </div>
                         <div className="flex justify-center">
                             <iframe
@@ -54,7 +54,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 referrerPolicy="strict-origin-when-cross-origin"
-                                className="rounded-md m-4 "
+                                className="rounded-md m-4"
                                 allowFullScreen
                             />
                         </div>

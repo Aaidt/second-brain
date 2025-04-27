@@ -53,7 +53,7 @@ export const Dashboard = () => {
     const { sidebarClose } = useSideBar(); 
 
     return (
-            <div className="bg-[#F5EEDC] font-serif text-[#DDA853]">
+            <div className="h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
                 <CreateContentModal open={modalOpen} setOpen={setModalOpen} />
 
                 <div className="fixed top-0 left-0">
