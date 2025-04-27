@@ -22,8 +22,8 @@ const fixedStyles = "rounded-md duration-200 m-2 mt-4 mr-1 flex font-serif curso
 const hoverStyles = "hover:-translate-y-1"
 
 const colorStyles = {
-    "black": "bg-gray-700 text-white",
-    "white": "bg-[#F5EEDC] hover:underline underline-offset-6",
+    "black": "bg-black text-[#DDA853]",
+    "white": "bg-[#F5EEDC] hover:bg-black transition-all duration-400 hover:underline underline-offset-6",
     "blue": "bg-[#183B4E]",
     "gold": "bg-[#DDA853] text-[#183B4E]"
 }

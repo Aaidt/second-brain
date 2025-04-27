@@ -1,20 +1,24 @@
-import { Navigate } from "react-router-dom"
+import { Navigate } from "react-router-dom";
 
 export const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
+  const token = localStorage.getItem("authorization");
 
-    const token = localStorage.getItem("authorization");
-    const payload = token ? JSON.parse((atob(token.split('.')[1]))) : undefined
-    const expiry = payload.exp
+  if (!token) {
+    alert("Login first!!!");
+    console.log("No JWT token found");
+    return <Navigate to="/signin" />;
+  }
 
-    const isVerified = (token: string) => {
-        if (!token) return false;
-        const now = Math.floor(Date.now() / 1000);
-        return now < expiry
-    }
+  const payload = JSON.parse(atob(token.split(".")[1]));
+  const expiry = payload.exp;
 
-    if (!isVerified) {
-        return <Navigate to="/signin" replace />
-    }
+  const now = Math.floor(Date.now() / 1000);
+  const isExpired = now > expiry;
 
-    return children
-}
+  if (isExpired) {
+    alert("Session expired! Please log in again.");
+    return <Navigate to="/signin" />;
+  }
+
+  return children;
+};
