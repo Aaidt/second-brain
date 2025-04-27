@@ -38,18 +38,18 @@ app.post("/api/v1/second-brain/signup", validateInput, async (req: Request, res:
         const { username, password } = req.body
 
         const hashedPassword = await hashPassword(password);
-
         await UserModel.create({
             username: username,
             password: hashedPassword
         })
+
         res.status(201).json({
             message: "User has signed-up successfully."
         })
     } catch (err) {
         console.log("Signup error: " + err);
         res.status(500).json({
-            error: "Internal server error."
+            error: ("Signup error: " + err)
         })
     }
 })
