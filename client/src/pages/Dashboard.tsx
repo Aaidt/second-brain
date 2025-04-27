@@ -76,7 +76,7 @@ export const Dashboard = () => {
                         </div>
                         <div className="text-md">
                             <Button
-                                size="md" text="Share Brain" bg_color="gold"
+                                size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="gold"
                                 fullWidth={false} shadow={false} startIcon={<ShareIcon style='float' />}
                                 onClick={handleShare}
                             />
