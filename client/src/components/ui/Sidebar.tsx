@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrainIcon } from "../icons/BrainIcon";
 import { CloseBarIcon } from "../icons/CloseBarIcon";
 import { OpenBarIcon } from "../icons/OpenBarIcon";
@@ -6,20 +5,20 @@ import { TwitterIcon } from "../icons/TwitterIcon";
 import { YoutubeIcon } from "../icons/YoutubeIcon";
 import { RedditIcon } from "../icons/RedditIcon";
 import { SideBarItems } from "./SideBarItems";
+import { useSideBar } from "../../hooks/sidebarContext"
 
 export const Sidebar = () => {
-  const [sidebarClose, setSidebarClose] = useState(false);
+
+  const { sidebarClose, setSidebarClose } = useSideBar() 
 
   return (
     <div
-      className={`h-full min-h-screen bg-[#183B4E] border-black rounded-r transition-all duration-300 ease-in-out overflow-hidden ${
-        sidebarClose ? "w-15" : "w-72"
-      }`}
+      className={`h-full min-h-screen bg-[#183B4E] border-black rounded-r transition-all duration-300 ease-in-out overflow-hidden ${sidebarClose ? "w-15" : "w-72"
+        }`}
     >
       <div
-        className={`p-3 hover:scale-105 cursor-pointer transition-transform duration-300 ${
-          sidebarClose ? "text-center" : ""
-        }`}
+        className={`p-3 hover:scale-105 cursor-pointer transition-transform duration-300 ${sidebarClose ? "text-center" : ""
+          }`}
         onClick={() => setSidebarClose(!sidebarClose)}
       >
         {sidebarClose ? <OpenBarIcon /> : <CloseBarIcon />}
