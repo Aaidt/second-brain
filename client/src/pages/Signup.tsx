@@ -18,7 +18,7 @@ export const Signup = () => {
         const password = passwordRef.current?.value;
 
         try {
-            const response = await axios.post<ResponseDataType>(`${BACKEND_URL}/api/v1/second-brain/signup`, {
+            await axios.post<ResponseDataType>(`${BACKEND_URL}/api/v1/second-brain/signup`, {
                 username,
                 password
             });

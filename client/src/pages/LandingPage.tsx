@@ -16,15 +16,15 @@ export const LandingPage = () => {
                     <span className="text-3xl font-medium">SecondBrain</span>
                 </div>
                 <div className="cursor-pointer hidden md:flex items-center gap-6">
-                    <div className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
+                    <a  href="#features" className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
                         Features
-                    </div>
-                    <div className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
+                    </a>
+                    <a href="#testimonials" className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
                         Testimonials
-                    </div>
-                    <div className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
+                    </a>
+                    <a href="#pricing" className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
                         Pricing
-                    </div>
+                    </a>
                 </div>
                 <div className="flex items-center gap-4">
                     <div onClick={() => navigate("/signup")}>
@@ -72,7 +72,7 @@ export const LandingPage = () => {
                 <section id="features" className="bg-[#132D3C] py-20">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-16">
-                            <h2 className="text-4xl font-light mb-4">Organize your thoughts</h2>
+                            <h2 id="features" className="text-4xl font-light mb-4">Organize your thoughts</h2>
                             <p className="text-xl max-w-2xl mx-auto">
                                 Our powerful tools help you capture, organize, and connect your ideas effortlessly.
                             </p>
@@ -116,7 +116,7 @@ export const LandingPage = () => {
                 <section id="testimonials" className="py-20">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-16">
-                            <h2 className="text-4xl font-light mb-4">What our users say</h2>
+                            <h2 id="" className="text-4xl font-light mb-4">What our users say</h2>
                             <p className="text-xl max-w-2xl mx-auto">
                                 Join thousands of thinkers, creators, and learners who've transformed their mental workspace.
                             </p>
