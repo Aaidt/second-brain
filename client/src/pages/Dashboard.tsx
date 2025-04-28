@@ -64,7 +64,7 @@ export const Dashboard = () => {
                 </div>
                 <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 flex-wrap duration-600`}>
                     {contents.map(({ title, link, type, _id }) =>
-                        <CardComponent title={title} type={type} link={link} id={_id} />
+                        <CardComponent key={_id} title={title} type={type} link={link} id={_id} />
                     )}
                     <div className="pt-1 p-2 fixed right-0 top-0 flex">
                         <div className="text-md">
