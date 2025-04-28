@@ -16,11 +16,11 @@ export const Footer = () => {
                     {[
                         {
                             title: "Product",
-                            links: ["Features", "Pricing", "Integrations", "Roadmap"],
+                            links: ["Features", "Pricing", "Integrations"],
                         },
                         {
                             title: "Resources",
-                            links: ["Blog", "Guides", "Help Center", "API"],
+                            links: ["Blog", "Guides", "Help Center"],
                         },
                         {
                             title: "Company",

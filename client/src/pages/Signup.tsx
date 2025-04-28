@@ -26,7 +26,7 @@ export const Signup = () => {
             navigate("/signin");
 
         } catch (err: any) {
-            alert("Something went wrong. Please try again later.")
+            alert("Something went wrong. Please try again.")
             console.log(err)
         }
     }

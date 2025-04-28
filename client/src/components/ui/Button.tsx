@@ -8,6 +8,7 @@ interface ButtonProps {
     endIcon?: ReactElement,
     fullWidth: boolean,
     onClick?: () => void,
+    onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void,
     shadow: boolean
 }
 
@@ -32,7 +33,7 @@ export const Button = (props: ButtonProps) => {
     return (
         <button
             className={`${'gap-1'} ${fixedStyles} ${hoverStyles} ${sizeStyles[props.size]} ${props.shadow ? 'shadow-md shadow-gray-300 hover:shadow-gray-400' : null} ${props.fullWidth ? 'w-full flex justify-center' : null} ${colorStyles[props.bg_color]} `}
-            onClick={props.onClick}
+            onClick={props.onClick} onKeyDown={props.onKeyDown}
         >
             {props.startIcon} {props.text} {props.endIcon}
         </button>

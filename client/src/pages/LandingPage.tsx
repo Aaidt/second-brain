@@ -187,5 +187,5 @@ export const LandingPage = () => {
             <Footer />
 
         </div>
-    )
+    ) 
 }
