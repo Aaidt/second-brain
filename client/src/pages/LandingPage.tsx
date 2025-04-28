@@ -3,12 +3,21 @@ import { ArrowRight, Brain, BookOpen, Lightbulb, Star } from "lucide-react"
 import { BrainIcon } from "../components/icons/BrainIcon";
 import { useNavigate } from "react-router-dom"
 import { Footer } from "../components/ui/Footer"
+import { useRef } from "react";
 
 export const LandingPage = () => {
     const navigate = useNavigate();
 
+    const ref1 = useRef<HTMLDivElement>(null);
+    const ref2 = useRef<HTMLDivElement>(null);
+    const ref3 = useRef<HTMLDivElement>(null);
+
+    const handleScroll = (ref: React.RefObject<HTMLDivElement | null>) => {
+        ref.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
     return (
-        <div className="font-serif bg-[#183B4E] min-h-screen flex flex-col justify-between text-[#DDA853]">
+        <div className="scroll-smooth font-serif bg-[#183B4E] min-h-screen flex flex-col justify-between text-[#DDA853]">
 
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -16,13 +25,13 @@ export const LandingPage = () => {
                     <span className="text-3xl font-medium">SecondBrain</span>
                 </div>
                 <div className="cursor-pointer hidden md:flex items-center gap-6">
-                    <a  href="#features" className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
+                    <div onClick={() => handleScroll(ref1)} className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200 scroll-smooth ">
                         Features
-                    </a>
-                    <a href="#testimonials" className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
+                    </div>
+                    <a onClick={() => handleScroll(ref2)} className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
                         Testimonials
                     </a>
-                    <a href="#pricing" className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
+                    <a onClick={() => handleScroll(ref3)} className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
                         Pricing
                     </a>
                 </div>
@@ -69,7 +78,7 @@ export const LandingPage = () => {
                 </section>
 
 
-                <section id="features" className="bg-[#132D3C] py-20">
+                <section ref={ref1} className="bg-[#132D3C] py-20">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-16">
                             <h2 id="features" className="text-4xl font-light mb-4">Organize your thoughts</h2>
@@ -113,7 +122,7 @@ export const LandingPage = () => {
                 </section>
 
 
-                <section id="testimonials" className="py-20">
+                <section ref={ref2} className="py-20">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-16">
                             <h2 id="" className="text-4xl font-light mb-4">What our users say</h2>
@@ -161,7 +170,7 @@ export const LandingPage = () => {
                 </section>
 
 
-                <section className="bg-[#DDA853]/10 py-20">
+                <section ref={ref3} className="bg-[#DDA853]/10 py-20">
                     <div className="container mx-auto px-4 text-center">
                         <h2 className="text-4xl font-light mb-6">Ready to upgrade your thinking?</h2>
                         <p className="text-xl max-w-2xl mx-auto mb-10">
@@ -175,7 +184,7 @@ export const LandingPage = () => {
                 </section>
             </main>
 
-            <Footer />                            
+            <Footer />
 
         </div>
     )
