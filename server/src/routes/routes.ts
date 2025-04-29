@@ -4,7 +4,7 @@ import cors from "cors";
 import { hash, compare } from "bcrypt"
 import dotenv from "dotenv";
 dotenv.config();
-import { UserModel, ContentModel, LinkModel } from "../db/db"
+import { UserModel, ContentModel, LinkModel, ThoughtModel } from "../db/db"
 import { validateInput } from "../middleware/validateInput"
 import { userMiddleware } from "../middleware/userMiddleware"
 import jwt from 'jsonwebtoken';
@@ -94,17 +94,18 @@ app.post("/api/v1/second-brain/content", userMiddleware, async (req: Request, re
         })
         res.status(201).json({ message: "Content has been updated successfully." })
     } catch (err) {
-        res.status(403).json({ message: "Content not added...", error: err })
+        res.status(403).json({ message: "Content not added.", error: err })
     }
 
 })
+
 
 app.get("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
     try {
         const content = await ContentModel.find({
             userId: req.userId
         }).populate("userId", "username")
-    
+        
         res.status(201).json({
             content
         })
@@ -129,6 +130,39 @@ app.delete("/api/v1/second-brain/content", userMiddleware, async (req: Request, 
         console.log(err)
     }
 })
+
+app.post("/api/v1/second-brain/thoughts", userMiddleware, async(req: Request, res: Response) => {
+    const { title, thought } = req.body;
+
+    try{
+        await ThoughtModel.create({
+            title: title,
+            thought: thought
+        })
+        res.status(200).json({ message: "Successfully added the thought." })
+
+    }catch(err){
+        console.log(err);
+        res.status(403).json({ message: "Thought not added. Something went wrong", error: err })
+    }
+})
+
+app.get("/api/v1/second-brain/thoughts", userMiddleware, async(req: Request, res: Response ) => {
+    try{
+        const thought = await ThoughtModel.find({
+            userId: req.userId
+        }).populate("userId", "username");
+    
+        res.status(200).json({ thought });
+    }catch(err){
+        res.status(403).json({ message: "Thought not found.", error: err })
+    }
+})
+
+app.delete("/api/v1/second-brain/thoughts", userMiddleware, async(req: Request, res: Response) => {
+    
+})
+
 
 app.post("/api/v1/second-brain/share", userMiddleware, async (req: Request, res: Response) => {
     const { share } = req.body;

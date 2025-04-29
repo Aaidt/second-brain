@@ -41,7 +41,7 @@ export const SharedBrainPage = () => {
                 </div>
                 <div className="flex p-4 pt-20 flex-wrap">
                     {contents.map(({ title, link, type, _id }) =>
-                        <CardComponent key={_id} title={title} type={type} link={link} />
+                        <CardComponent share={true} key={_id} title={title} type={type} link={link} />
                     )}
                 </div>
             </div>

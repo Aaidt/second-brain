@@ -6,7 +6,8 @@ interface cardPropTypes {
     title: string,
     type: 'youtube' | 'twitter' | 'reddit' | 'others',
     link: string,
-    id?: string
+    id?: string,
+    share?: boolean
 }
 
 export const CardComponent = (cardProps: cardPropTypes) => {
@@ -28,7 +29,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
         <div className="flex justify-between p-5 transition-all duration-300 ">
             <Page />
             <div className="flex gap-4">
-                <Delete contentId={cardProps.id} />
+                {(cardProps.share === true) ? null : (<Delete contentId={cardProps.id} />)}
                 <ShareIcon style="zoom" onClick={() => {
                     console.log("handleShare called.")
                     alert("Share using this link: " + cardProps.link)
