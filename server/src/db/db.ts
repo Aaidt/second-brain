@@ -32,4 +32,12 @@ const LinkSchema = new Schema({
     userId: { type: mongoose.Types.ObjectId, ref: "Users", required: true }
 })
 
-export const LinkModel = model("Links", LinkSchema)
+export const LinkModel = model("Links", LinkSchema);
+
+const thoughtSchema = new Schema({
+    title: { type: String, unique: true},
+    thought: { type: String, required: true },
+    userId: { type: mongoose.Types.ObjectId, ref: "Users", required: true }
+});
+
+export const ThoughtModel = model("thought", thoughtSchema);
