@@ -73,7 +73,7 @@ export const Dashboard = () => {
 
 
     return (
-        <div className="h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
+        <div className="min-h-screen h-full w-full min-h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
             <CreateContentModal open={modalOpen} setOpen={setModalOpen} />
 
             <div className="fixed top-0 left-0 mr-5">
@@ -82,10 +82,6 @@ export const Dashboard = () => {
             <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} duration-200 text-md pt-5 p-1`}>
                 <SearchBar />
             </div>
-            {/* <div className={`
-  ${sidebarClose ? 'pl-20 columns-2 md:columns-3' : 'pl-75 columns-1 sm:columns-2 md:columns-3 lg:columns-4'} 
-  p-4 pt-10 duration-600 gap-4
-`}> */}
 
             <div className={`${`${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 duration-200 gap-4`}`}>
                 <Masonry
