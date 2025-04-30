@@ -26,7 +26,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
 
 
     return <div className={`${cardProps.type === "youtube" ? 'max-h-125' : 'undefined'} min-w-72 min-h-96 shadow-lg bg-[#183B4E] rounded-md m-2 font-inter`}>
-        <div className="flex justify-between p-5 transition-all duration-300 ">
+        <div className="flex justify-between pt-4 p-3 transition-all duration-300 ">
             <Page />
             <div className="flex gap-4">
                 {(cardProps.share === true) ? null : (<Delete contentId={cardProps.id} />)}
@@ -44,7 +44,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
                 return (
                     <div className="">
                         <div className="flex justify-center items-center">
-                            <h1 className="text-xl px-4 font-bold p-3">{cardProps.title}</h1>
+                            <h1 className="text-xl px-4 font-bold p-2">{cardProps.title}</h1>
                         </div>
                         <div className="flex justify-center">
                             <iframe
