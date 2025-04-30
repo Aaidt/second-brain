@@ -77,7 +77,7 @@ export const Dashboard = () => {
             <div className="fixed top-0 left-0">
                 <Sidebar />
             </div>
-            <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} duration-600 text-md pt-5 p-1`}>
+            <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} duration-200 text-md pt-5 p-1`}>
                 <SearchBar />
             </div>
             {/* <div className={`
@@ -85,7 +85,7 @@ export const Dashboard = () => {
   p-4 pt-10 duration-600 gap-4
 `}> */}
 
-            <div className={`${`${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 duration-600 gap-4`}`}>
+            <div className={`${`${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 duration-200 gap-4`}`}>
                 <Masonry
                     breakpointCols={breakpointColumnsObj}
                     className="flex w-auto -ml-4"
