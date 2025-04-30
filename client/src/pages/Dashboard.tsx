@@ -114,7 +114,6 @@ export const Dashboard = () => {
                 </div>
             </div>
 
-            {/* <Footer /> */}
         </div>
     )
 }

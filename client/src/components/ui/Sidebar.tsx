@@ -8,6 +8,8 @@ import { SideBarItems } from "./SideBarItems";
 import { useSideBar } from "../../hooks/sidebarContext"
 import { Button } from "./Button"
 import { useNavigate } from "react-router-dom"
+import { UserIcon } from "../icons/UserIcon"
+import { AcademicIcon } from "../icons/AcademicIcon"
 
 interface SidebarTypes {
   type?: string | undefined,
@@ -47,11 +49,12 @@ export const Sidebar = (sidebarProps: SidebarTypes) => {
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("twitter")} text="Twitter" icon={<TwitterIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("youtube")} text="YouTube" icon={<YoutubeIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("reddit")} text="Reddit" icon={<RedditIcon />} />
+            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")} text="Thoughts" icon={<AcademicIcon />} />
           </div>
 
           <div className="pr-5 text-xl pt-2 pl-1 font-semibold"
             onClick={Logout}>
-            <Button size="md" text="Logout" bg_color="gold" fullWidth={true} shadow={false} />
+            <Button size="md" text="Logout" bg_color="gold" fullWidth={true} shadow={false} startIcon={<UserIcon />} />
           </div>
         </>
       )}
