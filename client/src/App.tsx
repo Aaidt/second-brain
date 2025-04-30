@@ -12,8 +12,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<LandingPage />}></Route>
         <Route path="/home" element={<LandingPage />}></Route>
-        <Route path="/" element={<Signup />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/signin" element={<Signin />}></Route>
         <Route path="/:shareLink" element={

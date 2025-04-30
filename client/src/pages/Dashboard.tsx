@@ -40,7 +40,7 @@ export const Dashboard = () => {
                     }
                 });
             {
-                share ? (alert("Share this link to give access to others: " + `${CLIENT_URL}${'/'}${response.data?.link}`)) : (
+                share ? (alert("Share this link to give access to others:⚡" + `${CLIENT_URL}${'/'}${response.data?.link}`)) : (
                     alert("You have tuned OFF sharing now. Click the button again to turn it ON")
                 )
             }
@@ -50,41 +50,43 @@ export const Dashboard = () => {
         }
     }
 
-    const { sidebarClose } = useSideBar(); 
+    const { sidebarClose } = useSideBar();
 
     return (
-            <div className="h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
-                <CreateContentModal open={modalOpen} setOpen={setModalOpen} />
+        <div className="h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
+            <CreateContentModal open={modalOpen} setOpen={setModalOpen} />
 
-                <div className="fixed top-0 left-0">
-                    <Sidebar />
-                </div>
-                <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75' } duration-600 text-md pt-5 p-1`}>
-                    <SearchBar />
-                </div>
-                <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 flex-wrap duration-600`}>
-                    {contents.map(({ title, link, type, _id }) =>
-                        <CardComponent key={_id} title={title} type={type} link={link} id={_id} />
-                    )}
-                    <div className="pt-1 p-2 fixed right-0 top-0 flex">
-                        <div className="text-md">
-                            <Button
-                                size="md" text="Add content" bg_color="gold"
-                                fullWidth={false} shadow={false} startIcon={<PlusIcon />}
-                                onClick={() => setModalOpen(true)}
-                            />
-                        </div>
-                        <div className="text-md">
-                            <Button
-                                size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="gold"
-                                fullWidth={false} shadow={false} startIcon={<ShareIcon style='float' />}
-                                onClick={handleShare}
-                            />
-                        </div>
+            <div className="fixed top-0 left-0">
+                <Sidebar />
+            </div>
+            <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} duration-600 text-md pt-5 p-1`}>
+                <SearchBar />
+            </div>
+            <div className={`${sidebarClose ? 'pl-20 columns-2 md:columns-3 lg:columns-4' : 'pl-75 columns-1 sm:columns-1 md:columns-2 lg:columns-3'} p-4 pt-10 duration-600`}>
+                {contents.map(({ title, link, type, _id }) =>
+                    <div key={_id} className="break-inside-avoid mb-4">
+                        <CardComponent title={title} type={type} link={link} id={_id} />
+                    </div>
+                )}
+                <div className="pt-1 p-2 fixed right-0 top-0 flex">
+                    <div className="text-md">
+                        <Button
+                            size="md" text="Add content" bg_color="gold"
+                            fullWidth={false} shadow={false} startIcon={<PlusIcon />}
+                            onClick={() => setModalOpen(true)}
+                        />
+                    </div>
+                    <div className="text-md">
+                        <Button
+                            size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="gold"
+                            fullWidth={false} shadow={false} startIcon={<ShareIcon style='float' />}
+                            onClick={handleShare}
+                        />
                     </div>
                 </div>
-
-                {/* <Footer /> */}
             </div>
+
+            {/* <Footer /> */}
+        </div>
     )
 }

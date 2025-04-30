@@ -32,7 +32,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
                 {(cardProps.share === true) ? null : (<Delete contentId={cardProps.id} />)}
                 <ShareIcon style="zoom" onClick={() => {
                     console.log("handleShare called.")
-                    alert("Share using this link: " + cardProps.link)
+                    alert("Share using this link:⚡" + cardProps.link)
                 }} />
             </div>
         </div>
@@ -43,7 +43,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
 
                 return (
                     <div className="">
-                        <div className="flex flex-wrap justify-center ">
+                        <div className="flex justify-center">
                             <h1 className="text-xl px-4 font-bold">{cardProps.title}</h1>
                         </div>
                         <div className="flex justify-center">
