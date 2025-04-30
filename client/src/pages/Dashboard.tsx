@@ -4,11 +4,10 @@ import { PlusIcon } from "../components/icons/PlusIcon"
 import { ShareIcon } from "../components/icons/ShareIcon"
 import { CardComponent } from "../components/ui/CardComponent"
 import { CreateContentModal } from "../components/ui/createContentModal"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useContent } from "../hooks/useContent"
 import axios from "axios";
 import { SearchBar } from "../components/ui/SearchBar"
-// import { Footer } from "../components/ui/Footer"
 import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
 
@@ -71,6 +70,7 @@ export const Dashboard = () => {
 
     const breakpointColumnsObj = sidebarClose ? breakpointColumnsObjClosed : breakpointColumnsObjOpen;
 
+    const searchRef = useRef<HTMLInputElement | undefined>(undefined)
 
     return (
         <div className="min-h-screen h-full w-full min-h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
@@ -80,7 +80,7 @@ export const Dashboard = () => {
                 <Sidebar type={type} setType={setType} />
             </div>
             <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} duration-200 text-md pt-5 p-1`}>
-                <SearchBar />
+                <SearchBar ref={searchRef} />
             </div>
 
             <div className={`${`${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 duration-200 gap-4`}`}>
