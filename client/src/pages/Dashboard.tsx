@@ -93,7 +93,7 @@ export const Dashboard = () => {
                     className="flex w-auto"
                     columnClassName="pl- bg-clip-padding"
                 >
-                    {contents.filter((contents) => !type || type == contents.type.toLowerCase())
+                    {contents.filter((contents) => !type || contents.type?.trim() === type.trim())
                         .map(({ title, link, type, _id }) =>
                         <div key={_id} className="mb-4">
                             <CardComponent title={title} type={type} link={link} id={_id} />
