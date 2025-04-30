@@ -9,7 +9,12 @@ import { useSideBar } from "../../hooks/sidebarContext"
 import { Button } from "./Button"
 import { useNavigate } from "react-router-dom"
 
-export const Sidebar = () => {
+interface SidebarTypes {
+  type?: string | undefined,
+  setType?: React.Dispatch<React.SetStateAction<string | undefined>>
+}
+
+export const Sidebar = (sidebarProps: SidebarTypes) => {
   const navigate = useNavigate()
   const { sidebarClose, setSidebarClose } = useSideBar()
 
@@ -38,14 +43,14 @@ export const Sidebar = () => {
             <p className="pl-6">Second Brain</p>
           </div>
           <div className="pt-2">
-            <SideBarItems text="My brain" icon={<BrainIcon />} />
-            <SideBarItems text="Twitter" icon={<TwitterIcon />} />
-            <SideBarItems text="YouTube" icon={<YoutubeIcon />} />
-            <SideBarItems text="Reddit" icon={<RedditIcon />} />
+            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)} text="My brain" icon={<BrainIcon />} />
+            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("twitter")} text="Twitter" icon={<TwitterIcon />} />
+            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("youtube")} text="YouTube" icon={<YoutubeIcon />} />
+            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("reddit")} text="Reddit" icon={<RedditIcon />} />
           </div>
 
           <div className="pr-5 text-xl pt-2 pl-1 font-semibold"
-          onClick={Logout}>
+            onClick={Logout}>
             <Button size="md" text="Logout" bg_color="gold" fullWidth={true} shadow={false} />
           </div>
         </>

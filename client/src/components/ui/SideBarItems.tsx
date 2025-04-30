@@ -2,7 +2,8 @@ import { ReactElement } from "react";
 
 interface SideBarItemProps {
     icon?: ReactElement,
-    text: string
+    text: string,
+    onClick: () => void
 }
 
 export const SideBarItems = (props: SideBarItemProps) => {

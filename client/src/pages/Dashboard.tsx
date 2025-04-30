@@ -16,6 +16,8 @@ export const Dashboard = () => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const CLIENT_URL = import.meta.env.VITE_CLIENT_URL;
 
+    const [type, setType] = useState<string | undefined>()
+
     const [modalOpen, setModalOpen] = useState(false);
     const { contents, refresh } = useContent()
     const [share, setShare] = useState(true)
@@ -74,8 +76,8 @@ export const Dashboard = () => {
         <div className="h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
             <CreateContentModal open={modalOpen} setOpen={setModalOpen} />
 
-            <div className="fixed top-0 left-0">
-                <Sidebar />
+            <div className="fixed top-0 left-0 mr-5">
+                <Sidebar type={type} setType={setType} />
             </div>
             <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} duration-200 text-md pt-5 p-1`}>
                 <SearchBar />
@@ -88,10 +90,11 @@ export const Dashboard = () => {
             <div className={`${`${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 duration-200 gap-4`}`}>
                 <Masonry
                     breakpointCols={breakpointColumnsObj}
-                    className="flex w-auto -ml-4"
-                    columnClassName="pl-4 bg-clip-padding"
+                    className="flex w-auto"
+                    columnClassName="pl- bg-clip-padding"
                 >
-                    {contents.map(({ title, link, type, _id }) =>
+                    {contents.filter((contents) => !type || type === contents.type.toLowerCase())
+                        .map(({ title, link, type, _id }) =>
                         <div key={_id} className="mb-4">
                             <CardComponent title={title} type={type} link={link} id={_id} />
                         </div>
