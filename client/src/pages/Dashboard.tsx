@@ -10,6 +10,7 @@ import axios from "axios";
 import { SearchBar } from "../components/ui/SearchBar"
 // import { Footer } from "../components/ui/Footer"
 import { useSideBar } from "../hooks/sidebarContext";
+import Masonry from "react-masonry-css"
 
 export const Dashboard = () => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -52,6 +53,23 @@ export const Dashboard = () => {
 
     const { sidebarClose } = useSideBar();
 
+    const breakpointColumnsObjClosed: { [key: number]: number; default: number } = {
+        default: 4,
+        768: 3,
+        640: 2,
+        500: 1
+    };
+
+    const breakpointColumnsObjOpen: { [key: number]: number; default: number } = {
+        default: 3,
+        1100: 3,
+        700: 2,
+        500: 1
+    };
+
+    const breakpointColumnsObj = sidebarClose ? breakpointColumnsObjClosed : breakpointColumnsObjOpen;
+
+
     return (
         <div className="h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
             <CreateContentModal open={modalOpen} setOpen={setModalOpen} />
@@ -62,12 +80,23 @@ export const Dashboard = () => {
             <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} duration-600 text-md pt-5 p-1`}>
                 <SearchBar />
             </div>
-            <div className={`${sidebarClose ? 'pl-20 columns-2 md:columns-3 lg:columns-4' : 'pl-75 columns-1 sm:columns-1 md:columns-2 lg:columns-3'} p-4 pt-10 duration-600`}>
-                {contents.map(({ title, link, type, _id }) =>
-                    <div key={_id} className="break-inside-avoid mb-4">
-                        <CardComponent title={title} type={type} link={link} id={_id} />
-                    </div>
-                )}
+            {/* <div className={`
+  ${sidebarClose ? 'pl-20 columns-2 md:columns-3' : 'pl-75 columns-1 sm:columns-2 md:columns-3 lg:columns-4'} 
+  p-4 pt-10 duration-600 gap-4
+`}> */}
+
+            <div className={`${`${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 duration-600 gap-4`}`}>
+                <Masonry
+                    breakpointCols={breakpointColumnsObj}
+                    className="flex w-auto -ml-4"
+                    columnClassName="pl-4 bg-clip-padding"
+                >
+                    {contents.map(({ title, link, type, _id }) =>
+                        <div key={_id} className="mb-4">
+                            <CardComponent title={title} type={type} link={link} id={_id} />
+                        </div>
+                    )}
+                </Masonry>
                 <div className="pt-1 p-2 fixed right-0 top-0 flex">
                     <div className="text-md">
                         <Button
