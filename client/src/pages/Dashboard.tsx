@@ -12,6 +12,8 @@ import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
 import { CreateThoughtModal } from "../components/ui/addThoughts"
 import { BookIcon } from "../components/icons/BookIcon"
+import { useThoughts } from "../hooks/useThoughts"
+import { ThoughtCards } from "../components/ui/ThoughtCards"
 
 export const Dashboard = () => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -20,9 +22,16 @@ export const Dashboard = () => {
     const [type, setType] = useState<string | undefined>()
 
     const [contentModalOpen, setContentModalOpen] = useState(false);
+
     const { contents, refresh } = useContent()
+    const { thoughts, reFetch } = useThoughts()
+
     const [share, setShare] = useState(true)
     const [thoughtModalOpen, setThoughtModalOpen] = useState(false);
+
+    useEffect(() => {
+        reFetch()
+    }, [thoughtModalOpen])
 
     useEffect(() => {
         refresh()
@@ -75,6 +84,9 @@ export const Dashboard = () => {
 
     const searchRef = useRef<HTMLInputElement>(null)
 
+    // console.log("Thoughts data:", thoughts);
+    // console.log("Selected type:", type);
+
     return (
         <div className="min-h-screen h-full w-full min-h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
             <CreateContentModal open={contentModalOpen} setOpen={setContentModalOpen} />
@@ -105,19 +117,35 @@ export const Dashboard = () => {
                             <div key={_id} className="mb-4">
                                 <CardComponent share={share} title={title} type={type} link={link} id={_id} />
                             </div>
-                        )}
+                        )
+                    }
+
+                    {thoughts?.filter((thoughts) => {
+                        const searchVal = searchRef.current?.value.toLowerCase() || ""
+                        console.log(searchVal)
+                        return !searchVal || thoughts.title.toLowerCase() === searchVal
+                    })
+                        .filter((thoughts) => {
+                            return !type || type?.trim() === "thoughts"
+                        })
+                        .map(({ title, thoughts, _id }) =>
+                            <div key={_id} className="mb-4">
+                                <ThoughtCards title={title} thoughts={thoughts} id={_id} />
+                            </div>
+                        )
+                    }
                 </Masonry>
                 <div className="pt-1 p-2 fixed right-0 top-0 flex">
                     <div className="text-md">
                         <Button
-                            size="md" text="Add thought" bg_color="gold"
+                            size="md" text="Thoughts" bg_color="gold"
                             fullWidth={false} shadow={false} startIcon={<BookIcon />}
                             onClick={() => setThoughtModalOpen(true)}
                         />
                     </div>
                     <div className="text-md">
                         <Button
-                            size="md" text="Add content" bg_color="gold"
+                            size="md" text="Content" bg_color="gold"
                             fullWidth={false} shadow={false} startIcon={<PlusIcon />}
                             onClick={() => setContentModalOpen(true)}
                         />

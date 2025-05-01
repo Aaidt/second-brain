@@ -137,7 +137,8 @@ app.post("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, r
     try {
         await ThoughtModel.create({
             title: title,
-            thought: thought
+            thought: thought,
+            userId: req.userId
         })
         res.status(200).json({ message: "Successfully added the thought." })
 
@@ -149,11 +150,11 @@ app.post("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, r
 
 app.get("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, res: Response) => {
     try {
-        const thought = await ThoughtModel.find({
+        const thoughts = await ThoughtModel.find({
             userId: req.userId
         }).populate("userId", "username");
 
-        res.status(200).json({ thought });
+        res.status(200).json({ thoughts });
     } catch (err) {
         res.status(403).json({ message: "Thought not found.", error: err })
     }

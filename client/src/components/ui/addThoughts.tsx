@@ -11,7 +11,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 export const CreateThoughtModal = ({ open, setOpen }: modalProps) => {
     const titleRef = useRef<HTMLInputElement>(null)
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState<string | number | readonly string[] | undefined>('');
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
     useEffect(() => {
@@ -30,6 +30,7 @@ export const CreateThoughtModal = ({ open, setOpen }: modalProps) => {
                 "Authorization": localStorage.getItem("authorization")
             }
         })
+        setValue("");
         alert("Content added sucessfully!!!");
     }
 

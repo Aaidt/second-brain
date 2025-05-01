@@ -41,7 +41,7 @@ export const Sidebar = (sidebarProps: SidebarTypes) => {
 
       {!sidebarClose && (
         <>
-          <div className="flex p-2 font-bold font-playfair text-5xl text-[#DDA853] items-center gap-3">
+          <div className="flex font-bold font-playfair text-5xl text-[#DDA853] items-center">
             <p className="pl-6">Second Brain</p>
           </div>
           <div className="pt-2">
@@ -52,7 +52,7 @@ export const Sidebar = (sidebarProps: SidebarTypes) => {
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")} text="Thoughts" icon={<AcademicIcon />} />
           </div>
 
-          <div className="pr-5 text-xl pt-2 pl-1 font-semibold"
+          <div className="pr-5 text-xl pl-1 font-semibold"
             onClick={Logout}>
             <Button size="md" text="Logout" bg_color="gold" fullWidth={true} shadow={false} startIcon={<UserIcon />} />
           </div>
