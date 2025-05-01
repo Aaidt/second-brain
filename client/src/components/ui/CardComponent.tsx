@@ -29,7 +29,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
         <div className="flex justify-between pt-4 p-3 transition-all duration-300 ">
             <Page />
             <div className="flex gap-4">
-                {(cardProps.share === true) ? null : (<Delete contentId={cardProps.id} />)}
+                {(cardProps.share === true) ? (<Delete contentId={cardProps.id} />): null }
                 <ShareIcon style="zoom" onClick={() => {
                     console.log("handleShare called.")
                     alert("Share using this link:⚡" + cardProps.link)

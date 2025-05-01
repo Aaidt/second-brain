@@ -99,7 +99,7 @@ export const Dashboard = () => {
                         })
                         .map(({ title, link, type, _id }) =>
                             <div key={_id} className="mb-4">
-                                <CardComponent title={title} type={type} link={link} id={_id} />
+                                <CardComponent share={share} title={title} type={type} link={link} id={_id} />
                             </div>
                         )}
                 </Masonry>
