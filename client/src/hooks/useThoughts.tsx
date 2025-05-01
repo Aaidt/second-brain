@@ -3,10 +3,11 @@ import axios from "axios"
 
 export const useThoughts = () => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
     type thoughts = {
         title: string,
         thoughts: string,
-        _id: string 
+        _id: string
     }
 
     interface ResponseData {
@@ -15,26 +16,28 @@ export const useThoughts = () => {
 
     const [thoughts, setThoughts] = useState<thoughts[]>([])
 
-    async function reFetch() {
-        try{
-            const response = await axios.get<ResponseData>(`${BACKEND_URL}/api/v1/second-brain/thoughts`, {
+    function reFetch() {
+        try {
+            axios.get<ResponseData>(`${BACKEND_URL}/api/v1/second-brain/thoughts`, {
                 headers: {
                     "Authorization": localStorage.getItem("authorization")
                 }
             })
-            setThoughts(response.data?.thoughts)
-        }catch(err){
+                .then((response) => {
+                    setThoughts(response.data?.thoughts)
+                })
+        } catch (err) {
             console.log(err);
         }
     }
 
-    console.log("Thoughts data:", thoughts);
     useEffect(() => {
         reFetch();
-        const interval = setInterval(reFetch, 10000);
+        const interval = setInterval(reFetch, 10 * 1000);
 
         return () => clearInterval(interval);
-    })
+    }, [])
+    console.log("Thoughts data:", thoughts);
 
-    return {thoughts, reFetch}
+    return { thoughts, reFetch }
 }

@@ -1,6 +1,5 @@
 import { Delete } from "../icons/Delete"
 import { Page } from "../icons/Page"
-import { ShareIcon } from "../icons/ShareIcon"
 
 interface ThoughtCardPropTypes {
     title: string,
@@ -19,6 +18,8 @@ export const ThoughtCards = (ThoughCardProps: ThoughtCardPropTypes) => {
             </div>
         </div>
         <div className="flex justify-center min-h-24 w-full max-w-80 ">
+            <h3 className="text-xl font-bold text-white mb-2">{ThoughCardProps.title}</h3>
+            <p className="text-white">{ThoughCardProps.thoughts}</p>
         </div>
     </div >
 }

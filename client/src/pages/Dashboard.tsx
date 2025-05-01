@@ -130,7 +130,7 @@ export const Dashboard = () => {
                         })
                         .map(({ title, thoughts, _id }) =>
                             <div key={_id} className="mb-4">
-                                <ThoughtCards title={title} thoughts={thoughts} id={_id} />
+                                <ThoughtCards title={title} thoughts={thoughts} id={_id} share={share} />
                             </div>
                         )
                     }

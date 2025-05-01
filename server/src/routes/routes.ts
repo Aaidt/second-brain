@@ -132,12 +132,12 @@ app.delete("/api/v1/second-brain/content", userMiddleware, async (req: Request, 
 })
 
 app.post("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, res: Response) => {
-    const { title, thought } = req.body;
+    const { title, thoughts } = req.body;
 
     try {
         await ThoughtModel.create({
             title: title,
-            thought: thought,
+            thoughts: thoughts,
             userId: req.userId
         })
         res.status(200).json({ message: "Successfully added the thought." })
@@ -153,7 +153,6 @@ app.get("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, re
         const thoughts = await ThoughtModel.find({
             userId: req.userId
         }).populate("userId", "username");
-
         res.status(200).json({ thoughts });
     } catch (err) {
         res.status(403).json({ message: "Thought not found.", error: err })

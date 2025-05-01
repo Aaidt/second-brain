@@ -24,7 +24,7 @@ export const CreateThoughtModal = ({ open, setOpen }: modalProps) => {
     const handleRequest = async () => {
         await axios.post(`${BACKEND_URL}/api/v1/second-brain/thoughts`, {
             title: titleRef.current?.value,
-            thought:  textareaRef.current?.value
+            thoughts:  textareaRef.current?.value
         }, {
             headers: {
                 "Authorization": localStorage.getItem("authorization")
