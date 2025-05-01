@@ -10,6 +10,8 @@ import axios from "axios";
 import { SearchBar } from "../components/ui/SearchBar"
 import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
+import { CreateThoughtModal } from "../components/ui/addThoughts"
+import { BookIcon } from "../components/icons/BookIcon"
 
 export const Dashboard = () => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -17,13 +19,14 @@ export const Dashboard = () => {
 
     const [type, setType] = useState<string | undefined>()
 
-    const [modalOpen, setModalOpen] = useState(false);
+    const [contentModalOpen, setContentModalOpen] = useState(false);
     const { contents, refresh } = useContent()
     const [share, setShare] = useState(true)
+    const [thoughtModalOpen, setThoughtModalOpen] = useState(false);
 
     useEffect(() => {
         refresh()
-    }, [modalOpen])
+    }, [contentModalOpen])
 
     interface ResponseData {
         link: string
@@ -74,7 +77,8 @@ export const Dashboard = () => {
 
     return (
         <div className="min-h-screen h-full w-full min-h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
-            <CreateContentModal open={modalOpen} setOpen={setModalOpen} />
+            <CreateContentModal open={contentModalOpen} setOpen={setContentModalOpen} />
+            <CreateThoughtModal open={thoughtModalOpen} setOpen={setThoughtModalOpen} />
 
             <div className="fixed top-0 left-0 mr-5">
                 <Sidebar type={type} setType={setType} />
@@ -106,9 +110,16 @@ export const Dashboard = () => {
                 <div className="pt-1 p-2 fixed right-0 top-0 flex">
                     <div className="text-md">
                         <Button
+                            size="md" text="Add thought" bg_color="gold"
+                            fullWidth={false} shadow={false} startIcon={<BookIcon />}
+                            onClick={() => setThoughtModalOpen(true)}
+                        />
+                    </div>
+                    <div className="text-md">
+                        <Button
                             size="md" text="Add content" bg_color="gold"
                             fullWidth={false} shadow={false} startIcon={<PlusIcon />}
-                            onClick={() => setModalOpen(true)}
+                            onClick={() => setContentModalOpen(true)}
                         />
                     </div>
                     <div className="text-md">
