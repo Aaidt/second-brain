@@ -9,17 +9,21 @@ interface ThoughtCardPropTypes {
 }
 
 export const ThoughtCards = (ThoughCardProps: ThoughtCardPropTypes) => {
+    const sentences = ThoughCardProps.thoughts.split(/[.!?]+/).slice(0, 3).join('. ') + '.';
 
     return <div className={`min-w-72 min-h-96 shadow-lg bg-[#183B4E] rounded-md m-2 font-inter`}>
         <div className="flex justify-between pt-4 p-3 transition-all duration-300 ">
             <Page />
             <div className="flex gap-4">
-                {(ThoughCardProps.share === true) ? (<Delete contentId={ThoughCardProps.id} />) : null}
+                {(ThoughCardProps.share === true) ? (<Delete ThoughtId={ThoughCardProps.id} />) : null}
             </div>
         </div>
-        <div className="flex justify-center min-h-24 w-full max-w-80 ">
-            <h3 className="text-xl font-bold text-white mb-2">{ThoughCardProps.title}</h3>
-            <p className="text-white">{ThoughCardProps.thoughts}</p>
+        <div className="flex flex-col p-4">
+            <h1 className="text-xl font-bold mb-4">{ThoughCardProps.title}</h1>
+            <div className="relative">
+                <p className="line-clamp-10">{sentences}</p>
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#183B4E] to-transparent"></div>
+            </div>
         </div>
     </div >
 }

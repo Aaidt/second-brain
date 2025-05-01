@@ -1,14 +1,21 @@
 import { useContent } from "../../hooks/useContent"
+import { useThoughts } from "../../hooks/useThoughts"
 import axios from "axios";
 
-export const Delete = ({contentId}: {contentId?: string}) => {
+export const Delete = ({contentId, ThoughtId}: {contentId?: string, ThoughtId?: string}) => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-    const { refresh } = useContent()
+    const { refresh } = useContent();
+    const { reFetch } = useThoughts();
+
+    if(!ThoughtId){
+        console.log("Invalid ThoughtId.")
+    }
     if(!contentId){
         console.log("Invalid contentId.")
     }
 
     const deletePost = async () => {
+        
         try {
             await axios.request({
                 method: 'DELETE',

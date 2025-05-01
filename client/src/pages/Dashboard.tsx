@@ -119,7 +119,6 @@ export const Dashboard = () => {
 
                     {thoughts?.filter((thoughts) => {
                         const searchVal = searchRef.current?.value.toLowerCase() || ""
-                        console.log(searchVal)
                         return !searchVal || thoughts.title.toLowerCase() === searchVal
                     })
                         .filter((thoughts) => {
