@@ -7,31 +7,40 @@ export const Delete = ({contentId, ThoughtId}: {contentId?: string, ThoughtId?: 
     const { refresh } = useContent();
     const { reFetch } = useThoughts();
 
-    if(!ThoughtId){
-        console.log("Invalid ThoughtId.")
-    }
-    if(!contentId){
-        console.log("Invalid contentId.")
-    }
-
     const deletePost = async () => {
-        
         try {
-            await axios.request({
-                method: 'DELETE',
-                url: `${BACKEND_URL}/api/v1/second-brain/content`,
-                data: {
-                    contentId: contentId
-                },
-                headers: {
-                    "Authorization": localStorage.getItem("authorization")
-                }
-            })
-            refresh()
-            alert("Post has been deleted successfully!!!")
+            if (contentId) {
+                await axios.request({
+                    method: 'DELETE',
+                    url: `${BACKEND_URL}/api/v1/second-brain/content`,
+                    data: {
+                        contentId: contentId
+                    },
+                    headers: {
+                        "Authorization": localStorage.getItem("authorization")
+                    }
+                })
+                refresh()
+                alert("Content has been deleted successfully!!!")
+            } 
+            
+            else if (ThoughtId) {
+                await axios.request({
+                    method: 'DELETE',
+                    url: `${BACKEND_URL}/api/v1/second-brain/thoughts`,
+                    data: {
+                        thoughtId: ThoughtId
+                    },
+                    headers: {
+                        "Authorization": localStorage.getItem("authorization")
+                    }
+                })
+                reFetch()
+                alert("Thought has been deleted successfully!!!")
+            }
         } catch (err) {
-            console.log("Error deleting post." + err)
-            alert("Failed to delete post.")
+            console.log("Error deleting item: " + err)
+            alert("Failed to delete item.")
         }
     }
 
