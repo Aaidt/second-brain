@@ -4,9 +4,10 @@ import { CreateContentModal } from "../components/ui/createContentModal"
 import { useState, useEffect } from "react";
 import { useContent } from "../hooks/useContent"
 import { SearchBar } from "../components/ui/SearchBar"
-// import { Footer } from "../components/ui/Footer"
 import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
+import { useThoughts } from "../hooks/useThoughts"
+import { ThoughtCards } from "../components/ui/ThoughtCards"
 
 export const SharedBrainPage = () => {
 
@@ -14,6 +15,12 @@ export const SharedBrainPage = () => {
 
     const [modalOpen, setModalOpen] = useState(false);
     const { contents, refresh } = useContent()
+    const { thoughts, reFetch } = useThoughts()
+    const [thoughtModalOpen, setThoughtModalOpen] = useState(false);
+
+    useEffect(() => {
+        reFetch()
+    }, [thoughtModalOpen])
 
     useEffect(() => {
         refresh()
@@ -40,8 +47,6 @@ export const SharedBrainPage = () => {
 
     return (
         <div className="min-h-screen h-full w-full min-h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
-            <CreateContentModal open={modalOpen} setOpen={setModalOpen} />
-
             <div className="fixed top-0 left-0 mr-5">
                 <Sidebar type={type} setType={setType} />
             </div>
@@ -57,10 +62,20 @@ export const SharedBrainPage = () => {
                 >
                     {contents.filter((contents) => !type || contents.type?.trim() === type.trim())
                         .map(({ title, link, type, _id }) =>
-                        <div key={_id} className="mb-4">
-                            <CardComponent title={title} type={type} link={link} id={_id} />
-                        </div>
-                    )}
+                            <div key={_id} className="mb-4">
+                                <CardComponent title={title} type={type} link={link} id={_id} />
+                            </div>
+                        )}
+
+                    {thoughts?.filter((thoughts) => {
+                            return !type || type?.trim() === "thoughts"
+                        })
+                        .map(({ title, thoughts, _id }) =>
+                            <div key={_id} className="mb-4">
+                                <ThoughtCards title={title} thoughts={thoughts} id={_id} />
+                            </div>
+                        )
+                    }
                 </Masonry>
             </div>
         </div>

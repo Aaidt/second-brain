@@ -84,9 +84,6 @@ export const Dashboard = () => {
 
     const searchRef = useRef<HTMLInputElement>(null)
 
-    // console.log("Thoughts data:", thoughts);
-    // console.log("Selected type:", type);
-
     return (
         <div className="min-h-screen h-full w-full min-h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
             <CreateContentModal open={contentModalOpen} setOpen={setContentModalOpen} />

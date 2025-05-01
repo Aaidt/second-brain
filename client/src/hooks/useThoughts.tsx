@@ -37,7 +37,6 @@ export const useThoughts = () => {
 
         return () => clearInterval(interval);
     }, [])
-    console.log("Thoughts data:", thoughts);
 
     return { thoughts, reFetch }
 }
