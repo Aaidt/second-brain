@@ -70,7 +70,7 @@ export const Dashboard = () => {
 
     const breakpointColumnsObj = sidebarClose ? breakpointColumnsObjClosed : breakpointColumnsObjOpen;
 
-    const searchRef = useRef<HTMLInputElement | undefined>(undefined)
+    const searchRef = useRef<HTMLInputElement>(null)
 
     return (
         <div className="min-h-screen h-full w-full min-h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
@@ -89,12 +89,19 @@ export const Dashboard = () => {
                     className="flex w-auto"
                     columnClassName="pl- bg-clip-padding"
                 >
-                    {contents.filter((contents) => !type || contents.type?.trim() === type.trim())
+                    {contents.filter((contents) => {
+                        const searchVal = searchRef.current?.value.toLowerCase() || ""
+                        return !searchVal || contents.title.toLowerCase() === searchVal
+                    })
+                        .filter((contents) => {
+                            const selectedType = type?.trim() || ''
+                            return !selectedType || contents.type?.trim() === selectedType
+                        })
                         .map(({ title, link, type, _id }) =>
-                        <div key={_id} className="mb-4">
-                            <CardComponent title={title} type={type} link={link} id={_id} />
-                        </div>
-                    )}
+                            <div key={_id} className="mb-4">
+                                <CardComponent title={title} type={type} link={link} id={_id} />
+                            </div>
+                        )}
                 </Masonry>
                 <div className="pt-1 p-2 fixed right-0 top-0 flex">
                     <div className="text-md">

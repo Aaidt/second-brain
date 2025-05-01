@@ -1,9 +1,9 @@
 import { SearchIcon } from "../icons/SearchIcon"
 import { SearchPageIcon } from "../icons/SearchPageIcon"
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 interface SearchPropsType {
-    ref: React.RefObject<HTMLInputElement | undefined> 
+    ref?: React.RefObject<HTMLInputElement | null > 
 }
 
 export const SearchBar = (searchProps: SearchPropsType) => {
