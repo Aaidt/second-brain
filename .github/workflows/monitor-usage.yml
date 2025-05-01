@@ -1,0 +1,41 @@
+name: GitHub Actions Monitor
+
+on: [push]
+
+jobs:
+  monitor-activity:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Log GitHub event info
+        run: |
+          echo "🧠 Triggered by: ${{ github.event_name }}"
+          echo "📍 Branch: ${{ github.ref }}"
+          echo "📦 Repo: ${{ github.repository }}"
+
+      - name: Check system resources
+        run: |
+          echo "🔍 OS Info:" && uname -a
+          echo "💾 Disk Usage:" && df -h
+          echo "🧠 Memory:" && free -h
+
+      - name: List all files and sizes
+        run: ls -lhR
+
+      - name: ❗ Check for large files (over 5MB)
+        run: |
+          echo "🔍 Checking for files over 5MB..."
+          large_files=$(find . -type f -size +5M ! -path "./.git/*")
+          if [ -n "$large_files" ]; then
+            echo "❌ Large files detected:"
+            echo "$large_files"
+            exit 1
+          else
+            echo "✅ No large files found."
+          fi
+
+      - name: Done
+        run: echo "🚀 Monitoring complete."
