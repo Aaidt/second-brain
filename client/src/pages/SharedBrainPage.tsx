@@ -1,6 +1,5 @@
 import { Sidebar } from "../components/ui/Sidebar"
 import { CardComponent } from "../components/ui/CardComponent"
-import { CreateContentModal } from "../components/ui/createContentModal"
 import { useState, useEffect } from "react";
 import { useContent } from "../hooks/useContent"
 import { SearchBar } from "../components/ui/SearchBar"

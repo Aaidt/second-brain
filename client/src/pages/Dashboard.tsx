@@ -97,6 +97,7 @@ export const Dashboard = () => {
             </div>
 
             <div className={`${`${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 duration-200 gap-4`}`}>
+
                 <Masonry
                     breakpointCols={breakpointColumnsObj}
                     className="flex w-auto"
@@ -131,6 +132,7 @@ export const Dashboard = () => {
                         )
                     }
                 </Masonry>
+
                 <div className="pt-1 p-2 fixed right-0 top-0 flex">
                     <div className="text-md">
                         <Button
@@ -155,7 +157,6 @@ export const Dashboard = () => {
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }

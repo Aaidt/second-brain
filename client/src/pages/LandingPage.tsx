@@ -31,7 +31,7 @@ export const LandingPage = () => {
                     <a onClick={() => handleScroll(ref2)} className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
                         Testimonials
                     </a>
-                    <a onClick={() => handleScroll(ref3)} className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
+                    <a onClick={() => navigate("/pricing")} className="hover:-translate-y-1 hover:underline hover:underline-offset-5 duration-200">
                         Pricing
                     </a>
                 </div>
