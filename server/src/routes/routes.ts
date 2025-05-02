@@ -4,7 +4,7 @@ import cors from "cors";
 import { hash, compare } from "bcrypt"
 import dotenv from "dotenv";
 dotenv.config();
-import { UserModel, ContentModel, LinkModel, ThoughtModel } from "../db/db"
+import { UserModel, ContentModel, LinkModel, ThoughtModel, DocumentModel } from "../db/db"
 import { validateInput } from "../middleware/validateInput"
 import { userMiddleware } from "../middleware/userMiddleware"
 import jwt from 'jsonwebtoken';
@@ -174,6 +174,52 @@ app.delete("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request,
     }
 })
 
+app.post("/api/v1/second-brain/documents", userMiddleware, async (req: Request, res: Response) => {
+    const { title, filePath, fileName, fileType, size } = req.body;
+
+    try {
+        await DocumentModel.create({
+            title,
+            filePath,
+            fileName,
+            fileType,
+            size
+        })
+        res.status(200).json({ message: "Document added successfully." });
+    } catch (err) {
+        console.log(err);
+        res.status(403).json({ message: "Something went wrong." + err })
+    }
+})
+
+app.get("/api/v1/second-brain/documents", userMiddleware, async (req: Request, res: Response) => { 
+    try{
+        const document = await DocumentModel.find({
+            userId: req.userId
+        }).populate("userId", "username")
+
+        res.status(200).json({ document })
+
+    }catch(err){
+        console.log(err);
+        res.status(403).json({ message: "Something went wrong." + err })
+    }
+})
+
+app.delete("/api/v1/second-brain/documents", userMiddleware, async (req: Request, res: Response) => { 
+    const { documentId } = req.body;
+
+    try {
+        await ThoughtModel.deleteOne({
+            _id: documentId,
+            userId: req.userId
+        })
+        res.status(200).json({ message: "Deleted successfully." })
+    } catch (err) {
+        console.log(err);
+        res.json({ err })
+    }
+})
 
 app.post("/api/v1/second-brain/share", userMiddleware, async (req: Request, res: Response) => {
     const { share } = req.body;

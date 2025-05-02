@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const mongoURL = process.env.CONN as string
-if(!mongoURL){
+if (!mongoURL) {
     throw new Error("MongoDB connection string is missing in the env file.")
 }
 
@@ -35,9 +35,20 @@ const LinkSchema = new Schema({
 export const LinkModel = model("Links", LinkSchema);
 
 const thoughtSchema = new Schema({
-    title: { type: String, unique: true},
+    title: { type: String, required: true },
     thoughts: { type: String, required: true },
     userId: { type: mongoose.Types.ObjectId, ref: "Users", required: true }
 });
 
 export const ThoughtModel = model("thought", thoughtSchema);
+
+const documentSchema = new Schema({
+    title: { type: String, required: true },
+    filePath: { type: String, required: true },
+    fileName: { type: String, required: true },
+    fileType: { type: String, required: true },
+    size: { type: Number, required: true },
+    userId: { type: mongoose.Types.ObjectId, ref:"Users", required: true } 
+})
+
+export const DocumentModel = model("Documents", documentSchema);
