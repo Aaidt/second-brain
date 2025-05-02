@@ -210,7 +210,7 @@ app.delete("/api/v1/second-brain/documents", userMiddleware, async (req: Request
     const { documentId } = req.body;
 
     try {
-        await ThoughtModel.deleteOne({
+        await DocumentModel.deleteOne({
             _id: documentId,
             userId: req.userId
         })

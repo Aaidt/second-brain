@@ -7,6 +7,7 @@ import { PricingPage } from "./pages/PricingPage"
 import { SharedBrainPage } from "./pages/SharedBrainPage"
 import { ProtectedRoute } from "./pages/ProtectedRoute"
 import { SidebarProvider } from "./hooks/sidebarContext"
+import { FileUploader } from "./components/ui/FileUploader"
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />}></Route>
+        <Route path="/files" element={<FileUploader />}></Route>
         <Route path="/home" element={<LandingPage />}></Route>
         <Route path="/pricing" element={<PricingPage />}></Route>
         <Route path="/signup" element={<Signup />}></Route>

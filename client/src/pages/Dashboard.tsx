@@ -12,10 +12,14 @@ import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
 import { CreateThoughtModal } from "../components/ui/addThoughts"
 import { BookIcon } from "../components/icons/BookIcon"
+import { FileUploadIcon } from "../components/icons/FileUploadIcon"
 import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from "../components/ui/ThoughtCards"
+import { useNavigate } from "react-router-dom"
 
 export const Dashboard = () => {
+    const navigate = useNavigate()
+
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const CLIENT_URL = import.meta.env.VITE_CLIENT_URL;
 
@@ -134,6 +138,13 @@ export const Dashboard = () => {
                 </Masonry>
 
                 <div className="pt-1 p-2 fixed right-0 top-0 flex">
+                    <div className="text-md">
+                        <Button
+                            size="md" text="Upload documents" bg_color="gold"
+                            fullWidth={false} shadow={false} startIcon={<FileUploadIcon />}
+                            onClick={() => navigate("/files")}
+                        />
+                    </div>
                     <div className="text-md">
                         <Button
                             size="md" text="Thoughts" bg_color="gold"
