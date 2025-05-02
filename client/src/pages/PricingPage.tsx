@@ -82,8 +82,8 @@ export const PricingPage = () => {
                                 key={index}
                                 className={`bg-[#132D3C] p-8 rounded-xl border ${
                                     tier.popular 
-                                        ? 'border-[#DDA853] shadow-lg shadow-[#DDA853]/20' 
-                                        : 'border-[#DDA853]/20'
+                                        ? 'border-[#DDA853] border-1.5 shadow-xl duration-300 shadow-[#DDA853]/65' 
+                                        : 'border-[#DDA853]/60 hover:shadow-2xl duration-300 shadow-[#DDA853]/60'
                                 }`}
                             >
                                 {tier.popular && (
@@ -137,7 +137,7 @@ export const PricingPage = () => {
                                     answer: "Your data remains accessible even after cancellation. You can export your data at any time."
                                 }
                             ].map((faq, index) => (
-                                <div key={index} className="bg-[#183B4E] p-6 rounded-xl">
+                                <div key={index} className="hover:scale-102 duration-300 bg-[#183B4E] p-6 rounded-xl">
                                     <h3 className="text-xl font-medium mb-2">{faq.question}</h3>
                                     <p className="text-[#DDA853]/80">{faq.answer}</p>
                                 </div>

@@ -110,7 +110,7 @@ export const LandingPage = () => {
                             ].map((feature, index) => (
                                 <div
                                     key={index}
-                                    className="bg-[#183B4E] p-8 rounded-xl hover:shadow-lg hover:shadow-[#DDA853]/10 transition-all duration-300 hover:-translate-y-1"
+                                    className="bg-[#183B4E] p-8 rounded-xl hover:shadow-lg hover:shadow-[#DDA853]/50 transition-all duration-300 hover:-translate-y-1"
                                 >
                                     <div className="bg-[#DDA853]/10 p-4 rounded-full w-fit mb-6">{feature.icon}</div>
                                     <h3 className="text-2xl font-medium mb-4">{feature.title}</h3>
@@ -152,7 +152,7 @@ export const LandingPage = () => {
                                     role: "Product Designer",
                                 },
                             ].map((testimonial, index) => (
-                                <div key={index} className="bg-[#132D3C] p-8 rounded-xl border border-[#DDA853]/20">
+                                <div key={index} className="bg-[#132D3C] p-8 rounded-xl border border-[#DDA853]/40 hover:shadow-[#DDA853]/30 hover:shadow-lg duration-300">
                                     <div className="flex gap-1 mb-4">
                                         {[...Array(5)].map((_, i) => (
                                             <Star key={i} className="h-5 w-5 fill-[#DDA853] text-[#DDA853]" />
