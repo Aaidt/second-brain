@@ -179,14 +179,14 @@ app.post("/api/v1/second-brain/documents", userMiddleware,  fileUpload.single('f
     try {
         const file = req.file as Express.Multer.File | undefined;
         const userId = (req as any).userId as string | undefined;
-        
+
         if(!file || !userId){
             res.status(400).json({ message: "Missing files or user ID" });
             return;
         }
 
         await DocumentModel.create({
-            filePath: file.path,
+            filePath: file.path,    
             fileName: file.originalname,
             fileType: file.mimetype,
             size: file.size,
@@ -217,10 +217,14 @@ app.delete("/api/v1/second-brain/documents", userMiddleware, async (req: Request
     const { documentId } = req.body;
 
     try {
-        await DocumentModel.deleteOne({
+        const deleted = await DocumentModel.findOneAndDelete({
             _id: documentId,
             userId: req.userId
         })
+        if(!deleted){
+           res.status(400).json({ message: "Document not found or not owned by user." })
+        }
+
         res.status(200).json({ message: "Deleted successfully." })
     } catch (err) {
         console.log(err);

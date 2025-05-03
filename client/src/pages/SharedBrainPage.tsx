@@ -7,7 +7,6 @@ import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
 import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from "../components/ui/ThoughtCards"
-
 export const SharedBrainPage = () => {
 
     const [type, setType] = useState<string | undefined>()

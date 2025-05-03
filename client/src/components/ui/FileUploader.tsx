@@ -60,17 +60,17 @@ export const FileUploader = () => {
                     <input
                         id="file"
                         type="file"
-                        className="block w-full text-md text-gray-900
+                        className="file:cursor-pointer file:text-[#F5EEDC] block w-full text-md text-gray-900
                             file:mr-4 file:py-2 file:px-4
                             file:rounded-full file:border-0
                             file:text-sm file:font-semibold
-                            file:bg-[#F5EEDC] file:text-gray-800
-                            hover:file:bg-gray-800 hover:file:text-[#F5EEDC]"
+                            file:bg-[#183B4E] hover:file:bg-gray-200 
+                            hover:file:text-black"
                         onChange={handleFileChange}
                     />
 
                     {file && (
-                        <section className="p-4 bg-[#F5EEDC] rounded-lg inset-shadow-black/40">
+                        <section className="p-4 bg-[#F5EEDC] rounded-lg inset-shadow-lg inset-shadow-black">
                             <h3 className="text-lg font-bold mb-2 text-gray-800">File details:</h3>
                             <ul className="text-gray-700">
                                 <li>Name: {file.name}</li>
