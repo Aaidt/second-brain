@@ -140,7 +140,7 @@ export const Dashboard = () => {
                 <div className="pt-1 p-2 fixed right-0 top-0 flex">
                     <div className="text-md">
                         <Button
-                            size="md" text="Upload documents" bg_color="gold"
+                            size="md" text="Documents" bg_color="gold"
                             fullWidth={false} shadow={false} startIcon={<FileUploadIcon />}
                             onClick={() => navigate("/files")}
                         />

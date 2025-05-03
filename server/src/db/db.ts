@@ -43,12 +43,11 @@ const thoughtSchema = new Schema({
 export const ThoughtModel = model("thought", thoughtSchema);
 
 const documentSchema = new Schema({
-    title: { type: String, required: true },
     filePath: { type: String, required: true },
     fileName: { type: String, required: true },
     fileType: { type: String, required: true },
     size: { type: Number, required: true },
     userId: { type: mongoose.Types.ObjectId, ref:"Users", required: true } 
-})
+}, { timestamps: true })
 
 export const DocumentModel = model("Documents", documentSchema);

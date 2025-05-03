@@ -13,20 +13,21 @@ export const FileUploader = () => {
     };
 
     const handleUpload = async () => {
-        if(file){
+        if (file) {
             console.log("Uploading file...")
 
             const formData = new FormData()
             formData.append('file', file);
 
-            try{
-                const result  = await axios.post(`${BACKEND_URL}/api/v1/second-brain/documents`, formData, {
+            try {
+                const result = await axios.post(`${BACKEND_URL}/api/v1/second-brain/documents`, formData, {
                     headers: {
                         "Authorization": localStorage.getItem("authorization")
                     }
                 });
                 console.log("Upload successfull!!!", result.data)
-            }catch(err){
+                setFile(null)
+            } catch (err) {
                 console.log(err);
             }
         }
@@ -50,16 +51,17 @@ export const FileUploader = () => {
 
             {file && (
                 <div className="mt-1 flex justify-center items-center">
-                <Button
-                    text="Upload a file"
-                    onClick={handleUpload}
-                    shadow={false}
-                    fullWidth={false}
-                    size="md"
-                    bg_color="gold"
-                />
+                    <Button
+                        text="Upload a file"
+                        onClick={handleUpload}
+                        shadow={false}
+                        fullWidth={false}
+                        size="md"
+                        bg_color="gold"
+                    />
                 </div>
             )}
+
         </div>
     );
 };

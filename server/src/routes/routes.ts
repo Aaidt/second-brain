@@ -7,6 +7,7 @@ dotenv.config();
 import { UserModel, ContentModel, LinkModel, ThoughtModel, DocumentModel } from "../db/db"
 import { validateInput } from "../middleware/validateInput"
 import { userMiddleware } from "../middleware/userMiddleware"
+import { fileUpload } from "../middleware/fileUpload"
 import jwt from 'jsonwebtoken';
 
 app.use(express.json());
@@ -174,16 +175,22 @@ app.delete("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request,
     }
 })
 
-app.post("/api/v1/second-brain/documents", userMiddleware, async (req: Request, res: Response) => {
-    const { title, filePath, fileName, fileType, size } = req.body;
-
+app.post("/api/v1/second-brain/documents", userMiddleware,  fileUpload.single('file'), async (req: Request, res: Response): Promise<void> => {
     try {
+        const file = req.file as Express.Multer.File | undefined;
+        const userId = (req as any).userId as string | undefined;
+        
+        if(!file || !userId){
+            res.status(400).json({ message: "Missing files or user ID" });
+            return;
+        }
+
         await DocumentModel.create({
-            title,
-            filePath,
-            fileName,
-            fileType,
-            size
+            filePath: file.path,
+            fileName: file.originalname,
+            fileType: file.mimetype,
+            size: file.size,
+            userId: userId
         })
         res.status(200).json({ message: "Document added successfully." });
     } catch (err) {
