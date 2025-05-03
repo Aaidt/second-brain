@@ -7,7 +7,6 @@ import { PricingPage } from "./pages/PricingPage"
 import { SharedBrainPage } from "./pages/SharedBrainPage"
 import { ProtectedRoute } from "./pages/ProtectedRoute"
 import { SidebarProvider } from "./hooks/sidebarContext"
-import { FileUploader } from "./components/ui/FileUploader"
 
 function App() {
 

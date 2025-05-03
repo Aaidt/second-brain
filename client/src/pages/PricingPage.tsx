@@ -58,7 +58,7 @@ export const PricingPage = () => {
     return (
         <div className="scroll-smooth font-serif bg-[#183B4E] min-h-screen flex flex-col justify-between text-[#DDA853]">
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/home")}>
                     <BrainIcon />
                     <span className="text-3xl font-medium">SecondBrain</span>
                 </div>
@@ -82,7 +82,7 @@ export const PricingPage = () => {
                                 key={index}
                                 className={`bg-[#132D3C] p-8 rounded-xl border ${
                                     tier.popular 
-                                        ? 'border-[#DDA853] border-1.5 shadow-xl duration-300 shadow-[#DDA853]/65' 
+                                        ? 'border-[#DDA853] border-1.5 shadow-xl duration-300 shadow-[#DDA853]/45' 
                                         : 'border-[#DDA853]/60 hover:shadow-2xl duration-300 shadow-[#DDA853]/60'
                                 }`}
                             >

@@ -22,11 +22,11 @@ export const FileUploader = ({ open, setOpen }: docModal) => {
 
     const Result = ({ status }: { status: string }) => {
         if (status === "success") {
-            return <p>✅ File uploaded sucessfully!!!</p>
+            return <p className="text-black">✅ File uploaded sucessfully!!!</p>
         } else if (status === "fail") {
-            return <p>❌ File upload failed!</p>
+            return <p className="text-black">❌ File upload failed!</p>
         } else if (status === "uploading") {
-            return <p>⌛ File is being uploaded...</p>
+            return <p className="text-black">⌛ File is being uploaded...</p>
         }
     }
 
@@ -59,9 +59,9 @@ export const FileUploader = ({ open, setOpen }: docModal) => {
         <div onClick={() => {
             setOpen(!open)
         }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 z-50 flex justify-center items-center">
-            <div className="min-h-70 bg-[#183B4E] rounded-lg min-w-120 border-1 border-black/50 flex flex-col justify-center items-center duration-200">
-            <div className="text-3xl p-5">Upload Documents</div>
-                <div className=" max-w-md p-6 rounded-lg bg-[#DDA853] shadow-lg shadow-black/50 ">
+            <div onClick={(e) => e.stopPropagation()} className="p-5 px-6 min-h-65 bg-[#183B4E] pb-10 rounded-lg min-w-120 border-1 border-black/50 flex flex-col justify-center items-center duration-200">
+            <div className="text-4xl p-5 font-playfair">Upload Documents</div>
+                <div className=" max-w-md p-5 rounded-lg bg-[#DDA853] shadow-lg shadow-black/50 ">
                     <div className="space-y-4">
                         <label htmlFor="file" className="block text-lg font-bold text-gray-800">
                             Choose file:
@@ -74,17 +74,17 @@ export const FileUploader = ({ open, setOpen }: docModal) => {
                             file:rounded-full file:border-0
                             file:text-sm file:font-semibold
                             file:bg-[#183B4E] hover:file:bg-gray-300 
-                            hover:file:text-black"
+                            hover:file:text-black hover:file:border-1 hover:file:border-[#bg-brown-500]"
                             onChange={handleFileChange}
                         />
 
                         {file && (
                             <section className="p-4 bg-[#F5EEDC] rounded-lg inset-shadow-lg inset-shadow-black">
-                                <h3 className="text-lg font-bold mb-2 text-gray-800">File details:</h3>
+                                <h3 className="text-lg font-bold text-gray-800">File details:</h3>
                                 <ul className="text-gray-700">
                                     <li>Name: {file.name}</li>
                                     <li>Type: {file.type}</li>
-                                    <li>Size: {file.size} bytes</li>
+                                    <li>Size: {(file.size / (1024*1024)).toFixed(2)} Mb</li>
                                 </ul>
                             </section>
                         )}

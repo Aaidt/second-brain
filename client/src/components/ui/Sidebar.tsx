@@ -42,7 +42,7 @@ export const Sidebar = (sidebarProps: SidebarTypes) => {
       {!sidebarClose && (
         <>
           <div className="flex font-bold font-playfair text-5xl text-[#DDA853] items-center">
-            <p className="pl-6">Second Brain</p>
+            <p onClick={() => navigate("/home")} className="pl-6 cursor-pointer">Second Brain</p>
           </div>
           <div className="pt-2">
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)} text="My brain" icon={<BrainIcon />} />
