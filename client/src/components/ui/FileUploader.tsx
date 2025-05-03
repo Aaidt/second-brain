@@ -4,17 +4,21 @@ import axios from "axios";
 
 export const FileUploader = () => {
     const [file, setFile] = useState<File | null>(null);
+    const [status, setStatus] = useState<"initial" | "uploading" | "success" | "fail">("initial")
+
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setFile(e.target.files[0]);
+            setStatus("initial")
         }
     };
 
     const handleUpload = async () => {
         if (file) {
             console.log("Uploading file...")
+            setStatus("uploading")
 
             const formData = new FormData()
             formData.append('file', file);
@@ -27,8 +31,10 @@ export const FileUploader = () => {
                 });
                 console.log("Upload successfull!!!", result.data)
                 setFile(null)
+                setStatus("success")
             } catch (err) {
                 console.log(err);
+                setStatus("fail");
             }
         }
     };
@@ -61,7 +67,21 @@ export const FileUploader = () => {
                     />
                 </div>
             )}
+            <div className="mt-3">
+                <Result status={status} />
+            </div>
 
         </div>
     );
 };
+
+
+const Result = ({ status }: { status: string }) => {
+    if (status === "success") {
+        return <p>✅ File uploaded sucessfully!!!</p>
+    } else if (status === "fail") {
+        return <p>❌ File upload failed!</p>
+    } else if (status === "uploading") {
+        return <p>⌛ File is being uploaded...</p>
+    }
+}
