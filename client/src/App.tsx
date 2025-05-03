@@ -15,7 +15,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />}></Route>
-        <Route path="/files" element={<FileUploader />}></Route>
         <Route path="/home" element={<LandingPage />}></Route>
         <Route path="/pricing" element={<PricingPage />}></Route>
         <Route path="/signup" element={<Signup />}></Route>

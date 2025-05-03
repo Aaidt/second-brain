@@ -16,6 +16,7 @@ import { FileUploadIcon } from "../components/icons/FileUploadIcon"
 import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from "../components/ui/ThoughtCards"
 import { useNavigate } from "react-router-dom"
+import { FileUploader } from "../components/ui/FileUploader"
 
 export const Dashboard = () => {
     const navigate = useNavigate()
@@ -26,12 +27,13 @@ export const Dashboard = () => {
     const [type, setType] = useState<string | undefined>()
 
     const [contentModalOpen, setContentModalOpen] = useState(false);
+    const [thoughtModalOpen, setThoughtModalOpen] = useState(false);
+    const [docModalOpen, setDocModalOpen] = useState(false);
 
     const { contents, refresh } = useContent()
     const { thoughts, reFetch } = useThoughts()
 
     const [share, setShare] = useState(true)
-    const [thoughtModalOpen, setThoughtModalOpen] = useState(false);
 
     useEffect(() => {
         reFetch()
@@ -92,6 +94,8 @@ export const Dashboard = () => {
         <div className="min-h-screen h-full w-full min-h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
             <CreateContentModal open={contentModalOpen} setOpen={setContentModalOpen} />
             <CreateThoughtModal open={thoughtModalOpen} setOpen={setThoughtModalOpen} />
+            <FileUploader open={docModalOpen} setOpen={setDocModalOpen} />
+
 
             <div className="fixed top-0 left-0 mr-5">
                 <Sidebar type={type} setType={setType} />
@@ -142,7 +146,7 @@ export const Dashboard = () => {
                         <Button
                             size="md" text="Documents" bg_color="gold"
                             fullWidth={false} shadow={false} startIcon={<FileUploadIcon />}
-                            onClick={() => navigate("/files")}
+                            onClick={() => setDocModalOpen(true)}
                         />
                     </div>
                     <div className="text-md">
