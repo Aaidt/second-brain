@@ -53,7 +53,7 @@ export const PricingPage = () => {
     ];
 
     return (
-        <div className="scroll-smooth font-serif text-[#80461B] bg-[#DDA853]/40 min-h-screen flex flex-col justify-between">
+        <div className="scroll-smooth font-serif text-[#80461B] bg-[#DDA853]/30 min-h-screen flex flex-col justify-between">
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/home")}>
                     <BrainIcon />
@@ -77,7 +77,7 @@ export const PricingPage = () => {
                         {pricingTiers.map((tier, index) => (
                             <div
                                 key={index}
-                                className={`bg-[#80461B]/70 text-[#F5DEB3] p-8 rounded-xl ${
+                                className={`bg-[#80461B]/80 text-[#F5DEB3] p-8 rounded-xl ${
                                     tier.popular 
                                         ? 'shadow-xl hover:shadow-black/60 duration-300 shadow-black/45' 
                                         : 'hover:shadow-2xl duration-300 shadow-black/60'
@@ -116,7 +116,7 @@ export const PricingPage = () => {
                     </div>
                 </section>
 
-                <section className="text-[#80461B] bg-[#DDA853]/0 py-20">
+                <section className="text-[#80461B] py-20">
                     <div className="container mx-auto px-4 text-center py-20 border-t border-[#4A0404]/50">
                         <h2 className="text-4xl font-semibold font-playfair mb-6">Frequently Asked Questions</h2><br />
                         <div className="max-w-3xl mx-auto space-y-6">
@@ -134,7 +134,7 @@ export const PricingPage = () => {
                                     answer: "Your data remains accessible even after cancellation. You can export your data at any time."
                                 }
                             ].map((faq, index) => (
-                                <div key={index} className="bg-[#80461B]/70 text-[#F5DEB3] hover:shadow-black/35 hover:shadow-lg duration-300 p-6 rounded-xl">
+                                <div key={index} className="bg-[#80461B]/80 text-[#F5DEB3] hover:shadow-black/35 hover:shadow-lg duration-300 p-6 rounded-xl">
                                     <h3 className="text-2xl font-bold font-playfair mb-2">{faq.question}</h3>
                                     <p className="font-playfair text-xl">{faq.answer}</p>
                                 </div>

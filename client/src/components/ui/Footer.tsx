@@ -2,7 +2,7 @@ import { BrainIcon } from "../icons/BrainIcon"
 
 export const Footer = () => {
     return (
-        <footer className="border-t border-[#4A0404]/50 bg-[#DDA853]/40 text-[#80461B] py-12">
+        <footer className="border-t border-[#4A0404]/50 bg-[#80461B]/80 text-white/70 py-12">
             <div className="container mx-auto px-4">
                 <div className="grid md:grid-cols-4 gap-8">
                     <div>
@@ -28,8 +28,8 @@ export const Footer = () => {
                         },
                     ].map((column, index) => (
                         <div className="cursor-pointer" key={index}>
-                            <h3 className="font-medium mb-4">{column.title}</h3>
-                            <ul className="space-y-2">
+                            <h3 className="font-bold font-inter mb-4">{column.title}</h3>
+                            <ul className="space-y-2 font-medium font-inter">
                                 {column.links.map((link, i) => (
                                     <li key={i}>
                                         <div className="transition-colors">

@@ -17,7 +17,7 @@ export const LandingPage = () => {
     }
 
     return (
-        <div className="font-serif text-[#80461B] bg-[#DDA853]/40 min-h-screen flex font-roboto flex-col justify-between">
+        <div className="font-serif text-[#80461B] bg-[#DDA853]/30 min-h-screen flex font-roboto flex-col justify-between">
 
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -110,7 +110,7 @@ export const LandingPage = () => {
                             ].map((feature, index) => (
                                 <div
                                     key={index}
-                                    className="bg-[#80461B]/70 text-[#F5DEB3] p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1"
+                                    className="bg-[#80461B]/80 text-white/80 p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1"
                                 >
                                     <div className="bg-[#D2B48C]/30 text-[#80461B] hover:text-[#F5DEB3] transition-colors duration-400 p-4 rounded-full w-fit mb-6">{feature.icon}</div>
                                     <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
@@ -152,7 +152,7 @@ export const LandingPage = () => {
                                     role: "Product Designer",
                                 },
                             ].map((testimonial, index) => (
-                                <div key={index} className="bg-[#80461B]/70 text-[#F5DEB3] p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1">
+                                <div key={index} className="bg-[#80461B]/80 text-[#F5DEB3] p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1">
                                     <div className="flex gap-1 mb-4">
                                         {[...Array(5)].map((_, i) => (
                                             <Star key={i} className="h-5 w-5 fill-[#DDA853] text-[#DDA853]" />
