@@ -28,7 +28,7 @@ const colorStyles = {
     "blue": "bg-[#183B4E] text-[#F5EEDC]",
     "gold": "bg-[#DDA853] text-black/60",
     "brown": "bg-[#DDA853]/0 text-[#80461B] hover:underline underline-offset-6",
-    "dirt": "bg-[#A0522D]/80 text-white/80",
+    "dirt": "bg-[#A0522D] text-white/80 hover:shadow-md hover:shadow-black/50",
     "pale": "bg-[#A0522D]/0 text-white/80"
 }
 

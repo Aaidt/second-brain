@@ -2,7 +2,7 @@ import { BrainIcon } from "../icons/BrainIcon"
 
 export const Footer = () => {
     return (
-        <footer className="border-t border-[#4A0404]/50 bg-[#80461B]/80 text-white/70 py-12">
+        <footer className="border-t border-[#4A0404]/50 bg-[#80461B] text-white/70 py-12">
             <div className="container mx-auto px-4">
                 <div className="grid md:grid-cols-4 gap-8">
                     <div>
@@ -42,7 +42,7 @@ export const Footer = () => {
                     ))}
                 </div>
 
-                <div className="border-t border-[#4A0404]/50 mt-12 pt-8 text-center">
+                <div className="border-t border-[#4A0404]/80 mt-12 pt-8 text-center">
                     <p>© {new Date().getFullYear()} SecondBrain. All rights reserved.</p>
                 </div>
             </div>
