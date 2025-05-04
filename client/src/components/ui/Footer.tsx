@@ -1,16 +1,16 @@
-import { Brain } from "lucide-react"
+import { BrainIcon } from "../icons/BrainIcon"
 
 export const Footer = () => {
     return (
-        <footer className="bg-[#132D3C] py-12">
+        <footer className="border-t border-[#4A0404]/50 bg-[#DDA853]/40 text-[#80461B] py-12">
             <div className="container mx-auto px-4">
                 <div className="grid md:grid-cols-4 gap-8">
                     <div>
                         <div className="flex items-center gap-2 mb-4">
-                            <Brain className="h-6 w-6" />
-                            <span className="text-lg font-medium">SecondBrain</span>
+                            <BrainIcon />
+                            <span className="text-2xl font-semibold">SecondBrain</span>
                         </div>
-                        <p className="text-[#DDA853]/70">Your trusted companion for organizing thoughts and ideas.</p>
+                        <p className="">Your trusted companion for organizing thoughts and ideas.</p>
                     </div>
 
                     {[
@@ -32,7 +32,7 @@ export const Footer = () => {
                             <ul className="space-y-2">
                                 {column.links.map((link, i) => (
                                     <li key={i}>
-                                        <div className="text-[#DDA853]/70 hover:text-[#DDA853] transition-colors">
+                                        <div className="transition-colors">
                                             {link}
                                         </div>
                                     </li>
@@ -42,7 +42,7 @@ export const Footer = () => {
                     ))}
                 </div>
 
-                <div className="border-t border-[#DDA853]/20 mt-12 pt-8 text-center text-[#DDA853]/70">
+                <div className="border-t border-[#4A0404]/50 mt-12 pt-8 text-center">
                     <p>© {new Date().getFullYear()} SecondBrain. All rights reserved.</p>
                 </div>
             </div>
