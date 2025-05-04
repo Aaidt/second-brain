@@ -27,7 +27,7 @@ export const Sidebar = (sidebarProps: SidebarTypes) => {
 
   return (
     <div
-      className={`h-full min-h-screen bg-[#183B4E] border-black rounded-r transition-all duration-200 ease-in-out overflow-hidden 
+      className={`h-full min-h-screen bg-[#4B3F2F] text-white/90 border-black rounded-r transition-all duration-200 ease-in-out overflow-hidden 
         ${sidebarClose ? "w-15" : "w-72"
         }`}
     >
@@ -41,7 +41,7 @@ export const Sidebar = (sidebarProps: SidebarTypes) => {
 
       {!sidebarClose && (
         <>
-          <div className="flex font-bold font-playfair text-5xl text-[#DDA853] items-center">
+          <div className="flex font-bold font-playfair text-5xl items-center">
             <p onClick={() => navigate("/home")} className="pl-6 cursor-pointer">Second Brain</p>
           </div>
           <div className="pt-2">
@@ -54,7 +54,7 @@ export const Sidebar = (sidebarProps: SidebarTypes) => {
 
           <div className="pr-5 text-xl pl-1 font-semibold"
             onClick={Logout}>
-            <Button size="md" text="Logout" bg_color="gold" fullWidth={true} shadow={false} startIcon={<UserIcon />} />
+            <Button size="md" text="Logout" bg_color="white" fullWidth={true} shadow={false} startIcon={<UserIcon />} />
           </div>
         </>
       )}

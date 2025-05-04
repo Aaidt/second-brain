@@ -25,7 +25,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
     }
 
 
-    return <div className={`${cardProps.type === "youtube" ? 'max-h-125' : 'undefined'} min-w-72 min-h-96 shadow-lg bg-[#183B4E] rounded-md m-2 font-inter`}>
+    return <div className={`${cardProps.type === "youtube" ? 'max-h-125' : 'undefined'} min-w-72 min-h-96 shadow-lg bg-[#5F4B36] text-white/90 rounded-md m-2 font-playfair`}>
         <div className="flex justify-between pt-4 p-3 transition-all duration-300 ">
             <Page />
             <div className="flex gap-4">

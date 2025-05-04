@@ -91,7 +91,7 @@ export const Dashboard = () => {
     const searchRef = useRef<HTMLInputElement>(null)
 
     return (
-        <div className="min-h-screen h-full w-full min-h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
+        <div className="min-h-screen h-full w-full min-h-full bg-[#FAF3E0] font-serif text-white/90">
             <CreateContentModal open={contentModalOpen} setOpen={setContentModalOpen} />
             <CreateThoughtModal open={thoughtModalOpen} setOpen={setThoughtModalOpen} />
             <FileUploader open={docModalOpen} setOpen={setDocModalOpen} />
@@ -144,28 +144,28 @@ export const Dashboard = () => {
                 <div className="pt-1 p-2 fixed right-0 top-0 flex">
                     <div className="text-md">
                         <Button
-                            size="md" text="Documents" bg_color="gold"
+                            size="md" text="Documents" bg_color="brown"
                             fullWidth={false} shadow={false} startIcon={<FileUploadIcon />}
                             onClick={() => setDocModalOpen(true)}
                         />
                     </div>
                     <div className="text-md">
                         <Button
-                            size="md" text="Thoughts" bg_color="gold"
+                            size="md" text="Thoughts" bg_color="brown"
                             fullWidth={false} shadow={false} startIcon={<BookIcon />}
                             onClick={() => setThoughtModalOpen(true)}
                         />
                     </div>
                     <div className="text-md">
                         <Button
-                            size="md" text="Content" bg_color="gold"
+                            size="md" text="Content" bg_color="brown"
                             fullWidth={false} shadow={false} startIcon={<PlusIcon />}
                             onClick={() => setContentModalOpen(true)}
                         />
                     </div>
                     <div className="text-md">
                         <Button
-                            size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="gold"
+                            size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="brown"
                             fullWidth={false} shadow={false} startIcon={<ShareIcon style='float' />}
                             onClick={handleShare}
                         />

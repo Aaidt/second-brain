@@ -60,7 +60,7 @@ export const LandingPage = () => {
                                 <Button text="Start for free" size="md" bg_color="dirt" shadow={false} fullWidth={false} />
                             </div>
                             <div onClick={() => navigate("/dashboard")}>
-                                <Button text="Take a tour" startIcon={<ArrowRight className="ml-2 h-5 w-5" />} size="lg" shadow={false} fullWidth={false} bg_color="brown" />
+                                <Button text="Take a tour" startIcon={<ArrowRight className="ml-2 h-5 w-5" />} size="lg" shadow={false} fullWidth={false} bg_color="pale" />
                             </div>
                         </div>
                     </div>
