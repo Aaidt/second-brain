@@ -17,7 +17,7 @@ export const LandingPage = () => {
     }
 
     return (
-        <div className="font-serif bg-[#DDA853]/40 min-h-screen flex font-roboto flex-col justify-between text-[#80461B]">
+        <div className="font-serif text-[#80461B] bg-[#DDA853]/40 min-h-screen flex font-roboto flex-col justify-between">
 
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -172,7 +172,7 @@ export const LandingPage = () => {
 
                 <section ref={ref3} className="py-10">
                     <div className="container mx-auto px-4 text-center py-15 border-t border-[#4A0404]/50">
-                        <h2 className="text-5xl font-bold font-playfair mb-6">Ready to upgrade your thinking?</h2><br />
+                        <h2 className="text-5xl font-semibold font-playfair mb-6">Ready to upgrade your thinking?</h2><br />
                         <p className="text-2xl max-w-2xl mx-auto mb-10">
                             Join thousands of users who have transformed how they capture and connect ideas. Start for free, no credit
                             card required.

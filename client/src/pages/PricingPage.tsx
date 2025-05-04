@@ -19,7 +19,6 @@ export const PricingPage = () => {
                 "Community support"
             ],
             buttonText: "Get Started",
-            buttonColor: "gold"
         },
         {
             name: "Pro",
@@ -35,7 +34,6 @@ export const PricingPage = () => {
                 "Export options"
             ],
             buttonText: "Start Free Trial",
-            buttonColor: "gold",
             popular: true
         },
         {
@@ -50,28 +48,27 @@ export const PricingPage = () => {
                 "Dedicated support",
                 "SLA guarantee"
             ],
-            buttonText: "Contact Sales",
-            buttonColor: "blue"
+            buttonText: "Contact Sales"
         }
     ];
 
     return (
-        <div className="scroll-smooth font-serif bg-[#183B4E] min-h-screen flex flex-col justify-between text-[#DDA853]">
+        <div className="scroll-smooth font-serif text-[#80461B] bg-[#DDA853]/40 min-h-screen flex flex-col justify-between">
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/home")}>
                     <BrainIcon />
-                    <span className="text-3xl font-medium">SecondBrain</span>
+                    <span className="text-4xl font-playfair font-medium">SecondBrain</span>
                 </div>
                 <div onClick={() => navigate("/")}>
-                    <Button text="Back to Home" bg_color="gold" shadow={false} fullWidth={false} size="md" />
+                    <Button text="Back to Home" bg_color="dirt" shadow={false} fullWidth={false} size="md" />
                 </div>
             </div>
 
             <main className="flex-grow">
                 <section className="container mx-auto px-4 py-20">
                     <div className="text-center mb-16">
-                        <h1 className="text-4xl md:text-5xl font-light mb-4">Simple, Transparent Pricing</h1>
-                        <p className="text-xl max-w-2xl mx-auto">
+                        <h1 className="text-4xl md:text-5xl font-semibold font-playfair mb-4">Simple, Transparent Pricing</h1><br />
+                        <p className="text-2xl max-w-2xl mx-auto">
                             Choose the plan that's right for you. All plans include a 14-day free trial.
                         </p>
                     </div>
@@ -80,14 +77,14 @@ export const PricingPage = () => {
                         {pricingTiers.map((tier, index) => (
                             <div
                                 key={index}
-                                className={`bg-[#132D3C] p-8 rounded-xl border ${
+                                className={`bg-[#80461B]/70 text-[#F5DEB3] p-8 rounded-xl ${
                                     tier.popular 
-                                        ? 'border-[#DDA853] border-1.5 shadow-xl duration-300 shadow-[#DDA853]/45' 
-                                        : 'border-[#DDA853]/60 hover:shadow-2xl duration-300 shadow-[#DDA853]/60'
+                                        ? 'shadow-xl hover:shadow-black/60 duration-300 shadow-black/45' 
+                                        : 'hover:shadow-2xl duration-300 shadow-black/60'
                                 }`}
                             >
                                 {tier.popular && (
-                                    <div className="bg-[#DDA853] text-[#183B4E] text-sm font-medium px-3 py-1 rounded-full w-fit mb-4">
+                                    <div className="bg-[#80461B]/70 text-[#F5DEB3] text-sm font-medium px-3 py-1 rounded-full w-fit mb-4">
                                         Most Popular
                                     </div>
                                 )}
@@ -96,11 +93,11 @@ export const PricingPage = () => {
                                     <span className="text-4xl font-light">{tier.price}</span>
                                     {tier.period && <span className="text-lg ml-1">{tier.period}</span>}
                                 </div>
-                                <p className="text-[#DDA853]/80 mb-6">{tier.description}</p>
+                                <p className=" mb-6">{tier.description}</p>
                                 <ul className="space-y-3 mb-8">
                                     {tier.features.map((feature, i) => (
                                         <li key={i} className="flex items-center gap-2">
-                                            <Check className="h-5 w-5 text-[#DDA853]" />
+                                            <Check className="h-5 w-5 " />
                                             <span>{feature}</span>
                                         </li>
                                     ))}
@@ -109,7 +106,7 @@ export const PricingPage = () => {
                                     <Button 
                                         text={tier.buttonText} 
                                         size="md" 
-                                        bg_color={tier.buttonColor as "gold" | "blue"} 
+                                        bg_color="white"
                                         shadow={false} 
                                         fullWidth={true} 
                                     />
@@ -119,9 +116,9 @@ export const PricingPage = () => {
                     </div>
                 </section>
 
-                <section className="bg-[#132D3C] py-20">
-                    <div className="container mx-auto px-4 text-center">
-                        <h2 className="text-3xl font-light mb-6">Frequently Asked Questions</h2>
+                <section className="text-[#80461B] bg-[#DDA853]/0 py-20">
+                    <div className="container mx-auto px-4 text-center py-20 border-t border-[#4A0404]/50">
+                        <h2 className="text-4xl font-semibold font-playfair mb-6">Frequently Asked Questions</h2><br />
                         <div className="max-w-3xl mx-auto space-y-6">
                             {[
                                 {
@@ -137,9 +134,9 @@ export const PricingPage = () => {
                                     answer: "Your data remains accessible even after cancellation. You can export your data at any time."
                                 }
                             ].map((faq, index) => (
-                                <div key={index} className="hover:scale-102 duration-300 bg-[#183B4E] p-6 rounded-xl">
-                                    <h3 className="text-xl font-medium mb-2">{faq.question}</h3>
-                                    <p className="text-[#DDA853]/80">{faq.answer}</p>
+                                <div key={index} className="bg-[#80461B]/70 text-[#F5DEB3] hover:shadow-black/35 hover:shadow-lg duration-300 p-6 rounded-xl">
+                                    <h3 className="text-2xl font-bold font-playfair mb-2">{faq.question}</h3>
+                                    <p className="font-playfair text-xl">{faq.answer}</p>
                                 </div>
                             ))}
                         </div>
