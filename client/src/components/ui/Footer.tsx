@@ -2,7 +2,7 @@ import { BrainIcon } from "../icons/BrainIcon"
 
 export const Footer = () => {
     return (
-        <footer className="border-t border-[#4A0404]/50 bg-[#80461B] text-white/70 py-12">
+        <footer className="border-t border-[#4A0404]/50 bg-[#80461B]/90 text-white/70 py-12">
             <div className="container mx-auto px-4">
                 <div className="grid md:grid-cols-4 gap-8">
                     <div>
