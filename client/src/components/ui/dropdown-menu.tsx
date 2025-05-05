@@ -29,7 +29,7 @@ export const DropDownMenu = ({ options, onSelect }: DropDownMenuProps) => {
         shadow={false}
         size="md"
         fullWidth={true}
-        bg_color="gold"
+        bg_color="white"
         text={selectedValue}
         onClick={() => setDropDown(!dropDown)}
       />

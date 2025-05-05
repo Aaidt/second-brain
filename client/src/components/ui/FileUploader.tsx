@@ -59,9 +59,9 @@ export const FileUploader = ({ open, setOpen }: docModal) => {
         <div onClick={() => {
             setOpen(!open)
         }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 z-50 flex justify-center items-center">
-            <div onClick={(e) => e.stopPropagation()} className="p-5 px-6 min-h-65 bg-[#183B4E] pb-10 rounded-lg min-w-120 border-1 border-black/50 flex flex-col justify-center items-center duration-200">
+            <div onClick={(e) => e.stopPropagation()} className="p-5 px-6 min-h-65 bg-[#4B3F2F] pb-10 rounded-lg min-w-120 border-1 border-black/50 flex flex-col justify-center items-center duration-200">
             <div className="text-4xl p-5 font-playfair">Upload Documents</div>
-                <div className=" max-w-md p-5 rounded-lg bg-[#DDA853] shadow-lg shadow-black/50 ">
+                <div className=" max-w-md p-5 rounded-lg bg-[#D2B48C] shadow-lg shadow-black/50 ">
                     <div className="space-y-4">
                         <label htmlFor="file" className="block text-lg font-bold text-gray-800">
                             Choose file:
@@ -73,8 +73,8 @@ export const FileUploader = ({ open, setOpen }: docModal) => {
                             file:mr-4 file:py-2 file:px-4
                             file:rounded-full file:border-0
                             file:text-sm file:font-semibold
-                            file:bg-[#183B4E] hover:file:bg-gray-300 
-                            hover:file:text-black hover:file:border-1 hover:file:border-[#bg-brown-500]"
+                            file:bg-[#4B3F2F] hover:file:bg-gray-300 
+                            hover:file:text-black" 
                             onChange={handleFileChange}
                         />
 
