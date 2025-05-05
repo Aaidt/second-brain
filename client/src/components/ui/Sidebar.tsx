@@ -29,7 +29,7 @@ export const Sidebar = (sidebarProps: SidebarTypes) => {
     <div
       className={`h-full min-h-screen bg-[#4B3F2F] text-white/90 border-black rounded-r transition-all duration-200 ease-in-out overflow-hidden 
         ${sidebarClose ? "w-15" : "w-70"
-        }`}
+        }`}   
 >
       <div
         className={`p-3 hover:scale-105 cursor-pointer transition-transform duration-300 ${sidebarClose ? "text-center" : ""
