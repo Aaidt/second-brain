@@ -24,7 +24,7 @@ const hoverStyles = "hover:-translate-y-1"
 
 const colorStyles = {
     "black": "bg-black text-[#DDA853]",
-    "white": "bg-[#D2B48C] text-[#80461B] hover:bg-black/30 hover:text-white/60 transition-all duration-400 ",
+    "white": "bg-[#D2B48C] text-black/80 hover:bg-black/30 hover:text-white/60 transition-all duration-400 ",
     "blue": "bg-[#183B4E] text-[#F5EEDC]",
     "gold": "bg-[#DDA853] text-black/60",
     "brown": "bg-[#4B3F2F] text-white hover:shadow-black/50 hover:shadow-md",
