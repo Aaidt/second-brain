@@ -4,6 +4,7 @@ import { BrainIcon } from "../components/icons/BrainIcon";
 import { useNavigate } from "react-router-dom"
 import { Footer } from "../components/ui/Footer"
 import { useRef } from "react";
+import { motion } from "framer-motion"
 
 export const LandingPage = () => {
     const navigate = useNavigate();
@@ -49,9 +50,13 @@ export const LandingPage = () => {
 
                 <section className="container mx-auto px-4 py-20 flex flex-col lg:flex-row items-center">
                     <div className="lg:w-1/2 space-y-8">
-                        <h1 className="font-playfair tracking-tight text-5xl sm:text-7xl md:text-8xl font-light leading-tighter">
+                        <motion.h1
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: "easeOut" }}
+                            className="font-playfair tracking-tight text-5xl sm:text-7xl md:text-8xl font-light leading-tighter">
                             Your mind deserves a second brain.
-                        </h1>
+                        </motion.h1>
                         <p className="text-xl sm:text-2xl max-w-2xl">
                             Capture ideas. Reflect on your thoughts. Learn more about yourself.
                         </p>
@@ -108,14 +113,18 @@ export const LandingPage = () => {
                                         "Link related ideas together to build a network of knowledge that grows with you over time.",
                                 },
                             ].map((feature, index) => (
-                                <div
+                                <motion.div
                                     key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.4, delay: index * 0.2 }}
                                     className="bg-[#2C3930] text-white/80 p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1"
                                 >
                                     <div className="hover:bg-white/30 bg-white/20 text-white/80 transition-colors duration-400 p-4 rounded-full w-fit mb-6">{feature.icon}</div>
                                     <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
                                     <p className="font-semibold">{feature.description}</p>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
@@ -152,7 +161,13 @@ export const LandingPage = () => {
                                     role: "Product Designer",
                                 },
                             ].map((testimonial, index) => (
-                                <div key={index} className="bg-[#2C3930] text-[#F5DEB3] p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1">
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.4, delay: index * 0.2 }}
+                                    className="bg-[#2C3930] text-[#F5DEB3] p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1">
                                     <div className="flex gap-1 mb-4">
                                         {[...Array(5)].map((_, i) => (
                                             <Star key={i} className="h-5 w-5 fill-[#DDA853] text-[#DDA853]" />
@@ -163,7 +178,7 @@ export const LandingPage = () => {
                                         <p className="font-medium">{testimonial.author}</p>
                                         <p className="text-sm">{testimonial.role}</p>
                                     </div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
@@ -187,5 +202,5 @@ export const LandingPage = () => {
             <Footer />
 
         </div>
-    ) 
+    )
 }
