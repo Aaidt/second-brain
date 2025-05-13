@@ -22,11 +22,11 @@ export const Signup = () => {
                 username,
                 password
             });
-            alert("You have successfully signed-up!!!!");
+            alert("You have successfully signed-up!!!!✅✅");
             navigate("/signin");
 
         } catch (err: any) {
-            alert("Something went wrong. Please try again.")
+            alert("Something went wrong. Please try again.❌❌")
             console.log(err)
         }
     }

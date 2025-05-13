@@ -24,10 +24,10 @@ export const Signin = () => {
             });
             const jwt = response.data.token as string
             localStorage.setItem("authorization", jwt)
-            alert("You have successfully signed-in!!!!");
+            alert("You have successfully signed-in!!!!✅✅");
             navigate("/dashboard");
         } catch (err) {
-            alert("Something went wrong. Please try again.")
+            alert("Something went wrong. Please try again.❌❌")
             console.log(err)
         }
 

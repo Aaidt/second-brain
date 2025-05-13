@@ -50,16 +50,17 @@ export const LandingPage = () => {
 
                 <section className="container mx-auto px-4 py-20 flex flex-col lg:flex-row items-center">
                     <div className="lg:w-1/2 space-y-8">
-                        <motion.h1
+                        <motion.div
                             initial={{ opacity: 0, y: 40 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, ease: "easeOut" }}
-                            className="font-playfair tracking-tight text-5xl sm:text-7xl md:text-8xl font-light leading-tighter">
-                            Your mind deserves a second brain.
-                        </motion.h1>
-                        <p className="text-xl sm:text-2xl max-w-2xl">
-                            Capture ideas. Reflect on your thoughts. Learn more about yourself.
-                        </p>
+                            >
+                            <h1 className="font-playfair tracking-tight text-5xl sm:text-7xl md:text-8xl font-light leading-tighter">Your mind deserves a second brain.</h1>
+
+                            <p className="text-xl sm:text-2xl max-w-2xl">
+                                Capture ideas. Reflect on your thoughts. Learn more about yourself.
+                            </p>
+                        </motion.div>
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <div onClick={() => navigate("/signup")}>
                                 <Button text="Start for free" size="md" bg_color="dirt" shadow={false} fullWidth={false} />
@@ -71,13 +72,19 @@ export const LandingPage = () => {
                     </div>
                     <div className="lg:w-1/2 mt-12 lg:mt-0 flex justify-center">
                         <div className="relative w-full max-w-md aspect-square">
-                            <img
-                                src="https://i.pinimg.com/736x/94/18/90/9418904b172f49551a9ee8b98f7aa8a4.jpg"
-                                alt="Second Brain Visualization"
-                                width={500}
-                                height={500}
-                                className="rounded-2xl shadow-2xl hover:shadow-black/90 duration-400 shadow-black/60 animate-float"
-                            />
+                            <motion.div
+                                initial={{ opacity: 0, y: 40 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, ease: "easeOut" }}
+                            >
+                                <img
+                                    src="https://i.pinimg.com/736x/94/18/90/9418904b172f49551a9ee8b98f7aa8a4.jpg"
+                                    alt="Second Brain Visualization"
+                                    width={500}
+                                    height={500}
+                                    className="rounded-2xl shadow-2xl hover:shadow-black/90 duration-400 shadow-black/60 animate-float"
+                                />
+                            </motion.div>
                         </div>
                     </div>
                 </section>
