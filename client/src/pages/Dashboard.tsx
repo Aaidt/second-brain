@@ -113,7 +113,7 @@ export const Dashboard = () => {
                 >
                     {contents.filter((contents) => {
                         const searchVal = searchRef.current?.value.toLowerCase() || ""
-                        return !searchVal || contents.title.toLowerCase() === searchVal
+                        return !searchVal || contents.title.toLowerCase().includes(searchVal)
                     })
                         .filter((contents) => {
                             const selectedType = type?.trim() || ''
