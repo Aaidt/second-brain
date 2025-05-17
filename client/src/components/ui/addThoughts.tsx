@@ -61,7 +61,7 @@ export const CreateThoughtModal = ({ open, setOpen }: modalProps) => {
                         </div>
 
                         <div className="font-bold pr-3">
-                            <Button shadow={false} size="md" text="Submit" bg_color="white" fullWidth={true} onClick={() => {
+                            <Button hover={true} shadow={false} size="md" text="Submit" bg_color="white" fullWidth={true} onClick={() => {
                                 handleRequest()
                                 setOpen(!open)
                             }} />

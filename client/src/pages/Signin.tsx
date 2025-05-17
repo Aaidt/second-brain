@@ -53,7 +53,7 @@ export const Signin = () => {
                 </div>
 
                 <div className="pr-3 font-bold text-lg">
-                    <Button shadow={false} size="md" text="Signin" bg_color="gold" fullWidth={true} onClick={() => signin()}
+                    <Button hover={true} shadow={false} size="md" text="Signin" bg_color="gold" fullWidth={true} onClick={() => signin()}
                     />
                 </div>
                 <div className="flex justify-center pt-1">

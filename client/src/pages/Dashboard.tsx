@@ -144,6 +144,7 @@ export const Dashboard = () => {
                 <div className="pt-1 p-2 fixed right-0 top-0 flex">
                     <div className="text-md">
                         <Button
+                            hover={true}
                             size="md" text="Documents" bg_color="brown"
                             fullWidth={false} shadow={false} startIcon={<FileUploadIcon />}
                             onClick={() => setDocModalOpen(true)}
@@ -151,6 +152,7 @@ export const Dashboard = () => {
                     </div>
                     <div className="text-md">
                         <Button
+                            hover={true}
                             size="md" text="Thoughts" bg_color="brown"
                             fullWidth={false} shadow={false} startIcon={<BookIcon />}
                             onClick={() => setThoughtModalOpen(true)}
@@ -158,6 +160,7 @@ export const Dashboard = () => {
                     </div>
                     <div className="text-md">
                         <Button
+                            hover={true}
                             size="md" text="Content" bg_color="brown"
                             fullWidth={false} shadow={false} startIcon={<PlusIcon />}
                             onClick={() => setContentModalOpen(true)}
@@ -165,6 +168,7 @@ export const Dashboard = () => {
                     </div>
                     <div className="text-md">
                         <Button
+                            hover={true}
                             size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="brown"
                             fullWidth={false} shadow={false} startIcon={<ShareIcon style='float' />}
                             onClick={handleShare}

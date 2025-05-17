@@ -54,7 +54,7 @@ export const Sidebar = (sidebarProps: SidebarTypes) => {
 
           <div className="pr-5 text-xl pl-1 font-semibold"
             onClick={Logout}>
-            <Button size="md" text="Logout" bg_color="white" fullWidth={true} shadow={false} startIcon={<UserIcon />} />
+            <Button hover={false} size="md" text="Logout" bg_color="white" fullWidth={true} shadow={false} startIcon={<UserIcon />} />
           </div>
         </>
       )}

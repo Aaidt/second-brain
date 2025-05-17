@@ -60,7 +60,8 @@ export const PricingPage = () => {
                     <span className="text-4xl font-playfair font-medium">SecondBrain</span>
                 </div>
                 <div onClick={() => navigate("/")}>
-                    <Button text="Back to Home" bg_color="dirt" shadow={false} fullWidth={false} size="md" />
+                    <Button
+                        hover={true} text="Back to Home" bg_color="dirt" shadow={false} fullWidth={false} size="md" />
                 </div>
             </div>
 
@@ -77,11 +78,10 @@ export const PricingPage = () => {
                         {pricingTiers.map((tier, index) => (
                             <div
                                 key={index}
-                                className={`bg-[#2C3930] text-[#F5DEB3] p-8 rounded-xl ${
-                                    tier.popular 
-                                        ? 'shadow-xl hover:shadow-black/60 duration-300 shadow-black/45' 
-                                        : 'hover:shadow-2xl duration-300 shadow-black/60'
-                                }`}
+                                className={`bg-[#2C3930] text-[#F5DEB3] p-8 rounded-xl ${tier.popular
+                                    ? 'shadow-xl hover:shadow-black/60 duration-300 shadow-black/45'
+                                    : 'hover:shadow-2xl duration-300 shadow-black/60'
+                                    }`}
                             >
                                 {tier.popular && (
                                     <div className="bg-white/20 text-[#F5DEB3] text-sm font-medium px-3 py-1 rounded-full w-fit mb-4">
@@ -103,12 +103,13 @@ export const PricingPage = () => {
                                     ))}
                                 </ul>
                                 <div onClick={() => navigate("/signup")}>
-                                    <Button 
-                                        text={tier.buttonText} 
-                                        size="md" 
+                                    <Button
+                                        hover={true}
+                                        text={tier.buttonText}
+                                        size="md"
                                         bg_color="white"
-                                        shadow={false} 
-                                        fullWidth={true} 
+                                        shadow={false}
+                                        fullWidth={true}
                                     />
                                 </div>
                             </div>

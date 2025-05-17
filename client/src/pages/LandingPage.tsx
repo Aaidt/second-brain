@@ -38,10 +38,10 @@ export const LandingPage = () => {
                 </div>
                 <div className="flex items-center gap-4">
                     <div onClick={() => navigate("/signup")}>
-                        <Button text="Sign up" bg_color="dirt" shadow={false} fullWidth={false} size="md" />
+                        <Button hover={true} text="Sign up" bg_color="dirt" shadow={false} fullWidth={false} size="md" />
                     </div>
                     <div onClick={() => navigate("/signin")}>
-                        <Button size="md" bg_color="dirt" shadow={false} fullWidth={false} text="Log in" />
+                        <Button hover={true} size="md" bg_color="dirt" shadow={false} fullWidth={false} text="Log in" />
                     </div>
                 </div>
             </div>
@@ -63,10 +63,10 @@ export const LandingPage = () => {
                         </motion.div>
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <div onClick={() => navigate("/signup")}>
-                                <Button text="Start for free" size="md" bg_color="dirt" shadow={false} fullWidth={false} />
+                                <Button hover={true} text="Start for free" size="md" bg_color="dirt" shadow={false} fullWidth={false} />
                             </div>
                             <div onClick={() => navigate("/dashboard")}>
-                                <Button text="Take a tour" startIcon={<ArrowRight className="ml-2 h-5 w-5" />} size="lg" shadow={false} fullWidth={false} bg_color="pale" />
+                                <Button hover={true} text="Take a tour" startIcon={<ArrowRight className="ml-2 h-5 w-5" />} size="lg" shadow={false} fullWidth={false} bg_color="pale" />
                             </div>
                         </div>
                     </div>
@@ -200,7 +200,7 @@ export const LandingPage = () => {
                             card required.
                         </p>
                         <div onClick={() => navigate("/signup")}>
-                            <Button text="Get started now" size="md" shadow={false} fullWidth={false} bg_color="dirt" />
+                            <Button hover={true} text="Get started now" size="md" shadow={false} fullWidth={false} bg_color="dirt" />
                         </div>
                     </div>
                 </section>

@@ -46,7 +46,7 @@ export const Signup = () => {
             </div>
 
             <div className="pr-3 font-bold text-lg">
-                <Button shadow={false} size="md" text="Signup" bg_color="gold" fullWidth={true} onClick={() => signup()} />
+                <Button hover={true} shadow={false} size="md" text="Signup" bg_color="gold" fullWidth={true} onClick={() => signup()} />
             </div>
             <div className="flex justify-center pt-1">
                 If you already have an account....
