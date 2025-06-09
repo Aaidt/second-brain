@@ -26,21 +26,20 @@ export const DropDownMenu = ({ options, onSelect }: DropDownMenuProps) => {
   return (
     <div className="relative">
       <Button
-        hover={false}
         shadow={false}
         size="md"
         fullWidth={true}
-        bg_color="white"
+        bg_color="gold"
         text={selectedValue}
         onClick={() => setDropDown(!dropDown)}
       />
 
       {dropDown && (
-        <div className="absolute mt-2 bg-white text-[#895129] rounded shadow-md w-full z-10 ">
+        <div className="absolute mt-2 bg-white border rounded shadow-md w-full z-10 ">
           {options.map((option) => (
             <div
               key={option.value}
-              className="px-4 py-2 cursor-pointer hover:bg-gray-200 hover:border border-[#895129] rounded-md"
+              className="px-4 py-2 cursor-pointer hover:bg-gray-100 "
               onClick={() => handleSelect(option)}
             >
               {option.label}

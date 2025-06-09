@@ -1,53 +1,46 @@
-import mongoose, { Schema, model } from "mongoose"
+// import mongoose, { model, Schema } from "mongoose";
+// import { conn } from "../config"
+
+
+// mongoose.connect(conn);
+
+// const UserSchema = new Schema({
+//     username: { type: String, unique: true },
+//     password: String
+// });
+
+// export const UserModel = model("users", UserSchema);
+
+// const ContentSchema = new Schema({
+//     title: String,
+//     link: String,
+//     tags: [{ types: mongoose.Types.ObjectId}],
+//     type: String,
+//     userId: { type: mongoose.Types.ObjectId, ref: 'users', required: true}
+// })
+
+
+// const LinkSchema = new Schema({
+//     hash: String,
+//     userId: { type: mongoose.Types.ObjectId, ref: 'users', required: true, unique: true}
+// })
+
+// export const ContentModel = model("content", ContentSchema);
+// export const LinkModel = model("links", LinkSchema);
+
+import { Pool } from "pg";
+// import { PASSWORD } from "../config"
 import dotenv from "dotenv";
 dotenv.config();
 
-const mongoURL = process.env.CONN as string
-if (!mongoURL) {
-    throw new Error("MongoDB connection string is missing in the env file.")
-}
-
-mongoose.connect(mongoURL);
-
-
-const UserSchema = new Schema({
-    username: { type: String, unique: true },
-    password: String,
-})
-
-export const UserModel = model("Users", UserSchema);
-
-const ContentSchema = new Schema({
-    title: String,
-    link: String,
-    // tags: [{ type: mongoose.Types.ObjectId }]
-    type: String,
-    userId: { type: mongoose.Types.ObjectId, ref: "Users", required: true }
-})
-
-export const ContentModel = model("Contents", ContentSchema);
-
-const LinkSchema = new Schema({
-    hash: String,
-    userId: { type: mongoose.Types.ObjectId, ref: "Users", required: true }
-})
-
-export const LinkModel = model("Links", LinkSchema);
-
-const thoughtSchema = new Schema({
-    title: { type: String, required: true },
-    thoughts: { type: String, required: true },
-    userId: { type: mongoose.Types.ObjectId, ref: "Users", required: true }
+export const pool = new Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    // @ts-ignore
+    port: process.env.DB_PORT,
+    ssl: {
+    rejectUnauthorized: false
+  } 
 });
-
-export const ThoughtModel = model("thought", thoughtSchema);
-
-const documentSchema = new Schema({
-    filePath: { type: String, required: true },
-    fileName: { type: String, required: true },
-    fileType: { type: String, required: true },
-    size: { type: Number, required: true },
-    userId: { type: mongoose.Types.ObjectId, ref:"Users", required: true } 
-}, { timestamps: true })
-
-export const DocumentModel = model("Documents", documentSchema);

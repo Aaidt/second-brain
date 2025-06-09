@@ -6,8 +6,7 @@ interface cardPropTypes {
     title: string,
     type: 'youtube' | 'twitter' | 'reddit' | 'others',
     link: string,
-    id?: string,
-    share?: boolean
+    id?: string
 }
 
 export const CardComponent = (cardProps: cardPropTypes) => {
@@ -25,26 +24,26 @@ export const CardComponent = (cardProps: cardPropTypes) => {
     }
 
 
-    return <div className={`${cardProps.type === "youtube" ? 'max-h-125' : 'undefined'} min-w-72 min-h-96 shadow-lg bg-[#2C3930] text-white/90 rounded-md m-2 font-playfair`}>
-        <div className="flex justify-between pt-4 p-3 transition-all duration-300 ">
+    return <div className="min-w-72 min-h-96 shadow-lg bg-[#183B4E] rounded-md m-2 font-inter">
+        <div className="flex justify-between p-5 transition-all duration-800">
             <Page />
             <div className="flex gap-4">
-                {(cardProps.share === true) ? (<Delete contentId={cardProps.id} />): null }
+                {/* <Delete contentId={cardProps.id} /> */}
                 <ShareIcon style="zoom" onClick={() => {
                     console.log("handleShare called.")
-                    alert("Share using this link:⚡" + cardProps.link)
+                    alert("Share using this link: " + cardProps.link)
                 }} />
             </div>
         </div>
-        <div className="flex justify-center min-h-24 w-full max-w-80 ">
+        <div className="flex justify-center min-h-24 w-full max-w-80">
             {cardProps.type === "youtube" && (() => {
                 const embedUrl = getYTEmbedLink(cardProps.link);
                 if (!embedUrl) return <p>Invalid YouTube link</p>;
 
                 return (
                     <div className="">
-                        <div className="flex justify-center items-center">
-                            <h1 className="text-xl px-4 font-bold p-2">{cardProps.title}</h1>
+                        <div className="flex flex-wrap justify-center ">
+                            <h1 className="text-xl p-1 font-bold">{cardProps.title}</h1>
                         </div>
                         <div className="flex justify-center">
                             <iframe
@@ -55,7 +54,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 referrerPolicy="strict-origin-when-cross-origin"
-                                className="rounded-md m-4"
+                                className="rounded-md m-4 "
                                 allowFullScreen
                             />
                         </div>
