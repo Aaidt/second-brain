@@ -9,8 +9,8 @@ interface ButtonProps {
     fullWidth: boolean,
     onClick?: () => void,
     onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void,
-    shadow: boolean,
-    hover: boolean,
+    shadow?: boolean,
+    hover?: boolean,
     loading?: boolean
 }
 

@@ -1,51 +1,14 @@
-import { useContent } from "../../hooks/useContent"
-import { toast } from 'react-toastify'
-import { useThoughts } from "../../hooks/useThoughts"
-import axios from "axios";
+import { useState } from "react"
+import { DeleteModal } from "../ui/DeleteModal";
 
 export function Delete ({contentId, ThoughtId}: {contentId?: string, ThoughtId?: string}){
-    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-    const { refresh } = useContent();
-    const { reFetch } = useThoughts();
+   
+    const [open, setOpen] = useState<boolean>(false)
 
-    async function deletePost () {
-        try {
-            if (contentId) {
-                await axios.request({
-                    method: 'DELETE',
-                    url: `${BACKEND_URL}/api/v1/second-brain/content`,
-                    data: {
-                        contentId: contentId
-                    },
-                    headers: {
-                        "Authorization": localStorage.getItem("authorization")
-                    }
-                })
-                refresh()
-                toast.success("Content has been deleted successfully!!!")
-            } 
-            
-            else if (ThoughtId) {
-                await axios.request({
-                    method: 'DELETE',
-                    url: `${BACKEND_URL}/api/v1/second-brain/thoughts`,
-                    data: {
-                        thoughtId: ThoughtId
-                    },
-                    headers: {
-                        "Authorization": localStorage.getItem("authorization")
-                    }
-                })
-                reFetch()
-                toast.success("Thought has been deleted successfully!!!")
-            }
-        } catch (err) {
-            console.log("Error deleting item: " + err)
-            toast.error("Failed to delete item.")
-        }
-    }
-
-    return <div onClick={deletePost} >
+    return <div onClick={() => {
+        setOpen(true)
+    }} >
+    <DeleteModal open={open} setOpen={setOpen} contentId={contentId as string} ThoughtId={ThoughtId as string}  />
         <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none" viewBox="0 0 24 24"

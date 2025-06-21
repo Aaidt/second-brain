@@ -45,7 +45,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
           <div className="flex font-bold font-playfair text-5xl items-center">
             <p onClick={() => navigate("/")} className="pl-6 cursor-pointer">Second Brain</p>
           </div>
-          <div className="pt-2">
+          <div className="pt-1">
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)} text="My brain" icon={<BrainIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")} text="Thoughts" icon={<AcademicIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("twitter")} text="Twitter" icon={<TwitterIcon />} />
