@@ -2,9 +2,9 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
-import { BrainIcon } from "../components/icons/BrainIcon"
 import { motion } from "framer-motion"
 import axios from "axios";
+import { CloseBarIcon } from "@/components/icons/CloseBarIcon";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 interface ResponseDataType {
@@ -42,12 +42,11 @@ export function Signup() {
         }
     }
 
-    return <div className="h-screen w-screen text-white/80 bg-radial-[at_65%_95%] from-purple-900 via-purple-600 to-[#301934] flex justify-center items-center">
-        <div onClick={() => navigate("/")}
-            className="flex items-center gap-2 text-white fixed top-0 left-0 p-8 cursor-pointer">
-            <BrainIcon />
-            <span className="text-4xl font-medium font-playfair">SecondBrain</span>
-        </div>
+    return <div className="h-screen w-screen text-white/80 bg-black/90 flex justify-center items-center">
+        <span onClick={() => navigate("/")}
+            className="flex items-center gap-2 text-white fixed top-0 left-0 p-8 cursor-pointer hover:-translate-x-1 duration-200 transition-all">
+            <CloseBarIcon />
+        </span>
         <motion.div
             initial={initial}
             whileInView={whileInView}

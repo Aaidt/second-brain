@@ -49,14 +49,14 @@ export function LandingPage() {
                     <div onClick={() => navigate("/signup")}>
                         <Button
                             hover={true} text="Sign up"
-                            bg_color="purple" shadow={false}
+                            bg_color="black" shadow={false}
                             fullWidth={false} size="md"
                         />
                     </div>
                     <div onClick={() => navigate("/signin")}>
                         <Button
                             hover={true} size="md"
-                            bg_color="purple" shadow={false}
+                            bg_color="black" shadow={false}
                             fullWidth={false} text="Log in"
                         />
                     </div>
@@ -90,7 +90,7 @@ export function LandingPage() {
                                 onClick={() => navigate("/signup")}>
                                 <Button
                                     hover={true} text="Start for free"
-                                    size="md" bg_color="purple"
+                                    size="md" bg_color="black"
                                     shadow={false}
                                     fullWidth={false}
                                 />
@@ -131,7 +131,7 @@ export function LandingPage() {
 
 
                 <section ref={ref1} className="py-20">
-                    <div className="container mx-auto px-4 py-15 border-t border-purple-800">
+                    <div className="container mx-auto px-4 py-15 border-t border-black/40">
                         <div className="text-center mb-16">
                             <h2 id="features" className="text-6xl font-playfair italic 
                             font-semibold mb-3">Organize your thoughts
@@ -169,7 +169,7 @@ export function LandingPage() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.4, delay: index * 0.2 }}
-                                    className="bg-purple-600 text-white p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1"
+                                    className="bg-black/85 text-white p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1"
                                 >
                                     <div className="hover:bg-white/30 bg-white/20 text-white/80 transition-colors duration-400 p-4 rounded-full w-fit mb-6">{feature.icon}</div>
                                     <h3 className="text-2xl font-semibold mb-4">{feature.title}</h3>
@@ -182,7 +182,7 @@ export function LandingPage() {
 
 
                 <section ref={ref2} className="py-8 ">
-                    <div className="container mx-auto px-4 py-15 border-t border-purple-900">
+                    <div className="container mx-auto px-4 py-15 border-t border-black/40">
                         <div className="text-center mb-16">
                             <h2 id="" className="text-6xl italic font-playfair 
                             font-semibold mb-3">What our users say
@@ -220,7 +220,7 @@ export function LandingPage() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.4, delay: index * 0.2 }}
-                                    className="bg-purple-600 text-white p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1">
+                                    className="bg-black/85 text-white p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1">
                                     <div className="flex gap-1 mb-4">
                                         {[...Array(5)].map((_, i) => (
                                             <Star key={i} className="h-5 w-5 fill-[#DDA853] text-[#DDA853]" />
@@ -239,18 +239,18 @@ export function LandingPage() {
 
 
                 <section ref={ref3} className="py-10">
-                    <div className="container mx-auto px-4 text-center pt-15 border-t border-purple-900">
-                        <h2 className="text-6xl font-semibold italic font-playfair mb-5">Ready to upgrade your thinking?</h2><br />
-                        <p className="text-lg text-center mb-10">
+                    <div className="container mx-auto pb-4 text-center pt-15 border-t border-black/40">
+                        <h2 className="text-6xl font-semibold italic font-playfair mb-3">Ready to upgrade your thinking?</h2><br />
+                        <p className="text-lg text-center mb-5">
                             Join thousands of users who have transformed how they capture and connect ideas.<br /> Start for free, no credit
                             card required.
                         </p>
-                        <div onClick={() => navigate("/signup")}>
+                        <div className="flex justify-center items-center " onClick={() => navigate("/signup")}>
                             <Button
                                 hover={true} text="Get started now"
                                 size="md" shadow={false}
                                 fullWidth={false}
-                                bg_color="purple"
+                                bg_color="black"
                             />
                         </div>
                     </div>

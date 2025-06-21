@@ -183,7 +183,7 @@ export function Dashboard() {
                         className="text-md">
                         <Button
                             hover={true}
-                            size="md" text="Thoughts" bg_color="pink"
+                            size="md" text="Thoughts" bg_color="black"
                             fullWidth={false} shadow={false} startIcon={<BookIcon />}
                             onClick={() => setThoughtModalOpen(true)}
                         />
@@ -195,7 +195,7 @@ export function Dashboard() {
                         className="text-md">
                         <Button
                             hover={true}
-                            size="md" text="Content" bg_color="pink"
+                            size="md" text="Content" bg_color="black"
                             fullWidth={false} shadow={false} startIcon={<PlusIcon />}
                             onClick={() => setContentModalOpen(true)}
                         />
@@ -207,7 +207,7 @@ export function Dashboard() {
                         className="text-md">
                         <Button
                             hover={true}
-                            size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="pink"
+                            size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="black"
                             fullWidth={false} shadow={false} startIcon={<ShareIcon style='float' />}
                             onClick={handleShare}
                         />

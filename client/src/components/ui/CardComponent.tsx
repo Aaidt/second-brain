@@ -2,6 +2,9 @@ import { Delete } from "../icons/Delete"
 import { Page } from "../icons/Page"
 import { ShareIcon } from "../icons/ShareIcon"
 import { toast } from 'react-toastify'
+import { YoutubeIcon } from "../icons/YoutubeIcon"
+import { TwitterIcon } from "../icons/TwitterIcon"
+import { RedditIcon } from "../icons/RedditIcon"
 
 interface cardPropTypes {
     title: string,
@@ -11,7 +14,7 @@ interface cardPropTypes {
     share?: boolean
 }
 
-export function CardComponent (cardProps: cardPropTypes) {
+export function CardComponent(cardProps: cardPropTypes) {
 
     const getYTEmbedLink = (url: string) => {
         try {
@@ -28,10 +31,12 @@ export function CardComponent (cardProps: cardPropTypes) {
 
     return <div className={`${cardProps.type === "youtube" ? 'max-h-125' : 'undefined'} min-w-72 min-h-96 
     shadow shadow-black/30 bg-white text-black/90 rounded-md m-2 border border-black/20 font-playfair`}>
-        <div className="flex justify-between pt-4 p-3 transition-all duration-300 ">
-            <Page />
+        <div className="flex justify-between pt-4 p-3 items-center transition-all duration-300 ">
+            {cardProps.type === "youtube" ? <YoutubeIcon className="w-9 h-9" /> : cardProps.type === "twitter" ? <TwitterIcon className="w-9 h-9" /> :
+                cardProps.type === "reddit" ? <RedditIcon className="w-9 h-9" /> : cardProps.type === "others" ? <Page /> : null
+            }
             <div className="flex gap-4">
-                {(cardProps.share === true) ? (<Delete contentId={cardProps.id} />): null }
+                {(cardProps.share === true) ? (<Delete contentId={cardProps.id} />) : null}
                 <ShareIcon style="zoom" onClick={() => {
                     console.log("handleShare called.")
                     toast.success("Share using this link:⚡" + cardProps.link)
