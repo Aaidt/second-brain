@@ -3,6 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Felipa&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carattere&family=Felipa&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -133,12 +136,14 @@
     --font-playfair: 'Playfair Display', serif;
     --font-inter: 'Inter', serif;
     --font-roboto: 'Roboto', serif;
+    --font-felipa: 'Felipa', serif;
   }
   body {
-    @apply bg-background text-foreground;
     font-family: var(--font-playfair); 
     font-family: var(--font-inter); 
     font-family: var(--font-roboto); 
+    font-family: var(--font-felipa); 
+    font-family: var(--font-carattere); 
   }
 }
 
@@ -151,5 +156,8 @@
   }
   .font-roboto {
     font-family: var(--font-roboto);
+  }
+  .font-felipa {
+    font-family: var(--font-felipa);
   }
 }
