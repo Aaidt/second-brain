@@ -10,7 +10,8 @@ interface ButtonProps {
     onClick?: () => void,
     onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void,
     shadow: boolean,
-    hover: boolean
+    hover: boolean,
+    loading: boolean
 }
 
 const sizeStyles = {
@@ -19,11 +20,11 @@ const sizeStyles = {
     "lg": "px-4 py-2"
 }
 
-const fixedStyles = "rounded-md duration-200 m-2 mt-4 mr-1 flex font-serif cursor-pointer"
+const fixedStyles = "rounded-md duration-200 m-2 mt-4 flex font-roboto cursor-pointer"
 
 const colorStyles = {
-    "black": "bg-black text-[#DDA853] transition-all duration-200",
-    "white": "bg-[#D2B48C] text-black/80 transition-all duration-200 ",
+    "black": "bg-black/95 text-white transition-all duration-200",
+    "white": "bg-white hover:bg-white/60 text-black/95  transition-all duration-200 ",
     "blue": "bg-[#183B4E] text-[#F5EEDC] transition-all duration-200",
     "gold": "bg-[#DDA853] text-black/60 transition-all duration-200",
     "brown": "bg-[#4B3F2F] transition-all duration-200 text-white hover:shadow-black/50 hover:shadow-md",
@@ -39,7 +40,7 @@ export function Button (props: ButtonProps) {
             className={`${'gap-1'} ${fixedStyles} ${props.hover ? 'hover:-translate-y-1' : null} ${sizeStyles[props.size]} ${props.shadow ? 'shadow-md shadow-gray-300 hover:shadow-gray-400' : null} ${props.fullWidth ? 'w-full flex justify-center' : null} ${colorStyles[props.bg_color]} `}
             onClick={props.onClick} onKeyDown={props.onKeyDown}
         >
-            {props.startIcon} {props.text} {props.endIcon}
+            {props.startIcon} {props.loading ? 'Processing...' : props.text} {props.endIcon}
         </button>
     )
 }
