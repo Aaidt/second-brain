@@ -1,13 +1,20 @@
-import { Button } from "../components/ui/Button"
+// import { Button } from "../components/ui/Button"
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
+import { BrainIcon } from "../components/icons/BrainIcon"
+import { motion } from "framer-motion"
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 interface ResponseDataType {
     error: string
 }
+
+const initial = { opacity: 0 }
+const whileInView = { opacity: 1 }
+const viewport = { once: true }
+const transition = { duration: 0.6 }
 
 export function Signup() {
     const usernameRef = useRef<HTMLInputElement>(null);
@@ -35,54 +42,67 @@ export function Signup() {
         }
     }
 
-    return <div className="h-screen w-screen text-white/80 bg-purple-500  flex justify-center items-center">
-        <div className="p-6 m-2 w-88 bg-white/90 text-black rounded-lg">
-            <div className="text-4xl font-bold pb-2 flex justify-center">
-                Sign-up
-            </div>
-            <div className="text-md text-gray-600 mb-3 text-center">
-                Enter your information to create an account
-            </div>
-            <label htmlFor="username" className="font-semibold "> Username:
-                <input
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                            passwordRef.current?.focus();
-                        }
-                    }}
-                    id="username" ref={usernameRef}
-                    className="border font-normal w-full border-black/40 px-2 py-1 rounded-md mb-2"
-                    type="text" placeholder="exapmle@gmail.com" disabled={loading} />
-            </label>
+    return <div className="h-screen w-screen text-white/80 bg-radial-[at_65%_95%] from-purple-900 via-purple-600 to-[#301934] flex justify-center items-center">
+        <div onClick={() => navigate("/")}
+            className="flex items-center gap-2 text-white fixed top-0 left-0 p-8 cursor-pointer">
+            <BrainIcon />
+            <span className="text-4xl font-medium font-playfair">SecondBrain</span>
+        </div>
+        <motion.div
+            initial={initial}
+            whileInView={whileInView}
+            viewport={viewport}
+            transition={transition}
+        >
+            <div className="p-6 m-2 w-88 bg-white/90 text-black rounded-lg">
+                <div className="text-4xl font-bold pb-2 flex justify-center">
+                    Sign-up
+                </div>
+                <div className="text-md text-gray-600 mb-3 text-center">
+                    Enter your information to create an account
+                </div>
+                <label htmlFor="username" className="font-semibold "> Username:
+                    <input
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                passwordRef.current?.focus();
+                            }
+                        }}
+                        id="username" ref={usernameRef}
+                        className="border font-normal w-full border-black/40 px-2 py-1 rounded-md mb-2"
+                        type="text" placeholder="exapmle@gmail.com" disabled={loading} />
+                </label>
 
-            <label htmlFor="password" className="font-semibold "> Password:
-                <input
-                    onKeyDown={async (e) => {
-                        if (e.key === "Enter") {
-                            await signup()
-                        }
-                    }}
-                    id="password" type="password" ref={passwordRef}
-                    className="border font-normal w-full border-black/40 px-2 py-1 mb-2 rounded-md"
-                    placeholder="********" disabled={loading} />
-            </label>
+                <label htmlFor="password" className="font-semibold "> Password:
+                    <input
+                        onKeyDown={async (e) => {
+                            if (e.key === "Enter") {
+                                await signup()
+                            }
+                        }}
+                        id="password" type="password" ref={passwordRef}
+                        className="border font-normal w-full border-black/40 px-2 py-1 mb-2 rounded-md"
+                        placeholder="********" disabled={loading} />
+                </label>
 
-            <div className="pr-3 font-bold text-lg">
-                <Button
-                    loading={loading}
-                    hover={true} shadow={false}
-                    size="md" text="Signup"
-                    bg_color="black" fullWidth={true}
-                    onClick={() => signup()}
-                />
-            </div>
-            <div className="flex justify-center pt-1">
-                If you already have an account....
-                <div className="font-bold hover:underline hover:-translate-y-1 duration-200 hover:underline-offset-4 cursor-pointer"
-                    onClick={() => navigate("/signin")}>
-                    Sign-in
+                <div className="pt-3 flex justify-center items-center">
+
+                    <button className="w-full bg-black/90 rounded-md text-white text-lg
+                font-semibold px-4 hover:bg-black/75 duration-300 transition-all py-1"
+                        onClick={() => signup()} disabled={loading}>
+                        {loading ? "Processing..." : "Sign-up"}
+                    </button>
+
+                </div>
+
+                <div className="flex justify-center pt-2">
+                    If you already have an account....
+                    <div className="font-bold hover:underline hover:-translate-y-1 duration-200 hover:underline-offset-4 cursor-pointer"
+                        onClick={() => navigate("/signin")}>
+                        Sign-in
+                    </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     </div>
 } 

@@ -82,15 +82,24 @@ export function LandingPage() {
                             </p>
                         </motion.div>
                         <div className="flex flex-col justify-center sm:flex-row gap-4 pt-4">
-                            <div onClick={() => navigate("/signup")}>
+
+                            <motion.div
+                                initial={{ opacity: 0, x: -80 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.8, ease: "easeOut" }}
+                                onClick={() => navigate("/signup")}>
                                 <Button
                                     hover={true} text="Start for free"
                                     size="md" bg_color="purple"
                                     shadow={false}
                                     fullWidth={false}
                                 />
-                            </div>
-                            <div onClick={() => navigate("/dashboard")}>
+                            </motion.div>
+                            <motion.div
+                                initial={{ opacity: 0, x: 80 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.8, ease: "easeOut" }}
+                                onClick={() => navigate("/dashboard")}>
                                 <Button
                                     hover={true} text="Take a tour"
                                     startIcon={<ArrowRight className="ml-2 h-5 w-5" />}
@@ -98,7 +107,7 @@ export function LandingPage() {
                                     fullWidth={false}
                                     bg_color="pale"
                                 />
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
                     {/* <div className="lg:w-1/2 mt-12 lg:mt-0 flex justify-center">

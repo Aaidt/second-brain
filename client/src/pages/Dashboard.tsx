@@ -17,9 +17,10 @@ import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from "../components/ui/ThoughtCards"
 // import { useNavigate } from "react-router-dom"
 import { FileUploader } from "../components/ui/FileUploader"
+import { motion } from 'framer-motion'
 import { toast } from "react-toastify"
 
-export function Dashboard () {
+export function Dashboard() {
     // const navigate = useNavigate()
 
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -47,10 +48,10 @@ export function Dashboard () {
         link: string
     }
 
-    function alertUser(share: boolean, responseData: ResponseData){
-        if(share){
+    function alertUser(share: boolean, responseData: ResponseData) {
+        if (share) {
             toast.info("Share this link to give access to others:⚡" + `${CLIENT_URL}${'/'}${responseData?.link}`)
-        }else{
+        } else {
             toast.info("You have tuned OFF sharing now. Click the button again to turn it ON")
         }
     }
@@ -69,7 +70,7 @@ export function Dashboard () {
                     }
                 });
 
-            if(!response){
+            if (!response) {
                 toast.error('Issue with the Backend response')
             }
 
@@ -101,15 +102,19 @@ export function Dashboard () {
     const searchRef = useRef<HTMLInputElement>(null)
 
     return (
-        <div className="min-h-screen h-full w-full min-h-full bg-[#FAF3E0] font-serif text-white/90">
+        <div className="min-h-screen h-full w-full min-h-full bg-white font-serif text-black/95">
             <CreateContentModal open={contentModalOpen} setOpen={setContentModalOpen} />
             <CreateThoughtModal open={thoughtModalOpen} setOpen={setThoughtModalOpen} />
             <FileUploader open={docModalOpen} setOpen={setDocModalOpen} />
 
 
-            <div className="fixed top-0 left-0 mr-5">
+            <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="fixed top-0 left-0 mr-5">
                 <Sidebar type={type} setType={setType} />
-            </div>
+            </motion.div>
             <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} duration-200 text-md pt-5 p-1`}>
                 <SearchBar ref={searchRef} />
             </div>
@@ -130,9 +135,12 @@ export function Dashboard () {
                             return !selectedType || contents.type?.trim() === selectedType
                         })
                         .map(({ title, link, type, _id }) =>
-                            <div key={_id} className="mb-4">
+                            <motion.div
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, ease: "easeOut", delay: Number(_id) * 2 }} key={_id} className="mb-4">
                                 <CardComponent share={share} title={title} type={type} link={link} id={_id} />
-                            </div>
+                            </motion.div>
                         )
                     }
 
@@ -144,48 +152,68 @@ export function Dashboard () {
                             return !type || type?.trim() === "thoughts"
                         })
                         .map(({ title, thoughts, _id }) =>
-                            <div key={_id} className="mb-4">
+                            <motion.div
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, ease: "easeOut", delay: Number(_id) * 2 }} key={_id} className="mb-4">
                                 <ThoughtCards title={title} thoughts={thoughts} id={_id} share={share} />
-                            </div>
+                            </motion.div>
                         )
                     }
                 </Masonry>
 
-                <div className="pt-1 p-2 fixed right-0 top-0 flex">
-                    <div className="text-md">
+                <div
+                    className="pt-1 p-2 fixed right-0 top-0 flex">
+                    <motion.div
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        className="text-md">
                         <Button
                             hover={true}
-                            size="md" text="Documents" bg_color="brown"
+                            size="md" text="Documents" bg_color="purple"
                             fullWidth={false} shadow={false} startIcon={<FileUploadIcon />}
                             onClick={() => setDocModalOpen(true)}
                         />
-                    </div>
-                    <div className="text-md">
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
+                        className="text-md">
                         <Button
                             hover={true}
-                            size="md" text="Thoughts" bg_color="brown"
+                            size="md" text="Thoughts" bg_color="purple"
                             fullWidth={false} shadow={false} startIcon={<BookIcon />}
                             onClick={() => setThoughtModalOpen(true)}
                         />
-                    </div>
-                    <div className="text-md">
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
+                        className="text-md">
                         <Button
                             hover={true}
-                            size="md" text="Content" bg_color="brown"
+                            size="md" text="Content" bg_color="purple"
                             fullWidth={false} shadow={false} startIcon={<PlusIcon />}
                             onClick={() => setContentModalOpen(true)}
                         />
-                    </div>
-                    <div className="text-md">
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
+                        className="text-md">
                         <Button
                             hover={true}
-                            size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="brown"
+                            size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="purple"
                             fullWidth={false} shadow={false} startIcon={<ShareIcon style='float' />}
                             onClick={handleShare}
                         />
-                    </div>
+                    </motion.div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

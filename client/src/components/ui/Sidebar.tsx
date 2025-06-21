@@ -16,7 +16,7 @@ interface SidebarTypes {
   setType?: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
-export function Sidebar (sidebarProps: SidebarTypes) {
+export function Sidebar(sidebarProps: SidebarTypes) {
   const navigate = useNavigate()
   const { sidebarClose, setSidebarClose } = useSideBar()
 
@@ -27,10 +27,10 @@ export function Sidebar (sidebarProps: SidebarTypes) {
 
   return (
     <div
-      className={`h-full min-h-screen bg-[#4B3F2F] text-white/90 border-black rounded-r transition-all duration-200 ease-in-out overflow-hidden 
+      className={`h-full min-h-screen bg-purple-600 text-white border-black rounded-r transition-all duration-200 ease-in-out overflow-hidden 
         ${sidebarClose ? "w-15" : "w-70"
-        }`}   
->
+        }`}
+    >
       <div
         className={`p-3 hover:scale-105 cursor-pointer transition-transform duration-300 ${sidebarClose ? "text-center" : ""
           }`}
@@ -54,7 +54,13 @@ export function Sidebar (sidebarProps: SidebarTypes) {
 
           <div className="pr-5 text-xl pl-1 font-semibold"
             onClick={Logout}>
-            <Button hover={false} size="md" text="Logout" bg_color="white" fullWidth={true} shadow={false} startIcon={<UserIcon />} />
+            <Button
+              hover={false} size="md"
+              text="Logout" bg_color="white"
+              fullWidth={true}
+              shadow={false}
+              startIcon={<UserIcon />}
+            />
           </div>
         </>
       )}
