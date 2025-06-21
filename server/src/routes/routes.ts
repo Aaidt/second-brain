@@ -3,13 +3,14 @@ const app = express();
 import cors from "cors";
 import { hash, compare } from "bcrypt"
 import dotenv from "dotenv";
-dotenv.config();
 import { UserModel, ContentModel, LinkModel, ThoughtModel, DocumentModel } from "../db/db"
 import { validateInput } from "../middleware/validateInput"
 import { userMiddleware } from "../middleware/userMiddleware"
 import { fileUpload } from "../middleware/fileUpload"
 import jwt from 'jsonwebtoken';
 
+
+dotenv.config();
 app.use(express.json());
 app.use(cors())
 

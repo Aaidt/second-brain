@@ -2,7 +2,7 @@ import { BrainIcon } from "../icons/BrainIcon"
 import { useNavigate } from "react-router-dom"
 
 
-export const Navbar = () => {
+export function Navbar () {
     const navigate = useNavigate();
     return (
         <nav className="flex items-center justify-between px-8 py-7 text-[#DDA853]">

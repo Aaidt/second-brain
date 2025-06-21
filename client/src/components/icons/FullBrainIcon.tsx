@@ -1,4 +1,4 @@
-export const FullBrainIcon = () => {
+export function FullBrainIcon () {
     return (
         <svg fill="currentColor"
             height="40px" width="40px" version="1.1" id="Capa_1"

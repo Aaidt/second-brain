@@ -7,7 +7,7 @@ interface SideBarContextType {
 
 const SidebarContext = createContext<SideBarContextType | undefined>(undefined)
 
-export const SidebarProvider = ({ children }: {children: ReactNode}) => {
+export function SidebarProvider ({ children }: {children: ReactNode}){
     const [sidebarClose, setSidebarClose] = useState(false);
 
     return <SidebarContext.Provider value={{sidebarClose, setSidebarClose}}>
@@ -15,7 +15,7 @@ export const SidebarProvider = ({ children }: {children: ReactNode}) => {
     </SidebarContext.Provider>
 }
 
-export const useSideBar = () => {
+export function useSideBar (){
     const context = useContext(SidebarContext);
 
     if(!context){

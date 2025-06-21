@@ -1,4 +1,4 @@
-export const BrainIcon = () => {
+export function BrainIcon () {
     return <svg
         fill="currentColor" height="45px" width="45px"
         version="1.1" xmlns="http://www.w3.org/2000/svg"

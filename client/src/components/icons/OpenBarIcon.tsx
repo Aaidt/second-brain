@@ -1,4 +1,4 @@
-export const OpenBarIcon = () => {
+export function OpenBarIcon () {
         return <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px"
             viewBox="-4.32 -4.32 32.64 32.64"
             fill="none" stroke="currentColor"

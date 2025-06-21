@@ -1,6 +1,7 @@
 import { Delete } from "../icons/Delete"
 import { Page } from "../icons/Page"
 import { ShareIcon } from "../icons/ShareIcon"
+import { toast } from 'react-toastify'
 
 interface cardPropTypes {
     title: string,
@@ -10,7 +11,7 @@ interface cardPropTypes {
     share?: boolean
 }
 
-export const CardComponent = (cardProps: cardPropTypes) => {
+export function CardComponent (cardProps: cardPropTypes) {
 
     const getYTEmbedLink = (url: string) => {
         try {
@@ -32,7 +33,7 @@ export const CardComponent = (cardProps: cardPropTypes) => {
                 {(cardProps.share === true) ? (<Delete contentId={cardProps.id} />): null }
                 <ShareIcon style="zoom" onClick={() => {
                     console.log("handleShare called.")
-                    alert("Share using this link:⚡" + cardProps.link)
+                    toast.success("Share using this link:⚡" + cardProps.link)
                 }} />
             </div>
         </div>

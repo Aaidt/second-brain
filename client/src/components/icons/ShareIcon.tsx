@@ -5,10 +5,10 @@ const hoverProps = {
 
 const fixedStyle = "size-6 duration-200 transition-transform"
 
-export const ShareIcon = (props: {
+export function ShareIcon (props: {
     style: "zoom" | "float",
     onClick?: () => void
-}) => {
+}) {
 
     return <svg
         onClick={props.onClick}

@@ -1,13 +1,14 @@
 import { useContent } from "../../hooks/useContent"
+import { toast } from 'react-toastify'
 import { useThoughts } from "../../hooks/useThoughts"
 import axios from "axios";
 
-export const Delete = ({contentId, ThoughtId}: {contentId?: string, ThoughtId?: string}) => {
+export function Delete ({contentId, ThoughtId}: {contentId?: string, ThoughtId?: string}){
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
     const { refresh } = useContent();
     const { reFetch } = useThoughts();
 
-    const deletePost = async () => {
+    async function deletePost () {
         try {
             if (contentId) {
                 await axios.request({
@@ -21,7 +22,7 @@ export const Delete = ({contentId, ThoughtId}: {contentId?: string, ThoughtId?: 
                     }
                 })
                 refresh()
-                alert("Content has been deleted successfully!!!")
+                toast.success("Content has been deleted successfully!!!")
             } 
             
             else if (ThoughtId) {
@@ -36,11 +37,11 @@ export const Delete = ({contentId, ThoughtId}: {contentId?: string, ThoughtId?: 
                     }
                 })
                 reFetch()
-                alert("Thought has been deleted successfully!!!")
+                toast.success("Thought has been deleted successfully!!!")
             }
         } catch (err) {
             console.log("Error deleting item: " + err)
-            alert("Failed to delete item.")
+            toast.error("Failed to delete item.")
         }
     }
 

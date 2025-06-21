@@ -17,6 +17,7 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-stack-grid": "^0.7.7",
+    "@types/react-toastify": "^4.0.2",
     "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

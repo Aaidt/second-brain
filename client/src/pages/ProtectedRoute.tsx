@@ -1,10 +1,11 @@
 import { Navigate } from "react-router-dom";
+import { toast } from 'react-toastify'
 
-export const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
+export function ProtectedRoute ({ children }: { children: React.JSX.Element }){
     const token = localStorage.getItem("authorization");
 
     if (!token) {
-        alert("Login first!!!");
+        toast.error("Login first!!!");
         console.log("No JWT token found");
         return <Navigate to="/signin" />;
     }
@@ -16,7 +17,7 @@ export const ProtectedRoute = ({ children }: { children: React.JSX.Element }) =>
     const isExpired = now > expiry;
 
     if (isExpired) {
-        alert("Session expired! Please log in again.");
+        toast.error("Session expired! Please log in again.");
         return <Navigate to="/signin" />;
     }
 

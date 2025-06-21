@@ -7,22 +7,18 @@ import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
 import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from "../components/ui/ThoughtCards"
-export const SharedBrainPage = () => {
+
+
+export function SharedBrainPage (){
 
     const [type, setType] = useState<string | undefined>()
-
-    const [modalOpen, setModalOpen] = useState(false);
     const { contents, refresh } = useContent()
     const { thoughts, reFetch } = useThoughts()
-    const [thoughtModalOpen, setThoughtModalOpen] = useState(false);
 
     useEffect(() => {
         reFetch()
-    }, [thoughtModalOpen])
-
-    useEffect(() => {
         refresh()
-    }, [modalOpen])
+    })
 
     const { sidebarClose } = useSideBar();
 
@@ -65,7 +61,7 @@ export const SharedBrainPage = () => {
                             </div>
                         )}
 
-                    {thoughts?.filter((thoughts) => {
+                    {thoughts?.filter(() => {
                             return !type || type?.trim() === "thoughts"
                         })
                         .map(({ title, thoughts, _id }) =>

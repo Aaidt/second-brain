@@ -3,11 +3,11 @@ import { Button } from "./Button"
 import axios from "axios";
 
 interface docModal {
-    open: Boolean,
+    open: boolean,
     setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export const FileUploader = ({ open, setOpen }: docModal) => {
+export function FileUploader ({ open, setOpen }: docModal) {
     const [file, setFile] = useState<File | null>(null);
     const [status, setStatus] = useState<"initial" | "uploading" | "success" | "fail">("initial")
 
@@ -98,6 +98,7 @@ export const FileUploader = ({ open, setOpen }: docModal) => {
                                     fullWidth={false}
                                     size="md"
                                     bg_color="blue"
+                                    hover={false}
                                 />
                             </div>
                         )}

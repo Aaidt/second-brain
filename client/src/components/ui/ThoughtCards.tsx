@@ -8,7 +8,7 @@ interface ThoughtCardPropTypes {
     share?: boolean
 }
 
-export const ThoughtCards = (ThoughCardProps: ThoughtCardPropTypes) => {
+export function ThoughtCards (ThoughCardProps: ThoughtCardPropTypes) {
     const sentences = ThoughCardProps.thoughts.split(/[.!?]+/).slice(0, 3).join('. ') + '.';
 
     return <div className={`min-w-72 min-h-96 shadow-lg bg-[#2C3930] rounded-md m-2 font-playfair`}>

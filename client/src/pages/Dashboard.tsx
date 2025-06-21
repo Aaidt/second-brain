@@ -15,11 +15,12 @@ import { BookIcon } from "../components/icons/BookIcon"
 import { FileUploadIcon } from "../components/icons/FileUploadIcon"
 import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from "../components/ui/ThoughtCards"
-import { useNavigate } from "react-router-dom"
+// import { useNavigate } from "react-router-dom"
 import { FileUploader } from "../components/ui/FileUploader"
+import { toast } from "react-toastify"
 
-export const Dashboard = () => {
-    const navigate = useNavigate()
+export function Dashboard () {
+    // const navigate = useNavigate()
 
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const CLIENT_URL = import.meta.env.VITE_CLIENT_URL;
@@ -29,11 +30,10 @@ export const Dashboard = () => {
     const [contentModalOpen, setContentModalOpen] = useState(false);
     const [thoughtModalOpen, setThoughtModalOpen] = useState(false);
     const [docModalOpen, setDocModalOpen] = useState(false);
+    const [share, setShare] = useState(true)
 
     const { contents, refresh } = useContent()
     const { thoughts, reFetch } = useThoughts()
-
-    const [share, setShare] = useState(true)
 
     useEffect(() => {
         reFetch()
@@ -47,6 +47,15 @@ export const Dashboard = () => {
         link: string
     }
 
+    function alertUser(share: boolean, responseData: ResponseData){
+        if(share){
+            toast.info("Share this link to give access to others:⚡" + `${CLIENT_URL}${'/'}${responseData?.link}`)
+        }else{
+            toast.info("You have tuned OFF sharing now. Click the button again to turn it ON")
+        }
+    }
+
+
     async function handleShare() {
         setShare(!share)
         try {
@@ -59,14 +68,15 @@ export const Dashboard = () => {
                         Authorization: localStorage.getItem("authorization")
                     }
                 });
-            {
-                share ? (alert("Share this link to give access to others:⚡" + `${CLIENT_URL}${'/'}${response.data?.link}`)) : (
-                    alert("You have tuned OFF sharing now. Click the button again to turn it ON")
-                )
+
+            if(!response){
+                toast.error('Issue with the Backend response')
             }
+
+            alertUser(share, response.data)
         }
         catch (err) {
-            alert('err:' + err);
+            toast.error('err:' + err);
         }
     }
 
@@ -130,7 +140,7 @@ export const Dashboard = () => {
                         const searchVal = searchRef.current?.value.toLowerCase() || ""
                         return !searchVal || thoughts.title.toLowerCase() === searchVal
                     })
-                        .filter((thoughts) => {
+                        .filter(() => {
                             return !type || type?.trim() === "thoughts"
                         })
                         .map(({ title, thoughts, _id }) =>

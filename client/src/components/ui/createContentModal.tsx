@@ -1,16 +1,17 @@
 import { useState, useRef, Dispatch, SetStateAction } from "react";
 import { Button } from "./Button"
 import { DropDownMenu } from "./dropdown-menu"
+import { toast } from "react-toastify"
 import axios from "axios";
 
 type modalProps = {
-    open: Boolean,
+    open: boolean,
     setOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
-export const CreateContentModal = ({ open, setOpen }: modalProps) => {
+export function CreateContentModal ({ open, setOpen }: modalProps){
     const [selectedVal, setSelectedVal] = useState("");
     const titleRef = useRef<HTMLInputElement>(null)
     const linkRef = useRef<HTMLInputElement>(null)
@@ -26,7 +27,7 @@ export const CreateContentModal = ({ open, setOpen }: modalProps) => {
                 "Authorization": localStorage.getItem("authorization")
             }
         })
-        alert("Content added sucessfully!!!");
+        toast.success("Content added sucessfully!!!");
     }
 
     return (open &&

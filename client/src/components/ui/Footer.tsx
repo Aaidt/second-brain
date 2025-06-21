@@ -1,6 +1,6 @@
 import { BrainIcon } from "../icons/BrainIcon"
 
-export const Footer = () => {
+export function Footer (){
     return (
         <footer className="border-t border-[#4A0404]/50 bg-[#80461B]/90 text-white/70 py-12">
             <div className="container mx-auto px-4">

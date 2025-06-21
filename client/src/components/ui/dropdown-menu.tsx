@@ -13,7 +13,7 @@ type DropDownMenuProps = {
   onSelect?: (value: string) => void;
 };
 
-export const DropDownMenu = ({ options, onSelect }: DropDownMenuProps) => {
+export function DropDownMenu ({ options, onSelect }: DropDownMenuProps) {
   const [dropDown, setDropDown] = useState(false);
   const [selectedValue, setSelectedValue] = useState("Select");
 

@@ -4,7 +4,7 @@ import { Footer } from "../components/ui/Footer"
 import { BrainIcon } from "../components/icons/BrainIcon"
 import { Check } from "lucide-react"
 
-export const PricingPage = () => {
+export function PricingPage (){
     const navigate = useNavigate();
 
     const pricingTiers = [

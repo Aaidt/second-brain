@@ -6,7 +6,7 @@ import { Footer } from "../components/ui/Footer"
 import { useRef } from "react";
 import { motion } from "framer-motion"
 
-export const LandingPage = () => {
+export function LandingPage () {
     const navigate = useNavigate();
 
     const ref1 = useRef<HTMLDivElement>(null);

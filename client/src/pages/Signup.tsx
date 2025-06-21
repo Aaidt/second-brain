@@ -1,6 +1,7 @@
 import { Button } from "../components/ui/Button"
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify'
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -8,12 +9,12 @@ interface ResponseDataType {
     error: string
 }
 
-export const Signup = () => {
+export function Signup() {
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
-    const signup = async () => {
+    async function signup() {
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
 
@@ -22,11 +23,11 @@ export const Signup = () => {
                 username,
                 password
             });
-            alert("You have successfully signed-up!!!!✅✅");
+            toast.success("You have successfully signed-up!!!!✅");
             navigate("/signin");
 
-        } catch (err: any) {
-            alert("Something went wrong. Please try again.❌❌")
+        } catch (err) {
+            toast.error("Something went wrong. Please try again.❌")
             console.log(err)
         }
     }
@@ -37,16 +38,33 @@ export const Signup = () => {
                 Sign-up
             </div>
             <div className="pr-1 pl-2">
-                <input ref={usernameRef} type="text" className="w-full rounded-md p-2 border"
+                <input
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            passwordRef.current?.focus()
+                        }
+                    }}
+                    ref={usernameRef} type="text" className="w-full rounded-md p-2 border"
                     placeholder="Username..." />
             </div>
             <div className="pt-4 pr-1 pl-2">
-                <input ref={passwordRef} type="text" className="w-full  rounded-md p-2 border"
+                <input
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            signup()
+                        }
+                    }}
+                    ref={passwordRef} type="text" className="w-full  rounded-md p-2 border"
                     placeholder="Password..." />
             </div>
 
             <div className="pr-3 font-bold text-lg">
-                <Button hover={true} shadow={false} size="md" text="Signup" bg_color="white" fullWidth={true} onClick={() => signup()} />
+                <Button
+                    hover={true} shadow={false}
+                    size="md" text="Signup"
+                    bg_color="white" fullWidth={true}
+                    onClick={() => signup()}
+                />
             </div>
             <div className="flex justify-center pt-1">
                 If you already have an account....

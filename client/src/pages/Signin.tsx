@@ -1,19 +1,20 @@
 import { Button } from "../components/ui/Button"
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify'
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
-export const Signin = () => {
+export function Signin() {
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
     type LoginResponse = {
-        token: String
+        token: string
     }
 
-    const signin = async () => {
+    async function signin() {
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
 
@@ -24,10 +25,10 @@ export const Signin = () => {
             });
             const jwt = response.data.token as string
             localStorage.setItem("authorization", jwt)
-            alert("You have successfully signed-in!!!!✅✅");
+            toast.success("You have successfully signed-in!!!!✅");
             navigate("/dashboard");
         } catch (err) {
-            alert("Something went wrong. Please try again.❌❌")
+            toast.error("Something went wrong. Please try again.❌")
             console.log(err)
         }
 
@@ -44,16 +45,33 @@ export const Signin = () => {
                     Sign-in
                 </div>
                 <div className="pl-2 pr-1">
-                    <input ref={usernameRef} type="text" className="w-full rounded-md p-2 border"
+                    <input
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                passwordRef.current?.focus()
+                            }
+                        }}
+                        ref={usernameRef} type="text" className="w-full rounded-md p-2 border"
                         placeholder="Username..." />
                 </div>
                 <div className="pt-4 pl-2 pr-1">
-                    <input ref={passwordRef} type="text" className="w-full  rounded-md p-2 border"
+                    <input
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                signin()
+                            }
+                        }}
+                        ref={passwordRef} type="text" className="w-full  rounded-md p-2 border"
                         placeholder="Password..." />
                 </div>
 
                 <div className="pr-3 font-bold text-lg">
-                    <Button hover={true} shadow={false} size="md" text="Signin" bg_color="white" fullWidth={true} onClick={() => signin()}
+                    <Button
+                        hover={true} shadow={false}
+                        size="md" text="Signin"
+                        bg_color="white"
+                        fullWidth={true}
+                        onClick={() => signin()}
                     />
                 </div>
                 <div className="flex justify-center pt-1">

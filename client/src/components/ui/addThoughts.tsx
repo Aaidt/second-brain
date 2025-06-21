@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
 import { Button } from "./Button"
+import { toast } from 'react-toastify'
 import axios from "axios";
 
 type modalProps = {
@@ -9,7 +10,7 @@ type modalProps = {
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
-export const CreateThoughtModal = ({ open, setOpen }: modalProps) => {
+export function CreateThoughtModal ({ open, setOpen }: modalProps){
     const titleRef = useRef<HTMLInputElement>(null)
     const [value, setValue] = useState<string | number | readonly string[] | undefined>('');
     const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -21,7 +22,7 @@ export const CreateThoughtModal = ({ open, setOpen }: modalProps) => {
         }
     }, [value]);
 
-    const handleRequest = async () => {
+    async function handleRequest () {
         await axios.post(`${BACKEND_URL}/api/v1/second-brain/thoughts`, {
             title: titleRef.current?.value,
             thoughts:  textareaRef.current?.value
@@ -31,7 +32,7 @@ export const CreateThoughtModal = ({ open, setOpen }: modalProps) => {
             }
         })
         setValue("");
-        alert("Content added sucessfully!!!");
+        toast.success("Content added sucessfully!!!");
     }
 
     return (open &&

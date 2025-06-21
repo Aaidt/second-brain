@@ -32,7 +32,7 @@ const colorStyles = {
     "pale": "bg-[#DDA853]/0 hover:underline-offset-6 hover:underline"
 }
 
-export const Button = (props: ButtonProps) => {
+export function Button (props: ButtonProps) {
     return (
         <button
             className={`${'gap-1'} ${fixedStyles} ${props.hover ? 'hover:-translate-y-1' : null} ${sizeStyles[props.size]} ${props.shadow ? 'shadow-md shadow-gray-300 hover:shadow-gray-400' : null} ${props.fullWidth ? 'w-full flex justify-center' : null} ${colorStyles[props.bg_color]} `}

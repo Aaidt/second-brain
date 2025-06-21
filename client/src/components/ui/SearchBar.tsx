@@ -6,7 +6,7 @@ interface SearchPropsType {
     ref?: React.RefObject<HTMLInputElement | null > 
 }
 
-export const SearchBar = (searchProps: SearchPropsType) => {
+export function SearchBar (searchProps: SearchPropsType){
     const [inputOpen, setInputOpen] = useState(false)
 
     return <div className="text-[#4B3F2F]/80 pt-1 flex hover:text-[#4B3F2F]">

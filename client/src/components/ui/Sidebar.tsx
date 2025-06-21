@@ -16,7 +16,7 @@ interface SidebarTypes {
   setType?: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
-export const Sidebar = (sidebarProps: SidebarTypes) => {
+export function Sidebar (sidebarProps: SidebarTypes) {
   const navigate = useNavigate()
   const { sidebarClose, setSidebarClose } = useSideBar()
 
