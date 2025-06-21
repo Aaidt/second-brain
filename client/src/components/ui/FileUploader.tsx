@@ -7,7 +7,7 @@ interface docModal {
     setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export function FileUploader ({ open, setOpen }: docModal) {
+export function FileUploader({ open, setOpen }: docModal) {
     const [file, setFile] = useState<File | null>(null);
     const [status, setStatus] = useState<"initial" | "uploading" | "success" | "fail">("initial")
 
@@ -59,22 +59,23 @@ export function FileUploader ({ open, setOpen }: docModal) {
         <div onClick={() => {
             setOpen(!open)
         }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 z-50 flex justify-center items-center">
-            <div onClick={(e) => e.stopPropagation()} className="p-5 px-6 min-h-65 bg-[#4B3F2F] pb-10 rounded-lg min-w-120 border-1 border-black/50 flex flex-col justify-center items-center duration-200">
-            <div className="text-4xl p-5 font-playfair">Upload Documents</div>
-                <div className=" max-w-md p-5 rounded-lg bg-[#D2B48C] shadow-lg shadow-black/50 ">
+            <div onClick={(e) => e.stopPropagation()} className="p-5 px-6 min-h-65 bg-white pb-10 rounded-lg min-w-120 border-1
+             border-black/50 flex flex-col justify-center items-center duration-200">
+                <div className="text-4xl p-5 font-playfair">Upload Documents</div>
+                <div className=" max-w-md p-5 rounded-lg bg-black/90 text-white shadow-lg ">
                     <div className="space-y-4">
-                        <label htmlFor="file" className="block text-lg font-bold text-gray-800">
+                        <label htmlFor="file" className="block text-lg font-bold">
                             Choose file:
                         </label>
                         <input
                             id="file"
                             type="file"
-                            className="file:duration-400 file:cursor-pointer file:text-[#F5EEDC] block w-full text-md text-gray-900
+                            className="file:duration-400 file:cursor-pointer file:text-black block w-full text-md text-white
                             file:mr-4 file:py-2 file:px-4
                             file:rounded-full file:border-0
                             file:text-sm file:font-semibold
-                            file:bg-[#4B3F2F] hover:file:bg-gray-300 
-                            hover:file:text-black" 
+                            file:bg-white hover:file:bg-gray-300 
+                            hover:file:text-black"
                             onChange={handleFileChange}
                         />
 
@@ -84,7 +85,7 @@ export function FileUploader ({ open, setOpen }: docModal) {
                                 <ul className="text-gray-700">
                                     <li>Name: {file.name}</li>
                                     <li>Type: {file.type}</li>
-                                    <li>Size: {(file.size / (1024*1024)).toFixed(2)} Mb</li>
+                                    <li>Size: {(file.size / (1024 * 1024)).toFixed(2)} Mb</li>
                                 </ul>
                             </section>
                         )}
@@ -103,7 +104,7 @@ export function FileUploader ({ open, setOpen }: docModal) {
                             </div>
                         )}
 
-                        <div className="text-center">
+                        <div className="text-center text-white">
                             <Result status={status} />
                         </div>
                     </div>

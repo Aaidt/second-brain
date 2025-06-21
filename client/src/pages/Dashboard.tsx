@@ -12,7 +12,7 @@ import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
 import { CreateThoughtModal } from "../components/ui/addThoughts"
 import { BookIcon } from "../components/icons/BookIcon"
-import { FileUploadIcon } from "../components/icons/FileUploadIcon"
+// import { FileUploadIcon } from "../components/icons/FileUploadIcon"
 import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from "../components/ui/ThoughtCards"
 // import { useNavigate } from "react-router-dom"
@@ -50,9 +50,9 @@ export function Dashboard() {
 
     function alertUser(share: boolean, responseData: ResponseData) {
         if (share) {
-            toast.info("Share this link to give access to others:⚡" + `${CLIENT_URL}${'/'}${responseData?.link}`)
+            toast.success("Share this link to give access to others:⚡" + `${CLIENT_URL}${'/'}${responseData?.link}`)
         } else {
-            toast.info("You have tuned OFF sharing now. Click the button again to turn it ON")
+            toast.error("You have tuned OFF sharing now. Click the button again to turn it ON")
         }
     }
 
@@ -164,18 +164,18 @@ export function Dashboard() {
 
                 <div
                     className="pt-1 p-2 fixed right-0 top-0 flex">
-                    <motion.div
+                    {/* <motion.div
                         initial={{ opacity: 0, y: -50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
                         className="text-md">
                         <Button
                             hover={true}
-                            size="md" text="Documents" bg_color="purple"
+                            size="md" text="Documents" bg_color="pink"
                             fullWidth={false} shadow={false} startIcon={<FileUploadIcon />}
                             onClick={() => setDocModalOpen(true)}
                         />
-                    </motion.div>
+                    </motion.div> */}
                     <motion.div
                         initial={{ opacity: 0, y: -50 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -183,7 +183,7 @@ export function Dashboard() {
                         className="text-md">
                         <Button
                             hover={true}
-                            size="md" text="Thoughts" bg_color="purple"
+                            size="md" text="Thoughts" bg_color="pink"
                             fullWidth={false} shadow={false} startIcon={<BookIcon />}
                             onClick={() => setThoughtModalOpen(true)}
                         />
@@ -195,7 +195,7 @@ export function Dashboard() {
                         className="text-md">
                         <Button
                             hover={true}
-                            size="md" text="Content" bg_color="purple"
+                            size="md" text="Content" bg_color="pink"
                             fullWidth={false} shadow={false} startIcon={<PlusIcon />}
                             onClick={() => setContentModalOpen(true)}
                         />
@@ -207,7 +207,7 @@ export function Dashboard() {
                         className="text-md">
                         <Button
                             hover={true}
-                            size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="purple"
+                            size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="pink"
                             fullWidth={false} shadow={false} startIcon={<ShareIcon style='float' />}
                             onClick={handleShare}
                         />

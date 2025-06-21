@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "./Button";
+import { ChevronDown } from 'lucide-react'
 
 // Define the type for each option
 type Option = {
@@ -32,15 +33,16 @@ export function DropDownMenu ({ options, onSelect }: DropDownMenuProps) {
         fullWidth={true}
         bg_color="white"
         text={selectedValue}
+        endIcon={<ChevronDown />}
         onClick={() => setDropDown(!dropDown)}
       />
 
       {dropDown && (
-        <div className="absolute mt-2 bg-white text-[#895129] rounded shadow-md w-full z-10 ">
+        <div className="absolute mt-2 bg-white text-black rounded shadow-md w-full z-10 ">
           {options.map((option) => (
             <div
               key={option.value}
-              className="px-4 py-2 cursor-pointer hover:bg-gray-200 hover:border border-[#895129] rounded-md"
+              className="px-4 py-2 cursor-pointer hover:bg-gray-200 rounded-md"
               onClick={() => handleSelect(option)}
             >
               {option.label}

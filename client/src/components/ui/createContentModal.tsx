@@ -11,7 +11,7 @@ type modalProps = {
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
-export function CreateContentModal ({ open, setOpen }: modalProps){
+export function CreateContentModal({ open, setOpen }: modalProps) {
     const [selectedVal, setSelectedVal] = useState("");
     const titleRef = useRef<HTMLInputElement>(null)
     const linkRef = useRef<HTMLInputElement>(null)
@@ -35,17 +35,17 @@ export function CreateContentModal ({ open, setOpen }: modalProps){
             setOpen(!open)
         }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 z-50 flex justify-center items-center">
             <div className="flex justify-center items-center h-screen pb-10">
-                <div onClick={(e) => e.stopPropagation()} className="bg-[#4B3F2F] rounded-md w-120 h-80 flex flex-col gap-4 p-5 text-[#D2B48C]
+                <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-md w-120 h-80 flex flex-col gap-4 p-5 text-black
                     opacity-0 scale-95 animate-[appear_0.3s_ease-out_forwards]">
                     <div className="font-bold font-playfair text-4xl pb-1 pt-2 flex justify-center">Add Content</div>
                     <div className="">
                         <div>
                             <div className="m-2">
-                                <input ref={titleRef} type="text" className="w-full rounded-md p-2 border"
+                                <input ref={titleRef} type="text" className="w-full rounded-md p-2 border border-black"
                                     placeholder="Title..." />
                             </div>
                             <div className="m-2">
-                                <input ref={linkRef} type="text" className="w-full rounded-md p-2 border"
+                                <input ref={linkRef} type="text" className="w-full rounded-md p-2 border border-black"
                                     placeholder="Link..." />
                             </div>
                         </div>
@@ -64,10 +64,14 @@ export function CreateContentModal ({ open, setOpen }: modalProps){
                             </div>
 
                             <div className="font-bold pr-3">
-                                <Button hover={true} shadow={false} size="md" text="Submit" bg_color="white" fullWidth={true} onClick={() => {
-                                    handleRequest()
-                                    setOpen(!open)
-                                }} />
+                                <Button hover={true}
+                                    shadow={false} size="md"
+                                    text="Submit" bg_color="black"
+                                    fullWidth={true}
+                                    onClick={() => {
+                                        handleRequest()
+                                        setOpen(!open)
+                                    }} />
                             </div>
                         </div>
 

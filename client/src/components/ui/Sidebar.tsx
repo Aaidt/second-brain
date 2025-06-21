@@ -27,12 +27,13 @@ export function Sidebar(sidebarProps: SidebarTypes) {
 
   return (
     <div
-      className={`h-full min-h-screen bg-purple-600 text-white border-black rounded-r transition-all duration-200 ease-in-out overflow-hidden 
+      className={`h-full min-h-screen bg-white border border-black/20 text-black/90 border-black shadow shadow-black/20
+         transition-all duration-300 ease-in-out overflow-hidden 
         ${sidebarClose ? "w-15" : "w-70"
         }`}
     >
       <div
-        className={`p-3 hover:scale-105 cursor-pointer transition-transform duration-300 ${sidebarClose ? "text-center" : ""
+        className={`p-3 hover:scale-105 cursor-pointer transition-transform duration-200 ${sidebarClose ? "text-center" : ""
           }`}
         onClick={() => setSidebarClose(!sidebarClose)}
       >
@@ -46,17 +47,17 @@ export function Sidebar(sidebarProps: SidebarTypes) {
           </div>
           <div className="pt-2">
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)} text="My brain" icon={<BrainIcon />} />
+            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")} text="Thoughts" icon={<AcademicIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("twitter")} text="Twitter" icon={<TwitterIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("youtube")} text="YouTube" icon={<YoutubeIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("reddit")} text="Reddit" icon={<RedditIcon />} />
-            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")} text="Thoughts" icon={<AcademicIcon />} />
           </div>
 
           <div className="pr-5 text-xl pl-1 font-semibold"
             onClick={Logout}>
             <Button
               hover={false} size="md"
-              text="Logout" bg_color="white"
+              text="Logout" bg_color="black"
               fullWidth={true}
               shadow={false}
               startIcon={<UserIcon />}

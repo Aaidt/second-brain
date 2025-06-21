@@ -1,6 +1,6 @@
 import { Button } from "../components/ui/Button"
 import { useNavigate } from "react-router-dom"
-import { Footer } from "../components/ui/Footer"
+// import { Footer } from "../components/ui/Footer"
 import { BrainIcon } from "../components/icons/BrainIcon"
 import { Check } from "lucide-react"
 import { motion } from 'framer-motion'
@@ -149,7 +149,7 @@ export function PricingPage() {
                                     initial={{ opacity: 0, y: -50 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.1 }}
+                                    transition={{ duration: 0.4, ease: "easeOut" }}
                                     key={index} className="bg-purple-800 text-white font-playfair hover:shadow-black/35 hover:shadow-lg duration-300 p-6 rounded-xl">
                                     <h3 className="text-2xl font-medium font-playfair mb-2">{faq.question}</h3>
                                     <p className="font-playfair text-md">{faq.answer}</p>
@@ -160,7 +160,7 @@ export function PricingPage() {
                 </section>
             </main>
 
-            <Footer />
+            {/* <Footer /> */}
         </div>
     )
 }

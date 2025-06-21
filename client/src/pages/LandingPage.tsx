@@ -2,7 +2,7 @@ import { Button } from "../components/ui/Button"
 import { ArrowRight, Brain, BookOpen, Lightbulb, Star } from "lucide-react"
 import { BrainIcon } from "../components/icons/BrainIcon";
 import { useNavigate } from "react-router-dom"
-import { Footer } from "../components/ui/Footer"
+// import { Footer } from "../components/ui/Footer"
 import { useRef } from "react";
 import { motion } from "framer-motion"
 
@@ -169,7 +169,7 @@ export function LandingPage() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.4, delay: index * 0.2 }}
-                                    className="bg-purple-800 text-white p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1"
+                                    className="bg-purple-600 text-white p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1"
                                 >
                                     <div className="hover:bg-white/30 bg-white/20 text-white/80 transition-colors duration-400 p-4 rounded-full w-fit mb-6">{feature.icon}</div>
                                     <h3 className="text-2xl font-semibold mb-4">{feature.title}</h3>
@@ -220,7 +220,7 @@ export function LandingPage() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.4, delay: index * 0.2 }}
-                                    className="bg-purple-800 text-white p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1">
+                                    className="bg-purple-600 text-white p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1">
                                     <div className="flex gap-1 mb-4">
                                         {[...Array(5)].map((_, i) => (
                                             <Star key={i} className="h-5 w-5 fill-[#DDA853] text-[#DDA853]" />
@@ -239,7 +239,7 @@ export function LandingPage() {
 
 
                 <section ref={ref3} className="py-10">
-                    <div className="container mx-auto px-4 text-center py-15 border-t border-purple-900">
+                    <div className="container mx-auto px-4 text-center pt-15 border-t border-purple-900">
                         <h2 className="text-6xl font-semibold italic font-playfair mb-5">Ready to upgrade your thinking?</h2><br />
                         <p className="text-lg text-center mb-10">
                             Join thousands of users who have transformed how they capture and connect ideas.<br /> Start for free, no credit
@@ -257,7 +257,7 @@ export function LandingPage() {
                 </section>
             </main>
 
-            <Footer />
+            {/* <Footer /> */}
 
         </div>
     )
