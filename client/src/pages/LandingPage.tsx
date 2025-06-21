@@ -18,7 +18,7 @@ export const LandingPage = () => {
     }
 
     return (
-        <div className="font-serif text-[#80461B] bg-[#DDA853]/30 min-h-screen flex font-roboto flex-col justify-between">
+    <div className="font-serif text-[ #80461B] bg-[#DDA853]/30 min-h-screen flex font-roboto flex-col justify-between">
 
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">

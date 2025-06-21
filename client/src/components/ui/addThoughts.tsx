@@ -3,7 +3,7 @@ import { Button } from "./Button"
 import axios from "axios";
 
 type modalProps = {
-    open: Boolean,
+    open: boolean,
     setOpen: Dispatch<SetStateAction<boolean>>
 }
 

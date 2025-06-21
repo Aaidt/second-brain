@@ -2,12 +2,18 @@ import mongoose, { Schema, model } from "mongoose"
 import dotenv from "dotenv";
 dotenv.config();
 
-const mongoURL = process.env.CONN as string
+const mongoURL = process.env.CONN ?? "mongodb://localhost:27017/second-brain"
 if (!mongoURL) {
     throw new Error("MongoDB connection string is missing in the env file.")
 }
 
-mongoose.connect(mongoURL);
+mongoose.connect(mongoURL)
+    .then(() => {
+        console.log('✅ Connected to the db');
+    })
+    .catch(err => {
+        console.log('❌ Error in connecting to the db.' + err)
+    })
 
 
 const UserSchema = new Schema({

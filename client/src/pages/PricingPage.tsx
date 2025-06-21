@@ -111,7 +111,7 @@ export const PricingPage = () => {
                                         shadow={false}
                                         fullWidth={true}
                                     />
-                                </div>
+                                </div>  
                             </div>
                         ))}
                     </div>

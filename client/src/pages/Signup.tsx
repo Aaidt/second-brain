@@ -31,7 +31,7 @@ export const Signup = () => {
         }
     }
 
-    return <div className="h-screen w-screen text-white/90 bg-[#F5EEDC] flex justify-center items-center">
+    return <div className="h-screen w-screen text-white/80 bg-[#F5EEDC] flex justify-center items-center">
         <div className="w-96 h-75 bg-[#4B3F2F] rounded-md p-5 ">
             <div className="text-4xl flex justify-center items-center pb-5 font-bold">
                 Sign-up
@@ -46,7 +46,7 @@ export const Signup = () => {
             </div>
 
             <div className="pr-3 font-bold text-lg">
-                <Button hover={true} shadow={false} size="md" text="Signup" bg_color="gold" fullWidth={true} onClick={() => signup()} />
+                <Button hover={true} shadow={false} size="md" text="Signup" bg_color="white" fullWidth={true} onClick={() => signup()} />
             </div>
             <div className="flex justify-center pt-1">
                 If you already have an account....
