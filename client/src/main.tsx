@@ -16,7 +16,7 @@ createRoot(document.getElementById('root')!).render(
           rtl={false}
           pauseOnFocusLoss
           pauseOnHover
-          theme="dark"
+          theme="light"
           transition={Zoom}
         />
   </StrictMode>,

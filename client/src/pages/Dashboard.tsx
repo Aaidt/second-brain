@@ -136,9 +136,9 @@ export function Dashboard() {
                         })
                         .map(({ title, link, type, _id }) =>
                             <motion.div
-                                initial={{ opacity: 0, y: 50 }}
+                                initial={{ opacity: 0, y: -50 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, ease: "easeOut", delay: Number(_id) * 2 }} key={_id} className="mb-4">
+                                transition={{ duration: 0.4, ease: "easeOut" }} key={_id} className="mb-4">
                                 <CardComponent share={share} title={title} type={type} link={link} id={_id} />
                             </motion.div>
                         )

@@ -11,7 +11,7 @@ interface ThoughtCardPropTypes {
 export function ThoughtCards (ThoughCardProps: ThoughtCardPropTypes) {
     const sentences = ThoughCardProps.thoughts.split(/[.!?]+/).slice(0, 3).join('. ') + '.';
 
-    return <div className={`min-w-72 min-h-96 shadow-lg bg-[#2C3930] rounded-md m-2 font-playfair`}>
+    return <div className={`min-w-72 min-h-96 shadow shadow-black/30 border border-black/20 bg-white rounded-md m-2 font-playfair`}>
         <div className="flex justify-between pt-4 p-3 transition-all duration-300 ">
             <Page />
             <div className="flex gap-4">
@@ -22,7 +22,7 @@ export function ThoughtCards (ThoughCardProps: ThoughtCardPropTypes) {
             <h1 className="text-2xl font-bold mb-4">{ThoughCardProps.title}</h1>
             <div className="relative">
                 <p className="line-clamp-10 font-roboto">{sentences}</p>
-                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#2C3930] to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
             </div>
         </div>
     </div >
