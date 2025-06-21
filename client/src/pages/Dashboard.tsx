@@ -166,7 +166,7 @@ export function Dashboard() {
                     className="pt-1 p-2 fixed right-0 top-0 flex">
                     <motion.div
                         initial={{ opacity: 0, y: -50 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
                         className="text-md">
                         <Button
@@ -178,7 +178,7 @@ export function Dashboard() {
                     </motion.div>
                     <motion.div
                         initial={{ opacity: 0, y: -50 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
                         className="text-md">
                         <Button

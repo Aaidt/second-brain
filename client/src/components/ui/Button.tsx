@@ -24,7 +24,7 @@ const fixedStyles = "rounded-md duration-200 m-2 mt-4 flex cursor-pointer"
 
 const colorStyles = {
     "black": "bg-black/85 text-white transition-all duration-200",
-    "white": "bg-white hover:bg-white/60 text-black/95  transition-all duration-200 ",
+    "white": "bg-white hover:bg-white/80 text-black/95  transition-all duration-200 ",
     "blue": "bg-[#183B4E] text-[#F5EEDC] transition-all duration-200",
     "gold": "bg-[#DDA853] text-black/60 transition-all duration-200",
     "brown": "bg-[#4B3F2F] transition-all duration-200 text-white hover:shadow-black/50 hover:shadow-md",
@@ -38,7 +38,7 @@ export function Button (props: ButtonProps) {
     return (
         <button
             className={`${'gap-1'} ${fixedStyles} ${props.hover ? 'hover:-translate-y-1' : null} ${sizeStyles[props.size]} ${props.shadow ? 'shadow-md shadow-gray-300 hover:shadow-gray-400' : null} ${props.fullWidth ? 'w-full flex justify-center' : null} ${colorStyles[props.bg_color]} `}
-            onClick={props.onClick} onKeyDown={props.onKeyDown}
+            onClick={props.onClick} onKeyDown={props.onKeyDown} disabled={props.loading}
         >
             {props.startIcon} {props.loading ? 'Processing...' : props.text} {props.endIcon}
         </button>

@@ -10,9 +10,10 @@ type modalProps = {
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
-export function CreateThoughtModal ({ open, setOpen }: modalProps){
+export function CreateThoughtModal({ open, setOpen }: modalProps) {
     const titleRef = useRef<HTMLInputElement>(null)
     const [value, setValue] = useState<string | number | readonly string[] | undefined>('');
+    const [loading, setLoading] = useState<boolean>(false)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
     useEffect(() => {
@@ -22,17 +23,24 @@ export function CreateThoughtModal ({ open, setOpen }: modalProps){
         }
     }, [value]);
 
-    async function handleRequest () {
-        await axios.post(`${BACKEND_URL}/api/v1/second-brain/thoughts`, {
-            title: titleRef.current?.value,
-            thoughts:  textareaRef.current?.value
-        }, {
-            headers: {
-                "Authorization": localStorage.getItem("authorization")
-            }
-        })
-        setValue("");
-        toast.success("Content added sucessfully!!!");
+    async function handleRequest() {
+        setLoading(true)
+        try {
+            await axios.post(`${BACKEND_URL}/api/v1/second-brain/thoughts`, {
+                title: titleRef.current?.value,
+                thoughts: textareaRef.current?.value
+            }, {
+                headers: {
+                    "Authorization": localStorage.getItem("authorization")
+                }
+            })
+            setLoading(false)
+            setValue("");
+            toast.success("Content added sucessfully!!!");
+        } catch (err) {
+            toast.error('Could not add the thought due to: ' + err)
+        }
+
     }
 
     return (open &&
@@ -40,8 +48,8 @@ export function CreateThoughtModal ({ open, setOpen }: modalProps){
             setOpen(!open)
         }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 z-50 flex justify-center items-center">
             <div className="flex justify-center items-center h-screen pb-10">
-                <div onClick={(e) => e.stopPropagation()} className="bg-[#4B3F2F] rounded-md w-[1000px] max-h-[90vh] overflow-y-auto flex flex-col gap-4 
-                    opacity-0 scale-95 animate-[appear_0.3s_ease-out_forwards] p-5 text-[#D2B48C]">
+                <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-md w-[1000px] max-h-[90vh] overflow-y-auto flex flex-col gap-4 
+                    opacity-0 scale-95 animate-[appear_0.3s_ease-out_forwards] p-5 text-black">
                     <div className="font-bold font-playfair text-4xl pb-3 flex justify-center">Add Thoughts</div>
                     <div className="">
                         <div className="m-2">
@@ -62,10 +70,16 @@ export function CreateThoughtModal ({ open, setOpen }: modalProps){
                         </div>
 
                         <div className="font-bold pr-3">
-                            <Button hover={true} shadow={false} size="md" text="Submit" bg_color="white" fullWidth={true} onClick={() => {
-                                handleRequest()
-                                setOpen(!open)
-                            }} />
+                            <Button
+                                loading={loading}
+                                hover={true} shadow={false}
+                                size="md" text="Submit"
+                                bg_color="black"
+                                fullWidth={true}
+                                onClick={() => {
+                                    handleRequest()
+                                    setOpen(!open)
+                                }} />
                         </div>
 
                     </div>

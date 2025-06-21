@@ -5,11 +5,12 @@ import { useContent } from "../hooks/useContent"
 import { SearchBar } from "../components/ui/SearchBar"
 import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
+import { motion } from 'framer-motion'
 import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from "../components/ui/ThoughtCards"
 
 
-export function SharedBrainPage (){
+export function SharedBrainPage() {
 
     const [type, setType] = useState<string | undefined>()
     const { contents, refresh } = useContent()
@@ -41,9 +42,13 @@ export function SharedBrainPage (){
 
     return (
         <div className="min-h-screen h-full w-full min-h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
-            <div className="fixed top-0 left-0 mr-5">
+            <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="fixed top-0 left-0 mr-5">
                 <Sidebar type={type} setType={setType} />
-            </div>
+            </motion.div>
             <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} duration-200 text-md pt-5 p-1`}>
                 <SearchBar />
             </div>
@@ -56,18 +61,24 @@ export function SharedBrainPage (){
                 >
                     {contents.filter((contents) => !type || contents.type?.trim() === type.trim())
                         .map(({ title, link, type, _id }) =>
-                            <div key={_id} className="mb-4">
+                            <motion.div
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, ease: "easeOut", delay: Number(_id) * 2 }} key={_id} className="mb-4">
                                 <CardComponent title={title} type={type} link={link} id={_id} />
-                            </div>
+                            </motion.div>
                         )}
 
                     {thoughts?.filter(() => {
-                            return !type || type?.trim() === "thoughts"
-                        })
+                        return !type || type?.trim() === "thoughts"
+                    })
                         .map(({ title, thoughts, _id }) =>
-                            <div key={_id} className="mb-4">
+                            <motion.div
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, ease: "easeOut", delay: Number(_id) * 2 }} key={_id} className="mb-4">
                                 <ThoughtCards title={title} thoughts={thoughts} id={_id} />
-                            </div>
+                            </motion.div>
                         )
                     }
                 </Masonry>

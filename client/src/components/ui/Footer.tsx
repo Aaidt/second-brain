@@ -2,7 +2,7 @@ import { BrainIcon } from "../icons/BrainIcon"
 
 export function Footer (){
     return (
-        <footer className=" bg-purple-600 text-white py-12">
+        <footer className=" bg-purple-700 rounded-t-xl text-white py-12">
             <div className="container mx-auto px-4">
                 <div className="grid md:grid-cols-4 gap-8">
                     <div>
@@ -42,7 +42,7 @@ export function Footer (){
                     ))}
                 </div>
 
-                <div className="border-t border-purple-900 mt-12 pt-8 text-center">
+                <div className="border-t border-black/50 mt-6 pt-6 text-center">
                     <p className="">© {new Date().getFullYear()} SecondBrain. All rights reserved.</p>
                 </div>
             </div>

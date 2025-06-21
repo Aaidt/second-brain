@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom"
 import { Footer } from "../components/ui/Footer"
 import { BrainIcon } from "../components/icons/BrainIcon"
 import { Check } from "lucide-react"
+import { motion } from 'framer-motion'
 
-export function PricingPage (){
+export function PricingPage() {
     const navigate = useNavigate();
 
     const pricingTiers = [
@@ -53,38 +54,47 @@ export function PricingPage (){
     ];
 
     return (
-        <div className="scroll-smooth font-serif text-[#80461B] bg-[#DDA853]/30 min-h-screen flex flex-col justify-between">
+        <div className="scroll-smooth font-serif text-black/95 bg-white min-h-screen flex flex-col justify-between">
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/home")}>
+                <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
                     <BrainIcon />
                     <span className="text-4xl font-playfair font-medium">SecondBrain</span>
                 </div>
                 <div onClick={() => navigate("/")}>
                     <Button
-                        hover={true} text="Back to Home" bg_color="dirt" shadow={false} fullWidth={false} size="md" />
+                        hover={true} text="Back to Home"
+                        bg_color="purple"
+                        shadow={false}
+                        fullWidth={false}
+                        size="md"
+                    />
                 </div>
             </div>
 
             <main className="flex-grow">
                 <section className="container mx-auto px-4 py-20">
                     <div className="text-center mb-16">
-                        <h1 className="text-4xl md:text-5xl font-semibold font-playfair mb-4">Simple, Transparent Pricing</h1><br />
-                        <p className="text-2xl max-w-2xl mx-auto">
+                        <h1 className="text-5xl md:text-5xl font-semibold font-playfair mb-3 italic ">Simple, Transparent Pricing</h1><br />
+                        <p className="text-xl">
                             Choose the plan that's right for you. All plans include a 14-day free trial.
                         </p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                         {pricingTiers.map((tier, index) => (
-                            <div
+                            <motion.div
+                                initial={{ opacity: 0, y: -50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.1 }}
                                 key={index}
-                                className={`bg-[#2C3930] text-[#F5DEB3] p-8 rounded-xl ${tier.popular
+                                className={`bg-purple-900 text-white p-8 rounded-xl ${tier.popular
                                     ? 'shadow-xl hover:shadow-black/60 duration-300 shadow-black/45'
                                     : 'hover:shadow-2xl duration-300 shadow-black/60'
                                     }`}
                             >
                                 {tier.popular && (
-                                    <div className="bg-white/20 text-[#F5DEB3] text-sm font-medium px-3 py-1 rounded-full w-fit mb-4">
+                                    <div className="bg-white/30 text-white text-sm font-medium px-3 py-1 rounded-full w-fit mb-4">
                                         Most Popular
                                     </div>
                                 )}
@@ -111,15 +121,15 @@ export function PricingPage (){
                                         shadow={false}
                                         fullWidth={true}
                                     />
-                                </div>  
-                            </div>
+                                </div>
+                            </motion.div>
                         ))}
                     </div>
                 </section>
 
-                <section className="text-[#80461B] py-20">
-                    <div className="container mx-auto px-4 text-center py-20 border-t border-[#4A0404]/50">
-                        <h2 className="text-4xl font-semibold font-playfair mb-6">Frequently Asked Questions</h2><br />
+                <section className="text-black py-20">
+                    <div className="container mx-auto px-4 text-center py-20 border-t border-purple-700">
+                        <h2 className="text-5xl font-semibold font-playfair mb-6 italic">Frequently Asked Questions</h2><br />
                         <div className="max-w-3xl mx-auto space-y-6">
                             {[
                                 {
@@ -135,10 +145,15 @@ export function PricingPage (){
                                     answer: "Your data remains accessible even after cancellation. You can export your data at any time."
                                 }
                             ].map((faq, index) => (
-                                <div key={index} className="bg-[#2C3930] text-[#F5DEB3] hover:shadow-black/35 hover:shadow-lg duration-300 p-6 rounded-xl">
-                                    <h3 className="text-2xl font-bold font-playfair mb-2">{faq.question}</h3>
-                                    <p className="font-playfair text-xl">{faq.answer}</p>
-                                </div>
+                                <motion.div
+                                    initial={{ opacity: 0, y: -50 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.1 }}
+                                    key={index} className="bg-purple-800 text-white font-playfair hover:shadow-black/35 hover:shadow-lg duration-300 p-6 rounded-xl">
+                                    <h3 className="text-2xl font-medium font-playfair mb-2">{faq.question}</h3>
+                                    <p className="font-playfair text-md">{faq.answer}</p>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
