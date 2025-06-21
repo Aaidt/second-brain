@@ -38,11 +38,8 @@ export function Dashboard() {
 
     useEffect(() => {
         reFetch()
-    }, [thoughtModalOpen])
-
-    useEffect(() => {
         refresh()
-    }, [contentModalOpen])
+    }, [])
 
     interface ResponseData {
         link: string
@@ -102,7 +99,7 @@ export function Dashboard() {
     const searchRef = useRef<HTMLInputElement>(null)
 
     return (
-        <div className="min-h-screen h-full w-full min-h-full bg-white font-serif text-black/95">
+        <div className="min-h-screen min-h-full w-full bg-white font-serif text-black/95">
             <CreateContentModal open={contentModalOpen} setOpen={setContentModalOpen} />
             <CreateThoughtModal open={thoughtModalOpen} setOpen={setThoughtModalOpen} />
             <FileUploader open={docModalOpen} setOpen={setDocModalOpen} />

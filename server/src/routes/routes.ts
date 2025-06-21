@@ -40,10 +40,13 @@ app.post("/api/v1/second-brain/signup", validateInput, async (req: Request, res:
         const { username, password } = req.body
 
         const hashedPassword = await hashPassword(password);
-        await UserModel.create({
+        const user = await UserModel.create({
             username: username,
             password: hashedPassword
         })
+        
+        const token = jwt.sign({ id: user._id }, process.env.JWT_PASSWORD as string, { expiresIn: "1h" })
+        res.json({ token })
 
         res.status(201).json({
             message: "User has signed-up successfully."
@@ -176,18 +179,18 @@ app.delete("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request,
     }
 })
 
-app.post("/api/v1/second-brain/documents", userMiddleware,  fileUpload.single('file'), async (req: Request, res: Response): Promise<void> => {
+app.post("/api/v1/second-brain/documents", userMiddleware, fileUpload.single('file'), async (req: Request, res: Response): Promise<void> => {
     try {
         const file = req.file as Express.Multer.File | undefined;
         const userId = (req as any).userId as string | undefined;
 
-        if(!file || !userId){
+        if (!file || !userId) {
             res.status(400).json({ message: "Missing files or user ID" });
             return;
         }
 
         await DocumentModel.create({
-            filePath: file.path,    
+            filePath: file.path,
             fileName: file.originalname,
             fileType: file.mimetype,
             size: file.size,
@@ -200,21 +203,21 @@ app.post("/api/v1/second-brain/documents", userMiddleware,  fileUpload.single('f
     }
 })
 
-app.get("/api/v1/second-brain/documents", userMiddleware, async (req: Request, res: Response) => { 
-    try{
+app.get("/api/v1/second-brain/documents", userMiddleware, async (req: Request, res: Response) => {
+    try {
         const document = await DocumentModel.find({
             userId: req.userId
         }).populate("userId", "username")
 
         res.status(200).json({ document })
 
-    }catch(err){
+    } catch (err) {
         console.log(err);
         res.status(403).json({ message: "Something went wrong." + err })
     }
 })
 
-app.delete("/api/v1/second-brain/documents", userMiddleware, async (req: Request, res: Response) => { 
+app.delete("/api/v1/second-brain/documents", userMiddleware, async (req: Request, res: Response) => {
     const { documentId } = req.body;
 
     try {
@@ -222,8 +225,8 @@ app.delete("/api/v1/second-brain/documents", userMiddleware, async (req: Request
             _id: documentId,
             userId: req.userId
         })
-        if(!deleted){
-           res.status(400).json({ message: "Document not found or not owned by user." })
+        if (!deleted) {
+            res.status(400).json({ message: "Document not found or not owned by user." })
         }
 
         res.status(200).json({ message: "Deleted successfully." })

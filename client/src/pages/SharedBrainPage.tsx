@@ -41,7 +41,7 @@ export function SharedBrainPage() {
 
 
     return (
-        <div className="min-h-screen h-full w-full min-h-full bg-[#F5EEDC] font-serif text-[#DDA853]">
+        <div className="min-h-screen h-full w-full min-h-full bg-white font-serif text-black">
             <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}

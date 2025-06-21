@@ -8,7 +8,8 @@ import { CloseBarIcon } from "@/components/icons/CloseBarIcon";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 interface ResponseDataType {
-    error: string
+    error: string,
+    token: string
 }
 
 const initial = { opacity: 0 }
@@ -28,12 +29,15 @@ export function Signup() {
 
         setLoading(true)
         try {
-            await axios.post<ResponseDataType>(`${BACKEND_URL}/api/v1/second-brain/signup`, {
+            const response = await axios.post<ResponseDataType>(`${BACKEND_URL}/api/v1/second-brain/signup`, {
                 username,
                 password
             });
+            const jwt = response.data.token as string
+            localStorage.setItem("authorization", jwt)
+            
             toast.success("You have successfully signed-up!!!!✅");
-            navigate("/signin");
+            navigate("/dashboard");
             setLoading(false)
         } catch (err) {
             toast.error("Something went wrong. Please try again.❌")
