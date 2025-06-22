@@ -53,7 +53,14 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
                     <div className="font-bold font-playfair text-4xl pb-3 flex justify-center">Add Thoughts</div>
                     <div className="">
                         <div className="m-2">
-                            <input ref={titleRef} type="text" className="w-full rounded-md p-2 border border-black"
+                            <input ref={titleRef} 
+                            type="text" 
+                            onKeyDown={(e) => {
+                                if(e.key === "Enter"){
+                                    textareaRef.current?.focus()
+                                }
+                            }}
+                            className="w-full rounded-md p-2 border border-black"
                                 placeholder="Title..." />
                         </div>
                         <div className="m-2">
@@ -66,13 +73,19 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
                                 style={{
                                     border: "none",
                                 }}
+                                onKeyDown={(e) => {
+                                    if(e.key === "Enter"){
+                                        handleRequest()
+                                        setOpen(!open)
+                                    }
+                                }}
                             />
                         </div>
 
                         <div className="font-bold pr-3">
                             <Button
                                 loading={loading}
-                                hover={true} shadow={false}
+                                hover={false} shadow={false}
                                 size="md" text="Submit"
                                 bg_color="black"
                                 fullWidth={true}

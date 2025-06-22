@@ -23,7 +23,7 @@ const sizeStyles = {
 const fixedStyles = "rounded-md duration-200 m-2 mt-4 flex cursor-pointer"
 
 const colorStyles = {
-    "black": "bg-black/85 text-white transition-all duration-200",
+    "black": "bg-black/85 hover:bg-black/80 text-white transition-all duration-200",
     "white": "bg-white hover:bg-white/80 text-black/95  transition-all duration-200 ",
     "blue": "bg-[#183B4E] text-[#F5EEDC] transition-all duration-200",
     "gold": "bg-[#DDA853] text-black/60 transition-all duration-200",

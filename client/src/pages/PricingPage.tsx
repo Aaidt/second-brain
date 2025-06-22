@@ -88,7 +88,7 @@ export function PricingPage() {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.1 }}
                                 key={index}
-                                className={`bg-black/90 text-white p-8 rounded-xl ${tier.popular
+                                className={`bg-black/95 text-white p-8 rounded-xl ${tier.popular
                                     ? 'shadow-xl hover:shadow-black/60 duration-300 shadow-black/45'
                                     : 'hover:shadow-2xl duration-300 shadow-black/60'
                                     }`}

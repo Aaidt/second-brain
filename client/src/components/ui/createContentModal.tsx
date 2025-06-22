@@ -41,7 +41,14 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
                     <div className="">
                         <div>
                             <div className="m-2">
-                                <input ref={titleRef} type="text" className="w-full rounded-md p-2 border border-black"
+                                <input ref={titleRef} 
+                                onKeyDown={(e) => {
+                                    if(e.key === "Enter"){
+                                        linkRef.current?.focus()
+                                    }
+                                }}
+                                type="text" 
+                                className="w-full rounded-md p-2 border border-black"
                                     placeholder="Title..." />
                             </div>
                             <div className="m-2">
@@ -64,7 +71,7 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
                             </div>
 
                             <div className="font-bold pr-3">
-                                <Button hover={true}
+                                <Button hover={false}
                                     shadow={false} size="md"
                                     text="Submit" bg_color="black"
                                     fullWidth={true}
