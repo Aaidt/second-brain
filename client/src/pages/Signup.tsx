@@ -46,7 +46,7 @@ export function Signup() {
         }
     }
 
-    return <div className="h-screen w-screen text-white/80 bg-black/90 flex justify-center items-center">
+    return <div className="h-screen w-screen text-white/80 bg-black/95 flex justify-center items-center">
         <span onClick={() => navigate("/")}
             className="flex items-center gap-2 text-white fixed top-0 left-0 p-8 cursor-pointer hover:-translate-x-1 duration-200 transition-all">
             <CloseBarIcon />

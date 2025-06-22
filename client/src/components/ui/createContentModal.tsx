@@ -53,7 +53,7 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
                             </div>
                             <div className="m-2">
                                 <input ref={linkRef} type="text" className="w-full rounded-md p-2 border border-black"
-                                    placeholder="Link..." />
+                                    placeholder="Paste the URL here..." />
                             </div>
                         </div>
 

@@ -60,7 +60,7 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
                                     textareaRef.current?.focus()
                                 }
                             }}
-                            className="w-full rounded-md p-2 border border-black"
+                            className="w-full rounded-md text-xl font-semibold p-2 border border-black"
                                 placeholder="Title..." />
                         </div>
                         <div className="m-2">

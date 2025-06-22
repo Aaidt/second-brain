@@ -10,7 +10,7 @@ import axios from "axios";
 import { SearchBar } from "../components/ui/SearchBar"
 import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
-import { CreateThoughtModal } from "../components/ui/addThoughts"
+import { CreateThoughtModal } from "../components/ui/createThoughtModal"
 import { BookIcon } from "../components/icons/BookIcon"
 // import { FileUploadIcon } from "../components/icons/FileUploadIcon"
 import { useThoughts } from "../hooks/useThoughts"
@@ -136,7 +136,7 @@ export function Dashboard() {
                                 initial={{ opacity: 0, y: -50 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.4, ease: "easeOut" }} key={_id} className="mb-4">
-                                <CardComponent title={title} type={type} link={link} id={_id} isSharedPage={false} />
+                                <CardComponent title={title} type={type} link={link} id={_id} share={share} isSharedPage={false} />
                             </motion.div>
                         )
                     }
@@ -153,7 +153,7 @@ export function Dashboard() {
                                 initial={{ opacity: 0, y: 50 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.4, ease: "easeOut", delay: Number(_id) * 2 }} key={_id} className="mb-4">
-                                <ThoughtCards title={title} thoughts={thoughts} id={_id} share={share} />
+                                <ThoughtCards title={title} thoughts={thoughts} id={_id} share={share} isSharedPage={false} />
                             </motion.div>
                         )
                     }
@@ -176,7 +176,7 @@ export function Dashboard() {
                     <motion.div
                         initial={{ opacity: 0, y: -50 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
+                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
                         className="text-md">
                         <Button
                             hover={true}
@@ -188,7 +188,7 @@ export function Dashboard() {
                     <motion.div
                         initial={{ opacity: 0, y: -50 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
+                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
                         className="text-md">
                         <Button
                             hover={true}
@@ -200,7 +200,7 @@ export function Dashboard() {
                     <motion.div
                         initial={{ opacity: 0, y: -50 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
+                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
                         className="text-md">
                         <Button
                             hover={true}

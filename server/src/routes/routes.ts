@@ -160,7 +160,7 @@ app.get("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, re
         }).populate("userId", "username");
         res.status(200).json({ thoughts });
     } catch (err) {
-        res.status(403).json({ message: "Thought not found.", error: err })
+        res.status(403).json({ message: "Not found.", error: err })
     }
 })
 
