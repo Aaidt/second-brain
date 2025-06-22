@@ -18,9 +18,9 @@ interface SidebarTypes {
 
 export function Sidebar(sidebarProps: SidebarTypes) {
   const navigate = useNavigate()
-  const { sidebarClose, setSidebarClose } = useSideBar()
+  const { sidebarClose, setSidebarClose, isSharedPage } = useSideBar()
 
-  const Logout = () => {
+  function Logout() {
     localStorage.removeItem("authorization");
     navigate("/signin");
   }
@@ -46,23 +46,25 @@ export function Sidebar(sidebarProps: SidebarTypes) {
             <p onClick={() => navigate("/")} className="pl-6 cursor-pointer">Second Brain</p>
           </div>
           <div className="pt-1">
-            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)} text="My brain" icon={<BrainIcon />} />
+            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)}
+              text={isSharedPage ? 'Shared Brain' : 'My Brain'} icon={<BrainIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")} text="Thoughts" icon={<AcademicIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("twitter")} text="Twitter" icon={<TwitterIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("youtube")} text="YouTube" icon={<YoutubeIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("reddit")} text="Reddit" icon={<RedditIcon />} />
           </div>
 
-          <div className="pr-5 text-xl pl-1 font-semibold"
-            onClick={Logout}>
-            <Button
-              hover={false} size="md"
-              text="Logout" bg_color="black"
-              fullWidth={true}
-              shadow={false}
-              startIcon={<UserIcon />}
-            />
-          </div>
+          {isSharedPage ? null :
+            <div className="pr-5 text-xl pl-1 font-semibold"
+              onClick={Logout}>
+              <Button
+                hover={false} size="md"
+                text="Logout" bg_color="black"
+                fullWidth={true}
+                shadow={false}
+                startIcon={<UserIcon />}
+              />
+            </div>}
         </>
       )}
     </div>

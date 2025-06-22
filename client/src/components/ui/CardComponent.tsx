@@ -11,7 +11,7 @@ interface cardPropTypes {
     type: 'youtube' | 'twitter' | 'reddit' | 'others',
     link: string,
     id?: string,
-    share?: boolean
+    isSharedPage: boolean
 }
 
 export function CardComponent(cardProps: cardPropTypes) {
@@ -36,7 +36,7 @@ export function CardComponent(cardProps: cardPropTypes) {
                 cardProps.type === "reddit" ? <RedditIcon className="w-9 h-9" /> : cardProps.type === "others" ? <Page /> : null
             }
             <div className="flex gap-4">
-                {(cardProps.share === true) ? (<Delete contentId={cardProps.id} />) : null}
+                {(cardProps.isSharedPage === false) ? (<Delete contentId={cardProps.id} />) : null}
                 <ShareIcon style="zoom" onClick={() => {
                     console.log("handleShare called.")
                     toast.success("Share using this link:⚡" + cardProps.link)

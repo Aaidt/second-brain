@@ -65,7 +65,7 @@ export function SharedBrainPage() {
                                 initial={{ opacity: 0, y: 50 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.4, ease: "easeOut", delay: Number(_id) * 2 }} key={_id} className="mb-4">
-                                <CardComponent title={title} type={type} link={link} id={_id} />
+                                <CardComponent title={title} type={type} link={link} id={_id} isSharedPage={true} />
                             </motion.div>
                         )}
 

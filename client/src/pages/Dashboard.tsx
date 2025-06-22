@@ -136,7 +136,7 @@ export function Dashboard() {
                                 initial={{ opacity: 0, y: -50 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.4, ease: "easeOut" }} key={_id} className="mb-4">
-                                <CardComponent share={share} title={title} type={type} link={link} id={_id} />
+                                <CardComponent title={title} type={type} link={link} id={_id} isSharedPage={false} />
                             </motion.div>
                         )
                     }
