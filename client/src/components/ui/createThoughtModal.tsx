@@ -53,15 +53,16 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
                     <div className="font-bold font-playfair text-4xl pb-3 flex justify-center">Add Thoughts</div>
                     <div className="">
                         <div className="m-2">
-                            <input ref={titleRef} 
-                            type="text" 
-                            onKeyDown={(e) => {
-                                if(e.key === "Enter"){
-                                    textareaRef.current?.focus()
-                                }
-                            }}
-                            className="w-full rounded-md text-xl font-semibold p-2 border border-black"
-                                placeholder="Title..." />
+                            <input ref={titleRef}
+                                type="text"
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        textareaRef.current?.focus()
+                                    }
+                                }}
+                                className="w-full rounded-md text-xl font-semibold p-2 border border-black"
+                                placeholder="Title..."
+                                disabled={loading} />
                         </div>
                         <div className="m-2">
                             <textarea
@@ -74,11 +75,12 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
                                     border: "none",
                                 }}
                                 onKeyDown={(e) => {
-                                    if(e.key === "Enter"){
+                                    if (e.key === "Enter") {
                                         handleRequest()
                                         setOpen(!open)
                                     }
                                 }}
+                                disabled={loading}
                             />
                         </div>
 
@@ -92,7 +94,8 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
                                 onClick={() => {
                                     handleRequest()
                                     setOpen(!open)
-                                }} />
+                                }}
+                            />
                         </div>
 
                     </div>
