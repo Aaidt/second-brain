@@ -240,19 +240,30 @@ export function LandingPage() {
 
                 <section ref={ref3} className="py-10">
                     <div className="container mx-auto pb-4 text-center pt-15 border-t border-black/40">
-                        <h2 className="text-6xl font-semibold italic font-playfair mb-3">Ready to upgrade your thinking?</h2><br />
-                        <p className="text-lg text-center mb-5">
-                            Join thousands of users who have transformed how they capture and connect ideas.<br /> Start for free, no credit
-                            card required.
-                        </p>
-                        <div className="flex justify-center items-center " onClick={() => navigate("/signup")}>
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}   
+                            transition={{ duration: 0.8, ease: "easeOut" }}
+                            >
+                            <h2 className="text-6xl font-semibold italic font-playfair mb-3">Ready to upgrade your thinking?</h2><br />
+                            <p className="text-lg text-center mb-5">
+                                Join thousands of users who have transformed how they capture and connect ideas.<br /> Start for free, no credit
+                                card required.
+                            </p>
+                        </motion.div>
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, ease: "easeOut" }} className="flex justify-center items-center " onClick={() => navigate("/signup")}>
                             <Button
                                 hover={true} text="Get started now"
                                 size="md" shadow={false}
                                 fullWidth={false}
                                 bg_color="black"
                             />
-                        </div>
+                        </motion.div>
                     </div>
                 </section>
             </main>

@@ -5,10 +5,10 @@ import { toast } from 'react-toastify'
 import { YoutubeIcon } from "../icons/YoutubeIcon"
 import { TwitterIcon } from "../icons/TwitterIcon"
 import { RedditIcon } from "../icons/RedditIcon"
-import { Notebook } from 'lucide-react'
-import { useState } from "react"
+// import { Notebook } from 'lucide-react'
+// import { useState } from "react"
 import { useNavigate } from 'react-router-dom'
-import { ContextModal } from "./ContextModal"
+// import { ContextModal } from "./ContextModal"
 
 interface cardPropTypes {
     title: string,
@@ -20,7 +20,7 @@ interface cardPropTypes {
 }
 
 export function CardComponent(cardProps: cardPropTypes) {
-    const [open, setOpen] = useState<boolean>(false)
+    // const [open, setOpen] = useState<boolean>(false)
     const navigate = useNavigate()
 
     const getYTEmbedLink = (url: string) => {
@@ -38,7 +38,7 @@ export function CardComponent(cardProps: cardPropTypes) {
 
     return (
         <div>
-            <ContextModal setOpen={setOpen}/>
+            {/* <ContextModal setOpen={setOpen}/> */}
             <div className={`${cardProps.type === "youtube" ? 'max-h-125' : 'undefined'} min-w-72 min-h-96 
     shadow shadow-black/30 bg-white text-black/90 rounded-md m-2 border border-black/20 font-playfair`}>
                 <div className="flex justify-between pt-4 p-3 items-center transition-all duration-300 ">
@@ -54,11 +54,11 @@ export function CardComponent(cardProps: cardPropTypes) {
                                 }} className="w-8 h-8 hover:scale-105 duration-200 transition-all" />
                                     : cardProps.type === "others" ? <Page /> : null
                         }
-                        <Notebook onClick={() => {
+                        {/* <Notebook onClick={() => {
                             setOpen(!open)
                         }}
                             strokeWidth="1.5"
-                            className="hover:scale-105 duration-200 transitiona-all" />
+                            className="hover:scale-105 duration-200 transitiona-all" /> */}
                     </div>
                     <div className="flex gap-4">
                         {(cardProps.isSharedPage === false) ? (<Delete contentId={cardProps.id} />) : null}
