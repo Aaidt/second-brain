@@ -239,7 +239,7 @@ app.post("/api/v1/second-brain/query", userMiddleware, async function (req: Requ
 });
 
 
-app.post("/api/v1/second-brain/chat-query", async function (req: Request, res: Response) {
+app.post("/api/v1/second-brain/chat-query", userMiddleware, async function (req: Request, res: Response) {
     const { query } = req.body
 
     const userId = req.userId
@@ -274,7 +274,7 @@ app.post("/api/v1/second-brain/chat-query", async function (req: Request, res: R
         Answer in a short and clear way, referring only to the thoughts above.`.trim();
 
         const response = await model.generateContent(prompt)
-        const text = await response.response.text()
+        const text = response.response.text()
 
         res.status(200).json({
             answers: text,
