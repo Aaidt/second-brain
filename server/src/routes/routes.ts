@@ -39,7 +39,7 @@ async function verifyPassword(plainPassword: string, hashedPassword: string): Pr
 }
 
 
-app.post("/api/v1/second-brain/signup", validateInput, async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/signup", validateInput, async function (req: Request, res: Response) {
     try {
         const { username, password } = req.body
 
@@ -63,7 +63,7 @@ app.post("/api/v1/second-brain/signup", validateInput, async (req: Request, res:
     }
 })
 
-app.post("/api/v1/second-brain/signin", validateInput, async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/signin", validateInput, async function (req: Request, res: Response) {
     try {
         const { username, password } = req.body
 
@@ -91,7 +91,7 @@ app.post("/api/v1/second-brain/signin", validateInput, async (req: Request, res:
     }
 })
 
-app.post("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/content", userMiddleware, async function (req: Request, res: Response) {
     const { title, link, type } = req.body;
 
     try {
@@ -109,7 +109,7 @@ app.post("/api/v1/second-brain/content", userMiddleware, async (req: Request, re
 })
 
 
-app.get("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
+app.get("/api/v1/second-brain/content", userMiddleware, async function (req: Request, res: Response) {
     try {
         const content = await ContentModel.find({
             userId: req.userId
@@ -124,7 +124,7 @@ app.get("/api/v1/second-brain/content", userMiddleware, async (req: Request, res
     }
 })
 
-app.delete("/api/v1/second-brain/content", userMiddleware, async (req: Request, res: Response) => {
+app.delete("/api/v1/second-brain/content", userMiddleware, async function (req: Request, res: Response) {
     const { contentId } = req.body;
     try {
         await ContentModel.deleteMany({
@@ -140,7 +140,7 @@ app.delete("/api/v1/second-brain/content", userMiddleware, async (req: Request, 
     }
 })
 
-app.post("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Request, res: Response) {
     const { title, thoughts } = req.body;
     const userId = req.userId
     const fullText = `${title} ${thoughts}`
@@ -191,7 +191,7 @@ app.post("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, r
 })
 
 
-app.post("/api/v1/second-brain/query", async function (req: Request, res: Response) {
+app.post("/api/v1/second-brain/query", userMiddleware, async function (req: Request, res: Response) {
     const { query } = req.body;
     if (!query || typeof query !== "string" || !query.trim()) {
         res.status(403).json({ message: "Query must be a non-empty string" })
@@ -206,7 +206,7 @@ app.post("/api/v1/second-brain/query", async function (req: Request, res: Respon
 
     try {
         const queryEmbedding = await getEmbeddingsFromGemini(query)
-        if (!queryEmbedding.length) {
+        if (!queryEmbedding) {
             res.status(500).json({ message: "Failed to generate query embedding" });
             return
         }
@@ -226,7 +226,9 @@ app.post("/api/v1/second-brain/query", async function (req: Request, res: Respon
         console.log(result);
 
         const results = result.map(r => r.payload)
-        res.status(200).json({ results })
+        res.status(200).json({
+            results
+        })
 
     } catch (err) {
         res.status(404).json({
@@ -237,7 +239,7 @@ app.post("/api/v1/second-brain/query", async function (req: Request, res: Respon
 
 
 
-app.get("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, res: Response) => {
+app.get("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Request, res: Response) {
     try {
         const thoughts = await ThoughtModel.find({
             userId: req.userId
@@ -248,7 +250,7 @@ app.get("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, re
     }
 })
 
-app.delete("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, res: Response) => {
+app.delete("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Request, res: Response) {
     const { thoughtId } = req.body;
 
     try {
@@ -263,7 +265,7 @@ app.delete("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request,
     }
 })
 
-app.post("/api/v1/second-brain/documents", userMiddleware, fileUpload.single('file'), async (req: Request, res: Response): Promise<void> => {
+app.post("/api/v1/second-brain/documents", userMiddleware, fileUpload.single('file'), async function (req: Request, res: Response): Promise<void> {
     try {
         const file = req.file as Express.Multer.File | undefined;
         const userId = (req as any).userId as string | undefined;
@@ -287,7 +289,7 @@ app.post("/api/v1/second-brain/documents", userMiddleware, fileUpload.single('fi
     }
 })
 
-app.get("/api/v1/second-brain/documents", userMiddleware, async (req: Request, res: Response) => {
+app.get("/api/v1/second-brain/documents", userMiddleware, async function (req: Request, res: Response) {
     try {
         const document = await DocumentModel.find({
             userId: req.userId
@@ -301,7 +303,7 @@ app.get("/api/v1/second-brain/documents", userMiddleware, async (req: Request, r
     }
 })
 
-app.delete("/api/v1/second-brain/documents", userMiddleware, async (req: Request, res: Response) => {
+app.delete("/api/v1/second-brain/documents", userMiddleware, async function (req: Request, res: Response) {
     const { documentId } = req.body;
 
     try {
@@ -320,7 +322,7 @@ app.delete("/api/v1/second-brain/documents", userMiddleware, async (req: Request
     }
 })
 
-app.post("/api/v1/second-brain/share", userMiddleware, async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/share", userMiddleware, async function (req: Request, res: Response) {
     const { share } = req.body;
     try {
         if (share) {
@@ -356,7 +358,7 @@ app.post("/api/v1/second-brain/share", userMiddleware, async (req: Request, res:
 
 })
 
-app.post("/api/v1/second-brain/:shareLink", async (req: Request, res: Response) => {
+app.post("/api/v1/second-brain/:shareLink", async function (req: Request, res: Response) {
     const link = req.params.shareLink
     try {
         if (!link) {
