@@ -1,12 +1,12 @@
 export function BrainIcon () {
     return <svg
-        fill="currentColor" height="45px" width="45px"
+        fill="currentColor"
         version="1.1" xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 511 511"
         xmlnsXlink="http://www.w3.org/1999/xlink"
         enableBackground="new 0 0 511 511"
         strokeWidth="1"
-        className="">
+        className="size-8">
         <g id="SVGRepo_bgCarrier" strokeWidth="1"></g>
         <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
         <g id="SVGRepo_iconCarrier">

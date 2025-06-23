@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Button } from "./Button";
+import { Button } from "../components/ui/Button";
 
 interface QueryResponse {
   results: { title: string; thoughts: string; userId: string }[];
@@ -13,27 +13,32 @@ export function QueryThoughts() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<QueryResponse["results"]>([]);
 
+
   async function handleSearch() {
+    
     if (!query.trim()) {
       toast.error("Query cannot be empty");
       return;
     }
 
     try {
-      const response = await axios.post<QueryResponse>(
-        `${BACKEND_URL}/api/v1/second-brain/query`,
-        { query },
+      const response = await axios.post<QueryResponse>(`${BACKEND_URL}/api/v1/second-brain/query`,
+        {
+          query
+        },
         {
           headers: {
-            Authorization: localStorage.getItem("authorization") || "",
-          },
-        }
-      );
+            Authorization: localStorage.getItem("authorization")
+          }
+        });
+      if (!response) {
+        toast.error('Issue with the Backend response')
+      }
 
-      setResults(response.data.results || []);
+      setResults(response.data.results);
     } catch (err) {
       console.error("Query failed:", err);
-      toast.error("Failed to query thoughts");
+      toast.error("Failed to query thoughts" + err);
     }
   }
 

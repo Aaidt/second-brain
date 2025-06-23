@@ -10,6 +10,7 @@ import { Button } from "./Button"
 import { useNavigate } from "react-router-dom"
 import { UserIcon } from "../icons/UserIcon"
 import { AcademicIcon } from "../icons/AcademicIcon"
+import { MessageCirclePlus } from "lucide-react"
 
 interface SidebarTypes {
   type?: string | undefined,
@@ -46,6 +47,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
             <p onClick={() => navigate("/")} className="pl-6 cursor-pointer">Second Brain</p>
           </div>
           <div className="pt-1">
+            <SideBarItems onClick={() => navigate("/chat")} text="Chat" icon={<MessageCirclePlus className="stroke-1" />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)}
               text={isSharedPage ? 'Shared Brain' : 'My Brain'} icon={<BrainIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")} text="Thoughts" icon={<AcademicIcon />} />

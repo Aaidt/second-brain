@@ -7,6 +7,8 @@ import { PricingPage } from "./pages/PricingPage"
 import { SharedBrainPage } from "./pages/SharedBrainPage"
 import { ProtectedRoute } from "./pages/ProtectedRoute"
 import { SidebarProvider } from "./hooks/sidebarContext"
+import { QueryThoughts } from "./pages/QueryThoughts"
+
 
 
 function App() {
@@ -32,6 +34,15 @@ function App() {
               </SidebarProvider>
             </ProtectedRoute>
           }>
+        </Route>
+        
+        <Route path="/chat"
+          element={
+            <ProtectedRoute>
+              <QueryThoughts />
+            </ProtectedRoute>
+          }>
+
         </Route>
       </Routes>
     </BrowserRouter>

@@ -223,7 +223,7 @@ app.post("/api/v1/second-brain/query", userMiddleware, async function (req: Requ
             }
         })
 
-        console.log(result);
+        console.log(result.score);
 
         const results = result.map(r => r.payload)
         res.status(200).json({
