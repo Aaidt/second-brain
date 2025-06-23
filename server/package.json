@@ -10,7 +10,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^5.22.0",
+    "@qdrant/js-client-rest": "^1.14.1",
     "@types/axios": "^0.9.36",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",

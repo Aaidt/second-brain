@@ -44,7 +44,7 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
     }
 
     return (open &&
-        <div onClick={() => {
+        <div onClick={() => { 
             setOpen(!open)
         }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 z-50 flex justify-center items-center">
             <div className="flex justify-center items-center h-screen pb-10">
@@ -60,7 +60,7 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
                                         textareaRef.current?.focus()
                                     }
                                 }}
-                                className="w-full rounded-md text-xl font-semibold p-2 border border-black"
+                                className="w-full rounded-md text-xl font-semibold p-2 border border-black "
                                 placeholder="Title..."
                                 disabled={loading} />
                         </div>
@@ -69,7 +69,7 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
                                 ref={textareaRef}
                                 value={value}
                                 onChange={(e) => setValue(e.target.value)}
-                                className="w-[900px] resize-none overflow-hidden bg-transparent outline-none text-xl leading-relaxed"
+                                className="w-[900px] resize-none overflow-hidden  bg-transparent outline-none text-xl leading-relaxed"
                                 placeholder="Start typing..."
                                 style={{
                                     border: "none",
@@ -85,7 +85,7 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
                         </div>
 
                         <div className="font-bold pr-3">
-                            <Button
+                            <Button 
                                 loading={loading}
                                 hover={false} shadow={false}
                                 size="md" text="Submit"

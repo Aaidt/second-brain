@@ -8,6 +8,8 @@ import { validateInput } from "../middleware/validateInput"
 import { userMiddleware } from "../middleware/userMiddleware"
 import { fileUpload } from "../middleware/fileUpload"
 import jwt from 'jsonwebtoken';
+import { getEmbeddingsFromGemini } from '../utils/src/client'
+import { qdrantClient } from '../utils/src/qdrant'
 
 
 dotenv.config();
@@ -44,7 +46,7 @@ app.post("/api/v1/second-brain/signup", validateInput, async (req: Request, res:
             username: username,
             password: hashedPassword
         })
-        
+
         const token = jwt.sign({ id: user._id }, process.env.JWT_PASSWORD as string, { expiresIn: "1h" })
         res.json({ token })
 
@@ -138,18 +140,48 @@ app.delete("/api/v1/second-brain/content", userMiddleware, async (req: Request, 
 
 app.post("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, res: Response) => {
     const { title, thoughts } = req.body;
+    const userId = req.userId
+    const fullText = `${title} ${thoughts}`
+
+    if (!title || !thoughts || !userId) {
+        res.status(400).json({ message: "Title, thoughts, and userId are required" });
+        return
+    }
 
     try {
-        await ThoughtModel.create({
+        const saved = await ThoughtModel.create({
             title: title,
             thoughts: thoughts,
-            userId: req.userId
+            userId: userId
+        });
+
+        const vector = await getEmbeddingsFromGemini(fullText)
+        if (!vector) {
+            res.status(400).json({
+                message: "No vector embeddings recieved."
+            });
+            return
+        }
+
+        await qdrantClient.upsert('thoughts', {
+            points: [
+                {
+                    id: saved._id.toString(),
+                    vector,
+                    payload: {
+                        title,
+                        thoughts,
+                        userId: userId!.toString()
+                    }
+                }
+            ]
         })
+
         res.status(200).json({ message: "Successfully added the thought." })
 
     } catch (err) {
         console.log(err);
-        res.status(403).json({ message: "Thought not added. Something went wrong", error: err })
+        res.status(403).json({ message: "Content not added. Something went wrong", error: err })
     }
 })
 
