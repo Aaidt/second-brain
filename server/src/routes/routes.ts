@@ -10,7 +10,9 @@ import { fileUpload } from "../middleware/fileUpload"
 import jwt from 'jsonwebtoken';
 import { getEmbeddingsFromGemini } from '../utils/src/client'
 import { qdrantClient } from '../utils/src/qdrant'
+import { v5 as uuidv5 } from 'uuid'
 
+const NAMESPACE = "550e8400-e29b-41d4-a716-446655440000"
 
 dotenv.config();
 app.use(express.json());
@@ -163,15 +165,18 @@ app.post("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, r
             return
         }
 
+        const pointId = uuidv5(saved._id.toString(), NAMESPACE);
+
         await qdrantClient.upsert('thoughts', {
             points: [
                 {
-                    id: saved._id.toString(),
+                    id: pointId,
                     vector,
                     payload: {
                         title,
                         thoughts,
-                        userId: userId!.toString()
+                        userId: userId!.toString(),
+                        mongoId: saved._id.toString()
                     }
                 }
             ]
@@ -203,7 +208,7 @@ app.post("/api/v1/second-brain/query", async function (req: Request, res: Respon
         const queryEmbedding = await getEmbeddingsFromGemini(query)
         if (!queryEmbedding.length) {
             res.status(500).json({ message: "Failed to generate query embedding" });
-            return 
+            return
         }
 
         const result = await qdrantClient.search("thoughts", {

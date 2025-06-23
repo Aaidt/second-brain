@@ -101,7 +101,7 @@ export function LandingPage() {
                                 transition={{ duration: 0.8, ease: "easeOut" }}
                                 onClick={() => navigate("/dashboard")}>
                                 <Button
-                                    hover={true} text="Take a tour"
+                                    hover={true} text="Go to dashboard"
                                     startIcon={<ArrowRight className="ml-2 h-5 w-5" />}
                                     size="lg" shadow={false}
                                     fullWidth={false}

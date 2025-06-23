@@ -1,1 +1,1 @@
-{"root":["./src/override.d.ts","./src/db/db.ts","./src/middleware/fileUpload.ts","./src/middleware/userMiddleware.ts","./src/middleware/validateInput.ts","./src/routes/routes.ts"],"version":"5.8.2"}
+{"root":["./src/override.d.ts","./src/db/db.ts","./src/middleware/fileUpload.ts","./src/middleware/userMiddleware.ts","./src/middleware/validateInput.ts","./src/routes/routes.ts","./src/utils/src/client.ts","./src/utils/src/qdrant.ts"],"version":"5.8.2"}
