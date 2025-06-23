@@ -7,7 +7,7 @@ if (!GEMINI_API_KEY) {
     throw new Error('Gemini api key not provided.')
 }
 
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY!)
+export const genAI = new GoogleGenerativeAI(GEMINI_API_KEY!)
 
 export async function getEmbeddingsFromGemini(text: string): Promise<number[]> {
     try {

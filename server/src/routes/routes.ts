@@ -10,6 +10,7 @@ import { fileUpload } from "../middleware/fileUpload"
 import jwt from 'jsonwebtoken';
 import { getEmbeddingsFromGemini } from '../utils/src/client'
 import { qdrantClient } from '../utils/src/qdrant'
+import { genAI } from "../utils/src/client"
 import { v5 as uuidv5 } from 'uuid'
 
 const NAMESPACE = "550e8400-e29b-41d4-a716-446655440000"
@@ -223,7 +224,7 @@ app.post("/api/v1/second-brain/query", userMiddleware, async function (req: Requ
             }
         })
 
-        console.log(result.score);
+        // console.log(result.score);
 
         const results = result.map(r => r.payload)
         res.status(200).json({
@@ -234,6 +235,55 @@ app.post("/api/v1/second-brain/query", userMiddleware, async function (req: Requ
         res.status(404).json({
             message: "Error saving thoughts: " + err
         })
+    }
+});
+
+
+app.post("/api/v1/second-brain/chat-query", async function (req: Request, res: Response) {
+    const { query } = req.body
+
+    const userId = req.userId
+    if (!userId) {
+        res.status(401).json({ message: "User is not authenticated." })
+        return
+    }
+
+    try {
+        const queryEmbedding = await getEmbeddingsFromGemini(query);
+
+        const result = await qdrantClient.search('thoughts', {
+            vector: queryEmbedding,
+            limit: 5,
+            filter: {
+                must: [{ key: "userId", match: { value: userId!.toString() } }]
+            }
+        });
+
+        const retrievedTexts = result.map(r => `${r.payload?.title ?? ""}: ${r.payload?.thoughts ?? ""}`).join("\n");
+        if (!retrievedTexts) {
+            res.status(404).json({
+                message: 'No results found.'
+            });
+        }
+
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+        const prompt = `You are a helpful assistant. The user has saved some personal notes. Use the following thoughts
+        to answer their question.
+        Thoughts: ${retrievedTexts}
+        User question: ${query}
+        Answer in a short and clear way, referring only to the thoughts above.`.trim();
+
+        const response = await model.generateContent(prompt)
+        const text = await response.response.text()
+
+        res.status(200).json({
+            answers: text,
+            references: result.map(r => r.payload)
+        })
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error generating answer", error: err });
     }
 })
 
