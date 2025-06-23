@@ -158,7 +158,7 @@ app.post("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, r
         const vector = await getEmbeddingsFromGemini(fullText)
         if (!vector) {
             res.status(400).json({
-                message: "No vector embeddings recieved."
+                message: "No vector embeddings processed."
             });
             return
         }
@@ -184,6 +184,53 @@ app.post("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, r
         res.status(403).json({ message: "Content not added. Something went wrong", error: err })
     }
 })
+
+
+app.post("/api/v1/second-brain/query", async function (req: Request, res: Response) {
+    const { query } = req.body;
+    if (!query || typeof query !== "string" || !query.trim()) {
+        res.status(403).json({ message: "Query must be a non-empty string" })
+        return
+    }
+
+    const userId = req.userId
+    if (!userId) {
+        res.status(401).json({ message: "User is not authenticated." })
+        return
+    }
+
+    try {
+        const queryEmbedding = await getEmbeddingsFromGemini(query)
+        if (!queryEmbedding.length) {
+            res.status(500).json({ message: "Failed to generate query embedding" });
+            return 
+        }
+
+        const result = await qdrantClient.search("thoughts", {
+            vector: queryEmbedding,
+            limit: 5,
+            filter: {
+                must: [
+                    {
+                        key: "userId", match: { value: userId.toString() }
+                    }
+                ]
+            }
+        })
+
+        console.log(result);
+
+        const results = result.map(r => r.payload)
+        res.status(200).json({ results })
+
+    } catch (err) {
+        res.status(404).json({
+            message: "Error saving thoughts: " + err
+        })
+    }
+})
+
+
 
 app.get("/api/v1/second-brain/thoughts", userMiddleware, async (req: Request, res: Response) => {
     try {
