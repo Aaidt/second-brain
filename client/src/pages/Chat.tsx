@@ -70,16 +70,16 @@ export function Chat() {
                 </div>
             </div>
 
-            <div className="flex flex-col h-full">
-                <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 bg-[#f7f7f8]">
+            <div className="flex flex-col h-full overflow-y-auto">
+                <div className="flex-1  px-6 py-4 space-y-4 bg-[#f7f7f8]">
                     {messages.map((msg, i) => (
                         <div
                             key={i}
                             className={`
-                                max-w-2xl rounded-lg p-4 whitespace-pre-wrap shadow-sm border
+                                rounded-lg p-4 whitespace-pre-wrap shadow-sm border
                                 ${msg.sender === "user"
-                                    ? "bg-white self-end border-gray-300"
-                                    : "bg-gray-200 self-start border-gray-300"
+                                    ? "bg-white ml-auto border-gray-300 max-w-sm"
+                                    : "bg-gray-200 mr-auto border-gray-300 max-w-2xl"
                                 }
                             `}
                         >
@@ -89,7 +89,7 @@ export function Chat() {
                     <div ref={messagesEndRef} />
                 </div>
 
-                <div className="border-t border-gray-300 bg-white p-3">
+                <div className="border-t border-gray-300 bg-white p-3 sticky bottom-0">
                     <div className="flex gap-2 max-w-4xl mx-auto">
                         <div className="w-full flex items-center">
                             <input
