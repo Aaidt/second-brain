@@ -11,14 +11,14 @@ type Message = {
 
 interface axiosResponse {
     answers: string,
-    references: { payload: string }[]
+    references: { title: string; thoughts: string }[]
 }
+
 export function Chat() {
     const [query, setQuery] = useState('');
     const [messages, setMessages] = useState<Message[]>([]);
     const [references, setReferences] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
-
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
@@ -57,53 +57,60 @@ export function Chat() {
     };
 
     return (
-        <div className="flex flex-col h-screen w-screen bg-[#f7f7f8]">
-
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
-                {messages.map((msg, i) => (
-                    <div key={i} className={`max-w-xl mx-auto px-4 py-3 rounded-md whitespace-pre-wrap 
-                        ${msg.sender === "user" ? "bg-white self-end border border-gray-300"
-                            : "bg-gray-200/70 self-start"
-                        }`}>
-                        {msg.content}
-                    </div>
-                ))}
-                <div ref={messagesEndRef} />
+        <div className="h-screen w-screen grid grid-cols-[320px_1fr] overflow-hidden">
+            <div className="bg-white border-r border-gray-300 overflow-y-auto p-4">
+                <h3 className="font-semibold mb-2 text-gray-700">Sources from your thoughts:</h3>
+                <div className="space-y-4 pr-2">
+                    {references.map((ref, idx) => (
+                        <div key={idx} className="bg-gray-50 border rounded-md p-3 shadow-sm">
+                            <strong className="block mb-1">{ref.title}</strong>
+                            <p className="text-sm text-gray-700 whitespace-pre-wrap">{ref.thoughts}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            {references.length > 0 && (
-                <div className="fixed top-0 left-0 max-w-1/4 bg-white border-r border-gray-300 p-4">
-                    <h3 className="font-semibold mb-2 text-gray-700">Sources from your thoughts:</h3>
-                    <div className="space-y-2">
-                        {references.map((ref, idx) => (
-                            <div key={idx} className="bg-gray-50 border rounded p-3">
-                                <strong>{ref.title}</strong>
-                                <p className="text-sm text-gray-700">{ref.thoughts}</p>
-                            </div>
-                        ))}
-                    </div>
+            <div className="flex flex-col h-full">
+                <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 bg-[#f7f7f8]">
+                    {messages.map((msg, i) => (
+                        <div
+                            key={i}
+                            className={`
+                                max-w-2xl rounded-lg p-4 whitespace-pre-wrap shadow-sm border
+                                ${msg.sender === "user"
+                                    ? "bg-white self-end border-gray-300"
+                                    : "bg-gray-200 self-start border-gray-300"
+                                }
+                            `}
+                        >
+                            {msg.content}
+                        </div>
+                    ))}
+                    <div ref={messagesEndRef} />
                 </div>
-            )}
 
-            <div className="w-full z-50 border-t border-gray-300 bg-white p-4 sticky bottom-0">
-                <div className="flex gap-2 max-w-4xl mx-auto">
-                    <input
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && handleChatQuery()}
-                        className="flex-1 px-4 py-2 border border-gray-400/70 rounded-md text-base"
-                        placeholder="Ask your second brain anything..."
-                        disabled={loading}
-                    />
-                    <div className="-translate-y-1">
-                        <Button
-                            size="md"
-                            bg_color="black"
-                            fullWidth={false}
-                            onClick={handleChatQuery}
-                            loading={loading}
-                            text={<SendHorizontal size={18} />}
-                        />
+                <div className="border-t border-gray-300 bg-white p-3">
+                    <div className="flex gap-2 max-w-4xl mx-auto">
+                        <div className="w-full flex items-center">
+                            <input
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                onKeyDown={(e) => e.key === "Enter" && handleChatQuery()}
+                                className="flex-1 px-4 py-2 border w-full border-gray-400/70 rounded-md text-base"
+                                placeholder="Ask your second brain anything..."
+                                disabled={loading}
+                            />
+                        </div>
+                        <div className="-translate-y-1">
+                            <Button
+                                size="md"
+                                bg_color="black"
+                                fullWidth={false}
+                                onClick={handleChatQuery}
+                                loading={loading}
+                                text={<SendHorizontal size={18} />}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
