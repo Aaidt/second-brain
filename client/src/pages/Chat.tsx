@@ -1,8 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { SendHorizontal } from "lucide-react";
+import { SendHorizontal, House } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom"
+import { motion } from "framer-motion"
+
 
 type Message = {
     sender: "user" | "ai";
@@ -15,6 +18,7 @@ interface axiosResponse {
 }
 
 export function Chat() {
+    const navigate = useNavigate()
     const [query, setQuery] = useState('');
     const [messages, setMessages] = useState<Message[]>([]);
     const [references, setReferences] = useState<any[]>([]);
@@ -58,22 +62,40 @@ export function Chat() {
 
     return (
         <div className="h-screen w-screen grid grid-cols-[320px_1fr] overflow-hidden">
-            <div className="bg-white border-r border-gray-300 overflow-y-auto p-4">
+            <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="bg-white border-r border-gray-300 overflow-y-auto p-4">
+                <div>
+                    <House
+                        className="mb-3 hover:-translate-y-1 duration-200 transition-all"
+                        onClick={() => navigate("/dashboard")} />
+                </div>
                 <h3 className="font-semibold mb-2 text-gray-700">Sources from your thoughts:</h3>
-                <div className="space-y-4 pr-2">
+                <motion.div
+                    initial={{ opacity: 0, y: -40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }} className="space-y-4 pr-2">
                     {references.map((ref, idx) => (
                         <div key={idx} className="bg-gray-50 border rounded-md p-3 shadow-sm">
                             <strong className="block mb-1">{ref.title}</strong>
                             <p className="text-sm text-gray-700 whitespace-pre-wrap">{ref.thoughts}</p>
                         </div>
                     ))}
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
 
             <div className="flex flex-col h-full overflow-y-auto">
                 <div className="flex-1  px-6 py-4 space-y-4 bg-[#f7f7f8]">
                     {messages.map((msg, i) => (
-                        <div
+                        <motion.div
+                            initial={{ opacity: 0, y: -40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4 }}
                             key={i}
                             className={`
                                 rounded-lg p-4 whitespace-pre-wrap shadow-sm border
@@ -84,12 +106,16 @@ export function Chat() {
                             `}
                         >
                             {msg.content}
-                        </div>
+                        </motion.div>
                     ))}
                     <div ref={messagesEndRef} />
                 </div>
 
-                <div className="border-t border-gray-300 bg-white p-3 sticky bottom-0">
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }} className="border-t border-gray-300 bg-white p-3 sticky bottom-0">
                     <div className="flex gap-2 max-w-4xl mx-auto">
                         <div className="w-full flex items-center">
                             <input
@@ -112,7 +138,7 @@ export function Chat() {
                             />
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </div>
     );
