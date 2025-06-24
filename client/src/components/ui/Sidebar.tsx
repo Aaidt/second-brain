@@ -44,7 +44,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
       {!sidebarClose && (
         <>
           <div className="flex font-bold font-playfair text-5xl items-center">
-            <p onClick={() => navigate("/")} className="pl-6 cursor-pointer">Second Brain</p>
+            <p onClick={() => navigate("/")} className="pl-6 pt-1 cursor-pointer">Second Brain</p>
           </div>
           <div className="pt-3">
             <SideBarItems onClick={() => navigate("/chat")} text="Chat" icon={<MessageCirclePlus className="stroke-1" />} />
