@@ -14,15 +14,15 @@ export const qdrantClient = new QdrantClient({
     apiKey: QDRANT_API_KEY
 });
 
-async function fetch() {
-    try {
-        const result = await qdrantClient.getCollections();
-        console.log('List of collections:', result.collections);
-    } catch (err) {
-        console.error('Could not get collections:', err);
-    }
-}
-fetch()
+// async function fetch() {
+//     try {
+//         const result = await qdrantClient.getCollections();
+//         console.log('List of collections:', result.collections);
+//     } catch (err) {
+//         console.error('Could not get collections:', err);
+//     }
+// }
+// fetch()
 
 // import { QdrantClient } from '@qdrant/js-client-rest'
 

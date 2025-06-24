@@ -34,7 +34,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
         }`}
     >
       <div
-        className={`p-3 hover:scale-105 cursor-pointer transition-transform duration-200 ${sidebarClose ? "text-center" : ""
+        className={`pt-3 pl-3 hover:scale-105 cursor-pointer transition-transform duration-200 ${sidebarClose ? "text-center" : ""
           }`}
         onClick={() => setSidebarClose(!sidebarClose)}
       >
@@ -46,7 +46,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
           <div className="flex font-bold font-playfair text-5xl items-center">
             <p onClick={() => navigate("/")} className="pl-6 cursor-pointer">Second Brain</p>
           </div>
-          <div className="pt-1">
+          <div className="pt-3">
             <SideBarItems onClick={() => navigate("/chat")} text="Chat" icon={<MessageCirclePlus className="stroke-1" />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)}
               text={isSharedPage ? 'Shared Brain' : 'My Brain'} icon={<BrainIcon />} />

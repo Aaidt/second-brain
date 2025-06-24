@@ -214,7 +214,7 @@ app.post("/api/v1/second-brain/query", userMiddleware, async function (req: Requ
 
         const result = await qdrantClient.search("thoughts", {
             vector: queryEmbedding,
-            limit: 5,
+            limit: 2,
             filter: {
                 must: [
                     {
@@ -253,7 +253,7 @@ app.post("/api/v1/second-brain/chat-query", userMiddleware, async function (req:
 
         const result = await qdrantClient.search('thoughts', {
             vector: queryEmbedding,
-            limit: 5,
+            limit: 2,
             filter: {
                 must: [{ key: "userId", match: { value: userId!.toString() } }]
             }
@@ -271,7 +271,7 @@ app.post("/api/v1/second-brain/chat-query", userMiddleware, async function (req:
         to answer their question.
         Thoughts: ${retrievedTexts}
         User question: ${query}
-        Answer in a precise, brief and clear way, referring only to the thoughts above.`.trim();
+        Answer in a brief and clear way, referring only to the thoughts above.`.trim();
 
         const response = await model.generateContent(prompt)
         const text = response.response.text()
@@ -288,7 +288,6 @@ app.post("/api/v1/second-brain/chat-query", userMiddleware, async function (req:
 })
 
 
-
 app.get("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Request, res: Response) {
     try {
         const thoughts = await ThoughtModel.find({
@@ -302,16 +301,41 @@ app.get("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Re
 
 app.delete("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Request, res: Response) {
     const { thoughtId } = req.body;
+    const userId = req.userId;
+
+    if (!thoughtId?.trim() || !userId) {
+        res.status(400).json({ message: "thoughtId and userId required" });
+        return
+    }
 
     try {
         await ThoughtModel.deleteOne({
             _id: thoughtId,
             userId: req.userId
         })
+
+        const point_id = uuidv5(thoughtId, NAMESPACE);
+        await qdrantClient.delete('thoughts', {
+            // filter: {
+            //     must: [
+            //         {
+            //             key: "id",
+            //             match: {
+            //                 value: point_id
+            //             }
+            //         }
+            //     ]
+            // }
+            points: [point_id]
+        })
+
         res.status(200).json({ message: "Deleted successfully." })
     } catch (err) {
-        console.log(err);
-        res.json({ err })
+        console.error("Error deleting thought:", err);
+        res.status(500).json({
+            message: "Failed to delete thought",
+            error: (err as Error).message
+        });
     }
 })
 
