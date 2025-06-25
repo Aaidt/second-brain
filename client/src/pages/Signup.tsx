@@ -36,11 +36,11 @@ export function Signup() {
             const jwt = response.data.token as string
             localStorage.setItem("authorization", jwt)
             
-            toast.success("You have successfully signed-up!!!!✅");
+            toast.success("You have successfully signed-up!!!!");
             navigate("/dashboard");
             setLoading(false)
         } catch (err) {
-            toast.error("Something went wrong. Please try again.❌")
+            toast.error("Something went wrong. Please try again.")
             console.log(err)
             setLoading(false)
         }

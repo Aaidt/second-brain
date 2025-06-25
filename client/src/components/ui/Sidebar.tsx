@@ -30,7 +30,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
     <div
       className={`h-full min-h-screen bg-white border border-black/20 text-black/90 border-black shadow shadow-black/20
          transition-all duration-300 ease-in-out overflow-hidden 
-        ${sidebarClose ? "w-15" : "w-70"
+        ${sidebarClose ? "w-15" : "w-65"
         }`}
     >
       <div
@@ -43,8 +43,8 @@ export function Sidebar(sidebarProps: SidebarTypes) {
 
       {!sidebarClose && (
         <>
-          <div className="flex font-bold font-playfair text-5xl items-center">
-            <p onClick={() => navigate("/")} className="pl-6 pt-1 cursor-pointer">Second Brain</p>
+          <div className="flex font-bold font-playfair items-center">
+            <p onClick={() => navigate("/")} className="pl-6  text-4xl pt-1 cursor-pointer">Second <br /> Brain</p>
           </div>
           <div className="pt-3">
             <SideBarItems onClick={() => navigate("/chat")} text="Chat" icon={<MessageCirclePlus className="stroke-1" />} />

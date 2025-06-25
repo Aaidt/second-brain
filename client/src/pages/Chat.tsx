@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { SendHorizontal, House, ChevronDown } from "lucide-react";
+import { SendHorizontal, Brain, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom"
@@ -63,7 +63,7 @@ export function Chat() {
 
     return (
         <div className="h-screen w-screen grid grid-cols-[320px_1fr] overflow-hidden">
-            <div className="bg-black/95 text-white border-r border-black/30 overflow-y-auto p-4">
+            <div className="bg-white/95 border-r border-black/30 overflow-y-auto p-4">
                 <motion.div
                     initial={{ opacity: 0, y: -40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -71,11 +71,11 @@ export function Chat() {
                     transition={{ duration: 0.5 }}
                 >
                     <div>
-                        <House
+                        <Brain
                             className="mb-3 hover:-translate-y-1 duration-200 transition-all size-5"
                             onClick={() => navigate("/dashboard")} />
                     </div>
-                    <h3 className="font-semibold mb-2 text-gray-400">Sources from your thoughts:</h3>
+                    <h3 className="font-semibold mb-2 text-gray-800">Sources from your thoughts:</h3>
                     <motion.div
                         initial={{ opacity: 0, y: -40 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -106,19 +106,19 @@ export function Chat() {
             </div>
 
             <div className="flex flex-col h-full overflow-y-auto">
-                <div className="flex-1  px-6 py-4 space-y-4 bg-black/90">
+                <div className="flex-1  px-6 py-4 space-y-4 bg-white/90">
                     {messages.map((msg, i) => (
                         <motion.div
-                            initial={{ opacity: 0, y: -40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.4 }}
                             key={i}
                             className={`
-                                rounded-lg p-4 whitespace-pre-wrap border
+                                rounded-lg p-4 whitespace-pre-wrap border text-white
                                 ${msg.sender === "user"
-                                    ? "bg-white/90 ml-auto border-black/30 max-w-sm"
-                                    : "bg-white/70 mr-auto border-black/30 max-w-2xl"
+                                    ? "bg-black/80 ml-auto  border-r-6 border-r-green-600 max-w-sm"
+                                    : "bg-black/80 mr-auto border-l-6 border-l-red-800  max-w-2xl"
                                 }
                             `}
                         >
@@ -128,9 +128,9 @@ export function Chat() {
                     <div ref={messagesEndRef} />
                 </div>
 
-                <div className="border-t border-black/30 bg-black/95 text-white p-3 sticky bottom-0">
+                <div className=" bg-white/95 p-3 sticky bottom-0">
                     <motion.div
-                        initial={{ opacity: 0, y: -40 }}
+                        initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }} >
@@ -140,7 +140,7 @@ export function Chat() {
                                     value={query}
                                     onChange={(e) => setQuery(e.target.value)}
                                     onKeyDown={(e) => e.key === "Enter" && handleChatQuery()}
-                                    className="flex-1 px-4 py-2 border w-full border-gray-400/70 rounded-md text-base"
+                                    className="flex-1 px-4 py-2 border-2 w-full border-gray-400 rounded-md text-base"
                                     placeholder="Ask your second brain anything..."
                                     disabled={loading}
                                 />
@@ -148,7 +148,7 @@ export function Chat() {
                             <div className="-translate-y-1">
                                 <Button
                                     size="md"
-                                    bg_color="white"
+                                    bg_color="black"
                                     fullWidth={false}
                                     onClick={handleChatQuery}
                                     loading={loading}

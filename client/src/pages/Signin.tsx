@@ -35,11 +35,11 @@ export function Signin() {
             });
             const jwt = response.data.token as string
             localStorage.setItem("authorization", jwt)
-            toast.success("You have successfully signed-in!!!!✅");
+            toast.success("You have successfully signed-in!!!!");
             navigate("/dashboard");
             setLoading(false)
         } catch (err) {
-            toast.error("Something went wrong. Please try again.❌")
+            toast.error("Something went wrong. Please try again.")
             setLoading(false)
             console.log(err)
         }

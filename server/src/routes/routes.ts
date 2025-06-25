@@ -271,7 +271,9 @@ app.post("/api/v1/second-brain/chat-query", userMiddleware, async function (req:
         to answer their question.
         Thoughts: ${retrievedTexts}
         User question: ${query}
-        Answer in a brief and clear way, referring only to the thoughts above.`.trim();
+        Answer in a precise and clear way and refer the thoughts above only when the queries are relevant to it.
+        If the queries are not relevant, answer on your own.
+        `.trim();
 
         const response = await model.generateContent(prompt)
         const text = response.response.text()

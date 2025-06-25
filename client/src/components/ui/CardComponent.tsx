@@ -40,7 +40,7 @@ export function CardComponent(cardProps: cardPropTypes) {
         <div>
             {/* <ContextModal setOpen={setOpen}/> */}
             <div className={`${cardProps.type === "youtube" ? 'max-h-125' : 'undefined'} min-w-72 min-h-96 
-    shadow shadow-black/30 bg-white text-black/90 rounded-md m-2 border border-black/20 font-playfair`}>
+    shadow shadow-black/45 bg-white text-black/90 rounded-md m-2 border border-black/30 font-playfair`}>
                 <div className="flex justify-between pt-4 p-3 items-center transition-all duration-300 ">
                     <div className="flex justify-center items-center gap-2">
                         {cardProps.type === "youtube" ? <YoutubeIcon onClick={() => {

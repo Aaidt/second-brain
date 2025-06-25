@@ -22,9 +22,9 @@ export function FileUploader({ open, setOpen }: docModal) {
 
     const Result = ({ status }: { status: string }) => {
         if (status === "success") {
-            return <p className="text-black">✅ File uploaded sucessfully!!!</p>
+            return <p className="text-black">File uploaded sucessfully!!!</p>
         } else if (status === "fail") {
-            return <p className="text-black">❌ File upload failed!</p>
+            return <p className="text-black">File upload failed!</p>
         } else if (status === "uploading") {
             return <p className="text-black">⌛ File is being uploaded...</p>
         }
