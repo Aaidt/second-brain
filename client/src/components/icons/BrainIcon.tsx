@@ -5,7 +5,7 @@ export function BrainIcon () {
         viewBox="0 0 511 511"
         xmlnsXlink="http://www.w3.org/1999/xlink"
         enableBackground="new 0 0 511 511"
-        strokeWidth="1"
+        strokeWidth="2"
         className="size-8">
         <g id="SVGRepo_bgCarrier" strokeWidth="1"></g>
         <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>

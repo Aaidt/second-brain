@@ -44,10 +44,10 @@ export function Sidebar(sidebarProps: SidebarTypes) {
       {!sidebarClose && (
         <>
           <div className="flex font-bold font-playfair items-center">
-            <p onClick={() => navigate("/")} className="pl-6  text-4xl pt-1 cursor-pointer">Second <br /> Brain</p>
+            <p onClick={() => navigate("/")} className="pl-6 font-medium text-4xl pt-1 cursor-pointer">Second <br /> Brain</p>
           </div>
-          <div className="pt-3">
-            <SideBarItems onClick={() => navigate("/chat")} text="Chat" icon={<MessageCirclePlus className="stroke-1" />} />
+          <div className="pt-2">
+            <SideBarItems onClick={() => navigate("/chat")} text="Chat" icon={<MessageCirclePlus className="m-1 stroke-1" />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)}
               text={isSharedPage ? 'Shared Brain' : 'My Brain'} icon={<BrainIcon />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")} text="Thoughts" icon={<AcademicIcon />} />
