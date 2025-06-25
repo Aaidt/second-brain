@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { SendHorizontal, Brain, ChevronDown } from "lucide-react";
+import { SendHorizontal, Brain, ChevronDown, PanelLeftClose, PanelRightClose } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
+import ReactMarkdown from 'react-markdown'
 
 
 type Message = {
@@ -25,6 +26,7 @@ export function Chat() {
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [openIndex, setOpenIndex] = useState<number | null>(null)
+    const [isClosed, setIsClosed] = useState<boolean>(false)
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -63,53 +65,65 @@ export function Chat() {
 
     return (
         <div className="h-screen w-screen grid grid-cols-[320px_1fr] overflow-hidden">
-            <div className="bg-white/95 border-r border-black/30 overflow-y-auto p-4">
-                <motion.div
-                    initial={{ opacity: 0, y: -40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <div
-                        className="mb-3 flex gap-1 items-center"
-                        onClick={() => navigate("/dashboard")}>
-                        <Brain
-                            className=" hover:-translate-y-1 duration-200 transition-all size-5 cursor-pointer"
-                        />
-                        <p className="font-medium text-xl cursor-pointer">Second Brain</p>
-                    </div>
-                    <h3 className="font-semibold mb-2 text-gray-800">Sources from your thoughts:</h3>
+            <div className={`bg-white border-r border-black/30 overflow-y-auto p-4 duration-200 transition-all
+                    ${isClosed ? 'w-15' : 'w-75'}
+                `}>
+                {isClosed ? <PanelRightClose
+                    className="hover:translate-x-1 duration-200 transition-all cursor-pointer"
+                    onClick={() => setIsClosed(false)} /> :
                     <motion.div
-                        initial={{ opacity: 0, y: -40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, x: -40 }}
+                        whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.8 }} className="space-y-4 pr-2">
-                        {references.map((ref, idx) => (
-
-                            <div key={idx} className="bg-gray-100 border text-black rounded-md p-3 shadow-sm">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="block mb-1 font-medium">{ref.title}</h3>
-                                    <ChevronDown onClick={() => {
-                                        setOpenIndex(openIndex === idx ? null : idx)
-                                    }} className="size-5" />
-                                </div>
-                                {openIndex === idx &&
-                                    <motion.div
-                                        initial={{ opacity: 0, y: -40 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 0.2 }}
-                                        className="text-sm text-gray-700 whitespace-pre-wrap">
-                                        {ref.thoughts}
-                                    </motion.div>}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <div className="flex justify-between">
+                            <div
+                                className="mb-6  flex gap-1 items-center"
+                                onClick={() => navigate("/dashboard")}>
+                                <Brain
+                                    className="size-5 cursor-pointer"
+                                />
+                                <p className="font-medium text-xl cursor-pointer">Second Brain</p>
                             </div>
-                        ))}
+
+                            <PanelLeftClose
+                                className="hover:-translate-x-1 duration-200 transition-all cursor-pointer"
+                                onClick={() => setIsClosed(true)} />
+                        </div>
+                        <h3 className="font-semibold mb-2 text-gray-800">Sources from your thoughts:</h3>
+                        <motion.div
+                            initial={{ opacity: 0, y: -40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.3 }} className="space-y-4 pr-2">
+                            {references.map((ref, idx) => (
+
+                                <div key={idx} className="bg-gray-100 border text-black rounded-md p-3 shadow-sm">
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="block mb-1 font-medium">{ref.title}</h3>
+                                        <ChevronDown onClick={() => {
+                                            setOpenIndex(openIndex === idx ? null : idx)
+                                        }} className="size-5" />
+                                    </div>
+                                    {openIndex === idx &&
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -40 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.2 }}
+                                            className="text-sm text-gray-700 whitespace-pre-wrap">
+                                            {ref.thoughts}
+                                        </motion.div>}
+                                </div>
+                            ))}
+                        </motion.div>
                     </motion.div>
-                </motion.div>
+                }
             </div>
 
             <div className="flex flex-col h-full overflow-y-auto">
-                <div className="flex-1  px-6 py-4 space-y-4 bg-white/90">
+                <div className="flex-1  px-6 py-4 space-y-4 bg-white">
                     {messages.map((msg, i) => (
                         <motion.div
                             initial={{ opacity: 0 }}
@@ -120,24 +134,24 @@ export function Chat() {
                             className={`
                                 rounded-lg p-4 whitespace-pre-wrap border text-white
                                 ${msg.sender === "user"
-                                    ? "bg-black/80 ml-auto  border-r-6 border-r-green-600 max-w-sm"
+                                    ? "bg-black/80 ml-auto border-r-6 border-r-green-600 max-w-sm"
                                     : "bg-black/80 mr-auto border-l-6 border-l-red-800  max-w-2xl"
                                 }
                             `}
                         >
-                            {msg.content}
+                            <ReactMarkdown>{msg.content}</ReactMarkdown>
                         </motion.div>
                     ))}
                     <div ref={messagesEndRef} />
                 </div>
 
-                <div className=" bg-white/95 p-3 sticky bottom-0">
+                <div className='bg-white p-3 sticky bottom-0'>
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }} >
-                        <div className="flex gap-2 max-w-4xl mx-auto">
+                        <div className="flex gap-2 max-w-4xl">
                             <div className="w-full flex items-center">
                                 <input
                                     value={query}

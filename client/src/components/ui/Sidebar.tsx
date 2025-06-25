@@ -10,7 +10,7 @@ import { Button } from "./Button"
 import { useNavigate } from "react-router-dom"
 import { UserIcon } from "../icons/UserIcon"
 import { AcademicIcon } from "../icons/AcademicIcon"
-import { MessageCirclePlus } from "lucide-react"
+import { MessageCirclePlus, PanelLeftClose, PanelRightClose } from "lucide-react"
 
 interface SidebarTypes {
   type?: string | undefined,
@@ -34,11 +34,11 @@ export function Sidebar(sidebarProps: SidebarTypes) {
         }`}
     >
       <div
-        className={`pt-3 pl-3 hover:scale-105 cursor-pointer transition-transform duration-200 ${sidebarClose ? "text-center" : ""
+        className={`pt-5 pl-3 pb-3 cursor-pointer transition-transform duration-200 ${sidebarClose ? "text-center" : ""
           }`}
         onClick={() => setSidebarClose(!sidebarClose)}
       >
-        {sidebarClose ? <OpenBarIcon /> : <CloseBarIcon />}
+        {sidebarClose ? <PanelRightClose /> : <PanelLeftClose />}
       </div>
 
       {!sidebarClose && (
