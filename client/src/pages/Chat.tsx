@@ -71,7 +71,7 @@ export function Chat() {
                 className="bg-white border-r border-gray-200 overflow-y-auto p-4">
                 <div>
                     <House
-                        className="mb-3 hover:-translate-y-1 duration-200 transition-all"
+                        className="mb-3 hover:-translate-y-1 duration-200 transition-all size-5"
                         onClick={() => navigate("/dashboard")} />
                 </div>
                 <h3 className="font-semibold mb-2 text-gray-700">Sources from your thoughts:</h3>
@@ -83,11 +83,11 @@ export function Chat() {
                     {references.map((ref, idx) => (
                         
                         <div key={idx} className="bg-gray-50 border rounded-md p-3 shadow-sm">
-                            <div className="flex justify-between">
+                            <div className="flex items-center justify-between">
                                 <h3 className="block mb-1 font-medium">{ref.title}</h3>
                                 <ChevronDown onClick={() => {
                                     setOpenIndex(openIndex === idx ? null : idx)
-                                }} />
+                                }} className="size-5"/>
                             </div>
                             {openIndex === idx &&
                                 <motion.div

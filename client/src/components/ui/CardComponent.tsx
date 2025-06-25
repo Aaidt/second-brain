@@ -44,13 +44,13 @@ export function CardComponent(cardProps: cardPropTypes) {
                 <div className="flex justify-between pt-4 p-3 items-center transition-all duration-300 ">
                     <div className="flex justify-center items-center gap-2">
                         {cardProps.type === "youtube" ? <YoutubeIcon onClick={() => {
-                            navigate(`/${cardProps.link}`)
+                            window.open(cardProps.link, "_blank");
                         }} className="w-8 h-8 hover:scale-105 duration-200 transition-all" />
                             : cardProps.type === "twitter" ? <TwitterIcon onClick={() => {
-                                navigate(`/${cardProps.link}`)
+                                window.open(cardProps.link, "_blank");
                             }} className="w-7 h-7 hover:scale-105 duration-200 transition-all" />
                                 : cardProps.type === "reddit" ? <RedditIcon onClick={() => {
-                                    navigate(`/${cardProps.link}`)
+                                    window.open(cardProps.link, "_blank");
                                 }} className="w-8 h-8 hover:scale-105 duration-200 transition-all" />
                                     : cardProps.type === "others" ? <Page /> : null
                         }
