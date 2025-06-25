@@ -1,6 +1,6 @@
 import { BrainIcon } from "../icons/BrainIcon";
-import { CloseBarIcon } from "../icons/CloseBarIcon";
-import { OpenBarIcon } from "../icons/OpenBarIcon";
+// import { CloseBarIcon } from "../icons/CloseBarIcon";
+// import { OpenBarIcon } from "../icons/OpenBarIcon";
 import { TwitterIcon } from "../icons/TwitterIcon";
 import { YoutubeIcon } from "../icons/YoutubeIcon";
 import { RedditIcon } from "../icons/RedditIcon";

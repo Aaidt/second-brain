@@ -76,7 +76,7 @@ export function CardComponent(cardProps: cardPropTypes) {
                         return (
                             <div className="">
                                 <div className="flex justify-center items-center">
-                                    <h1 className="text-2xl px-4 font-bold font-playfair p-2">{cardProps.title}</h1>
+                                    <h1 className="text-2xl px-4 font-medium font-playfair p-2">{cardProps.title}</h1>
                                 </div>
                                 <div className="flex justify-center">
                                     <iframe
@@ -97,7 +97,7 @@ export function CardComponent(cardProps: cardPropTypes) {
 
                     {cardProps.type == "twitter" &&
                         <div className="pb-2">
-                            <h1 className="flex justify-center text-2xl p-1 font-bold font-playfair">{cardProps.title}</h1>
+                            <h1 className="flex justify-center text-2xl p-1 font-medium font-playfair">{cardProps.title}</h1>
                             <blockquote className="twitter-tweet bg-[#F5EEDC]">
                                 <a href={cardProps.link.replace("x.com", "twitter.com")} />
                             </blockquote>
@@ -105,7 +105,7 @@ export function CardComponent(cardProps: cardPropTypes) {
                     }
                     {cardProps.type == "reddit" &&
                         <div className="m-2 p-1">
-                            <h1 className="flex justify-center p-1 font-bold font-playfair text-2xl">{cardProps.title}</h1>
+                            <h1 className="flex justify-center p-1 font-medium font-playfair text-2xl">{cardProps.title}</h1>
                             <blockquote className="reddit-embed-bq" data-embed-height="316">
                                 <a href={cardProps.link}>View this post on Reddit.</a>
                             </blockquote>

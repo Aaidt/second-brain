@@ -69,7 +69,7 @@ export function Chat() {
                     ${isClosed ? 'w-15' : 'w-75'}
                 `}>
                 {isClosed ? <PanelRightClose
-                    className="hover:translate-x-1 duration-200 transition-all cursor-pointer"
+                    className="cursor-pointer"
                     onClick={() => setIsClosed(false)} /> :
                     <motion.div
                         initial={{ opacity: 0, x: -40 }}
@@ -88,7 +88,7 @@ export function Chat() {
                             </div>
 
                             <PanelLeftClose
-                                className="hover:-translate-x-1 duration-200 transition-all cursor-pointer"
+                                className="cursor-pointer"
                                 onClick={() => setIsClosed(true)} />
                         </div>
                         <h3 className="font-semibold mb-2 text-gray-800">Sources from your thoughts:</h3>
@@ -158,7 +158,7 @@ export function Chat() {
                                     onChange={(e) => setQuery(e.target.value)}
                                     onKeyDown={(e) => e.key === "Enter" && handleChatQuery()}
                                     className="flex-1 px-4 py-2 border-2 w-full border-gray-400 rounded-md text-base"
-                                    placeholder="Ask your second brain anything..."
+                                    placeholder="How can I help today..."
                                     disabled={loading}
                                 />
                             </div>
