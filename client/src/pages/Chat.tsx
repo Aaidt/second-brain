@@ -70,10 +70,13 @@ export function Chat() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
                 >
-                    <div>
+                    <div
+                        className="mb-3 flex gap-1 items-center"
+                        onClick={() => navigate("/dashboard")}>
                         <Brain
-                            className="mb-3 hover:-translate-y-1 duration-200 transition-all size-5"
-                            onClick={() => navigate("/dashboard")} />
+                            className=" hover:-translate-y-1 duration-200 transition-all size-5 cursor-pointer"
+                        />
+                        <p className="font-medium text-xl cursor-pointer">Second Brain</p>
                     </div>
                     <h3 className="font-semibold mb-2 text-gray-800">Sources from your thoughts:</h3>
                     <motion.div
