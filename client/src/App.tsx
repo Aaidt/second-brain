@@ -7,8 +7,9 @@ import { PricingPage } from "./pages/PricingPage"
 import { SharedBrainPage } from "./pages/SharedBrainPage"
 import { ProtectedRoute } from "./pages/ProtectedRoute"
 import { SidebarProvider } from "./hooks/sidebarContext"
-import { QueryThoughts } from "./pages/QueryThoughts"
 import { Chat } from "./pages/Chat"
+import { QueryThoughts } from "./pages/QueryThoughts"
+// import { VectorGraph } from "./pages/VectorGraph"
 
 
 
@@ -52,6 +53,14 @@ function App() {
             </ProtectedRoute>
           }>
         </Route>
+
+        {/* <Route path="/visualise"
+          element={
+            <ProtectedRoute>
+              <VectorGraph />
+            </ProtectedRoute>
+          }>
+        </Route> */}
 
       </Routes>
     </BrowserRouter>

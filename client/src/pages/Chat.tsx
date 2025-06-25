@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { SendHorizontal, House } from "lucide-react";
+import { SendHorizontal, House, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom"
@@ -24,6 +24,7 @@ export function Chat() {
     const [references, setReferences] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const [openIndex, setOpenIndex] = useState<number | null>(null)
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -66,8 +67,8 @@ export function Chat() {
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="bg-white border-r border-gray-300 overflow-y-auto p-4">
+                transition={{ duration: 0.5 }}
+                className="bg-white border-r border-gray-200 overflow-y-auto p-4">
                 <div>
                     <House
                         className="mb-3 hover:-translate-y-1 duration-200 transition-all"
@@ -80,9 +81,23 @@ export function Chat() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }} className="space-y-4 pr-2">
                     {references.map((ref, idx) => (
+                        
                         <div key={idx} className="bg-gray-50 border rounded-md p-3 shadow-sm">
-                            <strong className="block mb-1">{ref.title}</strong>
-                            <p className="text-sm text-gray-700 whitespace-pre-wrap">{ref.thoughts}</p>
+                            <div className="flex justify-between">
+                                <h3 className="block mb-1 font-medium">{ref.title}</h3>
+                                <ChevronDown onClick={() => {
+                                    setOpenIndex(openIndex === idx ? null : idx)
+                                }} />
+                            </div>
+                            {openIndex === idx &&
+                                <motion.div
+                                    initial={{ opacity: 0, y: -40 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.2 }}
+                                    className="text-sm text-gray-700 whitespace-pre-wrap">
+                                    {ref.thoughts}
+                                </motion.div>}
                         </div>
                     ))}
                 </motion.div>
@@ -100,8 +115,8 @@ export function Chat() {
                             className={`
                                 rounded-lg p-4 whitespace-pre-wrap shadow-sm border
                                 ${msg.sender === "user"
-                                    ? "bg-white ml-auto border-gray-300 max-w-sm"
-                                    : "bg-gray-200 mr-auto border-gray-300 max-w-2xl"
+                                    ? "bg-white ml-auto border-gray-200 max-w-sm"
+                                    : "bg-gray-200/40 mr-auto border-gray-200 max-w-2xl"
                                 }
                             `}
                         >
@@ -115,7 +130,7 @@ export function Chat() {
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8 }} className="border-t border-gray-300 bg-white p-3 sticky bottom-0">
+                    transition={{ duration: 0.8 }} className="border-t border-gray-200 bg-white p-3 sticky bottom-0">
                     <div className="flex gap-2 max-w-4xl mx-auto">
                         <div className="w-full flex items-center">
                             <input
@@ -140,6 +155,6 @@ export function Chat() {
                     </div>
                 </motion.div>
             </div>
-        </div>
+        </div >
     );
 }
