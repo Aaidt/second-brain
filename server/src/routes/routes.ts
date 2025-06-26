@@ -3,8 +3,8 @@ const app = express();
 import cors from "cors";
 import { hash, compare } from "bcrypt"
 import dotenv from "dotenv";
-import { UserModel, ContentModel, LinkModel, ThoughtModel, DocumentModel } from "../db/db"
-import { validateInput } from "../middleware/validateInput"
+import { UserModel, ContentModel, LinkModel, ThoughtModel, DocumentModel, ChatModel } from "../db/db"
+import { validateAuth, validateContent, validateThought, validateChat } from "../utils/src/types"
 import { userMiddleware } from "../middleware/userMiddleware"
 import { fileUpload } from "../middleware/fileUpload"
 import jwt from 'jsonwebtoken';
@@ -40,7 +40,7 @@ async function verifyPassword(plainPassword: string, hashedPassword: string): Pr
 }
 
 
-app.post("/api/v1/second-brain/signup", validateInput, async function (req: Request, res: Response) {
+app.post("/api/v1/second-brain/signup", validateAuth, async function (req: Request, res: Response) {
     try {
         const { username, password } = req.body
 
@@ -64,7 +64,7 @@ app.post("/api/v1/second-brain/signup", validateInput, async function (req: Requ
     }
 })
 
-app.post("/api/v1/second-brain/signin", validateInput, async function (req: Request, res: Response) {
+app.post("/api/v1/second-brain/signin", validateAuth, async function (req: Request, res: Response) {
     try {
         const { username, password } = req.body
 
@@ -92,7 +92,7 @@ app.post("/api/v1/second-brain/signin", validateInput, async function (req: Requ
     }
 })
 
-app.post("/api/v1/second-brain/content", userMiddleware, async function (req: Request, res: Response) {
+app.post("/api/v1/second-brain/content", validateContent, userMiddleware, async function (req: Request, res: Response) {
     const { title, link, type } = req.body;
 
     try {
@@ -110,7 +110,7 @@ app.post("/api/v1/second-brain/content", userMiddleware, async function (req: Re
 })
 
 
-app.get("/api/v1/second-brain/content", userMiddleware, async function (req: Request, res: Response) {
+app.get("/api/v1/second-brain/content", validateContent, userMiddleware, async function (req: Request, res: Response) {
     try {
         const content = await ContentModel.find({
             userId: req.userId
@@ -125,7 +125,7 @@ app.get("/api/v1/second-brain/content", userMiddleware, async function (req: Req
     }
 })
 
-app.delete("/api/v1/second-brain/content", userMiddleware, async function (req: Request, res: Response) {
+app.delete("/api/v1/second-brain/content", validateContent, userMiddleware, async function (req: Request, res: Response) {
     const { contentId } = req.body;
     try {
         await ContentModel.deleteMany({
@@ -141,7 +141,7 @@ app.delete("/api/v1/second-brain/content", userMiddleware, async function (req: 
     }
 })
 
-app.post("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Request, res: Response) {
+app.post("/api/v1/second-brain/thoughts", validateThought, userMiddleware, async function (req: Request, res: Response) {
     const { title, thoughts } = req.body;
     const userId = req.userId
     const fullText = `${title} ${thoughts}`
@@ -188,6 +188,57 @@ app.post("/api/v1/second-brain/thoughts", userMiddleware, async function (req: R
     } catch (err) {
         console.log(err);
         res.status(403).json({ message: "Content not added. Something went wrong", error: err })
+    }
+})
+
+app.get("/api/v1/second-brain/thoughts", validateThought, userMiddleware, async function (req: Request, res: Response) {
+    try {
+        const thoughts = await ThoughtModel.find({
+            userId: req.userId
+        }).populate("userId", "username");
+        res.status(200).json({ thoughts });
+    } catch (err) {
+        res.status(403).json({ message: "Not found.", error: err })
+    }
+})
+
+app.delete("/api/v1/second-brain/thoughts", validateThought, userMiddleware, async function (req: Request, res: Response) {
+    const { thoughtId } = req.body;
+    const userId = req.userId;
+
+    if (!thoughtId?.trim() || !userId) {
+        res.status(400).json({ message: "thoughtId and userId required" });
+        return
+    }
+
+    try {
+        await ThoughtModel.deleteOne({
+            _id: thoughtId,
+            userId: req.userId
+        })
+
+        const point_id = uuidv5(thoughtId, NAMESPACE);
+        await qdrantClient.delete('thoughts', {
+            // filter: {
+            //     must: [
+            //         {
+            //             key: "id",
+            //             match: {
+            //                 value: point_id
+            //             }
+            //         }
+            //     ]
+            // }
+            points: [point_id]
+        })
+
+        res.status(200).json({ message: "Deleted successfully." })
+    } catch (err) {
+        console.error("Error deleting thought:", err);
+        res.status(500).json({
+            message: "Failed to delete thought",
+            error: (err as Error).message
+        });
     }
 })
 
@@ -289,57 +340,49 @@ app.post("/api/v1/second-brain/chat-query", userMiddleware, async function (req:
     }
 })
 
+app.post("/api/v1/second-brain/chats", validateChat, userMiddleware, async function(req: Request, res: Response){
+    const { sender, content } = req.body
 
-app.get("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Request, res: Response) {
-    try {
-        const thoughts = await ThoughtModel.find({
-            userId: req.userId
-        }).populate("userId", "username");
-        res.status(200).json({ thoughts });
-    } catch (err) {
-        res.status(403).json({ message: "Not found.", error: err })
-    }
-})
-
-app.delete("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Request, res: Response) {
-    const { thoughtId } = req.body;
-    const userId = req.userId;
-
-    if (!thoughtId?.trim() || !userId) {
-        res.status(400).json({ message: "thoughtId and userId required" });
-        return
-    }
-
-    try {
-        await ThoughtModel.deleteOne({
-            _id: thoughtId,
+    try{
+        await ChatModel.create({
+            sender,
+            content,
             userId: req.userId
         })
-
-        const point_id = uuidv5(thoughtId, NAMESPACE);
-        await qdrantClient.delete('thoughts', {
-            // filter: {
-            //     must: [
-            //         {
-            //             key: "id",
-            //             match: {
-            //                 value: point_id
-            //             }
-            //         }
-            //     ]
-            // }
-            points: [point_id]
+        res.status(200).json({
+            message: "Chats saved successfully!!!"
         })
 
-        res.status(200).json({ message: "Deleted successfully." })
-    } catch (err) {
-        console.error("Error deleting thought:", err);
+    }catch(err){
+        console.log('Error while saving chats. ' + err);
         res.status(500).json({
-            message: "Failed to delete thought",
-            error: (err as Error).message
-        });
+            message: "Error while saving chats. " 
+        })
     }
 })
+
+app.get("/api/v1/second-brain/chats", validateChat, userMiddleware, async function(req: Request, res: Response){
+    // const {      } = req.body
+
+    // try{
+    //     await ChatModel.create({
+    //         sender,
+    //         content,
+    //         userId: req.userId
+    //     })
+    //     res.status(200).json({
+    //         message: "Chats saved successfully!!!"
+    //     })
+
+    // }catch(err){
+    //     console.log('Error while saving chats. ' + err);
+    //     res.status(500).json({
+    //         message: "Error while saving chats. " 
+    //     })
+    // }
+})
+
+
 
 app.post("/api/v1/second-brain/documents", userMiddleware, fileUpload.single('file'), async function (req: Request, res: Response): Promise<void> {
     try {

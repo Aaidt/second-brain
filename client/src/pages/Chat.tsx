@@ -36,7 +36,7 @@ export function Chat() {
         scrollToBottom();
     }, [messages]);
 
-    const handleChatQuery = async () => {
+    async function handleChatQuery (){
         if (!query.trim()) return;
 
         setMessages(prev => [...prev, { sender: "user", content: query }]);
