@@ -47,7 +47,8 @@ app.post("/api/v1/second-brain/signup", validateAuth, async function (req: Reque
         const hashedPassword = await hashPassword(password);
         const user = await UserModel.create({
             username: username,
-            password: hashedPassword
+            password: hashedPassword,
+            created_at: new Date()
         })
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_PASSWORD as string, { expiresIn: "1h" })
@@ -100,7 +101,8 @@ app.post("/api/v1/second-brain/content", validateContent, userMiddleware, async 
             title: title,
             link: link,
             type: type,
-            userId: req.userId
+            userId: req.userId,
+            created_at: new Date()
         })
         res.status(201).json({ message: "Content has been updated successfully." })
     } catch (err) {
@@ -155,7 +157,8 @@ app.post("/api/v1/second-brain/thoughts", validateThought, userMiddleware, async
         const saved = await ThoughtModel.create({
             title: title,
             thoughts: thoughts,
-            userId: userId
+            userId: userId,
+            created_at: new Date()
         });
 
         const vector = await getEmbeddingsFromGemini(fullText)
@@ -340,46 +343,42 @@ app.post("/api/v1/second-brain/chat-query", userMiddleware, async function (req:
     }
 })
 
-app.post("/api/v1/second-brain/chats", validateChat, userMiddleware, async function(req: Request, res: Response){
+app.post("/api/v1/second-brain/chats", validateChat, userMiddleware, async function (req: Request, res: Response) {
     const { sender, content } = req.body
 
-    try{
-        await ChatModel.create({
+    try {
+        const chat = await ChatModel.create({
             sender,
             content,
-            userId: req.userId
+            userId: req.userId,
+            created_at: new Date()
         })
         res.status(200).json({
-            message: "Chats saved successfully!!!"
+            message: "Chats saved successfully!!!",
+            chatId: chat._id
         })
 
-    }catch(err){
+    } catch (err) {
         console.log('Error while saving chats. ' + err);
         res.status(500).json({
-            message: "Error while saving chats. " 
+            message: "Error while saving chats. "
         })
     }
 })
 
-app.get("/api/v1/second-brain/chats", validateChat, userMiddleware, async function(req: Request, res: Response){
-    // const {      } = req.body
+app.get("/api/v1/second-brain/chats", validateChat, userMiddleware, async function (req: Request, res: Response) {
+    try {
+        const chats = await ChatModel.find({
+            userId: req.userId
+        }).sort({ created_at: 1 })
 
-    // try{
-    //     await ChatModel.create({
-    //         sender,
-    //         content,
-    //         userId: req.userId
-    //     })
-    //     res.status(200).json({
-    //         message: "Chats saved successfully!!!"
-    //     })
-
-    // }catch(err){
-    //     console.log('Error while saving chats. ' + err);
-    //     res.status(500).json({
-    //         message: "Error while saving chats. " 
-    //     })
-    // }
+        res.status(200).json({
+            chats
+        })
+    } catch (err) {
+        console.error('Error retrieving chats:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 })
 
 
