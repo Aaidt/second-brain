@@ -105,9 +105,9 @@ export function Chat() {
     };
 
     return (
-        <div className="h-screen w-screen grid grid-cols-[320px_1fr] overflow-hidden">
-            <div className={`bg-white border-r border-black/30 overflow-y-auto p-4 duration-200 overflow-hidden transition-all
-                    ${isClosed ? 'w-15' : 'w-75'}
+        <div className="h-screen w-screen grid grid-cols-[340px_1fr] overflow-hidden">
+            <div className={`bg-white border-r border-black/30 overflow-y-auto p-4 duration-300 overflow-hidden transition-all
+                    ${isClosed ? 'w-15' : 'w-85'}
                 `}>
                 {isClosed ? <PanelRightClose
                     className="cursor-pointer"
@@ -175,16 +175,18 @@ export function Chat() {
                                     transition={{ duration: 0.4 }}
                                     key={i}
                                     className={`
-                                rounded-lg p-4 whitespace-pre-wrap  my-1 text-sm
+                                rounded-lg p-1 whitespace-pre-wrap my-1 
                                 ${chat.sender === "user"
-                                            ? "bg-gray-200 text-black ml-auto font-medium max-w-sm"
-                                            : "text-black mr-auto  max-w-2xl"
+                                            ? "text-md text-black ml-auto font-medium max-w-sm"
+                                            : "text-black mr-auto  max-w-2xl text-sm"
                                         }
                             `}
                                 >
-                                    <ReactMarkdown>{`${chat.sender === "ai" ? 'Ans: ' + chat.content : chat.content} `}</ReactMarkdown>
+                                    <ReactMarkdown>{`${chat.sender === "ai" ? 'Ans: ' + chat.content
+                                        : 'Q. ' + chat.content} `}
+                                    </ReactMarkdown>
                                 </motion.div>
-                            ))) : null }
+                            ))) : null}
                     </motion.div>
                 }
             </div>
