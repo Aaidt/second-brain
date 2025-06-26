@@ -1,4 +1,3 @@
-import { RedditIcon } from "../icons/RedditIcon";
 import { SideBarItems } from "./SideBarItems";
 import { useSideBar } from "../../hooks/sidebarContext"
 import { Button } from "./Button"
@@ -39,9 +38,9 @@ export function Sidebar(sidebarProps: SidebarTypes) {
       {!sidebarClose && (
         <>
           <div className="flex font-bold font-playfair items-center">
-            <p onClick={() => navigate("/")} className="pl-6 font-medium text-4xl pt-1 cursor-pointer">Second <br /> Brain</p>
+            <p onClick={() => navigate("/")} className="pl-6 font-medium text-4xl pt-2 cursor-pointer">Second <br /> Brain</p>
           </div>
-          <div className="pt-2  ">
+          <div className="pt-3">
             <SideBarItems onClick={() => navigate("/chat")} text="Chat" icon={<MessageCircle className="stroke-[1.5] size-6" />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)}
               text={isSharedPage ? 'Shared Brain' : 'My Brain'} icon={<Brain className="stroke-[1.5] size-6" />} />
@@ -56,7 +55,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
           </div>
 
           {isSharedPage ? null :
-            <div className="pr-5 text-xl pl-1 pt-2 "
+            <div className="pr-5 text-xl pl-1 pt-3 "
               onClick={Logout}>
               <Button
                 hover={false} size="md"

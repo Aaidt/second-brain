@@ -27,6 +27,8 @@ export function Chat() {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [openIndex, setOpenIndex] = useState<number | null>(null)
     const [isClosed, setIsClosed] = useState<boolean>(false)
+    const [savedChats, setSavedChats] = useState<Message[]>([])
+
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -36,13 +38,48 @@ export function Chat() {
         scrollToBottom();
     }, [messages]);
 
-    async function handleChatQuery (){
+    useEffect(() => {
+        async function fetchSavedChats() {
+            try {
+                const fetchedChats = await axios.get<{ chats: Message[] }>(`${import.meta.env.VITE_BACKEND_URL}/api/v1/second-brain/chats`, {
+                    headers: {
+                        Authorization: localStorage.getItem("authorization")
+                    }
+                })
+                setSavedChats(fetchedChats.data.chats)
+            } catch (err) {
+                toast.error("Error fetching chats");
+            }
+        }
+        fetchSavedChats()
+    }, [])
+
+    async function saveChat(message: Message) {
+        try {
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/second-brain/chats`, {
+                sender: message.sender,
+                content: message.content
+            }, {
+                headers: {
+                    Authorization: localStorage.getItem("authorization")
+                }
+            });
+            setSavedChats((prev) => [...prev, message]);
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
+    async function handleChatQuery() {
         if (!query.trim()) return;
 
+        const userMessage: Message = { sender: 'user', content: query }
         setMessages(prev => [...prev, { sender: "user", content: query }]);
         setLoading(true);
 
         try {
+            await saveChat(userMessage)
             const res = await axios.post<axiosResponse>(`${import.meta.env.VITE_BACKEND_URL}/api/v1/second-brain/chat-query`, {
                 query
             }, {
@@ -54,7 +91,10 @@ export function Chat() {
             const aiResponse = res.data?.answers || "No answer";
             setReferences(res.data?.references || []);
 
+            const aiMessage: Message = { sender: 'ai', content: aiResponse }
             setMessages(prev => [...prev, { sender: "ai", content: aiResponse }]);
+
+            await saveChat(aiMessage)
         } catch (err) {
             toast.error("Error fetching response");
         }
@@ -124,6 +164,24 @@ export function Chat() {
 
             <div className="flex flex-col h-full overflow-y-auto">
                 <div className="flex-1  px-6 py-4 space-y-4 bg-white">
+                    {savedChats.map((chat, i) => (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4 }}
+                            key={i}
+                            className={`
+                                rounded-lg p-4 whitespace-pre-wrap border text-white
+                                ${chat.sender === "user"
+                                    ? "bg-black/80 ml-auto border-r-6 border-r-green-600 max-w-sm"
+                                    : "bg-black/80 mr-auto border-l-6 border-l-red-800  max-w-2xl"
+                                }
+                            `}
+                        >
+                            <ReactMarkdown>{chat.content}</ReactMarkdown>
+                        </motion.div>
+                    ))}
                     {messages.map((msg, i) => (
                         <motion.div
                             initial={{ opacity: 0 }}

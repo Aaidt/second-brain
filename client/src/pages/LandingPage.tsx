@@ -1,8 +1,6 @@
 import { Button } from "../components/ui/Button"
 import { ArrowRight, Brain, BookOpen, Lightbulb, Star } from "lucide-react"
-import { BrainIcon } from "../components/icons/BrainIcon";
 import { useNavigate } from "react-router-dom"
-// import { Footer } from "../components/ui/Footer"
 import { useRef } from "react";
 import { motion } from "framer-motion"
 
@@ -22,7 +20,7 @@ export function LandingPage() {
 
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <BrainIcon />
+                    <Brain className="size-8 stroke-[1.5] mt-1" />
                     <span className="text-4xl font-medium font-playfair">SecondBrain</span>
                 </div>
                 <div className="cursor-pointer hidden md:flex items-center gap-6">
