@@ -1,16 +1,11 @@
-import { BrainIcon } from "../icons/BrainIcon";
-// import { CloseBarIcon } from "../icons/CloseBarIcon";
-// import { OpenBarIcon } from "../icons/OpenBarIcon";
-import { TwitterIcon } from "../icons/TwitterIcon";
-import { YoutubeIcon } from "../icons/YoutubeIcon";
 import { RedditIcon } from "../icons/RedditIcon";
 import { SideBarItems } from "./SideBarItems";
 import { useSideBar } from "../../hooks/sidebarContext"
 import { Button } from "./Button"
 import { useNavigate } from "react-router-dom"
 import { UserIcon } from "../icons/UserIcon"
-import { AcademicIcon } from "../icons/AcademicIcon"
-import { MessageCirclePlus, PanelLeftClose, PanelRightClose } from "lucide-react"
+import { IoLogoReddit } from "react-icons/io5";
+import { MessageCircle, PanelLeftClose, PanelRightClose, Brain, Youtube, Twitter, BookOpen } from "lucide-react"
 
 interface SidebarTypes {
   type?: string | undefined,
@@ -47,17 +42,21 @@ export function Sidebar(sidebarProps: SidebarTypes) {
             <p onClick={() => navigate("/")} className="pl-6 font-medium text-4xl pt-1 cursor-pointer">Second <br /> Brain</p>
           </div>
           <div className="pt-2  ">
-            <SideBarItems onClick={() => navigate("/chat")} text="Chat" icon={<MessageCirclePlus className="m-1 stroke-1" />} />
+            <SideBarItems onClick={() => navigate("/chat")} text="Chat" icon={<MessageCircle className="stroke-[1.5] size-6" />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)}
-              text={isSharedPage ? 'Shared Brain' : 'My Brain'} icon={<BrainIcon />} />
-            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")} text="Thoughts" icon={<AcademicIcon />} />
-            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("twitter")} text="Twitter" icon={<TwitterIcon />} />
-            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("youtube")} text="YouTube" icon={<YoutubeIcon />} />
-            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("reddit")} text="Reddit" icon={<RedditIcon />} />
+              text={isSharedPage ? 'Shared Brain' : 'My Brain'} icon={<Brain className="stroke-[1.5] size-6" />} />
+            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")}
+              text="Thoughts" icon={<BookOpen className="stroke-[1.5] size-6" />} />
+            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("twitter")}
+              text="Twitter" icon={<Twitter className="stroke-[1.5] size-6" />} />
+            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("youtube")}
+              text="YouTube" icon={<Youtube className="stroke-[1.5] size-6" />} />
+            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("reddit")}
+              text="Reddit" icon={<IoLogoReddit className="stroke-[1.5] size-7" />} />
           </div>
 
           {isSharedPage ? null :
-            <div className="pr-5 text-xl pl-1 font-semibold"
+            <div className="pr-5 text-xl pl-1 pt-2 "
               onClick={Logout}>
               <Button
                 hover={false} size="md"

@@ -112,7 +112,7 @@ app.post("/api/v1/second-brain/content", validateContent, userMiddleware, async 
 })
 
 
-app.get("/api/v1/second-brain/content", validateContent, userMiddleware, async function (req: Request, res: Response) {
+app.get("/api/v1/second-brain/content", userMiddleware, async function (req: Request, res: Response) {
     try {
         const content = await ContentModel.find({
             userId: req.userId
@@ -127,7 +127,7 @@ app.get("/api/v1/second-brain/content", validateContent, userMiddleware, async f
     }
 })
 
-app.delete("/api/v1/second-brain/content", validateContent, userMiddleware, async function (req: Request, res: Response) {
+app.delete("/api/v1/second-brain/content", userMiddleware, async function (req: Request, res: Response) {
     const { contentId } = req.body;
     try {
         await ContentModel.deleteMany({
@@ -194,7 +194,7 @@ app.post("/api/v1/second-brain/thoughts", validateThought, userMiddleware, async
     }
 })
 
-app.get("/api/v1/second-brain/thoughts", validateThought, userMiddleware, async function (req: Request, res: Response) {
+app.get("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Request, res: Response) {
     try {
         const thoughts = await ThoughtModel.find({
             userId: req.userId
@@ -205,7 +205,7 @@ app.get("/api/v1/second-brain/thoughts", validateThought, userMiddleware, async 
     }
 })
 
-app.delete("/api/v1/second-brain/thoughts", validateThought, userMiddleware, async function (req: Request, res: Response) {
+app.delete("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Request, res: Response) {
     const { thoughtId } = req.body;
     const userId = req.userId;
 
@@ -366,7 +366,7 @@ app.post("/api/v1/second-brain/chats", validateChat, userMiddleware, async funct
     }
 })
 
-app.get("/api/v1/second-brain/chats", validateChat, userMiddleware, async function (req: Request, res: Response) {
+app.get("/api/v1/second-brain/chats", userMiddleware, async function (req: Request, res: Response) {
     try {
         const chats = await ChatModel.find({
             userId: req.userId
