@@ -199,7 +199,7 @@ export function Chat() {
                       rounded-lg p-1 whitespace-pre-wrap my-1
                       ${chat.sender === 'user'
                         ? 'text-md text-black ml-auto font-medium max-w-sm'
-                        : 'text-gray-700 mr-auto max-w-2xl text-sm'
+                        : 'text-gray-500 mr-auto max-w-2xl text-sm'
                       }
                     `}
                   >
