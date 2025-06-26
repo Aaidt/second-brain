@@ -75,7 +75,7 @@ const ChatSchema = z.object({
 });
 
 export function validateChat(req: Request, res: Response, next: NextFunction) {
-  const parsedData = ThoughtSchema.safeParse(req.body);
+  const parsedData = ChatSchema.safeParse(req.body);
 
   if (!parsedData.success) {
     res.status(400).json({
