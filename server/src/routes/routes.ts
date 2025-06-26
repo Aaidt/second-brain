@@ -381,6 +381,20 @@ app.get("/api/v1/second-brain/chats", userMiddleware, async function (req: Reque
     }
 })
 
+app.delete("/api/v1/second-brain/chats", userMiddleware, async function (req: Request, res: Response) {
+    try {
+        await ChatModel.deleteMany({
+            userId: req.userId
+        })
+
+        res.status(200).json({
+            message: "Chat deleted successfully!!!"
+        })
+    } catch (err) {
+        console.error('Error deleting chats:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+})
 
 
 app.post("/api/v1/second-brain/documents", userMiddleware, fileUpload.single('file'), async function (req: Request, res: Response): Promise<void> {
