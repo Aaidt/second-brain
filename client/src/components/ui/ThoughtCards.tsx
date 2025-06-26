@@ -2,6 +2,8 @@ import { Delete } from "../icons/Delete"
 import { Page } from "../icons/Page"
 import { ThoughtModal } from "./ThoughtModal";
 import { useState } from 'react'
+import { Hover } from "@/components/ui/Hover"
+
 
 interface ThoughtCardPropTypes {
     title: string,
@@ -14,6 +16,7 @@ interface ThoughtCardPropTypes {
 export function ThoughtCards(ThoughtCardProps: ThoughtCardPropTypes) {
     // const sentences = ThoughCardProps.thoughts.split(/[.!?]+/).slice(0, 3).join('. ') + '.';
     const [open, setOpen] = useState<boolean>(false)
+    const [hoveredIcon, setHoveredIcon] = useState<string | null>(null)
 
     return (<div>
         <ThoughtModal title={ThoughtCardProps.title} thought={ThoughtCardProps.thoughts} open={open} setOpen={setOpen} />
@@ -23,11 +26,25 @@ export function ThoughtCards(ThoughtCardProps: ThoughtCardPropTypes) {
                 <div onClick={() => {
                     setOpen(true)
                 }}>
-                    <Page />
+                    <div
+                        className="relative"
+                        onMouseEnter={() => setHoveredIcon('View')}
+                        onMouseLeave={() => setHoveredIcon(null)}
+                    >
+                        {hoveredIcon === 'View' && <Hover component="View" />}
+                        <Page /> </div>
                 </div>
 
                 <div className="flex gap-4">
-                    {(ThoughtCardProps.isSharedPage === false) ? (<Delete ThoughtId={ThoughtCardProps.id} />) : null}
+                    {(ThoughtCardProps.isSharedPage === false) ? (
+                        <div
+                        className="relative"
+                        onMouseEnter={() => setHoveredIcon('Delete')}
+                        onMouseLeave={() => setHoveredIcon(null)}
+                    >
+                        {hoveredIcon === 'Delete' && <Hover component="Delete" />}
+                        <Delete ThoughtId={ThoughtCardProps.id} /></div>
+                        ) : null}
                 </div>
             </div>
             <div className="flex flex-col p-4">

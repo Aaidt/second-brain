@@ -114,13 +114,13 @@ export function Chat() {
   return (
     <div className="h-screen w-screen grid grid-cols-[340px_1fr] overflow-hidden">
       <div
-        className={`bg-white border-r border-black/30 overflow-y-auto p-4 duration-300 transition-all ${
+        className={`bg-white border-r border-black/30 overflow-hidden overflow-y-auto p-4 duration-300 transition-all ${
           isClosed ? 'w-15' : 'w-85'
         }`}
       >
         {isClosed ? (
           <PanelRightClose
-            className="cursor-pointer size-5 stroke-[1.5]"
+            className="cursor-pointer size-6 stroke-[1.5]"
             onClick={() => setIsClosed(false)}
           />
         ) : (
@@ -130,13 +130,13 @@ export function Chat() {
             viewport={{ once: true }}
             transition={{ duration: 0.3 }}
           >
-            <div className="flex justify-between">
+            <div className="flex justify-between ">
               <div className="mb-6 flex gap-1 items-center" onClick={() => navigate('/dashboard')}>
                 <Brain className="size-5 cursor-pointer stroke-[1.5]" />
                 <p className="font-medium text-xl cursor-pointer">Second Brain</p>
               </div>
               <PanelLeftClose
-                className="cursor-pointer size-5 stroke-[1.5]"
+                className="cursor-pointer size-6 stroke-[1.5]"
                 onClick={() => setIsClosed(true)}
               />
             </div>
@@ -186,7 +186,7 @@ export function Chat() {
             </div>
             {showChat ? (
               savedChats.length === 0 ? (
-                <p className="text-gray-500 pt-2">No previous chats.</p>
+                <p className="text-gray-500 text-sm pt-2">No previous chats.</p>
               ) : (
                 savedChats.map((chat, i) => (
                   <motion.div
