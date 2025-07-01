@@ -57,7 +57,7 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
     return (open &&
         <div onClick={() => {
             setOpen(false)
-        }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 z-50 flex justify-center items-center">
+        }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 backdrop-blur-md z-50 flex justify-center items-center">
             <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-md w-122 h-35 flex flex-col  text-black 
                     opacity-0 scale-95 animate-[appear_0.3s_ease-out_forwards] font-inter justify-center items-center ">
                 <p className="text-md text-center pt-2">You will delete this post permenantly on pressing delete. <br />

@@ -33,7 +33,7 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
     return (open &&
         <div onClick={() => {
             setOpen(!open)
-        }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 z-50 flex justify-center items-center">
+        }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 backdrop-blur-md z-50 flex justify-center items-center">
             <div className="flex justify-center items-center h-screen pb-10">
                 <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-md w-120 h-80 flex flex-col gap-4 p-5 text-black
                     opacity-0 scale-95 animate-[appear_0.3s_ease-out_forwards]">
