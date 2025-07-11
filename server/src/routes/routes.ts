@@ -3,10 +3,9 @@ const app = express();
 import cors from "cors";
 import { hash, compare } from "bcrypt"
 import dotenv from "dotenv";
-import { UserModel, ContentModel, LinkModel, ThoughtModel, DocumentModel, ChatModel } from "../db/db"
+import { UserModel, ContentModel, LinkModel, ThoughtModel, ChatModel } from "../db/db"
 import { validateAuth, validateContent, validateThought, validateChat } from "../utils/src/types"
 import { userMiddleware } from "../middleware/userMiddleware"
-import { fileUpload } from "../middleware/fileUpload"
 import jwt from 'jsonwebtoken';
 import { getEmbeddingsFromGemini } from '../utils/src/client'
 import { qdrantClient } from '../utils/src/qdrant'
