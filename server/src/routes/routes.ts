@@ -397,63 +397,6 @@ app.delete("/api/v1/second-brain/chats", userMiddleware, async function (req: Re
 })
 
 
-app.post("/api/v1/second-brain/documents", userMiddleware, fileUpload.single('file'), async function (req: Request, res: Response): Promise<void> {
-    try {
-        const file = req.file as Express.Multer.File | undefined;
-        const userId = (req as any).userId as string | undefined;
-
-        if (!file || !userId) {
-            res.status(400).json({ message: "Missing files or user ID" });
-            return;
-        }
-
-        await DocumentModel.create({
-            filePath: file.path,
-            fileName: file.originalname,
-            fileType: file.mimetype,
-            size: file.size,
-            userId: userId
-        })
-        res.status(200).json({ message: "Document added successfully." });
-    } catch (err) {
-        console.log(err);
-        res.status(403).json({ message: "Something went wrong." + err })
-    }
-})
-
-app.get("/api/v1/second-brain/documents", userMiddleware, async function (req: Request, res: Response) {
-    try {
-        const document = await DocumentModel.find({
-            userId: req.userId
-        }).populate("userId", "username")
-
-        res.status(200).json({ document })
-
-    } catch (err) {
-        console.log(err);
-        res.status(403).json({ message: "Something went wrong." + err })
-    }
-})
-
-app.delete("/api/v1/second-brain/documents", userMiddleware, async function (req: Request, res: Response) {
-    const { documentId } = req.body;
-
-    try {
-        const deleted = await DocumentModel.findOneAndDelete({
-            _id: documentId,
-            userId: req.userId
-        })
-        if (!deleted) {
-            res.status(400).json({ message: "Document not found or not owned by user." })
-        }
-
-        res.status(200).json({ message: "Deleted successfully." })
-    } catch (err) {
-        console.log(err);
-        res.json({ err })
-    }
-})
-
 app.post("/api/v1/second-brain/share", userMiddleware, async function (req: Request, res: Response) {
     const { share } = req.body;
     try {
