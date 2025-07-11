@@ -53,8 +53,8 @@ export function validateContent(
 }
 
 const ThoughtSchema = z.object({
-    title: z.string(),
-    thoughts: z.string()
+  title: z.string(),
+  thoughts: z.string()
 })
 
 export function validateThought(req: Request, res: Response, next: NextFunction) {
@@ -69,13 +69,29 @@ export function validateThought(req: Request, res: Response, next: NextFunction)
   }
 }
 
-const ChatSchema = z.object({
-    sender: z.enum(['user', 'ai']),
-    content: z.string()
+const ChatMessageSchema = z.object({
+  sender: z.enum(['user', 'ai']),
+  content: z.string()
 });
 
-export function validateChat(req: Request, res: Response, next: NextFunction) {
-  const parsedData = ChatSchema.safeParse(req.body);
+export function validateChatMessage(req: Request, res: Response, next: NextFunction) {
+  const parsedData = ChatMessageSchema.safeParse(req.body);
+
+  if (!parsedData.success) {
+    res.status(400).json({
+      error: parsedData.error.format(),
+    });
+  } else {
+    next();
+  }
+}
+
+const ChatSessionSchema = z.object({
+  title: z.string().min(3).max(20)
+});
+
+export function validateChatSession(req: Request, res: Response, next: NextFunction) {
+  const parsedData = ChatSessionSchema.safeParse(req.body);
 
   if (!parsedData.success) {
     res.status(400).json({
