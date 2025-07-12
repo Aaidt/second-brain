@@ -3,7 +3,6 @@ import { prismaClient } from "../db/prisma/client"
 
 const chatSessionRouter: Router = Router()
 
-// Create a new chat session
 chatSessionRouter.post("/create", async (req: Request, res: Response) => {
     const { title } = req.body;
     const userId = req.userId;
@@ -24,7 +23,6 @@ chatSessionRouter.post("/create", async (req: Request, res: Response) => {
     }
 });
 
-// Get all chat sessions for the user
 chatSessionRouter.get("/", async (req: Request, res: Response) => {
     const userId = req.userId;
     if (!userId) {
@@ -42,7 +40,6 @@ chatSessionRouter.get("/", async (req: Request, res: Response) => {
     }
 });
 
-// Get a single session with its messages
 chatSessionRouter.get("/:sessionId", async (req: Request, res: Response) => {
     const userId = req.userId;
     const { sessionId } = req.params;
@@ -65,33 +62,5 @@ chatSessionRouter.get("/:sessionId", async (req: Request, res: Response) => {
     }
 });
 
-// Add a message to a session
-chatSessionRouter.post("/:sessionId/message", async (req: Request, res: Response) => {
-    const userId = req.userId;
-    const { sessionId } = req.params;
-    let { sender, content } = req.body;
-    if (!userId) {
-        res.status(401).json({ message: "User not authenticated." });
-        return;
-    }
-    if (!sender || !content) {
-        res.status(400).json({ message: "Sender and content are required." });
-        return;
-    }
-    // Map sender to enum values
-    sender = sender === "user" ? "USER" : sender === "ai" ? "AI" : sender;
-    try {
-        const message = await prismaClient.chatMessage.create({
-            data: {
-                sender,
-                content,
-                session: { connect: { id: sessionId } },
-            },
-        });
-        res.status(201).json({ message });
-    } catch (err) {
-        res.status(500).json({ message: "Error adding message.", error: err });
-    }
-});
 
 export default chatSessionRouter

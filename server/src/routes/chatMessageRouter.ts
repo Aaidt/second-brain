@@ -103,8 +103,9 @@ chatMessageRouter.post("/chat-query", async function (req: Request, res: Respons
     }
 })
 
-chatMessageRouter.post("/send", async function (req: Request, res: Response) {
-    const { sender, content, sessionId } = req.body
+chatMessageRouter.post("/send/:sessionId", async function (req: Request, res: Response) {
+    const { sender, content } = req.body
+    const sessionId = req.params.sessionId
 
     try {
         await prismaClient.chatMessage.create({
