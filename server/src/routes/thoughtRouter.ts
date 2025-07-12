@@ -3,13 +3,10 @@ import { getEmbeddingsFromGemini } from '../utils/src/client'
 import { qdrantClient } from '../utils/src/qdrant'
 import { prismaClient } from "../db/prisma/client"
 import { userMiddleware } from "../middleware/userMiddleware"
-import { v5 as uuidv5 } from 'uuid';
-
-const NAMESPACE = '6ba7b810-9dad-11d1-80b4-00c04fd430c8'; // Use a constant UUID namespace
 
 const thoughtRouter: Router = Router()
 
-thoughtRouter.post("/thoughts", async function (req: Request, res: Response) {
+thoughtRouter.post("/create", async function (req: Request, res: Response) {
     const { title, thoughts } = req.body;
     const userId = req.userId
     const fullText = `${title} ${thoughts}`
@@ -19,8 +16,9 @@ thoughtRouter.post("/thoughts", async function (req: Request, res: Response) {
         return
     }
 
+    let saved;
     try {
-        const saved = await prismaClient.thought.create({
+        saved = await prismaClient.thought.create({
             data: {
                 title: title,
                 body: thoughts,
@@ -33,50 +31,58 @@ thoughtRouter.post("/thoughts", async function (req: Request, res: Response) {
 
         const vector = await getEmbeddingsFromGemini(fullText)
         if (!vector) {
+            // rollback the Db insert.
+            await prismaClient.thought.delete({ where: { id: saved.id } })
+
             res.status(400).json({
                 message: "No vector embeddings processed."
             });
             return
         }
 
-        const pointId = uuidv5(saved.id, NAMESPACE);
+        try {
 
-        await qdrantClient.upsert('thoughts', {
-            points: [
-                {
-                    id: pointId,
-                    vector,
-                    payload: {
-                        title,
-                        thoughts,
-                        userId: userId.toString(),
-                        dbId: saved.id
+            await qdrantClient.upsert('thoughts', {
+                points: [
+                    {
+                        id: saved.id,
+                        vector,
+                        payload: {
+                            title,
+                            thoughts,
+                            userId
+                        }
                     }
-                }
-            ]
-        })
+                ]
+            })
 
-        res.status(200).json({ message: "Successfully added the thought." })
+            res.status(200).json({ message: "Successfully added the thought." })
+        } catch (qdrantErr) {
+            console.log("Error while inserting in qdrant db is: " + qdrantErr);
+            // rollack db insert
+            await prismaClient.thought.delete({ where: { id: saved.id } });
+            res.status(500).json({ message: "Failed to upsert thought to Qdrant DB. Had to rollback. " })
+        }
 
     } catch (err) {
-        console.log(err);
-        res.status(403).json({ message: "Content not added. Something went wrong", error: err })
+        console.log("Error is: " + err)
+        res.status(403).json({ message: "Content not added. Something went wrong" })
     }
 })
 
-thoughtRouter.get("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Request, res: Response) {
+thoughtRouter.get("/", userMiddleware, async function (req: Request, res: Response) {
     try {
         const thoughts = await prismaClient.thought.findMany({
-            where: { userId: req.userId },
-            include: { user: { select: { username: true } } }
+            where: { userId: req.userId }
         });
         res.status(200).json({ thoughts });
     } catch (err) {
-        res.status(403).json({ message: "Not found.", error: err })
+        res.status(403).json({ message: "Server error. Not found." })
+        console.log("Error is: " + err)
     }
 })
 
-thoughtRouter.delete("/api/v1/second-brain/thoughts", userMiddleware, async function (req: Request, res: Response) {
+thoughtRouter.delete("/delete", userMiddleware, async function (req: Request, res: Response) {
     const { thoughtId } = req.body;
     const userId = req.userId;
 
@@ -85,7 +91,16 @@ thoughtRouter.delete("/api/v1/second-brain/thoughts", userMiddleware, async func
         return
     }
 
+    let deletedThought;
     try {
+        deletedThought = await prismaClient.thought.findUnique({ where: { id: thoughtId } })
+        if(!deletedThought || deletedThought.userId !== userId){
+            res.status(403).json({ 
+                message: "Thought not found or not authorized."
+            })
+            return 
+        }
+
         await prismaClient.thought.delete({
             where: {
                 id: thoughtId,
@@ -93,17 +108,32 @@ thoughtRouter.delete("/api/v1/second-brain/thoughts", userMiddleware, async func
             }
         })
 
-        const point_id = uuidv5(thoughtId, NAMESPACE);
-        await qdrantClient.delete('thoughts', {
-            points: [point_id]
-        })
+        try{
+            await qdrantClient.delete('thoughts', {
+                points: [thoughtId]
+            })
+        }catch(qdrantErr){
+            // rollback the deleted thought
+            await prismaClient.thought.create({
+                data: {
+                    id: deletedThought.id,
+                    title: deletedThought.title,
+                    body: deletedThought.body,
+                    userId: deletedThought.userId,
+                    created_at: deletedThought.created_at,
+                }
+            })
+
+            res.status(500).json({ message: "Failed to delete from Qdrant, rolled back the db." })
+            console.log("Qdrant deletion error: " + qdrantErr)
+            return 
+        }
 
         res.status(200).json({ message: "Deleted successfully." })
     } catch (err) {
-        console.error("Error deleting thought:", err);
+        console.error("Error deleting thought: ", err);
         res.status(500).json({
-            message: "Failed to delete thought",
-            error: (err as Error).message
+            message: "Server error. Failed to delete thought."
         });
     }
 })

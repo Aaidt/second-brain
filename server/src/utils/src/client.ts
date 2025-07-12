@@ -29,7 +29,7 @@ export async function getEmbeddingsFromGemini(text: string): Promise<number[]> {
         return result.embedding.values
     } catch (err) {
         console.log('error is: ' + err)
-        throw new Error('Failed to get embeddings' + err)
+        throw new Error('Failed to get embeddings')
     }
 }
 

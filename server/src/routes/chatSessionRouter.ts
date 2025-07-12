@@ -63,4 +63,8 @@ chatSessionRouter.get("/:sessionId", async (req: Request, res: Response) => {
 });
 
 
+chatSessionRouter.delete("/delete", async function (req: Request, res: Response){
+
+})
+
 export default chatSessionRouter
