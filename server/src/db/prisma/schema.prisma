@@ -27,7 +27,7 @@ model Link {
   created_at DateTime @default(now())
 
   userId String @unique
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Content {
@@ -38,7 +38,7 @@ model Content {
   created_at DateTime @default(now())
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Thought {
@@ -48,7 +48,7 @@ model Thought {
   created_at DateTime @default(now())
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ChatSession {
@@ -59,7 +59,7 @@ model ChatSession {
   message ChatMessage[]
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Sender {
@@ -74,5 +74,5 @@ model ChatMessage {
   created_at DateTime @default(now())
 
   sessionId String
-  session   ChatSession @relation(fields: [sessionId], references: [id])
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 }

@@ -20,39 +20,25 @@ linkRouter.post("/share", async function (req: Request, res: Response) {
     try {
         if (share) {
             const link = hashLink(20);
-            const existingLink = await prismaClient.link.findFirst({
-                where: {
-                    userId
-                }
-            })
+            const existingLink = await prismaClient.link.findFirst({ where: { userId } })
             if (existingLink) {
-                res.json({
-                    link: existingLink.hash
-                })
+                res.json({ link: existingLink.hash })
                 return;
             }
             await prismaClient.link.create({
                 data: {
                     hash: link,
                     user:{ 
-                        connect: {
-                            id: userId
-                        }
+                        connect: { id: userId }
                     } 
                 }
             })
-            res.json({
-                link
-            })
+            res.json({ link })
         } else {
             await prismaClient.link.deleteMany({
-                where: {
-                    userId
-                }
+                where: { userId }
             })
-            res.json({
-                message: "Removed link"
-            })
+            res.json({ message: "Removed link" })
         }
     } catch (err) {
         res.json({ message: "Server error. Could not delete." })
@@ -65,34 +51,24 @@ linkRouter.post("/share/:shareLink", async function (req: Request, res: Response
     const link = req.params.shareLink
     try {
         if (!link) {
-            res.json({
-                message: "Link is required."
-            })
+            res.json({ message: "Link is required." })
             return
         }
 
         const hashLink = await prismaClient.link.findFirst({
-            where: {
-                hash: link
-            }
+            where: { hash: link }
         })
         if (!hashLink) {
-            res.json({
-                message: "Invalid link."
-            })
+            res.json({ message: "Invalid link." })
             return
         }
 
         const content = await prismaClient.content.findMany({
-            where: {
-                userId: hashLink.userId
-            }
+            where: { userId: hashLink.userId }
         })
 
         const user = await prismaClient.user.findFirst({
-            where: {
-                id: hashLink.userId
-            }
+            where: { id: hashLink.userId }
         })
         if (!user) {
             res.json({
