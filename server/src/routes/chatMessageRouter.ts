@@ -48,8 +48,9 @@ chatMessageRouter.post("/query", async function (req: Request, res: Response) {
 
     } catch (err) {
         res.status(404).json({
-            message: "Error saving thoughts: " + err
+            message: "Error saving thoughts: " 
         })
+        console.error("Error is: " + err)
     }
 });
 
@@ -124,7 +125,7 @@ chatMessageRouter.post("/send/:sessionId", async function (req: Request, res: Re
         })
 
     } catch (err) {
-        console.log('Error while saving chats. ' + err);
+        console.error('Error while saving chats. ' + err);
         res.status(500).json({
             message: "Server error. Error while saving chats. "
         })

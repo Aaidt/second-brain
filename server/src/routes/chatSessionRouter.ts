@@ -19,7 +19,8 @@ chatSessionRouter.post("/create", async (req: Request, res: Response) => {
         });
         res.status(201).json({ session });
     } catch (err) {
-        res.status(500).json({ message: "Error creating session.", error: err });
+        res.status(500).json({ message: "Error creating session." });
+        console.error("Error is: " + err)
     }
 });
 
@@ -36,7 +37,8 @@ chatSessionRouter.get("/", async (req: Request, res: Response) => {
         });
         res.status(200).json({ sessions });
     } catch (err) {
-        res.status(500).json({ message: "Error fetching sessions.", error: err });
+        res.status(500).json({ message: "Error fetching sessions." });
+        console.error("Error is: " + err)
     }
 });
 
@@ -58,7 +60,8 @@ chatSessionRouter.get("/:sessionId", async (req: Request, res: Response) => {
         }
         res.status(200).json({ session });
     } catch (err) {
-        res.status(500).json({ message: "Error fetching session.", error: err });
+        res.status(500).json({ message: "Error fetching session." });
+        console.error("Error is: " + err)
     }
 });
 

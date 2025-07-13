@@ -7,8 +7,8 @@ import { prismaClient } from "../db/prisma/client"
 dotenv.config()
 const authRouter: Router = Router()
 
-const ACCESS_SECRET =  process.env.ACCESS_SECRET
-const REFRESH_SECRET =  process.env.REFRESH_SECRET
+const ACCESS_SECRET = process.env.ACCESS_SECRET
+const REFRESH_SECRET = process.env.REFRESH_SECRET
 
 authRouter.post("/signup", async function (req: Request, res: Response) {
     try {
@@ -34,13 +34,12 @@ authRouter.post("/signup", async function (req: Request, res: Response) {
             sameSite: "lax"
         })
 
-        res.json({ accessToken })
-
         res.status(201).json({
-            message: "User has signed-up successfully."
+            message: "User has signed-up successfully.",
+            accessToken
         })
     } catch (err) {
-        console.log("Signup error: " + err);
+        console.error("Signup error: " + err);
         res.status(500).json({
             error: ("Server error. Error in signing up.")
         })
@@ -64,8 +63,8 @@ authRouter.post("/signin", async function (req: Request, res: Response) {
             return;
         }
 
-        const accessToken = jwt.sign({ id: foundUser.id },  ACCESS_SECRET as string, { expiresIn: "15m" })
-        const refreshToken = jwt.sign({ id: foundUser.id },  REFRESH_SECRET as string, { expiresIn: "7d" })
+        const accessToken = jwt.sign({ id: foundUser.id }, ACCESS_SECRET as string, { expiresIn: "15m" })
+        const refreshToken = jwt.sign({ id: foundUser.id }, REFRESH_SECRET as string, { expiresIn: "7d" })
 
         res.cookie("refresh-token", refreshToken, {
             httpOnly: true,
@@ -76,7 +75,7 @@ authRouter.post("/signin", async function (req: Request, res: Response) {
         res.json({ accessToken })
     }
     catch (err) {
-        console.log("Signin error: " + err);
+        console.error("Signin error: " + err);
         res.status(500).json({
             error: "Internal server error while signing in."
         })
@@ -85,8 +84,8 @@ authRouter.post("/signin", async function (req: Request, res: Response) {
 
 authRouter.post("/refresh-token", async function (req: Request, res: Response) {
     const userId = req.userId
-    const refreshToken = req.cookies.refreshToken
-    if(!refreshToken){
+    const refreshToken = req.cookies["refreshToken"]
+    if (!refreshToken) {
         res.status(404).json({ message: "Token not found." })
         return
     }
@@ -99,9 +98,14 @@ authRouter.post("/refresh-token", async function (req: Request, res: Response) {
         return
     }
 
-    const newAccessToken  = jwt.sign({ userId }, ACCESS_SECRET as string, { expiresIn: "15m"})
+    const newAccessToken = jwt.sign({ userId }, ACCESS_SECRET as string, { expiresIn: "15m" })
 
-    res.json({ accessToken: newAccessToken  })
+    res.json({ accessToken: newAccessToken })
+})
+
+authRouter.post("/logout", async function (req: Request, res: Response) {
+    res.clearCookie("refresh-token", { sameSite: "lax", httpOnly: true })
+
 })
 
 export default authRouter

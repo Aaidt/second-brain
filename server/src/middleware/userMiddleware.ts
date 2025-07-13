@@ -1,31 +1,38 @@
 import express, { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-
-const JWT_SECRET = process.env.JWT_SECRET as string
 dotenv.config();
 
+const JWT_SECRET = process.env.JWT_SECRET as string
+
 export const userMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const header = req.headers["authorization"]
-    const decoded = jwt.verify(header as string, JWT_SECRET);
+    const authHeader = req.headers["Authorization"] 
+
+    if(!authHeader || typeof authHeader !== "string"){
+        res.status(403).json({ message: "Authorization header missing or mlaformed." })
+        return 
+    }
+
+    const accessToken = authHeader.split(" ")[1] 
+    if(!accessToken){
+        res.status(401).json({ message: "Access token missing." });
+        return
+    }
 
     try {
-        if (decoded) {
-            if (typeof decoded == "string") {
-                res.status(403).json({
-                    message: "Invalid token"
-                });
-                return;
-            }
-            req.userId = decoded.id
-            next();
-        } else {
-            res.status(403).json({
-                message: "You are not logged in."
-            })
-        }
+        const decoded = jwt.verify(accessToken, JWT_SECRET) as jwt.JwtPayload;
+
+     if (!decoded || !decoded.userId) {
+        return res.status(403).json({ message: "Invalid token payload." });
+    }
+
+        req.userId = decoded.userId;
+        next();
+
     } catch (e) {
-        console.log(e);
+        console.error(e);
+        res.status(500).json({ message: "Server Error. User not authorized"})
+        return
     }
 
 }

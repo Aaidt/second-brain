@@ -56,7 +56,7 @@ linkRouter.post("/share", async function (req: Request, res: Response) {
         }
     } catch (err) {
         res.json({ message: "Server error. Could not delete." })
-        console.log(err)
+        console.error(err)
     }
 
 })
@@ -105,8 +105,8 @@ linkRouter.post("/share/:shareLink", async function (req: Request, res: Response
             content
         })
     } catch (err) {
-        res.json({ err })
-        console.log(err)
+        res.json({ message: "Server error. Error in the sharing process." })
+        console.error(err)
     }
 })
 

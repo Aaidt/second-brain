@@ -22,7 +22,7 @@ contentRouter.post("/create", async function (req: Request, res: Response) {
         })
         res.status(201).json({ message: "Content has been added successfully." })
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(403).json({ message: "Server error. Content not added." })
     }
 
@@ -37,7 +37,7 @@ contentRouter.get("/", async function (req: Request, res: Response) {
         res.status(201).json({ content })
     } catch (err) {
         res.status(500).json({ message: "Server error. Could not get content." })
-        console.log(err)
+        console.error(err)
     }
 })
 
@@ -54,8 +54,8 @@ contentRouter.delete("/deleteOne", async function (req: Request, res: Response) 
             message: "Content deleted successfully."
         })
     } catch (err) {
-        res.json({ err })
-        console.log(err)
+        res.json({ message: "Server error. Error while deleting one." })
+        console.error(err)
     }
 })
 
@@ -70,8 +70,8 @@ contentRouter.delete("/deleteAll", async function (req: Request, res: Response) 
             message: "Content deleted successfully."
         })
     } catch (err) {
-        res.json({ err })
-        console.log(err)
+        res.json({ message: "Server error. Error while deleting all." })
+        console.error(err)
     }
 })
 

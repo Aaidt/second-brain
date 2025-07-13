@@ -58,19 +58,19 @@ thoughtRouter.post("/create", async function (req: Request, res: Response) {
 
             res.status(200).json({ message: "Successfully added the thought." })
         } catch (qdrantErr) {
-            console.log("Error while inserting in qdrant db is: " + qdrantErr);
+            console.error("Error while inserting in qdrant db is: " + qdrantErr);
             // rollack db insert
             await prismaClient.thought.delete({ where: { id: saved.id } });
             res.status(500).json({ message: "Failed to upsert thought to Qdrant DB. Had to rollback. " })
         }
 
     } catch (err) {
-        console.log("Error is: " + err)
+        console.error("Error is: " + err)
         res.status(403).json({ message: "Content not added. Something went wrong" })
     }
 })
 
-thoughtRouter.get("/", userMiddleware, async function (req: Request, res: Response) {
+thoughtRouter.get("/", async function (req: Request, res: Response) {
     try {
         const thoughts = await prismaClient.thought.findMany({
             where: { userId: req.userId }
@@ -78,11 +78,11 @@ thoughtRouter.get("/", userMiddleware, async function (req: Request, res: Respon
         res.status(200).json({ thoughts });
     } catch (err) {
         res.status(403).json({ message: "Server error. Not found." })
-        console.log("Error is: " + err)
+        console.error("Error is: " + err)
     }
 })
 
-thoughtRouter.delete("/delete", userMiddleware, async function (req: Request, res: Response) {
+thoughtRouter.delete("/delete", async function (req: Request, res: Response) {
     const { thoughtId } = req.body;
     const userId = req.userId;
 
@@ -125,7 +125,7 @@ thoughtRouter.delete("/delete", userMiddleware, async function (req: Request, re
             })
 
             res.status(500).json({ message: "Failed to delete from Qdrant, rolled back the db." })
-            console.log("Qdrant deletion error: " + qdrantErr)
+            console.error("Qdrant deletion error: " + qdrantErr)
             return 
         }
 
