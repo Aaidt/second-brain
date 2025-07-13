@@ -3,14 +3,18 @@ import jwt from 'jsonwebtoken';
 import dotenv from "dotenv";
 import { hash, compare } from "bcrypt"
 import { prismaClient } from "../db/prisma/client"
-
+import { z } from "zod" 
+import { AuthSchema } from "../utils/src/types"
 dotenv.config()
+
 const authRouter: Router = Router()
+
+type authInput = z.infer<typeof AuthSchema>
 
 const ACCESS_SECRET = process.env.ACCESS_SECRET
 const REFRESH_SECRET = process.env.REFRESH_SECRET
 
-authRouter.post("/signup", async function (req: Request, res: Response) {
+authRouter.post("/signup", async function (req: Request<{}, {}, authInput>, res: Response) {
     try {
         const { name, username, password } = req.body
 
@@ -46,7 +50,7 @@ authRouter.post("/signup", async function (req: Request, res: Response) {
     }
 })
 
-authRouter.post("/signin", async function (req: Request, res: Response) {
+authRouter.post("/signin", async function (req: Request<{}, {}, authInput>, res: Response) {
     try {
         const { username, password } = req.body
 
@@ -82,7 +86,7 @@ authRouter.post("/signin", async function (req: Request, res: Response) {
     }
 })
 
-authRouter.post("/refresh-token", async function (req: Request, res: Response) {
+authRouter.post("/refresh-token", async function (req: Request<{}, {}, authInput>, res: Response) {
     const userId = req.userId
     const refreshToken = req.cookies["refreshToken"]
     if (!refreshToken) {
@@ -103,7 +107,7 @@ authRouter.post("/refresh-token", async function (req: Request, res: Response) {
     res.json({ accessToken: newAccessToken })
 })
 
-authRouter.post("/logout", async function (req: Request, res: Response) {
+authRouter.post("/logout", async function (req: Request<{}, {}, authInput>, res: Response) {
     res.clearCookie("refresh-token", { sameSite: "lax", httpOnly: true })
 
 })

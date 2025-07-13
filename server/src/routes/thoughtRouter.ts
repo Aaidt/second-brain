@@ -2,11 +2,14 @@ import { Router, Request, Response } from "express"
 import { getEmbeddingsFromGemini } from '../utils/src/client'
 import { qdrantClient } from '../utils/src/qdrant'
 import { prismaClient } from "../db/prisma/client"
-import { userMiddleware } from "../middleware/userMiddleware"
+import { z } from "zod"
+import { ThoughtSchema } from "../utils/src/types"
 
 const thoughtRouter: Router = Router()
 
-thoughtRouter.post("/create", async function (req: Request, res: Response) {
+type thoughtInput = z.infer<typeof ThoughtSchema>
+
+thoughtRouter.post("/create", async function (req: Request<{}, {}, thoughtInput>, res: Response) {
     const { title, thoughts } = req.body;
     const userId = req.userId
     const fullText = `${title} ${thoughts}`
@@ -70,7 +73,7 @@ thoughtRouter.post("/create", async function (req: Request, res: Response) {
     }
 })
 
-thoughtRouter.get("/", async function (req: Request, res: Response) {
+thoughtRouter.get("/", async function (req: Request<{}, {}, thoughtInput>, res: Response) {
     try {
         const thoughts = await prismaClient.thought.findMany({
             where: { userId: req.userId }
@@ -82,8 +85,8 @@ thoughtRouter.get("/", async function (req: Request, res: Response) {
     }
 })
 
-thoughtRouter.delete("/delete", async function (req: Request, res: Response) {
-    const { thoughtId } = req.body;
+thoughtRouter.delete("/delete", async function (req: Request<{ thoughtId: string }, {}, thoughtInput>, res: Response) {
+    const { thoughtId } = req.params;
     const userId = req.userId;
 
     if (!thoughtId?.trim() || !userId) {
@@ -94,11 +97,11 @@ thoughtRouter.delete("/delete", async function (req: Request, res: Response) {
     let deletedThought;
     try {
         deletedThought = await prismaClient.thought.findUnique({ where: { id: thoughtId } })
-        if(!deletedThought || deletedThought.userId !== userId){
-            res.status(403).json({ 
+        if (!deletedThought || deletedThought.userId !== userId) {
+            res.status(403).json({
                 message: "Thought not found or not authorized."
             })
-            return 
+            return
         }
 
         await prismaClient.thought.delete({
@@ -108,11 +111,11 @@ thoughtRouter.delete("/delete", async function (req: Request, res: Response) {
             }
         })
 
-        try{
+        try {
             await qdrantClient.delete('thoughts', {
                 points: [thoughtId]
             })
-        }catch(qdrantErr){
+        } catch (qdrantErr) {
             // rollback the deleted thought
             await prismaClient.thought.create({
                 data: {
@@ -126,7 +129,7 @@ thoughtRouter.delete("/delete", async function (req: Request, res: Response) {
 
             res.status(500).json({ message: "Failed to delete from Qdrant, rolled back the db." })
             console.error("Qdrant deletion error: " + qdrantErr)
-            return 
+            return
         }
 
         res.status(200).json({ message: "Deleted successfully." })

@@ -3,11 +3,14 @@ import { getEmbeddingsFromGemini } from '../utils/src/client'
 import { qdrantClient } from '../utils/src/qdrant'
 import { genAI } from "../utils/src/client"
 import { prismaClient } from "../db/prisma/client"
+import { z } from "zod"
+import { ChatMessageSchema } from "../utils/src/types"
 
 const chatMessageRouter: Router = Router()
 
+type chatMessageInput = z.infer<typeof ChatMessageSchema>
 
-chatMessageRouter.post("/query", async function (req: Request, res: Response) {
+chatMessageRouter.post("/query", async function (req: Request<{}, {}, chatMessageInput>, res: Response) {
     const { query } = req.body;
     if (!query || typeof query !== "string" || !query.trim()) {
         res.status(403).json({ message: "Query must be a non-empty string" })
@@ -32,9 +35,7 @@ chatMessageRouter.post("/query", async function (req: Request, res: Response) {
             limit: 2,
             filter: {
                 must: [
-                    {
-                        key: "userId", match: { value: userId.toString() }
-                    }
+                    { key: "userId", match: { value: userId.toString() } }
                 ]
             }
         })
@@ -42,20 +43,20 @@ chatMessageRouter.post("/query", async function (req: Request, res: Response) {
         // console.log(result.score);
 
         const results = result.map(r => r.payload)
-        res.status(200).json({
-            results
-        })
+        res.status(200).json({ results })
 
     } catch (err) {
-        res.status(404).json({
-            message: "Error saving thoughts: " 
-        })
+        res.status(404).json({ message: "Error saving thoughts: " })
         console.error("Error is: " + err)
     }
 });
 
-chatMessageRouter.post("/chat-query", async function (req: Request, res: Response) {
+chatMessageRouter.post("/chat-query", async function (req: Request<{}, {}, chatMessageInput>, res: Response) {
     const { query } = req.body
+    if (!query || typeof query !== "string" || !query.trim()) {
+        res.status(403).json({ message: "Query must be a non-empty string" })
+        return
+    }
 
     const userId = req.userId
     if (!userId) {
@@ -76,9 +77,7 @@ chatMessageRouter.post("/chat-query", async function (req: Request, res: Respons
 
         const retrievedTexts = result.map(r => `${r.payload?.title ?? ""}: ${r.payload?.thoughts ?? ""}`).join("\n");
         if (!retrievedTexts) {
-            res.status(404).json({
-                message: 'No results found.'
-            });
+            res.status(404).json({ message: 'No results found.' });
         }
 
         const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
@@ -104,7 +103,7 @@ chatMessageRouter.post("/chat-query", async function (req: Request, res: Respons
     }
 })
 
-chatMessageRouter.post("/send/:sessionId", async function (req: Request, res: Response) {
+chatMessageRouter.post("/send/:sessionId", async function (req: Request<{ sessionId: string }, {}, chatMessageInput>, res: Response) {
     const { sender, content } = req.body
     const sessionId = req.params.sessionId
 
@@ -114,36 +113,26 @@ chatMessageRouter.post("/send/:sessionId", async function (req: Request, res: Re
                 sender,
                 content,
                 session: {
-                    connect: {
-                        id: sessionId
-                    }
-                } 
+                    connect: { id: sessionId }
+                }
             }
         })
-        res.status(200).json({
-            message: "Chats sent successfully!!!"
-        })
+        res.status(200).json({ message: "Messages sent successfully!!!" })
 
     } catch (err) {
         console.error('Error while saving chats. ' + err);
-        res.status(500).json({
-            message: "Server error. Error while saving chats. "
-        })
+        res.status(500).json({ message: "Server error. Error while saving messages." })
     }
 })
 
-chatMessageRouter.get("/", async function (req: Request, res: Response) {
-    const { sessionId } = req.body
+chatMessageRouter.get("/:sessionId", async function (req: Request<{ sessionId: string }, {}, chatMessageInput>, res: Response) {
+    const { sessionId } = req.params
     try {
         const chats = await prismaClient.chatMessage.findMany({
-            where: {
-                sessionId
-            }
+            where: { sessionId }
         })
 
-        res.status(200).json({
-            chats
-        })
+        res.status(200).json({ chats })
     } catch (err) {
         console.error('Error retrieving chats:', err);
         res.status(500).json({ message: 'Internal server error' });

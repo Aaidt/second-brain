@@ -1,15 +1,20 @@
 import { Router, Request, Response } from "express"
 import { prismaClient } from "../db/prisma/client"
+import { z } from "zod"
+import { ChatSessionSchema } from "../utils/src/types"
 
 const chatSessionRouter: Router = Router()
 
-chatSessionRouter.post("/create", async (req: Request, res: Response) => {
+type chatSessionInput = z.infer<typeof ChatSessionSchema>
+
+chatSessionRouter.post("/create", async (req: Request<{}, {}, chatSessionInput>, res: Response) => {
     const { title } = req.body;
     const userId = req.userId;
     if (!title || !userId) {
         res.status(400).json({ message: "Title and userId are required." });
         return;
     }
+
     try {
         const session = await prismaClient.chatSession.create({
             data: {
@@ -24,7 +29,7 @@ chatSessionRouter.post("/create", async (req: Request, res: Response) => {
     }
 });
 
-chatSessionRouter.get("/", async (req: Request, res: Response) => {
+chatSessionRouter.get("/", async (req: Request<{}, {}, chatSessionInput>, res: Response) => {
     const userId = req.userId;
     if (!userId) {
         res.status(401).json({ message: "User not authenticated." });
@@ -42,7 +47,7 @@ chatSessionRouter.get("/", async (req: Request, res: Response) => {
     }
 });
 
-chatSessionRouter.get("/:sessionId", async (req: Request, res: Response) => {
+chatSessionRouter.get("/:sessionId", async (req: Request<{ sessionId: string }, {}, chatSessionInput>, res: Response) => {
     const userId = req.userId;
     const { sessionId } = req.params;
     if (!userId) {
@@ -66,13 +71,13 @@ chatSessionRouter.get("/:sessionId", async (req: Request, res: Response) => {
 });
 
 
-chatSessionRouter.delete("/delete/:sessionId", async function (req: Request, res: Response){
+chatSessionRouter.delete("/delete/:sessionId", async function (req: Request<{sessionId: string}, {}, chatSessionInput>, res: Response) {
     const sessionId = req.params.sessionId;
 
-    try{
+    try {
         await prismaClient.chatSession.delete({ where: { id: sessionId } })
         res.status(200).json({ message: "Session deleted successfully." })
-    }catch(err){
+    } catch (err) {
         console.error("Error is: " + err)
         res.status(500).json({ message: "Server error. Could not delete session." })
     }

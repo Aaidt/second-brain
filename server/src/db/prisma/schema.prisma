@@ -63,8 +63,8 @@ model ChatSession {
 }
 
 enum Sender {
-  AI
-  USER
+  ai
+  user
 }
 
 model ChatMessage {

@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { Request, Response, NextFunction } from "express";
 
-const AuthSchema = z.object({
+export const AuthSchema = z.object({
+  name: z.string().min(3).max(20),
   username: z
     .string()
     .min(8, {
@@ -31,7 +32,7 @@ export function validateAuth(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-const ContentSchema = z.object({
+export const ContentSchema = z.object({
   title: z.string(),
   link: z.string(),
   type: z.string(),
@@ -52,7 +53,23 @@ export function validateContent(
   }
 }
 
-const ThoughtSchema = z.object({
+export const LinkSchema = z.object({
+  share: z.boolean()
+})
+
+export function validateLink(req: Request, res: Response, next: NextFunction) {
+  const parsedData = LinkSchema.safeParse(req.body)
+
+  if (!parsedData.success) {
+    res.status(400).json({
+      error: parsedData.error.format(),
+    });
+  } else {
+    next();
+  }
+}
+
+export const ThoughtSchema = z.object({
   title: z.string(),
   thoughts: z.string()
 })
@@ -69,9 +86,10 @@ export function validateThought(req: Request, res: Response, next: NextFunction)
   }
 }
 
-const ChatMessageSchema = z.object({
+export const ChatMessageSchema = z.object({
   sender: z.enum(['user', 'ai']),
-  content: z.string()
+  content: z.string(),
+  query: z.string().optional()
 });
 
 export function validateChatMessage(req: Request, res: Response, next: NextFunction) {
@@ -86,7 +104,7 @@ export function validateChatMessage(req: Request, res: Response, next: NextFunct
   }
 }
 
-const ChatSessionSchema = z.object({
+export const ChatSessionSchema = z.object({
   title: z.string().min(3).max(20)
 });
 

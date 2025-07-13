@@ -1,9 +1,13 @@
 import { Router, Request, Response } from "express"
 import { prismaClient } from "../db/prisma/client"
+import { z } from "zod" 
+import { ContentSchema } from "../utils/src/types"
 
 const contentRouter: Router = Router()
 
-contentRouter.post("/create", async function (req: Request, res: Response) {
+type contentInput = z.infer<typeof ContentSchema>
+
+contentRouter.post("/create", async function (req: Request<{}, {}, contentInput>, res: Response) {
     const { title, link, type } = req.body;
     const userId = req.userId
 
@@ -29,7 +33,7 @@ contentRouter.post("/create", async function (req: Request, res: Response) {
 })
 
 
-contentRouter.get("/", async function (req: Request, res: Response) {
+contentRouter.get("/", async function (req: Request<{}, {}, contentInput>, res: Response) {
     const userId = req.userId
     try {
         const content = await prismaClient.content.findMany({ where: { userId } })
@@ -41,8 +45,8 @@ contentRouter.get("/", async function (req: Request, res: Response) {
     }
 })
 
-contentRouter.delete("/deleteOne", async function (req: Request, res: Response) {
-    const { contentId } = req.body;
+contentRouter.delete("/deleteOne", async function (req: Request<{contentId: string}, {}, contentInput>, res: Response) {
+    const { contentId } = req.params;
     try {
         await prismaClient.content.delete({
             where: {
@@ -59,7 +63,7 @@ contentRouter.delete("/deleteOne", async function (req: Request, res: Response) 
     }
 })
 
-contentRouter.delete("/deleteAll", async function (req: Request, res: Response) {
+contentRouter.delete("/deleteAll", async function (req: Request<{}, {}, contentInput>, res: Response) {
     try {
         await prismaClient.content.deleteMany({
             where: {

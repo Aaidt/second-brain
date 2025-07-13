@@ -2,7 +2,7 @@ import express from 'express'
 import dotenv from "dotenv"
 import cors from 'cors'
 import { userMiddleware } from "./middleware/userMiddleware"
-import { validateAuth, validateContent, validateThought, validateChatMessage, validateChatSession } from "./utils/src/types"
+import { validateAuth, validateContent, validateThought, validateChatMessage, validateChatSession, validateLink } from "./utils/src/types"
 import cookieParser from "cookie-parser"
 import authRouter from "./routes/authRouter"
 import contentRouter from "./routes/contentRouter"
@@ -26,7 +26,7 @@ app.use(cookieParser())
 app.use("/second-brain/api/auth", validateAuth, authRouter)
 app.use("/second-brain/api/content", validateContent, userMiddleware, contentRouter)
 app.use("/second-brain/api/thought", validateThought, userMiddleware, thoughtRouter)
-app.use("/second-brain/api/link", validateThought, userMiddleware, linkRouter)
+app.use("/second-brain/api/link", validateLink, userMiddleware, linkRouter)
 app.use("/second-brain/api/chat", validateChatMessage, userMiddleware, chatMessageRouter)
 app.use("/second-brain/api/chat", validateChatSession, userMiddleware, chatSessionRouter)
 

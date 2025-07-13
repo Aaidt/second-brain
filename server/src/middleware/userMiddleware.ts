@@ -23,7 +23,8 @@ export const userMiddleware = (req: Request, res: Response, next: NextFunction) 
         const decoded = jwt.verify(accessToken, JWT_SECRET) as jwt.JwtPayload;
 
      if (!decoded || !decoded.userId) {
-        return res.status(403).json({ message: "Invalid token payload." });
+        res.status(403).json({ message: "Invalid token payload." });
+        return 
     }
 
         req.userId = decoded.userId;
