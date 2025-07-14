@@ -15,7 +15,7 @@
 //     async function handleRequest() {
 //         setLoading(true)
 //         try {
-//             await axios.post(`${BACKEND_URL}/api/v1/second-brain/thoughts`, {
+//             await axios.post(`${BACKEND_URL}/second-brain/api/thought/create`, {
 //                 title: titleRef.current?.value,
 //                 thoughts: textareaRef.current?.value
 //             }, {

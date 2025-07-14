@@ -12,16 +12,12 @@ import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
 import { CreateThoughtModal } from "../components/ui/createThoughtModal"
 import { BookIcon } from "../components/icons/BookIcon"
-// import { FileUploadIcon } from "../components/icons/FileUploadIcon"
 import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from "../components/ui/ThoughtCards"
-// import { useNavigate } from "react-router-dom"
-import { FileUploader } from "../components/ui/FileUploader"
 import { motion } from 'framer-motion'
 import { toast } from "react-toastify"
 
 export function Dashboard() {
-    // const navigate = useNavigate()
 
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const CLIENT_URL = import.meta.env.VITE_CLIENT_URL;
@@ -30,7 +26,6 @@ export function Dashboard() {
 
     const [contentModalOpen, setContentModalOpen] = useState(false);
     const [thoughtModalOpen, setThoughtModalOpen] = useState(false);
-    const [docModalOpen, setDocModalOpen] = useState(false);
     const [share, setShare] = useState(true)
 
     const { contents, refresh } = useContent()
@@ -57,7 +52,7 @@ export function Dashboard() {
     async function handleShare() {
         setShare(!share)
         try {
-            const response = await axios.post<ResponseData>(`${BACKEND_URL}/api/v1/second-brain/share`,
+            const response = await axios.post<ResponseData>(`${BACKEND_URL}/second-brain/api/share`,
                 {
                     share: share
                 },
@@ -102,7 +97,6 @@ export function Dashboard() {
         <div className="min-h-screen min-h-full w-full bg-white font-serif text-black/95">
             <CreateContentModal open={contentModalOpen} setOpen={setContentModalOpen} />
             <CreateThoughtModal open={thoughtModalOpen} setOpen={setThoughtModalOpen} />
-            <FileUploader open={docModalOpen} setOpen={setDocModalOpen} />
 
 
             <motion.div
@@ -161,18 +155,6 @@ export function Dashboard() {
 
                 <div
                     className="pt-1 p-2 fixed right-0 top-0 flex">
-                    {/* <motion.div
-                        initial={{ opacity: 0, y: -50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, ease: "easeOut" }}
-                        className="text-md">
-                        <Button
-                            hover={true}
-                            size="md" text="Documents" bg_color="pink"
-                            fullWidth={false} shadow={false} startIcon={<FileUploadIcon />}
-                            onClick={() => setDocModalOpen(true)}
-                        />
-                    </motion.div> */}
                     <motion.div
                         initial={{ opacity: 0, y: -50 }}
                         whileInView={{ opacity: 1, y: 0 }}

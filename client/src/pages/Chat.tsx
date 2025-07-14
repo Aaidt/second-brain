@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { DeleteChat } from "../components/ui/DeleteChat"
+import { getAccessToken, refreshAccessToken } from "../auth";
 
 type Message = {
   sender: 'user' | 'ai';
@@ -22,7 +23,7 @@ export function Chat() {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
-  const [references, setReferences] = useState<any[]>([]);
+  const [references, setReferences] = useState<axiosResponse["references"]>([]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -40,7 +41,13 @@ export function Chat() {
   }, [messages]);
 
   useEffect(() => {
-    const token = localStorage.getItem('authorization');
+    let token = getAccessToken();
+    if (!token) {
+      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+      refreshAccessToken(BACKEND_URL).then(newToken => {
+        token = newToken;
+      });
+    }
     if (!token) {
       toast.error('Please log in to access chats');
       navigate('/login');
@@ -50,7 +57,7 @@ export function Chat() {
     async function fetchSavedChats() {
       try {
         const fetchedChats = await axios.get<{ chats: Message[] }>(
-          `${import.meta.env.VITE_BACKEND_URL}/api/v1/second-brain/chats`,
+          `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chat/`,
           { headers: { Authorization: token } }
         );
         setSavedChats(fetchedChats.data.chats || []);
@@ -64,7 +71,13 @@ export function Chat() {
   }, [navigate]);
 
   async function saveChat(message: Message) {
-    const token = localStorage.getItem('authorization');
+    let token = getAccessToken();
+    if (!token) {
+      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+      await refreshAccessToken(BACKEND_URL).then(newToken => {
+        token = newToken;
+      });
+    }
     if (!token) {
       toast.error('Please log in to save chats');
       navigate('/login');
@@ -73,7 +86,7 @@ export function Chat() {
 
     try {
       await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/v1/second-brain/chats`,
+        `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chat/create`,
         { sender: message.sender, content: message.content },
         { headers: { Authorization: token } }
       );
@@ -92,10 +105,17 @@ export function Chat() {
 
     try {
       await saveChat(userMessage);
+      let token = getAccessToken();
+      if (!token) {
+        const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+        await refreshAccessToken(BACKEND_URL).then(newToken => {
+          token = newToken;
+        });
+      }
       const res = await axios.post<axiosResponse>(
-        `${import.meta.env.VITE_BACKEND_URL}/api/v1/second-brain/chat-query`,
+        `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chat/chat-query`,
         { query },
-        { headers: { Authorization: localStorage.getItem('authorization') } }
+        { headers: { Authorization: token } }
       );
 
       const aiResponse = res.data?.answers || 'No answer';
@@ -105,6 +125,7 @@ export function Chat() {
       await saveChat(aiMessage);
     } catch (err) {
       toast.error('Error fetching response');
+      console.error(err)
     }
 
     setQuery('');

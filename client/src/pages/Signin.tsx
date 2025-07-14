@@ -1,10 +1,9 @@
-// import { Button } from "../components/ui/Button"
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
 import { motion } from 'framer-motion'
-import axios from "axios";
 import { CloseBarIcon } from "@/components/icons/CloseBarIcon";
+import { loginOrSignup, setAccessToken } from "../auth";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 const initial = { opacity: 0 }
@@ -19,29 +18,25 @@ export function Signin() {
 
     const navigate = useNavigate();
 
-    type LoginResponse = {
-        token: string
-    }
-
     async function signin() {
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
 
         setLoading(true)
         try {
-            const response = await axios.post<LoginResponse>(`${BACKEND_URL}/api/v1/second-brain/signin`, {
-                username,
-                password
+            const response = await loginOrSignup({
+                username: username!,
+                password: password!,
+                url: `${BACKEND_URL}/second-brain/api/auth/signin`
             });
-            const jwt = response.data.token as string
-            localStorage.setItem("authorization", jwt)
+            setAccessToken((response.data as { accessToken: string }).accessToken);
             toast.success("You have successfully signed-in!!!!");
             navigate("/dashboard");
-            setLoading(false)
         } catch (err) {
             toast.error("Something went wrong. Please try again.")
-            setLoading(false)
             console.log(err)
+        } finally {
+            setLoading(false)
         }
 
     }

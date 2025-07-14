@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { getAccessToken, refreshAccessToken } from "../auth";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -19,9 +20,16 @@ export const useContent = () => {
 
     function refresh() {
         try {
-            axios.get<ResponseData>(`${BACKEND_URL}/api/v1/second-brain/content`, {
+            let token = getAccessToken();
+            if (!token) {
+                const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+                refreshAccessToken(BACKEND_URL).then(newToken => {
+                    token = newToken;
+                });
+            }
+            axios.get<ResponseData>(`${BACKEND_URL}/second-brain/api/content`, {
                 headers: {
-                    "Authorization": localStorage.getItem("authorization")
+                    "Authorization": token
                 }
             })
                 .then((response) => {

@@ -3,6 +3,7 @@ import { useContent } from "../../hooks/useContent"
 import { toast } from 'react-toastify'
 import { useThoughts } from "../../hooks/useThoughts"
 import axios from "axios";
+import { getAccessToken, refreshAccessToken } from "../../auth";
 
 export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
     open: boolean,
@@ -16,15 +17,22 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
 
     async function deletePost() {
         try {
+            let token = getAccessToken();
+            if (!token) {
+                const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+                await refreshAccessToken(BACKEND_URL).then(newToken => {
+                    token = newToken;
+                });
+            }
             if (contentId) {
                 await axios.request({
                     method: 'DELETE',
-                    url: `${BACKEND_URL}/api/v1/second-brain/content`,
+                    url: `${BACKEND_URL}/second-brain/api/content/delete`,
                     data: {
                         contentId: contentId
                     },
                     headers: {
-                        "Authorization": localStorage.getItem("authorization")
+                        "Authorization": token
                     }
                 })
                 refresh()
@@ -35,12 +43,12 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
             else if (ThoughtId) {
                 await axios.request({
                     method: 'DELETE',
-                    url: `${BACKEND_URL}/api/v1/second-brain/thoughts`,
+                    url: `${BACKEND_URL}/second-brain/api/thought/delete`,
                     data: {
                         thoughtId: ThoughtId
                     },
                     headers: {
-                        "Authorization": localStorage.getItem("authorization")
+                        "Authorization": token
                     }
                 })
                 reFetch()

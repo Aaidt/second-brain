@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { getAccessToken, refreshAccessToken } from "../../auth";
 
 export function DeleteChat({
   open,
@@ -15,9 +16,16 @@ export function DeleteChat({
 
   async function deleteChats() {
     try {
-      await axios.delete(`${BACKEND_URL}/api/v1/second-brain/chats`, {
+      let token = getAccessToken();
+      if (!token) {
+        const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+        await refreshAccessToken(BACKEND_URL).then(newToken => {
+          token = newToken;
+        });
+      }
+      await axios.delete(`${BACKEND_URL}/second-brain/api/chat/delete`, {
         headers: {
-          Authorization: localStorage.getItem("authorization"),
+          Authorization: token,
         },
       });
       onDeleteSuccess();

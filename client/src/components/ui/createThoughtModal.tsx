@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
 import { Button } from "./Button"
 import { toast } from 'react-toastify'
 import axios from "axios";
+import { getAccessToken, refreshAccessToken } from "../../auth";
 
 type modalProps = {
     open: boolean,
@@ -26,12 +27,19 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
     async function handleRequest() {
         setLoading(true)
         try {
-            await axios.post(`${BACKEND_URL}/api/v1/second-brain/thoughts`, {
+            let token = getAccessToken();
+            if (!token) {
+                const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+                await refreshAccessToken(BACKEND_URL).then(newToken => {
+                    token = newToken;
+                });
+            }
+            await axios.post(`${BACKEND_URL}/second-brain/api/thought/create`, {
                 title: titleRef.current?.value,
                 thoughts: textareaRef.current?.value
             }, {
                 headers: {
-                    "Authorization": localStorage.getItem("authorization")
+                    "Authorization": token
                 }
             })
             setLoading(false)

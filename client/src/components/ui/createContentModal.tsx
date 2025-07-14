@@ -3,6 +3,7 @@ import { Button } from "./Button"
 import { DropDownMenu } from "./dropdown-menu"
 import { toast } from "react-toastify"
 import axios from "axios";
+import { getAccessToken, refreshAccessToken } from "../../auth";
 
 type modalProps = {
     open: boolean,
@@ -18,13 +19,20 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
     const type = selectedVal
 
     const handleRequest = async () => {
-        await axios.post(`${BACKEND_URL}/api/v1/second-brain/content`, {
+        let token = getAccessToken();
+        if (!token) {
+            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+            await refreshAccessToken(BACKEND_URL).then(newToken => {
+                token = newToken;
+            });
+        }
+        await axios.post(`${BACKEND_URL}/second-brain/api/content/create`, {
             title: titleRef.current?.value,
             link: linkRef.current?.value,
             type
         }, {
             headers: {
-                "Authorization": localStorage.getItem("authorization")
+                "Authorization": token
             }
         })
         toast.success("Content added sucessfully!!!");

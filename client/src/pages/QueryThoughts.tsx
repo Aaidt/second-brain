@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Button } from "../components/ui/Button";
+import { getAccessToken, refreshAccessToken } from "../auth";
 
 interface QueryResponse {
   results: { title: string; thoughts: string; userId: string }[];
@@ -22,13 +23,20 @@ export function QueryThoughts() {
     }
 
     try {
-      const response = await axios.post<QueryResponse>(`${BACKEND_URL}/api/v1/second-brain/query`,
+      let token = getAccessToken();
+      if (!token) {
+        const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+        await refreshAccessToken(BACKEND_URL).then(newToken => {
+          token = newToken;
+        });
+      }
+      const response = await axios.post<QueryResponse>(`${BACKEND_URL}/second-brain/api/chat/query`,
         {
           query
         },
         {
           headers: {
-            Authorization: localStorage.getItem("authorization")
+            Authorization: token
           }
         });
       if (!response) {
