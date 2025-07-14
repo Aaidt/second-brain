@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
 import { motion } from 'framer-motion'
 import { CloseBarIcon } from "@/components/icons/CloseBarIcon";
-import { loginOrSignup, setAccessToken } from "../auth";
+import { SigninFunction } from "../auth";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 const initial = { opacity: 0 }
@@ -18,18 +18,22 @@ export function Signin() {
 
     const navigate = useNavigate();
 
-    async function signin() {
+    async function handleSignin() {
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
 
+        if(!username || !password){
+            toast.error("Username or password fields cannot be empty.")
+            return 
+        }
+
         setLoading(true)
         try {
-            const response = await loginOrSignup({
+            await SigninFunction({
                 username: username!,
                 password: password!,
                 url: `${BACKEND_URL}/second-brain/api/auth/signin`
             });
-            setAccessToken((response.data as { accessToken: string }).accessToken);
             toast.success("You have successfully signed-in!!!!");
             navigate("/dashboard");
         } catch (err) {
@@ -60,6 +64,7 @@ export function Signin() {
                 <div className="text-md text-gray-600 mb-3 text-center">
                     Enter your credentials to access the account
                 </div>
+
                 <label htmlFor="username" className="font-semibold "> Username:
                     <input
                         onKeyDown={(e) => {
@@ -76,7 +81,7 @@ export function Signin() {
                     <input
                         onKeyDown={async (e) => {
                             if (e.key === "Enter") {
-                                await signin()
+                                await handleSignin()
                             }
                         }}
                         id="password" type="password" ref={passwordRef}
@@ -88,7 +93,7 @@ export function Signin() {
 
                     <button className="w-full bg-black/90 rounded-md text-white text-lg
                 font-semibold px-4 hover:bg-black/75 duration-300 transition-all py-1"
-                        onClick={() => signin()} disabled={loading}>
+                        onClick={() => handleSignin()} disabled={loading}>
                         {loading ? "Processing..." : "Sign-in"}
                     </button>
 

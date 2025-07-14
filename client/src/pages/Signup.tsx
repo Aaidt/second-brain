@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
 import { motion } from "framer-motion"
 import { CloseBarIcon } from "@/components/icons/CloseBarIcon";
-import { loginOrSignup, setAccessToken } from "../auth";
+import { SignupFunction } from "../auth";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 const initial = { opacity: 0 }
@@ -14,27 +14,34 @@ const transition = { duration: 0.6 }
 export function Signup() {
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    const nameRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false)
 
-    async function signup() {
+    async function handleSignup() {
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
+        const name = nameRef.current?.value;
+
+        if(!username || !password){
+            toast.error("Username or password fields cannot be empty.")
+            return 
+        }
 
         setLoading(true)
         try {
-            const response = await loginOrSignup({
+            await SignupFunction({
+                name: name!,
                 username: username!,
                 password: password!,
                 url: `${BACKEND_URL}/second-brain/api/auth/signup`
             });
-            setAccessToken((response.data as { accessToken: string }).accessToken);
             toast.success("You have successfully signed-up!!!!");
             navigate("/dashboard");
-            setLoading(false)
         } catch (err) {
             toast.error("Something went wrong. Please try again.")
             console.log(err)
+        } finally {
             setLoading(false)
         }
     }
@@ -57,6 +64,18 @@ export function Signup() {
                 <div className="text-md text-gray-600 mb-3 text-center">
                     Enter your information to create an account
                 </div>
+                <label htmlFor="name" className="font-semibold "> name:
+                    <input
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                passwordRef.current?.focus();
+                            }
+                        }}
+                        id="name" ref={nameRef}
+                        className="border font-normal w-full border-black/40 px-2 py-1 rounded-md mb-2"
+                        type="text" placeholder="John Doe" disabled={loading} />
+                </label>
+
                 <label htmlFor="username" className="font-semibold "> Username:
                     <input
                         onKeyDown={(e) => {
@@ -73,7 +92,7 @@ export function Signup() {
                     <input
                         onKeyDown={async (e) => {
                             if (e.key === "Enter") {
-                                await signup()
+                                await handleSignup()
                             }
                         }}
                         id="password" type="password" ref={passwordRef}
@@ -85,7 +104,7 @@ export function Signup() {
 
                     <button className="w-full bg-black/90 rounded-md text-white text-lg
                 font-semibold px-4 hover:bg-black/75 duration-300 transition-all py-1"
-                        onClick={() => signup()} disabled={loading}>
+                        onClick={() => handleSignup()} disabled={loading}>
                         {loading ? "Processing..." : "Sign-up"}
                     </button>
 
