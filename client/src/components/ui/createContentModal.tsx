@@ -13,29 +13,34 @@ type modalProps = {
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 export function CreateContentModal({ open, setOpen }: modalProps) {
-    const [selectedVal, setSelectedVal] = useState("");
+    const [selectedVal, setSelectedVal] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
     const titleRef = useRef<HTMLInputElement>(null)
     const linkRef = useRef<HTMLInputElement>(null)
     const type = selectedVal
 
     const handleRequest = async () => {
-        let token = getAccessToken();
-        if (!token) {
-            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-            await refreshAccessToken(BACKEND_URL).then(newToken => {
-                token = newToken;
-            });
-        }
-        await axios.post(`${BACKEND_URL}/second-brain/api/content/create`, {
-            title: titleRef.current?.value,
-            link: linkRef.current?.value,
-            type
-        }, {
-            headers: {
-                "Authorization": token
+        setLoading(true)
+        try{
+            let token = getAccessToken();
+            if (!token) {
+                const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+                await refreshAccessToken(BACKEND_URL).then(newToken => {
+                    token = newToken;
+                });
             }
-        })
-        toast.success("Content added sucessfully!!!");
+            await axios.post(`${BACKEND_URL}/second-brain/api/content/create`, {
+                title: titleRef.current?.value,
+                link: linkRef.current?.value,
+                type
+            }, { headers: { Authorization: `Bearer ${token}` } })
+            toast.success("Content added sucessfully!!!");
+        }catch(err){
+            console.error(err);
+            toast.error("Error while deleting content.")
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (open &&
@@ -57,11 +62,11 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
                                 }}
                                 type="text" 
                                 className="w-full rounded-md p-2 border border-black"
-                                    placeholder="Title..." />
+                                placeholder="Title..." disabled={loading} />
                             </div>
                             <div className="m-2">
                                 <input ref={linkRef} type="text" className="w-full rounded-md p-2 border border-black"
-                                    placeholder="Paste the URL here..." />
+                                    placeholder="Paste the URL here..." disabled={loading} />
                             </div>
                         </div>
 
@@ -86,7 +91,7 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
                                     onClick={() => {
                                         handleRequest()
                                         setOpen(!open)
-                                    }} />
+                                    }} loading={loading}/>
                             </div>
                         </div>
 

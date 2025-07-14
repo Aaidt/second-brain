@@ -4,13 +4,13 @@ import { qdrantClient } from '../utils/src/qdrant'
 import { genAI } from "../utils/src/client"
 import { prismaClient } from "../db/prisma/client"
 import { z } from "zod"
-import { ChatMessageSchema } from "../utils/src/types"
+import { ChatMessageSchema, validateChatMessage } from "../utils/src/types"
 
 const chatMessageRouter: Router = Router()
 
 type chatMessageInput = z.infer<typeof ChatMessageSchema>
 
-chatMessageRouter.post("/query", async function (req: Request<{}, {}, chatMessageInput>, res: Response) {
+chatMessageRouter.post("/query", async function (req: Request, res: Response) {
     const { query } = req.body;
     if (!query || typeof query !== "string" || !query.trim()) {
         res.status(403).json({ message: "Query must be a non-empty string" })
@@ -51,7 +51,7 @@ chatMessageRouter.post("/query", async function (req: Request<{}, {}, chatMessag
     }
 });
 
-chatMessageRouter.post("/chat-query", async function (req: Request<{}, {}, chatMessageInput>, res: Response) {
+chatMessageRouter.post("/chat-query", async function (req: Request, res: Response) {
     const { query } = req.body
     if (!query || typeof query !== "string" || !query.trim()) {
         res.status(403).json({ message: "Query must be a non-empty string" })
@@ -103,7 +103,7 @@ chatMessageRouter.post("/chat-query", async function (req: Request<{}, {}, chatM
     }
 })
 
-chatMessageRouter.post("/send/:sessionId", async function (req: Request<{ sessionId: string }, {}, chatMessageInput>, res: Response) {
+chatMessageRouter.post("/send/:sessionId", validateChatMessage, async function (req: Request<{ sessionId: string }, {}, chatMessageInput>, res: Response) {
     const { sender, content } = req.body
     const sessionId = req.params.sessionId
 
@@ -125,7 +125,7 @@ chatMessageRouter.post("/send/:sessionId", async function (req: Request<{ sessio
     }
 })
 
-chatMessageRouter.get("/:sessionId", async function (req: Request<{ sessionId: string }, {}, chatMessageInput>, res: Response) {
+chatMessageRouter.get("/:sessionId", async function (req: Request<{ sessionId: string }, {}, {}>, res: Response) {
     const { sessionId } = req.params
     try {
         const chats = await prismaClient.chatMessage.findMany({

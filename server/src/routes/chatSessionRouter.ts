@@ -1,13 +1,13 @@
 import { Router, Request, Response } from "express"
 import { prismaClient } from "../db/prisma/client"
 import { z } from "zod"
-import { ChatSessionSchema } from "../utils/src/types"
+import { ChatSessionSchema, validateChatSession } from "../utils/src/types"
 
 const chatSessionRouter: Router = Router()
 
 type chatSessionInput = z.infer<typeof ChatSessionSchema>
 
-chatSessionRouter.post("/create", async (req: Request<{}, {}, chatSessionInput>, res: Response) => {
+chatSessionRouter.post("/create", validateChatSession, async (req: Request<{}, {}, chatSessionInput>, res: Response) => {
     const { title } = req.body;
     const userId = req.userId;
     if (!title || !userId) {
@@ -29,7 +29,7 @@ chatSessionRouter.post("/create", async (req: Request<{}, {}, chatSessionInput>,
     }
 });
 
-chatSessionRouter.get("/", async (req: Request<{}, {}, chatSessionInput>, res: Response) => {
+chatSessionRouter.get("/", async (req: Request, res: Response) => {
     const userId = req.userId;
     if (!userId) {
         res.status(401).json({ message: "User not authenticated." });
@@ -47,7 +47,7 @@ chatSessionRouter.get("/", async (req: Request<{}, {}, chatSessionInput>, res: R
     }
 });
 
-chatSessionRouter.get("/:sessionId", async (req: Request<{ sessionId: string }, {}, chatSessionInput>, res: Response) => {
+chatSessionRouter.get("/:sessionId", async (req: Request<{ sessionId: string }, {}, {}>, res: Response) => {
     const userId = req.userId;
     const { sessionId } = req.params;
     if (!userId) {
@@ -71,7 +71,7 @@ chatSessionRouter.get("/:sessionId", async (req: Request<{ sessionId: string }, 
 });
 
 
-chatSessionRouter.delete("/delete/:sessionId", async function (req: Request<{sessionId: string}, {}, chatSessionInput>, res: Response) {
+chatSessionRouter.delete("/delete/:sessionId", async function (req: Request<{sessionId: string}, {}, {}>, res: Response) {
     const sessionId = req.params.sessionId;
 
     try {

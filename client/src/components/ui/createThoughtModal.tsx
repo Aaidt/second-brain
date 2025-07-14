@@ -34,19 +34,20 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
                     token = newToken;
                 });
             }
+            
             await axios.post(`${BACKEND_URL}/second-brain/api/thought/create`, {
                 title: titleRef.current?.value,
                 thoughts: textareaRef.current?.value
-            }, {
-                headers: {
-                    "Authorization": token
-                }
-            })
-            setLoading(false)
+            }, { headers: { Authorization: `Bearer ${token}` } })
+
             setValue("");
+
             toast.success("Content added sucessfully!!!");
         } catch (err) {
-            toast.error('Could not add the thought due to: ' + err)
+            toast.error('Could not add the thought due to: ')
+            console.error(err)
+        } finally {
+            setLoading(false)
         }
 
     }

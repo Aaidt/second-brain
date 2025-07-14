@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { UserIcon } from "../icons/UserIcon"
 import { IoLogoReddit } from "react-icons/io5";
 import { MessageCircleMore, PanelLeftClose, PanelRightClose, Brain, Youtube, Twitter, BookOpen } from "lucide-react"
+import { logout } from "@/auth";
 
 interface SidebarTypes {
   type?: string | undefined,
@@ -15,8 +16,10 @@ export function Sidebar(sidebarProps: SidebarTypes) {
   const navigate = useNavigate()
   const { sidebarClose, setSidebarClose, isSharedPage } = useSideBar()
 
+  const BACKEND_URL = import.meta.env.BACKEND_URL
+
   function Logout() {
-    localStorage.removeItem("authorization");
+    logout(BACKEND_URL)
     navigate("/signin");
   }
 

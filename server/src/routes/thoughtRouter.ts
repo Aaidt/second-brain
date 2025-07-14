@@ -3,13 +3,13 @@ import { getEmbeddingsFromGemini } from '../utils/src/client'
 import { qdrantClient } from '../utils/src/qdrant'
 import { prismaClient } from "../db/prisma/client"
 import { z } from "zod"
-import { ThoughtSchema } from "../utils/src/types"
+import { ThoughtSchema, validateThought } from "../utils/src/types"
 
 const thoughtRouter: Router = Router()
 
 type thoughtInput = z.infer<typeof ThoughtSchema>
 
-thoughtRouter.post("/create", async function (req: Request<{}, {}, thoughtInput>, res: Response) {
+thoughtRouter.post("/create", validateThought, async function (req: Request<{}, {}, thoughtInput>, res: Response) {
     const { title, thoughts } = req.body;
     const userId = req.userId
     const fullText = `${title} ${thoughts}`
@@ -73,7 +73,7 @@ thoughtRouter.post("/create", async function (req: Request<{}, {}, thoughtInput>
     }
 })
 
-thoughtRouter.get("/", async function (req: Request<{}, {}, thoughtInput>, res: Response) {
+thoughtRouter.get("/", async function (req: Request, res: Response) {
     try {
         const thoughts = await prismaClient.thought.findMany({
             where: { userId: req.userId }
@@ -85,7 +85,7 @@ thoughtRouter.get("/", async function (req: Request<{}, {}, thoughtInput>, res: 
     }
 })
 
-thoughtRouter.delete("/delete", async function (req: Request<{ thoughtId: string }, {}, thoughtInput>, res: Response) {
+thoughtRouter.delete("/delete", async function (req: Request<{ thoughtId: string }, {}, {}>, res: Response) {
     const { thoughtId } = req.params;
     const userId = req.userId;
 

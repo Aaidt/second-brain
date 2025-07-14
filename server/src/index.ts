@@ -23,15 +23,13 @@ app.use(cors({
 }))
 app.use(cookieParser())
 
-app.use("/second-brain/api/auth", validateAuth, authRouter)
-app.use("/second-brain/api/content", validateContent, userMiddleware, contentRouter)
-app.use("/second-brain/api/thought", validateThought, userMiddleware, thoughtRouter)
-app.use("/second-brain/api/link", validateLink, userMiddleware, linkRouter)
-app.use("/second-brain/api/chat", validateChatMessage, userMiddleware, chatMessageRouter)
-app.use("/second-brain/api/chat", validateChatSession, userMiddleware, chatSessionRouter)
+app.use("/second-brain/api/auth", authRouter)
+app.use("/second-brain/api/content", userMiddleware, contentRouter)
+app.use("/second-brain/api/thought", userMiddleware, thoughtRouter)
+app.use("/second-brain/api/link", userMiddleware, linkRouter)
+app.use("/second-brain/api/chatMessage", userMiddleware, chatMessageRouter)
+app.use("/second-brain/api/chatSession", userMiddleware, chatSessionRouter)
 
 
-app.listen(3000, () => {
-    console.log('Server is listening on port 3000.')
-})
+app.listen(3000, () => { console.log('Server is listening on port 3000.') })
 

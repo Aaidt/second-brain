@@ -16,9 +16,10 @@ import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from "../components/ui/ThoughtCards"
 import { motion } from 'framer-motion'
 import { toast } from "react-toastify"
+import { getAccessToken, refreshAccessToken } from "@/auth"
 
 export function Dashboard() {
-
+    let token;
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const CLIENT_URL = import.meta.env.VITE_CLIENT_URL;
 
@@ -52,15 +53,12 @@ export function Dashboard() {
     async function handleShare() {
         setShare(!share)
         try {
-            const response = await axios.post<ResponseData>(`${BACKEND_URL}/second-brain/api/share`,
-                {
-                    share: share
-                },
-                {
-                    headers: {
-                        Authorization: localStorage.getItem("authorization")
-                    }
-                });
+            token = getAccessToken()
+            if(!token){
+                 await refreshAccessToken(BACKEND_URL).then(newToken => token = newToken)
+            }
+            const response = await axios.post<ResponseData>(`${BACKEND_URL}/second-brain/api/share`, { share },
+                { headers: { Authorization: token } });
 
             if (!response) {
                 toast.error('Issue with the Backend response')

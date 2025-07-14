@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express"
 import { z } from 'zod'
 import { prismaClient } from "../db/prisma/client"
-import { LinkSchema } from '../utils/src/types';
+import { LinkSchema, validateLink } from '../utils/src/types';
 
 const linkRouter: Router = Router()
 
@@ -17,7 +17,7 @@ const hashLink = (len: number) => {
 
 type linkInput = z.infer<typeof LinkSchema>
 
-linkRouter.post("/share", async function (req: Request<{}, {}, linkInput>, res: Response) {
+linkRouter.post("/share", validateLink, async function (req: Request<{}, {}, linkInput>, res: Response) {
     const { share } = req.body;
     const userId = req.userId
     try {
@@ -50,7 +50,7 @@ linkRouter.post("/share", async function (req: Request<{}, {}, linkInput>, res: 
 
 })
 
-linkRouter.post("/share/:shareLink", async function (req: Request<{shareLink: string}, {}, linkInput>, res: Response) {
+linkRouter.post("/share/:shareLink", async function (req: Request<{shareLink: string}, {}, {}>, res: Response) {
     const link = req.params.shareLink
     try {
         if (!link) {

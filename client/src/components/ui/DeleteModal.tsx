@@ -27,13 +27,9 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
             if (contentId) {
                 await axios.request({
                     method: 'DELETE',
-                    url: `${BACKEND_URL}/second-brain/api/content/delete`,
-                    data: {
-                        contentId: contentId
-                    },
-                    headers: {
-                        "Authorization": token
-                    }
+                    url: `${BACKEND_URL}/second-brain/api/content/deleteOne`,
+                    data: { contentId: contentId },
+                    headers: { Authorization: `Bearer ${token}` }
                 })
                 refresh()
                 toast.success("Content has been deleted successfully!!!")
@@ -44,19 +40,15 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
                 await axios.request({
                     method: 'DELETE',
                     url: `${BACKEND_URL}/second-brain/api/thought/delete`,
-                    data: {
-                        thoughtId: ThoughtId
-                    },
-                    headers: {
-                        "Authorization": token
-                    }
+                    data: { thoughtId: ThoughtId },
+                    headers: { Authorization: `Bearer ${token}` }
                 })
                 reFetch()
                 toast.success("Thought has been deleted successfully!!!")
                 setOpen(false)
             }
         } catch (err) {
-            console.log("Error deleting item: " + err)
+            console.error("Error deleting item: " + err)
             toast.error("Failed to delete item.")
             setOpen(false)
         }
@@ -73,18 +65,14 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
                 </p>
                 <div className="flex gap-10 pt-4 ">
                     <button
-                        onClick={() => {
-                            setOpen(!open)
-                        }}
+                        onClick={() => { setOpen(!open) }}
                         className="bg-black/95 duration-200 transition-all 
                         hover:bg-black/85 px-6 py-2 rounded-sm border border-black/30 text-white">
                         Back
                     </button>
 
                     <button
-                        onClick={() => {
-                            deletePost()
-                        }}
+                        onClick={() => { deletePost() }}
                         className="bg-red-900 duration-200 transition-all 
                         hover:bg-red-800 border px-6 py-2 rounded-sm border border-black/10 text-white">
                         Delete

@@ -4,14 +4,12 @@ import { getAccessToken, refreshAccessToken } from "../auth";
 
 export function ProtectedRoute ({ children }: { children: React.JSX.Element }){
     let token = getAccessToken();
+    console.log(token)
 
     if (!token) {
-        // Try to refresh
         const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
         try {
-            refreshAccessToken(BACKEND_URL).then(newToken => {
-                token = newToken;
-            });
+            refreshAccessToken(BACKEND_URL).then(newToken => {token = newToken});
         } catch {
             token = null;
         }

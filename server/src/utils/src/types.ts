@@ -2,7 +2,7 @@ import { z } from "zod";
 import { Request, Response, NextFunction } from "express";
 
 export const AuthSchema = z.object({
-  name: z.string().min(3).max(20),
+  name: z.string().min(3).max(20).optional(),
   username: z
     .string()
     .min(8, {

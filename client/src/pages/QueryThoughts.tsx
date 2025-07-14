@@ -26,19 +26,10 @@ export function QueryThoughts() {
       let token = getAccessToken();
       if (!token) {
         const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-        await refreshAccessToken(BACKEND_URL).then(newToken => {
-          token = newToken;
-        });
+        await refreshAccessToken(BACKEND_URL).then(newToken => { token = newToken });
       }
-      const response = await axios.post<QueryResponse>(`${BACKEND_URL}/second-brain/api/chat/query`,
-        {
-          query
-        },
-        {
-          headers: {
-            Authorization: token
-          }
-        });
+      const response = await axios.post<QueryResponse>(`${BACKEND_URL}/second-brain/api/chat/query`, { query },
+        { headers: { Authorization: token } });
       if (!response) {
         toast.error('Issue with the Backend response')
       }

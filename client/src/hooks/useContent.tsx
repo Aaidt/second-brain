@@ -29,14 +29,14 @@ export const useContent = () => {
             }
             axios.get<ResponseData>(`${BACKEND_URL}/second-brain/api/content`, {
                 headers: {
-                    "Authorization": token
+                    Authorization: `Bearer ${token}`
                 }
             })
                 .then((response) => {
                     setContents(response.data?.content)
                 })
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 

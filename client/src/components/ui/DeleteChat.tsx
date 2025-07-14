@@ -23,10 +23,8 @@ export function DeleteChat({
           token = newToken;
         });
       }
-      await axios.delete(`${BACKEND_URL}/second-brain/api/chat/delete`, {
-        headers: {
-          Authorization: token,
-        },
+      await axios.delete(`${BACKEND_URL}/second-brain/api/chatSession/delete/`, {
+        headers: { Authorization: token },
       });
       onDeleteSuccess();
       toast.success("Chats deleted successfully!");

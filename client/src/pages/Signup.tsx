@@ -68,7 +68,7 @@ export function Signup() {
                     <input
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
-                                passwordRef.current?.focus();
+                                usernameRef.current?.focus();
                             }
                         }}
                         id="name" ref={nameRef}

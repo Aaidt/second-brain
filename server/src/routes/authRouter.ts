@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import { hash, compare } from "bcrypt"
 import { prismaClient } from "../db/prisma/client"
 import { z } from "zod" 
-import { AuthSchema } from "../utils/src/types"
+import { AuthSchema, validateAuth } from "../utils/src/types"
 dotenv.config()
 
 const authRouter: Router = Router()
@@ -14,12 +14,15 @@ type authInput = z.infer<typeof AuthSchema>
 const ACCESS_SECRET = process.env.ACCESS_SECRET
 const REFRESH_SECRET = process.env.REFRESH_SECRET
 
-authRouter.post("/signup", async function (req: Request<{}, {}, authInput>, res: Response) {
+authRouter.post("/signup", validateAuth, async function (req: Request<{}, {}, authInput>, res: Response) {
     try {
         const { name, username, password } = req.body
+        if(!name || !username || !password){
+            res.status(402).json({ message: "All 3 fields are required." })
+            return
+        }
 
         const hashedPassword = await hash(password, 5);
-
 
         const user = await prismaClient.user.create({
             data: {
@@ -45,14 +48,18 @@ authRouter.post("/signup", async function (req: Request<{}, {}, authInput>, res:
     } catch (err) {
         console.error("Signup error: " + err);
         res.status(500).json({
-            error: ("Server error. Error in signing up.")
+            message: "Server error. Error in signing up."
         })
     }
 })
 
-authRouter.post("/signin", async function (req: Request<{}, {}, authInput>, res: Response) {
+authRouter.post("/signin", validateAuth, async function (req: Request<{}, {}, authInput>, res: Response) {
     try {
         const { username, password } = req.body
+        if(!username || !password){
+            res.status(402).json({ message: "All fields are required." })
+            return
+        }
 
         const foundUser = await prismaClient.user.findFirst({ where: { username } })
 
@@ -67,8 +74,8 @@ authRouter.post("/signin", async function (req: Request<{}, {}, authInput>, res:
             return;
         }
 
-        const accessToken = jwt.sign({ id: foundUser.id }, ACCESS_SECRET as string, { expiresIn: "15m" })
-        const refreshToken = jwt.sign({ id: foundUser.id }, REFRESH_SECRET as string, { expiresIn: "7d" })
+        const accessToken = jwt.sign({ userId: foundUser.id }, ACCESS_SECRET as string, { expiresIn: "15m" })
+        const refreshToken = jwt.sign({ userId: foundUser.id }, REFRESH_SECRET as string, { expiresIn: "7d" })
 
         res.cookie("refresh-token", refreshToken, {
             httpOnly: true,
@@ -81,14 +88,14 @@ authRouter.post("/signin", async function (req: Request<{}, {}, authInput>, res:
     catch (err) {
         console.error("Signin error: " + err);
         res.status(500).json({
-            error: "Internal server error while signing in."
+            message: "Internal server error while signing in."
         })
     }
 })
 
-authRouter.post("/refresh-token", async function (req: Request<{}, {}, authInput>, res: Response) {
+authRouter.post("/refresh-token", async function (req: Request, res: Response) {
     const userId = req.userId
-    const refreshToken = req.cookies["refreshToken"]
+    const refreshToken = req.cookies["refresh-token"]
     if (!refreshToken) {
         res.status(404).json({ message: "Token not found." })
         return
@@ -108,8 +115,13 @@ authRouter.post("/refresh-token", async function (req: Request<{}, {}, authInput
 })
 
 authRouter.post("/logout", async function (req: Request<{}, {}, authInput>, res: Response) {
-    res.clearCookie("refresh-token", { sameSite: "lax", httpOnly: true })
-
-})
+    try {
+        res.clearCookie("refresh-token", { sameSite: "lax", httpOnly: true });
+        res.status(200).json({ message: "Logged out successfully." });
+    } catch (err) {
+        res.status(500).json({ message: "Logout failed." });
+        console.error(err)
+    }
+});
 
 export default authRouter

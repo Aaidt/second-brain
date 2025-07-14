@@ -27,32 +27,16 @@ function App() {
             <SharedBrainPage />
           </SidebarProvider>}
         />
-        <Route
-          path="/dashboard"
-          element={
+        <Route path="/dashboard" element={
             <ProtectedRoute>
-              <SidebarProvider isSharedPage={false}>
-                <Dashboard />
-              </SidebarProvider>
+              <SidebarProvider isSharedPage={false}><Dashboard /></SidebarProvider>
             </ProtectedRoute>
           }>
         </Route>
         
-        <Route path="/query"
-          element={
-            <ProtectedRoute>
-              <QueryThoughts />
-            </ProtectedRoute>
-          }>
-        </Route>
+        <Route path="/query" element={<ProtectedRoute><QueryThoughts /></ProtectedRoute>}></Route>
 
-        <Route path="/chat"
-          element={
-            <ProtectedRoute>
-              <Chat />
-            </ProtectedRoute>
-          }>
-        </Route>
+        <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>}></Route>
 
         {/* <Route path="/visualise"
           element={

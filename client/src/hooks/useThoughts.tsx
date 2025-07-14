@@ -26,9 +26,9 @@ export const useThoughts = () => {
                     token = newToken;
                 });
             }
-            axios.get<ResponseData>(`${BACKEND_URL}/second-brain/api/thought/`, {
+            axios.get<ResponseData>(`${BACKEND_URL}/second-brain/api/thought`, {
                 headers: {
-                    "Authorization": token
+                    Authorization: `Bearer ${token}`
                 }
             })
                 .then((response) => {

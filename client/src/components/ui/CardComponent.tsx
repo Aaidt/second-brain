@@ -33,7 +33,7 @@ export function CardComponent(cardProps: cardPropTypes) {
 
             return `https://www.youtube.com/embed/${videoId}`
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
