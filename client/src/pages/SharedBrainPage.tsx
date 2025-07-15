@@ -13,7 +13,7 @@ import { ThoughtCards } from "../components/ui/ThoughtCards"
 export function SharedBrainPage() {
 
     const [type, setType] = useState<string | undefined>()
-    const { contents, refresh } = useContent()
+    const { content, refresh } = useContent()
     const { thoughts, reFetch } = useThoughts()
 
     useEffect(() => {
@@ -59,25 +59,25 @@ export function SharedBrainPage() {
                     className="flex w-auto"
                     columnClassName="pl- bg-clip-padding"
                 >
-                    {contents.filter((contents) => !type || contents.type?.trim() === type.trim())
-                        .map(({ title, link, type, _id }) =>
+                    {content.filter((content) => !type || content.type?.trim() === type.trim())
+                        .map(({ title, link, type, id, created_at }) =>
                             <motion.div
                                 initial={{ opacity: 0, y: 50 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, ease: "easeOut", delay: Number(_id) * 2 }} key={_id} className="mb-4">
-                                <CardComponent title={title} type={type} link={link} id={_id} isSharedPage={true} />
+                                transition={{ duration: 0.4, ease: "easeOut", delay: Number(id) * 2 }} key={id} className="mb-4">
+                                <CardComponent title={title} type={type} link={link} id={id} isSharedPage={true} created_at={created_at} />
                             </motion.div>
                         )}
 
                     {thoughts?.filter(() => {
                         return !type || type?.trim() === "thoughts"
                     })
-                        .map(({ title, thoughts, _id }) =>
+                        .map(({ title, body, id, created_at }) =>
                             <motion.div
                                 initial={{ opacity: 0, y: 50 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, ease: "easeOut", delay: Number(_id) * 2 }} key={_id} className="mb-4">
-                                <ThoughtCards title={title} thoughts={thoughts} id={_id} isSharedPage={true} />
+                                transition={{ duration: 0.4, ease: "easeOut", delay: Number(id) * 2 }} key={id} className="mb-4">
+                                <ThoughtCards title={title} body={body} id={id} isSharedPage={true} created_at={created_at} />
                             </motion.div>
                         )
                     }

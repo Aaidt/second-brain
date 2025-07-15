@@ -11,7 +11,6 @@ type Content = {
     title: string,
     link: string,
     type: "youtube" | "twitter" | "reddit" | "others",
-    _id: string,
     created_at: Date
 }
 
