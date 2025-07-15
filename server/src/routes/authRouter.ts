@@ -94,24 +94,20 @@ authRouter.post("/signin", validateAuth, async function (req: Request<{}, {}, au
 })
 
 authRouter.post("/refresh-token", async function (req: Request, res: Response) {
-    const userId = req.userId
     const refreshToken = req.cookies["refresh-token"]
     if (!refreshToken) {
         res.status(404).json({ message: "Token not found." })
         return
     }
-
-    const isRefreshTokenValid = jwt.verify(refreshToken, REFRESH_SECRET as string)
-
-    if (!isRefreshTokenValid) {
-        res.status(402).json({ message: "Not authourized." })
-        console.log("Invalid refresh token.")
+    try{
+        const payload = jwt.verify(refreshToken, REFRESH_SECRET as string) as { userId: string }
+        const newAccessToken = jwt.sign({ userId: payload.userId }, ACCESS_SECRET as string, { expiresIn: "15m" })
+        res.json({ accessToken: newAccessToken })
+    }catch(err){
+        console.error("Invalid refresh token.");
+        res.status(403).json({ message: "Not authorized" });
         return
     }
-
-    const newAccessToken = jwt.sign({ userId }, ACCESS_SECRET as string, { expiresIn: "15m" })
-
-    res.json({ accessToken: newAccessToken })
 })
 
 authRouter.post("/logout", async function (req: Request<{}, {}, authInput>, res: Response) {
