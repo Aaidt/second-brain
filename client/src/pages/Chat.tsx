@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { SendHorizontal, Brain, ChevronDown, PanelLeftClose, PanelRightClose, Trash2 } from 'lucide-react';
+import { SendHorizontal, ChevronDown, Brain, PanelLeftClose, PanelRightClose, Trash2, SquarePen } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -34,7 +34,6 @@ export function Chat() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [isClosed, setIsClosed] = useState<boolean>(false);
   const [sessions, setSessions] = useState<Session[]>([]);
-  const [showSession, setShowSession] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const scrollToBottom = () => {
@@ -92,7 +91,7 @@ export function Chat() {
 
     try {
       await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chatMessage/create`,
+        `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chatMessage/send`,
         { sender: message.sender, content: message.content },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -167,16 +166,30 @@ export function Chat() {
                 onClick={() => setIsClosed(true)}
               />
             </div>
+            <div className='pb-3'>
+              <div className="flex items-center mb-2 text-gray-800 py-2 hover:bg-gray-200 rounded-md w-full cursor-pointer">
+                <SquarePen size="18" className='mr-4' />
+                  New chat
+              </div>
+            {/* 
+              <div className="flex items-center mb-2 text-gray-800 py-2 hover:bg-gray-200 rounded-md px-2 cursor-pointer">
+                <Search size="18" className='mr-4' />
+                  Search chats
+              </div> */}
+            </div>
             <h3 className="font-semibold mb-2 text-gray-800">Sources from your thoughts:</h3>
-            <motion.div
-              initial={{ opacity: 0, y: -40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3 }}
-              className="space-y-4 pr-2"
-            >
-              {references.map((ref, idx) => (
+            
+              {references.length === 0 ? (
+                <p className="text-gray-500 text-sm pt-2">No queries sent.</p>
+              ) : (references.map((ref, idx) => (
                 <div key={idx} className="bg-gray-100 border text-black rounded-md p-3 shadow-sm">
+                  <motion.div
+                    initial={{ opacity: 0, y: -40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-4 pr-2"
+                  >
                   <div className="flex items-center justify-between">
                     <h3 className="mb-1 text-sm font-medium">{ref.title}</h3>
                     <ChevronDown
@@ -184,6 +197,7 @@ export function Chat() {
                       className="size-5 stroke-[1.5] cursor-pointer"
                     />
                   </div>
+                  </motion.div>
                   {openIndex === idx && (
                     <motion.div
                       initial={{ opacity: 0, y: -40 }}
@@ -196,19 +210,9 @@ export function Chat() {
                     </motion.div>
                   )}
                 </div>
-              ))}
-            </motion.div>
-            <div className="flex justify-between items-center">
-              <h3 className="font-semibold mb-2 text-gray-800 pt-8">Previous chats:</h3>
-              <div className="flex gap-3">
-                <ChevronDown
-                  onClick={() => setShowSession(!showSession)}
-                  className="size-5 stroke-[1.5] mt-7 cursor-pointer"
-                />
-              </div>
-            </div>
-            {showSession ? (
-              sessions.length === 0 ? (
+              )))}
+            <h3 className="font-semibold mb-2 text-gray-800 pt-8">Previous chats:</h3>
+            {sessions.length === 0 ? (
                 <p className="text-gray-500 text-sm pt-2">No previous chats.</p>
               ) : (
                 sessions.map((session, i) => (
@@ -235,8 +239,7 @@ export function Chat() {
                     />
                   </motion.div>
                 ))
-              )
-            ) : null}
+              )}
           </motion.div>
         )}
         
