@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify'
 
 let accessToken: string | null = null;
 
@@ -33,6 +34,7 @@ export async function refreshAccessToken(BACKEND_URL: string) {
 }
 
 export async function logout(BACKEND_URL: string) {
+  const response = await axios.post<{ message: string }>(`${BACKEND_URL}/second-brain/api/auth/logout`, {}, { withCredentials: true });
   clearAccessToken();
-  await axios.post(`${BACKEND_URL}/second-brain/api/auth/logout`, {}, { withCredentials: true });
+  toast.success(response.data?.message)
 } 

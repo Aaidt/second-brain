@@ -11,9 +11,7 @@ export const genAI = new GoogleGenerativeAI(GEMINI_API_KEY!)
 
 export async function getEmbeddingsFromGemini(text: string): Promise<number[]> {
     try {
-        if(!text.trim()){
-            throw new Error('Input cannot be empty')
-        }
+        if(!text.trim()){ throw new Error('Input cannot be empty') }
 
         const model = genAI.getGenerativeModel({ model: 'embedding-001' })
         const result = await model.embedContent({
@@ -25,10 +23,9 @@ export async function getEmbeddingsFromGemini(text: string): Promise<number[]> {
         if (!result.embedding?.values) {
             throw new Error("No embedding values returned from Gemini API");
         }
-
         return result.embedding.values
     } catch (err) {
-        console.log('error is: ' + err)
+        console.log('Error is: ' + err)
         throw new Error('Failed to get embeddings')
     }
 }

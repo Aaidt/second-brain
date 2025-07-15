@@ -7,12 +7,16 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { DeleteChat } from "../components/ui/DeleteChat"
-import { getAccessToken, refreshAccessToken } from "../auth";
+import { getAccessToken, refreshAccessToken } from '../auth';
 
 type Message = {
   sender: 'user' | 'ai';
   content: string;
 };
+
+type Session = {
+  title: string  
+}
 
 interface axiosResponse {
   answers: string;
@@ -28,7 +32,7 @@ export function Chat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [isClosed, setIsClosed] = useState<boolean>(false);
-  const [savedChats, setSavedChats] = useState<Message[]>([]);
+  const [sessions, setSessions] = useState<Session[]>([]);
   const [showChat, setShowChat] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -42,41 +46,42 @@ export function Chat() {
 
   useEffect(() => {
     let token = getAccessToken();
-    if (!token) {
-      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-      refreshAccessToken(BACKEND_URL).then(newToken => {
-        token = newToken;
-      });
-    }
-    if (!token) {
-      toast.error('Please log in to access chats');
-      navigate('/login');
-      return;
+    async function getToken(){
+      if (!token) {
+        const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+        token = await refreshAccessToken(BACKEND_URL)
+      }
+      if (!token) {
+        toast.error('Please log in to access chats');
+        navigate('/login');
+        return;
+      }
     }
 
-    async function fetchSavedChats() {
+    getToken()
+
+    async function fetchSesions() {
       try {
-        const fetchedChats = await axios.get<{ chats: Message[] }>(
-          `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chat/`,
+        const fetchedSessions = await axios.get<{ chats: Message[] }>(
+          `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chatSession/`,
           { headers: { Authorization: token } }
         );
-        setSavedChats(fetchedChats.data.chats || []);
+        setSessions(fetchedSessions.data.title || []);
       } catch (err) {
         console.error('Error fetching chats:', err);
         toast.error('Error fetching saved chats');
-        setSavedChats([]);
+        setSessions([]);
       }
     }
-    fetchSavedChats();
-  }, [navigate]);
+    fetchSesions();
+
+  }, []);
 
   async function saveChat(message: Message) {
     let token = getAccessToken();
     if (!token) {
       const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-      await refreshAccessToken(BACKEND_URL).then(newToken => {
-        token = newToken;
-      });
+      token = await refreshAccessToken(BACKEND_URL)
     }
     if (!token) {
       toast.error('Please log in to save chats');
@@ -86,7 +91,7 @@ export function Chat() {
 
     try {
       await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chat/create`,
+        `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chatMessage/create`,
         { sender: message.sender, content: message.content },
         { headers: { Authorization: token } }
       );
@@ -151,10 +156,10 @@ export function Chat() {
             viewport={{ once: true }}
             transition={{ duration: 0.3 }}
           >
-            <div className="flex justify-between ">
+            <div className="flex justify-between">
               <div className="mb-6 flex gap-1 items-center" onClick={() => navigate('/dashboard')}>
-                <Brain className="size-5 cursor-pointer stroke-[1.5]" />
-                <p className="font-medium text-xl cursor-pointer">Second Brain</p>
+                <Brain className="size-6 cursor-pointer stroke-[1.5]" />
+                <p className="font-medium font-playfair text-2xl cursor-pointer">Second Brain</p>
               </div>
               <PanelLeftClose
                 className="cursor-pointer size-6 stroke-[1.5]"
@@ -206,10 +211,10 @@ export function Chat() {
               </div>
             </div>
             {showChat ? (
-              savedChats.length === 0 ? (
+              sessions.length === 0 ? (
                 <p className="text-gray-500 text-sm pt-2">No previous chats.</p>
               ) : (
-                savedChats.map((chat, i) => (
+                sessions.map((chat, i) => (
                   <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
@@ -234,7 +239,7 @@ export function Chat() {
         <DeleteChat
           open={modalOpen}
           setOpen={setModalOpen}
-          onDeleteSuccess={() => setSavedChats([])}
+          onDeleteSuccess={() => setSessions([])}
         />
       </div>
 

@@ -12,12 +12,12 @@ type chatMessageInput = z.infer<typeof ChatMessageSchema>
 
 chatMessageRouter.post("/query", async function (req: Request, res: Response) {
     const { query } = req.body;
+    const userId = req.userId
+
     if (!query || typeof query !== "string" || !query.trim()) {
         res.status(403).json({ message: "Query must be a non-empty string" })
         return
     }
-
-    const userId = req.userId
     if (!userId) {
         res.status(401).json({ message: "User is not authenticated." })
         return
@@ -32,10 +32,10 @@ chatMessageRouter.post("/query", async function (req: Request, res: Response) {
 
         const result = await qdrantClient.search("thoughts", {
             vector: queryEmbedding,
-            limit: 2,
+            limit: 5,
             filter: {
                 must: [
-                    { key: "userId", match: { value: userId.toString() } }
+                    { key: "userId", match: { value: userId } }
                 ]
             }
         })
@@ -46,7 +46,7 @@ chatMessageRouter.post("/query", async function (req: Request, res: Response) {
         res.status(200).json({ results })
 
     } catch (err) {
-        res.status(404).json({ message: "Error saving thoughts: " })
+        res.status(404).json({ message: "Server error. Error saving thoughts" })
         console.error("Error is: " + err)
     }
 });
@@ -69,9 +69,9 @@ chatMessageRouter.post("/chat-query", async function (req: Request, res: Respons
 
         const result = await qdrantClient.search('thoughts', {
             vector: queryEmbedding,
-            limit: 2,
+            limit: 5,
             filter: {
-                must: [{ key: "userId", match: { value: userId!.toString() } }]
+                must: [{ key: "userId", match: { value: userId } }]
             }
         });
 
@@ -80,7 +80,7 @@ chatMessageRouter.post("/chat-query", async function (req: Request, res: Respons
             res.status(404).json({ message: 'No results found.' });
         }
 
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-pro' })
         const prompt = `You are a helpful assistant. The user has saved some personal notes. Use the following thoughts
         to answer their question.
         Thoughts: ${retrievedTexts}

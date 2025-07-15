@@ -109,7 +109,7 @@ authRouter.post("/refresh-token", async function (req: Request, res: Response) {
     }
 })
 
-authRouter.post("/logout", async function (req: Request<{}, {}, authInput>, res: Response) {
+authRouter.post("/logout", async function (req: Request, res: Response) {
     try {
         res.clearCookie("refresh-token", { sameSite: "lax", httpOnly: true });
         res.status(200).json({ message: "Logged out successfully." });

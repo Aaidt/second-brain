@@ -7,10 +7,12 @@ export function DeleteChat({
   open,
   setOpen,
   onDeleteSuccess,
+  sessionId
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   onDeleteSuccess: () => void;
+  sessionId: string
 }) {
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -19,11 +21,9 @@ export function DeleteChat({
       let token = getAccessToken();
       if (!token) {
         const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-        await refreshAccessToken(BACKEND_URL).then(newToken => {
-          token = newToken;
-        });
+        token = await refreshAccessToken(BACKEND_URL)
       }
-      await axios.delete(`${BACKEND_URL}/second-brain/api/chatSession/delete/`, {
+      await axios.delete(`${BACKEND_URL}/second-brain/api/chatSession/delete/${sessionId}`, {
         headers: { Authorization: token },
       });
       onDeleteSuccess();
