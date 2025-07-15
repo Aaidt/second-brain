@@ -15,6 +15,7 @@ type Message = {
 };
 
 type Session = {
+  id: string,
   title: string  
 }
 
@@ -33,7 +34,7 @@ export function Chat() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [isClosed, setIsClosed] = useState<boolean>(false);
   const [sessions, setSessions] = useState<Session[]>([]);
-  const [showChat, setShowChat] = useState<boolean>(false);
+  const [showSession, setShowSession] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const scrollToBottom = () => {
@@ -57,24 +58,24 @@ export function Chat() {
         return;
       }
     }
-
     getToken()
-
+    
     async function fetchSesions() {
       try {
-        const fetchedSessions = await axios.get<{ chats: Message[] }>(
+        const fetchedSessions = await axios.get<{ sessions: Session[] }>(
           `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chatSession/`,
-          { headers: { Authorization: token } }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
-        setSessions(fetchedSessions.data.title || []);
+        setSessions(fetchedSessions.data.sessions || []);
       } catch (err) {
         console.error('Error fetching chats:', err);
         toast.error('Error fetching saved chats');
         setSessions([]);
       }
     }
-    fetchSesions();
 
+    fetchSesions()
+    
   }, []);
 
   async function saveChat(message: Message) {
@@ -93,7 +94,7 @@ export function Chat() {
       await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chatMessage/create`,
         { sender: message.sender, content: message.content },
-        { headers: { Authorization: token } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
     } catch (err) {
       console.error('Error saving chat:', err);
@@ -120,7 +121,7 @@ export function Chat() {
       const res = await axios.post<axiosResponse>(
         `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chat/chat-query`,
         { query },
-        { headers: { Authorization: token } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       const aiResponse = res.data?.answers || 'No answer';
@@ -140,7 +141,7 @@ export function Chat() {
   return (
     <div className="h-screen w-screen grid grid-cols-[340px_1fr] overflow-hidden">
       <div
-        className={`bg-white border-r border-black/30 overflow-hidden overflow-y-auto p-4 duration-300 transition-all ${
+        className={`bg-white border-r border-black/15 overflow-hidden overflow-y-auto p-4 duration-300 transition-all ${
           isClosed ? 'w-15' : 'w-85'
         }`}
       >
@@ -200,47 +201,46 @@ export function Chat() {
             <div className="flex justify-between items-center">
               <h3 className="font-semibold mb-2 text-gray-800 pt-8">Previous chats:</h3>
               <div className="flex gap-3">
-                <Trash2
-                  className="stroke-[1.5] size-5 mt-7 cursor-pointer hover:-translate-y-1 duration-200 transition-all"
-                  onClick={() => setModalOpen(true)}
-                />
                 <ChevronDown
-                  onClick={() => setShowChat(!showChat)}
+                  onClick={() => setShowSession(!showSession)}
                   className="size-5 stroke-[1.5] mt-7 cursor-pointer"
                 />
               </div>
             </div>
-            {showChat ? (
+            {showSession ? (
               sessions.length === 0 ? (
                 <p className="text-gray-500 text-sm pt-2">No previous chats.</p>
               ) : (
-                sessions.map((chat, i) => (
+                sessions.map((session, i) => (
                   <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4 }}
                     key={i}
-                    className={`
-                      rounded-lg p-1 whitespace-pre-wrap my-1
-                      ${chat.sender === 'user'
-                        ? 'text-md text-black ml-auto font-medium max-w-sm'
-                        : 'text-gray-500 mr-auto max-w-2xl text-sm'
-                      }
-                    `}
+                    className="rounded-lg p-1 whitespace-pre-wrap my-1 text-md text-black font-medium max-w-sm "
                   >
-                    <ReactMarkdown>{`${chat.sender === 'ai' ? 'Ans: ' : 'Q. '}${chat.content}`}</ReactMarkdown>
+                    <div className='flex items-center justify-between mx-auto'>
+                      <div>{session.title}</div>
+                      <Trash2
+                        className="stroke-[1.5] size-5 mt-7 cursor-pointer hover:-translate-y-1 duration-200 transition-all"
+                        onClick={() => setModalOpen(true)}
+                      />
+                    </div>
+                    <DeleteChat
+                      open={modalOpen}
+                      setOpen={setModalOpen}
+                      onDeleteSuccess={() => setSessions([])}
+                      sessionId={session.id}
+                    />
                   </motion.div>
                 ))
               )
             ) : null}
           </motion.div>
         )}
-        <DeleteChat
-          open={modalOpen}
-          setOpen={setModalOpen}
-          onDeleteSuccess={() => setSessions([])}
-        />
+        
+        
       </div>
 
       <div className="flex flex-col h-full overflow-y-auto">

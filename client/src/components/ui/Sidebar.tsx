@@ -44,17 +44,36 @@ export function Sidebar(sidebarProps: SidebarTypes) {
             <p onClick={() => navigate("/")} className="pl-6 font-medium text-4xl pt-2 cursor-pointer">Second <br /> Brain</p>
           </div>
           <div className="pt-3">
-            <SideBarItems onClick={() => navigate("/chat")} text="Chat" icon={<MessageCircle className="stroke-[1.5] size-5" />} />
-            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)}
-              text={isSharedPage ? 'Shared Brain' : 'My Brain'} icon={<Brain className="stroke-[1.5] size-5" />} />
-            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")}
-              text="Thoughts" icon={<BookOpen className="stroke-[1.5] size-5" />} />
-            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("twitter")}
-              text="Twitter" icon={<Twitter className="stroke-[1.5] size-5" />} />
-            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("youtube")}
-              text="YouTube" icon={<Youtube className="stroke-[1.5] size-5" />} />
-            <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("reddit")}
-              text="Reddit" icon={<IoLogoReddit className="stroke-[1.5] size-6" />} />
+            <SideBarItems 
+              onClick={() => navigate("/chat")} 
+              text="Chat" 
+              icon={<MessageCircle className="stroke-[1.5] size-5" />} />
+
+            <SideBarItems 
+              onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)}
+              text={isSharedPage ? 'Shared Brain' : 'My Brain'} 
+              icon={<Brain className="stroke-[1.5] size-5" />} />
+
+            <SideBarItems 
+              onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")}
+              text="Thoughts" 
+              icon={<BookOpen className="stroke-[1.5] size-5" />} />
+
+            <SideBarItems 
+              onClick={() => sidebarProps.setType && sidebarProps.setType("twitter")}
+              text="Twitter" 
+              icon={<Twitter className="stroke-[1.5] size-5" />} />
+
+            <SideBarItems 
+              onClick={() => sidebarProps.setType && sidebarProps.setType("youtube")}
+              text="YouTube" 
+              icon={<Youtube className="stroke-[1.5] size-5" />} />
+
+            <SideBarItems 
+              onClick={() => sidebarProps.setType && sidebarProps.setType("reddit")}
+              text="Reddit" 
+              icon={<IoLogoReddit className="stroke-[1.5] size-6" />} />
+              
           </div>
 
           {isSharedPage ? null :

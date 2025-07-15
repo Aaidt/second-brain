@@ -40,7 +40,7 @@ export function DeleteChat({
     open && (
       <div
         onClick={() => setOpen(false)}
-        className="fixed top-0 left-0 h-screen w-screen backdrop-blur-md bg-black/70 z-50 flex justify-center items-center"
+        className="fixed top-0 left-0 h-screen w-screen backdrop-blur-sm bg-black/70 z-50 flex justify-center items-center"
       >
         <div
           onClick={(e) => e.stopPropagation()}
