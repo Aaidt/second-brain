@@ -1,18 +1,35 @@
 import { Navigate } from "react-router-dom";
 import { toast } from 'react-toastify'
+import { useState, useEffect } from 'react';
 import { getAccessToken, refreshAccessToken } from "../auth";
 
 export function ProtectedRoute ({ children }: { children: React.JSX.Element }){
-    let token = getAccessToken();
+    const [token, setToken] = useState(getAccessToken()) 
+    const [loading, setLoading] = useState<boolean>(!token);
     console.log(token)
 
-    if (!token) {
-        const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-        try {
-            refreshAccessToken(BACKEND_URL).then(newToken => {token = newToken});
-        } catch {
-            token = null;
+    useEffect(() => {
+        setLoading(true)
+        if (!token) {
+            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+                refreshAccessToken(BACKEND_URL)
+                    .then(newToken => {
+                        setToken(newToken)
+                        setLoading(false)
+                    })
+                    .catch(() => {
+                        setToken(null)
+                        setLoading(false)
+                    })
+        } else {
+            setLoading(false);
         }
+
+    }, [token])
+
+    if(loading){
+        toast.info("Loading")
+        return null
     }
 
     if (!token) {

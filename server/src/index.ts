@@ -2,7 +2,6 @@ import express from 'express'
 import dotenv from "dotenv"
 import cors from 'cors'
 import { userMiddleware } from "./middleware/userMiddleware"
-import { validateAuth, validateContent, validateThought, validateChatMessage, validateChatSession, validateLink } from "./utils/src/types"
 import cookieParser from "cookie-parser"
 import authRouter from "./routes/authRouter"
 import contentRouter from "./routes/contentRouter"

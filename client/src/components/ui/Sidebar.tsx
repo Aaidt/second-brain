@@ -4,7 +4,7 @@ import { Button } from "./Button"
 import { useNavigate } from "react-router-dom"
 import { UserIcon } from "../icons/UserIcon"
 import { IoLogoReddit } from "react-icons/io5";
-import { MessageCircleMore, PanelLeftClose, PanelRightClose, Brain, Youtube, Twitter, BookOpen } from "lucide-react"
+import { MessageCircle, PanelLeftClose, PanelRightClose, Brain, Youtube, Twitter, BookOpen } from "lucide-react"
 import { logout } from "@/auth";
 
 interface SidebarTypes {
@@ -44,7 +44,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
             <p onClick={() => navigate("/")} className="pl-6 font-medium text-4xl pt-2 cursor-pointer">Second <br /> Brain</p>
           </div>
           <div className="pt-3">
-            <SideBarItems onClick={() => navigate("/chat")} text="Chat" icon={<MessageCircleMore className="stroke-[1.5] size-6" />} />
+            <SideBarItems onClick={() => navigate("/chat")} text="Chat" icon={<MessageCircle className="stroke-[1.5] size-6" />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)}
               text={isSharedPage ? 'Shared Brain' : 'My Brain'} icon={<Brain className="stroke-[1.5] size-6" />} />
             <SideBarItems onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")}
