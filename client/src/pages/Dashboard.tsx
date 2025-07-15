@@ -2,7 +2,7 @@ import { Button } from "../components/ui/Button"
 import { Sidebar } from "../components/ui/Sidebar"
 import { PlusIcon } from "../components/icons/PlusIcon"
 import { ShareIcon } from "../components/icons/ShareIcon"
-import { CardComponent } from "../components/ui/CardComponent"
+import { CardComponent } from '../components/ui/CardComponent';
 import { CreateContentModal } from "../components/ui/createContentModal"
 import { useState, useEffect, useRef } from "react";
 import { useContent } from "../hooks/useContent"
@@ -13,7 +13,7 @@ import Masonry from "react-masonry-css"
 import { CreateThoughtModal } from "../components/ui/createThoughtModal"
 import { BookIcon } from "../components/icons/BookIcon"
 import { useThoughts } from "../hooks/useThoughts"
-import { ThoughtCards } from "../components/ui/ThoughtCards"
+import { ThoughtCards } from '../components/ui/ThoughtCards';
 import { motion } from 'framer-motion'
 import { toast } from "react-toastify"
 import { getAccessToken, refreshAccessToken } from "@/auth"
@@ -36,6 +36,30 @@ export function Dashboard() {
         reFetch()
         refresh()
     }, [])
+
+    const pageContent = [
+        ...content.map(items => ({...items, category: "content"}) as ContentType),
+        ...thoughts.map(items => ({ ...items, category: "thoughts"}) as ThoughtType)
+    ].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+
+    type ContentType = {
+        category: "content",
+        title: string,
+        link: string,
+        id: string,
+        share: boolean,
+        isSharedPage: boolean,
+        type: 'youtube' | 'twitter' | 'reddit' | 'others',
+        created_at: Date
+    }
+
+    type ThoughtType = {
+        category: "thoughts",
+        title: string,
+        body: string,
+        id: string,
+        created_at: Date
+    }
 
     interface ResponseData {
         link: string
@@ -108,47 +132,36 @@ export function Dashboard() {
                 <SearchBar ref={searchRef} />
             </div>
 
-            <div className={`${`${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 duration-200 gap-4`}`}>
+            <div className={`${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 duration-200 gap-4`}>
 
                 <Masonry
                     breakpointCols={breakpointColumnsObj}
                     className="flex w-auto"
-                    columnClassName="pl- bg-clip-padding"
+                    columnClassName="bg-clip-padding"
                 >
-                    {content.filter((content) => {
-                        const searchVal = searchRef.current?.value.toLowerCase() || ""
-                        return !searchVal || content.title.toLowerCase().includes(searchVal)
-                    })
-                        .filter((content) => {
-                            const selectedType = type?.trim() || ''
-                            return !selectedType || content.type?.trim() === selectedType
-                        })
-                        .map(({ title, link, type, _id }) =>
-                            <motion.div
-                                initial={{ opacity: 0, y: -50 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, ease: "easeOut" }} key={_id} className="mb-4">
-                                <CardComponent title={title} type={type} link={link} id={_id} share={share} isSharedPage={false} />
-                            </motion.div>
-                        )
-                    }
-
-                    {thoughts?.filter((thoughts) => {
-                        const searchVal = searchRef.current?.value.toLowerCase() || ""
-                        return !searchVal || thoughts.title.toLowerCase() === searchVal
-                    })
-                        .filter(() => {
-                            return !type || type?.trim() === "thoughts"
-                        })
-                        .map(({ title, thoughts, _id }) =>
-                            <motion.div
-                                initial={{ opacity: 0, y: 50 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, ease: "easeOut", delay: Number(_id) * 2 }} key={_id} className="mb-4">
-                                <ThoughtCards title={title} thoughts={thoughts} id={_id} share={share} isSharedPage={false} />
-                            </motion.div>
-                        )
-                    }
+                    {pageContent.map(item => {
+                        if(item.category === "content"){
+                            return <CardComponent
+                                title={item.title}
+                                link={item.link}
+                                id={item.id}
+                                type={item.type}
+                                share={share}
+                                isSharedPage={false}
+                                created_at={item.created_at} />
+                        }
+                        else {
+                            return <ThoughtCards
+                                id={item.id}
+                                title={item.title}
+                                body={item.body}                       
+                                created_at={item.created_at}
+                                share={share}
+                                isSharedPage={false}
+                                />
+                        }
+                        
+                    })}
                 </Masonry>
 
                 <div

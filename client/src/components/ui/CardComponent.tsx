@@ -17,7 +17,8 @@ interface cardPropTypes {
     link: string,
     id?: string,
     share?: boolean,
-    isSharedPage: boolean
+    isSharedPage: boolean,
+    created_at: Date 
 }
 
 export function CardComponent(cardProps: cardPropTypes) {

@@ -7,8 +7,9 @@ export const useThoughts = () => {
 
     type thoughts = {
         title: string,
-        thoughts: string,
-        _id: string
+        body: string,
+        id: string,
+        created_at: Date
     }
 
     interface ResponseData {

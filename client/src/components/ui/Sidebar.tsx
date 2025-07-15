@@ -35,7 +35,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
           }`}
         onClick={() => setSidebarClose(!sidebarClose)}
       >
-        {sidebarClose ? <PanelRightClose /> : <PanelLeftClose />}
+        {sidebarClose ? <PanelRightClose className="stroke-[1.5]" /> : <PanelLeftClose className="stroke-[1.5]" />}
       </div>
 
       {!sidebarClose && (

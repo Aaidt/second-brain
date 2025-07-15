@@ -5,10 +5,14 @@ import { getAccessToken, refreshAccessToken } from "../auth";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 type Content = {
+    id: string,
+    share: boolean,
+    isSharedPage: boolean,
     title: string,
     link: string,
     type: "youtube" | "twitter" | "reddit" | "others",
-    _id: string
+    _id: string,
+    created_at: Date
 }
 
 type ResponseData = {
