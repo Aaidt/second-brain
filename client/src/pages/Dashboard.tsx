@@ -134,35 +134,58 @@ export function Dashboard() {
 
             <div className={`${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 duration-200 gap-4`}>
 
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}>
                 <Masonry
                     breakpointCols={breakpointColumnsObj}
                     className="flex w-auto"
                     columnClassName="bg-clip-padding"
                 >
-                    {pageContent.map(item => {
-                        if(item.category === "content"){
-                            return <CardComponent
-                                title={item.title}
-                                link={item.link}
-                                id={item.id}
-                                type={item.type}
-                                share={share}
-                                isSharedPage={false}
-                                created_at={item.created_at} />
-                        }
-                        else {
-                            return <ThoughtCards
-                                id={item.id}
-                                title={item.title}
-                                body={item.body}                       
-                                created_at={item.created_at}
-                                share={share}
-                                isSharedPage={false}
-                                />
-                        }
-                        
-                    })}
+
+                        {pageContent.filter((content) => {
+                            const searchVal = searchRef.current?.value.toLowerCase() || ""
+                            return !searchVal || content.title.toLowerCase().includes(searchVal)
+                        })
+                            .filter((content) => {
+                                const selectedType = type?.trim() || ''
+                                if (!selectedType) return true ;
+
+                                if(['twitter', 'youtube', 'reddit', 'others'].includes(selectedType)){
+                                    return content.category === "content" && content.type?.trim() === selectedType
+                                }
+
+                                if(selectedType === "thoughts"){
+                                    return content.category === "thoughts"
+                                }
+
+                                return true
+
+                            }).map(item => {
+                                if(item.category === "content"){
+                                    return <CardComponent
+                                        title={item.title}
+                                        link={item.link}
+                                        id={item.id}
+                                        type={item.type}
+                                        share={share}
+                                        isSharedPage={false}
+                                        created_at={item.created_at} />
+                                }
+                                else {
+                                    return <ThoughtCards
+                                        id={item.id}
+                                        title={item.title}
+                                        body={item.body}                       
+                                        created_at={item.created_at}
+                                        share={share}
+                                        isSharedPage={false} />
+                                }
+                            
+                        })}
                 </Masonry>
+            </motion.div>
 
                 <div
                     className="pt-1 p-2 fixed right-0 top-0 flex">
