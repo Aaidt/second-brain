@@ -29,7 +29,7 @@ export function Dashboard() {
     const [thoughtModalOpen, setThoughtModalOpen] = useState(false);
     const [share, setShare] = useState(true)
 
-    const { contents, refresh } = useContent()
+    const { content, refresh } = useContent()
     const { thoughts, reFetch } = useThoughts()
 
     useEffect(() => {
@@ -115,13 +115,13 @@ export function Dashboard() {
                     className="flex w-auto"
                     columnClassName="pl- bg-clip-padding"
                 >
-                    {contents.filter((contents) => {
+                    {content.filter((content) => {
                         const searchVal = searchRef.current?.value.toLowerCase() || ""
-                        return !searchVal || contents.title.toLowerCase().includes(searchVal)
+                        return !searchVal || content.title.toLowerCase().includes(searchVal)
                     })
-                        .filter((contents) => {
+                        .filter((content) => {
                             const selectedType = type?.trim() || ''
-                            return !selectedType || contents.type?.trim() === selectedType
+                            return !selectedType || content.type?.trim() === selectedType
                         })
                         .map(({ title, link, type, _id }) =>
                             <motion.div

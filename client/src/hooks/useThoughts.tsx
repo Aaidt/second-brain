@@ -17,23 +17,18 @@ export const useThoughts = () => {
 
     const [thoughts, setThoughts] = useState<thoughts[]>([])
 
-    function reFetch() {
+    async function reFetch() {
         try {
             let token = getAccessToken();
             if (!token) {
                 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-                refreshAccessToken(BACKEND_URL).then(newToken => {
-                    token = newToken;
-                });
+                token = await refreshAccessToken(BACKEND_URL)
             }
-            axios.get<ResponseData>(`${BACKEND_URL}/second-brain/api/thought`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+            const response = await axios.get<ResponseData>(`${BACKEND_URL}/second-brain/api/thought`, {
+                headers: { Authorization: `Bearer ${token}` }
             })
-                .then((response) => {
-                    setThoughts(response.data?.thoughts)
-                })
+
+            setThoughts(response.data?.thoughts);
         } catch (err) {
             console.log(err);
         }

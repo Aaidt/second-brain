@@ -16,25 +16,19 @@ type ResponseData = {
 }
 
 export const useContent = () => {
-    const [contents, setContents] = useState<Content[]>([]);
+    const [content, setContent] = useState<Content[]>([]);
 
-    function refresh() {
+    async function refresh() {
         try {
             let token = getAccessToken();
             if (!token) {
                 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-                refreshAccessToken(BACKEND_URL).then(newToken => {
-                    token = newToken;
-                });
+                token = await refreshAccessToken(BACKEND_URL)
             }
-            axios.get<ResponseData>(`${BACKEND_URL}/second-brain/api/content`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+            const response = await axios.get<ResponseData>(`${BACKEND_URL}/second-brain/api/content`, {
+                headers: { Authorization: `Bearer ${token}` }
             })
-                .then((response) => {
-                    setContents(response.data?.content)
-                })
+            setContent(response.data?.content)
         } catch (err) {
             console.error(err)
         }
@@ -47,5 +41,5 @@ export const useContent = () => {
         return () => clearInterval(interval)
     }, [])
 
-    return {contents, refresh}
+    return {content, refresh}
 }

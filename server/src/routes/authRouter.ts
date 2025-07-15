@@ -106,7 +106,6 @@ authRouter.post("/refresh-token", async function (req: Request, res: Response) {
     }catch(err){
         console.error("Invalid refresh token.");
         res.status(403).json({ message: "Not authorized" });
-        return
     }
 })
 
