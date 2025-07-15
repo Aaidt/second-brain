@@ -58,8 +58,9 @@
 #### For server:
 ```env
 CONN=mongodb://localhost:27017/name-of-your-db
-PORT=3000
-JWT_SECRET=your-jwt-password
+ACCESS_SECRET=your-access-secret
+REFRESH_SECRET=your-refresh-secret
+FRONTEND_URL=http://localhost:5173
 GEMINI_API_KEY=your-api-key
 QDRANT_API_KEY=your-api-key
 QDRANT_CLOUD_URL=your-cloud-url
@@ -67,7 +68,6 @@ QDRANT_CLOUD_URL=your-cloud-url
 #### For client: 
 ```env
 VITE_BACKEND_URL=http://localhost:3000
-VITE_JWT_SECRET=your-jwt-password
 VITE_CLIENT_URL=http://localhost:5173
 GEMINI_API_KEY=your-api-key
 ```
