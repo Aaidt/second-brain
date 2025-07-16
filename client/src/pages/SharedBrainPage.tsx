@@ -1,25 +1,60 @@
 import { Sidebar } from "../components/ui/Sidebar"
 import { CardComponent } from "../components/ui/CardComponent"
 import { useState, useEffect } from "react";
-import { useContent } from "../hooks/useContent"
 import { SearchBar } from "../components/ui/SearchBar"
 import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
 import { motion } from 'framer-motion'
-import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from "../components/ui/ThoughtCards"
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
+type Content = {
+    id: string,
+    share: boolean,
+    isSharedPage: boolean,
+    title: string,
+    link: string,
+    type: "youtube" | "twitter" | "reddit" | "others",
+    created_at: Date
+}
+
+type thoughts = {
+    title: string,
+    body: string,
+    id: string,
+    created_at: Date
+}
+
+interface axiosResponse {
+    message: string,
+    content: Content[],
+    thought: thoughts[]
+}
+
+const BACKEND_URL = process.env.VITE_BACKEND_URL
 
 export function SharedBrainPage() {
+    const { shareLink } = useParams(); 
 
-    const [type, setType] = useState<string | undefined>()
-    const { content, refresh } = useContent()
-    const { thoughts, reFetch } = useThoughts()
+    const [type, setType] = useState<string | undefined>();
+    const [content, setContent] = useState<Content[]>([]); 
+    const [thoughts, setThoughts] = useState<thoughts[]>([]);
 
     useEffect(() => {
-        reFetch()
-        refresh()
-    })
+        async function fetch() {
+            try {
+                const res = await axios.post<axiosResponse>(`${BACKEND_URL}/second-brain/api/link/share/${shareLink}`, {}, {withCredentials: true});
+                if (res.data) {
+                    setContent(res.data.content || []);
+                    setThoughts(res.data.thought || []);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        if (shareLink) fetch();
+    }, [shareLink]);
 
     const { sidebarClose } = useSideBar();
 

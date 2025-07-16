@@ -81,7 +81,7 @@ export function Dashboard() {
             if(!token){
                  await refreshAccessToken(BACKEND_URL).then(newToken => token = newToken)
             }
-            const response = await axios.post<ResponseData>(`${BACKEND_URL}/second-brain/api/share`, { share },
+            const response = await axios.post<ResponseData>(`${BACKEND_URL}/second-brain/api/link/share`, { share },
                 { headers: { Authorization: token } });
 
             if (!response) {

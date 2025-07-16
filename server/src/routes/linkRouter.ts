@@ -70,6 +70,10 @@ linkRouter.post("/share/:shareLink", async function (req: Request<{shareLink: st
             where: { userId: hashLink.userId }
         })
 
+        const thought = await prismaClient.thought.findMany({
+            where: { userId: hashLink.userId }
+        })
+
         const user = await prismaClient.user.findFirst({
             where: { id: hashLink.userId }
         })
@@ -81,7 +85,8 @@ linkRouter.post("/share/:shareLink", async function (req: Request<{shareLink: st
 
         res.json({
             username: user?.username,
-            content
+            content,
+            thought
         })
     } catch (err) {
         res.json({ message: "Server error. Error in the sharing process." })
