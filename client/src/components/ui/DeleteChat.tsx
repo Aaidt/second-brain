@@ -24,7 +24,7 @@ export function DeleteChat({
         token = await refreshAccessToken(BACKEND_URL)
       }
       await axios.delete(`${BACKEND_URL}/second-brain/api/chatSession/delete/${sessionId}`, {
-        headers: { Authorization: token },
+        headers: { Authorization: `Bearer ${token}` },
       });
       onDeleteSuccess();
       toast.success("Chats deleted successfully!");

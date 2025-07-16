@@ -82,7 +82,7 @@ export function Dashboard() {
                  await refreshAccessToken(BACKEND_URL).then(newToken => token = newToken)
             }
             const response = await axios.post<ResponseData>(`${BACKEND_URL}/second-brain/api/link/share`, { share },
-                { headers: { Authorization: token } });
+                { headers: { Authorization: `Bearer ${token}` } });
 
             if (!response) {
                 toast.error('Issue with the Backend response')

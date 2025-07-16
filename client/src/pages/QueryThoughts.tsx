@@ -29,7 +29,7 @@ export function QueryThoughts() {
         await refreshAccessToken(BACKEND_URL).then(newToken => { token = newToken });
       }
       const response = await axios.post<QueryResponse>(`${BACKEND_URL}/second-brain/api/chat/query`, { query },
-        { headers: { Authorization: token } });
+        { headers: { Authorization: `Bearer ${token}` } });
       if (!response) {
         toast.error('Issue with the Backend response')
       }
