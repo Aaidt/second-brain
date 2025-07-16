@@ -37,11 +37,10 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
             }
 
             else if (ThoughtId) {
-                await axios.request({
-                    method: 'DELETE',
-                    url: `${BACKEND_URL}/second-brain/api/thought/delete/${ThoughtId}`,
-                    headers: { Authorization: `Bearer ${token}` }
-                })
+                await axios.delete(`${BACKEND_URL}/second-brain/api/thought/delete/${ThoughtId}`, {
+                    headers: {
+                         Authorization: `Bearer ${token}` 
+                        }})
                 reFetch()
                 toast.success("Thought has been deleted successfully!!!")
                 setOpen(false)
