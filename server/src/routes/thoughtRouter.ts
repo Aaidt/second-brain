@@ -85,7 +85,7 @@ thoughtRouter.get("/", async function (req: Request, res: Response) {
     }
 })
 
-thoughtRouter.delete("/delete", async function (req: Request<{ thoughtId: string }, {}, {}>, res: Response) {
+thoughtRouter.delete("/delete/:thoughtId", async function (req: Request<{ thoughtId: string }, {}, {}>, res: Response) {
     const { thoughtId } = req.params;
     const userId = req.userId;
 
