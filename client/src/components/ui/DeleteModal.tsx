@@ -39,8 +39,7 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
             else if (ThoughtId) {
                 await axios.request({
                     method: 'DELETE',
-                    url: `${BACKEND_URL}/second-brain/api/thought/delete`,
-                    data: { thoughtId: ThoughtId },
+                    url: `${BACKEND_URL}/second-brain/api/thought/delete/${ThoughtId}`,
                     headers: { Authorization: `Bearer ${token}` }
                 })
                 reFetch()
