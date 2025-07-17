@@ -93,7 +93,7 @@ export function Chat() {
         const token = await ensureToken()
 		try{
 			const response = await axios.post<{ session: SessionResponse }>(`${BACKEND_URL}/second-brain/api/chatSession/create`, 
-				{ title: `New chat ${Math.floor(Math.random()).toString()}` },
+				{ title: `New chat ${Math.random().toString()}` },
 				{ headers: { Authorization: `Bearer ${token}` } }
 			);  
 
