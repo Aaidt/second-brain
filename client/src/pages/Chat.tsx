@@ -262,7 +262,7 @@ export function Chat() {
                     <div className='flex items-center justify-between mx-auto'>
                       <div>{session.title}</div>
                       <Trash2
-                        className="stroke-[1.5] size-5 mt-7 cursor-pointer hover:-translate-y-1 duration-200 transition-all"
+                        className="stroke-[1.5] size-4 cursor-pointer hover:-translate-y-1 duration-200 transition-all"
                         onClick={() => setModalOpen(true)}
                       />
                     </div>
