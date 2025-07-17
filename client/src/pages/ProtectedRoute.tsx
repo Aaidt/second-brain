@@ -6,7 +6,6 @@ import { getAccessToken, refreshAccessToken } from "../auth";
 export function ProtectedRoute ({ children }: { children: React.JSX.Element }){
     const [token, setToken] = useState(getAccessToken()) 
     const [loading, setLoading] = useState<boolean>(!token);
-    console.log(token)
 
     useEffect(() => {
         setLoading(true)

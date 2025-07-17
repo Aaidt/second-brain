@@ -44,6 +44,7 @@ export function Chat() {
 	const [isClosed, setIsClosed] = useState<boolean>(false);
 	const [sessions, setSessions] = useState<SessionResponse[]>([]);
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
+	const [modalOpenId, setModalOpenId] = useState<string | null>(null);
 	const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
 
 	const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -54,16 +55,22 @@ export function Chat() {
 		scrollToBottom();
 	}, [messages]);
 
+    const tokenRef = useRef<string | null>(getAccessToken())
 
-	let token = getAccessToken();
-	async function init() {
-		if (!token) { token = await refreshAccessToken(BACKEND_URL) }
-		if (!token) {
-			toast.error('Please log in to access chats');
-			navigate('/login');
+    async function ensureToken(){
+        if(!tokenRef.current){
+            tokenRef.current = await refreshAccessToken(BACKEND_URL);
+        }
+        if(!tokenRef.current) {
+			toast.error("Please log in.")
+			navigate("/login")
 			return;
 		}
-	
+        return tokenRef.current;
+    }
+
+	async function init() {
+        const token = await ensureToken()
 		try {
 			const fetchedSessions = await axios.get<{ sessions: SessionResponse[] }>(
 				`${BACKEND_URL}/second-brain/api/chatSession/`,
@@ -83,13 +90,7 @@ export function Chat() {
 
 	
 	async function handleNewChat() {
-		if(!token) token = await refreshAccessToken(BACKEND_URL)
-		if(!token) {
-			toast.error("Please log in.")
-			navigate("/login")
-			return;
-		}
-
+        const token = await ensureToken()
 		try{
 			const response = await axios.post<{ session: SessionResponse }>(`${BACKEND_URL}/second-brain/api/chatSession/create`, 
 				{ title: "Untitled" },
@@ -105,19 +106,12 @@ export function Chat() {
 			toast.error('Could not start a new chat.')
 			console.error('Could not start a new chat. ' + err)
 		}
-		init()
-
 	}
 
 	async function sendMessage(message: Message, sessionId: string | null) {
 		if(!sessionId) return 
 
-		if (!token) token = await refreshAccessToken(BACKEND_URL)
-		if (!token) {
-			toast.error('Please log in to send queries');
-			navigate('/login');
-			return;
-		}
+        const token = await ensureToken()
 
 		try {
 			await axios.post(
@@ -133,6 +127,10 @@ export function Chat() {
 
 	async function handleChatQuery() { 
 		if (!query.trim()) return;
+        if (!currentSessionId) {
+            toast.error("Start a chat before sending a message.");
+            return;
+        }
 
 		const userMessage: Message = { sender: 'user', content: query };
 		setMessages((prev) => [...prev, userMessage]);
@@ -140,7 +138,7 @@ export function Chat() {
 
 		try {
 			await sendMessage(userMessage, currentSessionId);
-			if (!token) { token = await refreshAccessToken(BACKEND_URL) }
+            const token = await ensureToken()
 			const res = await axios.post<axiosResponse>(`${BACKEND_URL}/second-brain/api/chatMessage/chat-query`,
 				{ query },
 				{ headers: { Authorization: `Bearer ${token}` } }
@@ -170,6 +168,21 @@ export function Chat() {
 		setQuery('');
 		setLoading(false);
 	}
+
+    async function fetchSession(sessionId: string){
+        const token = await ensureToken()
+
+        try{
+            setMessages([])
+            const response = await axios.get<SessionResponse>(`${BACKEND_URL}/second-brain/api/chatSession/${sessionId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            setMessages(response.data?.message)
+        }catch(err){
+            toast.error("Could not fetch that session");
+            console.error("Error is: " + err);
+        }
+    }
 
 	return (
 		<div className="h-screen w-screen grid grid-cols-[340px_1fr] overflow-hidden">
@@ -217,34 +230,35 @@ export function Chat() {
 							{references.length === 0 ? (
 								<p className="text-gray-500 text-sm pt-2">No queries sent.</p>
 							) : (references.map((ref, idx) => (
-								<div key={idx} className="bg-gray-100 border text-black rounded-md p-3 shadow-sm">
-									<motion.div
-										initial={{ opacity: 0, y: -40 }}
+                                <motion.div
+										initial={{ opacity: 0, y: -20 }}
 										whileInView={{ opacity: 1, y: 0 }}
 										viewport={{ once: true }}
 										transition={{ duration: 0.3 }}
 										className="space-y-4 pr-2"
+                                        key={idx} 
 									>
-									<div className="flex items-center justify-between">
-										<h3 className="mb-1 text-sm font-medium">{ref.title}</h3>
-										<ChevronDown
-											onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-											className="size-5 stroke-[1.5] cursor-pointer"
-										/>
-									</div>
-									</motion.div>
-									{openIndex === idx && (
-										<motion.div
-											initial={{ opacity: 0, y: -40 }}
-											whileInView={{ opacity: 1, y: 0 }}
-											viewport={{ once: true }}
-											transition={{ duration: 0.2 }}
-											className="text-sm text-gray-700 whitespace-pre-wrap"
-										>
-											{ref.thoughts}
-										</motion.div>
-									)}
-								</div>
+                                    <div className="bg-gray-100 border text-black rounded-md p-3 shadow-sm">
+                                        <div className="flex items-center justify-between">
+                                            <h3 className="mb-1 text-sm font-medium">{ref.title}</h3>
+                                            <ChevronDown
+                                                onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+                                                className="size-5 stroke-[1.5] cursor-pointer"
+                                            />
+                                        </div>
+                                        {openIndex === idx && (
+                                            <motion.div
+                                            initial={{ opacity: 0, y: -40 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.2 }}
+                                            className="text-sm text-gray-700 whitespace-pre-wrap"
+                                            >
+                                                {ref.thoughts}
+                                            </motion.div>
+                                        )}
+                                    </div>
+                                </motion.div>
 							)))}
 							<div className='flex justify-between items-center mx-1 pt-8 mb-2 '>
 								<h3 className="font-semibold text-gray-800 ">Previous chats:</h3>
@@ -253,26 +267,26 @@ export function Chat() {
 						{sessions.length === 0 ? (
 								<p className="text-gray-500 text-sm pt-2">No previous chats.</p>
 							) : (
-								sessions.map((session, i) => (
+								sessions.map((session) => (
 									<motion.div
 										initial={{ opacity: 0 }}
 										whileInView={{ opacity: 1 }}
 										viewport={{ once: true }}
 										transition={{ duration: 0.4 }}
-										key={i}
+										key={session.id}
 										className="rounded-lg p-1 whitespace-pre-wrap my-1 text-md text-black max-w-sm "
 									>
 										<div className='flex items-center justify-between mx-auto cursor-pointer hover:bg-gray-200 
-											duration-200 transition-all px-4 py-2 rounded-lg '>
+											duration-200 transition-all px-4 py-2 rounded-lg ' onClick={() => fetchSession(session.id)}>
 											<div>{session.title}</div>
 											<Trash2
-												className="stroke-[1.5] size-4 cursor-pointer hover:-translate-y-1 duration-200 transition-all"
+												className="stroke-[1.5] size-4 cursor-pointer"
 												onClick={() => setModalOpen(true)}
 											/>
 										</div>
 										<DeleteChat
-											open={modalOpen}
-											setOpen={setModalOpen}
+											open={modalOpenId === session.id}
+											setOpen={(val) => setModalOpenId(val ? session.id : null)}
 											onDeleteSuccess={() => setSessions([])}
 											sessionId={session.id}
 										/>
@@ -298,7 +312,7 @@ export function Chat() {
 								rounded-lg p-4 whitespace-pre-wrap border text-white
 								${msg.sender === 'user'
 									? 'bg-black/87 ml-auto border-r-6 border-r-green-600 max-w-sm'
-									: 'bg-black/87 mr-auto border-l-6 border-l-red-700 max-w-2xl'}
+									: 'bg-black/87 mr-auto border-l-6 border-l-blue-700 max-w-2xl'}
 							`}
 						>
 							<ReactMarkdown>{msg.content}</ReactMarkdown>
@@ -307,7 +321,7 @@ export function Chat() {
 					<div ref={messagesEndRef} />
 				</div>
 
-				<div className="bg-white p-3 ml-15 sticky bottom-0">
+				<div className="bg-white p-3 ml-15 sticky bottom-0 backdrop-blur-sm">
 					<motion.div
 						initial={{ opacity: 0, y: 10 }}
 						whileInView={{ opacity: 1, y: 0 }}
