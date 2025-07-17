@@ -259,7 +259,7 @@ export function Chat() {
                     key={i}
                     className="rounded-lg p-1 whitespace-pre-wrap my-1 text-md text-black font-medium max-w-sm "
                   >
-                    <div className='flex items-center justify-between mx-auto'>
+                    <div className='flex items-center justify-between mx-auto cursor-pointer hover:bg-gray-200 duration-200 transition-all'>
                       <div>{session.title}</div>
                       <Trash2
                         className="stroke-[1.5] size-4 cursor-pointer hover:-translate-y-1 duration-200 transition-all"
