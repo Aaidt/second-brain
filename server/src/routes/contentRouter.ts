@@ -45,7 +45,7 @@ contentRouter.get("/", async function (req: Request, res: Response) {
     }
 })
 
-contentRouter.delete("/deleteOne", async function (req: Request<{contentId: string}, {}, {}>, res: Response) {
+contentRouter.delete("/deleteOne/:contentId", async function (req: Request<{contentId: string}, {}, {}>, res: Response) {
     const { contentId } = req.params;
     try {
         await prismaClient.content.delete({

@@ -25,12 +25,10 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
                 });
             }
             if (contentId) {
-                await axios.request({
-                    method: 'DELETE',
-                    url: `${BACKEND_URL}/second-brain/api/content/deleteOne`,
-                    data: { contentId: contentId },
-                    headers: { Authorization: `Bearer ${token}` }
-                })
+                await axios.delete(`${BACKEND_URL}/second-brain/api/content/deleteOne/${contentId}`,{
+                        headers: { Authorization: `Bearer ${token}` }
+                    }
+                )
                 refresh()
                 toast.success("Content has been deleted successfully!!!")
                 setOpen(false)
