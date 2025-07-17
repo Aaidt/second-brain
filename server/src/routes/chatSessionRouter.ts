@@ -1,6 +1,8 @@
 import { Router, Request, Response } from "express"
 import { prismaClient } from "../db/prisma/client"
 import { z } from "zod"
+import { genAI } from "../utils/src/client"
+import { getEmbeddingsFromGemini } from "../utils/src/client"
 import { ChatSessionSchema, validateChatSession } from "../utils/src/types"
 
 const chatSessionRouter: Router = Router()
@@ -81,5 +83,24 @@ chatSessionRouter.delete("/delete/:sessionId", async function (req: Request<{ses
         res.status(500).json({ message: "Server error. Could not delete session." })
     }
 })
+
+chatSessionRouter.put("/update/:sessionId", async function (req: Request<{sessionId: string}>, res: Response) {
+    const sessionId = req.params.sessionId
+    const { title } = req.body
+
+    try{
+        await prismaClient.chatSession.update({
+            where: { id: sessionId },
+            data: { title }
+        })
+
+        res.status(200).json({ message: "Title updated successfully." })
+
+    }catch(err){
+        console.error("Error updating title: " + err)
+        res.status(500).json({ message: "Server error. Failed to update session title."})
+    }
+
+});
 
 export default chatSessionRouter

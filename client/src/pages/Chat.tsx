@@ -9,19 +9,28 @@ import ReactMarkdown from 'react-markdown';
 import { DeleteChat } from "../components/ui/DeleteChat"
 import { getAccessToken, refreshAccessToken } from '../auth';
 
-type Message = {
-  sender: 'user' | 'ai';
-  content: string;
-};
-
-type Session = {
-  id: string,
-  title: string  
-}
-
 interface axiosResponse {
   answers: string;
   references: { title: string; thoughts: string }[];
+  title: string;
+}
+
+type Message  = {
+  id?: number,
+  sender: "ai" | "user",
+  content: string,
+  created_at?: Date
+}
+
+interface SessionResponse {
+  id: string,
+  title: string,
+  created_at: Date,
+  message: Message[]
+}
+
+interface titleUpdateResponse{
+  message: string
 }
 
 export function Chat() {
@@ -33,8 +42,11 @@ export function Chat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [isClosed, setIsClosed] = useState<boolean>(false);
-  const [sessions, setSessions] = useState<Session[]>([]);
+  const [sessions, setSessions] = useState<SessionResponse[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
+
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -44,45 +56,64 @@ export function Chat() {
     scrollToBottom();
   }, [messages]);
 
-  useEffect(() => {
-    let token = getAccessToken();
-    async function getToken(){
-      if (!token) {
-        const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-        token = await refreshAccessToken(BACKEND_URL)
-      }
-      if (!token) {
-        toast.error('Please log in to access chats');
-        navigate('/login');
-        return;
-      }
-    }
-    getToken()
-    
-    async function fetchSesions() {
-      try {
-        const fetchedSessions = await axios.get<{ sessions: Session[] }>(
-          `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chatSession/`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setSessions(fetchedSessions.data.sessions || []);
-      } catch (err) {
-        console.error('Error fetching chats:', err);
-        toast.error('Error fetching saved chats');
-        setSessions([]);
-      }
-    }
 
-    fetchSesions()
-    
+  let token = getAccessToken();
+  async function init() {
+    if (!token) { token = await refreshAccessToken(BACKEND_URL) }
+    if (!token) {
+      toast.error('Please log in to access chats');
+      navigate('/login');
+      return;
+    }
+  
+    try {
+      const fetchedSessions = await axios.get<{ sessions: SessionResponse[] }>(
+        `${BACKEND_URL}/second-brain/api/chatSession/`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setSessions(fetchedSessions.data.sessions || []);
+    } catch (err) {
+      console.error('Error fetching chats:', err);
+      toast.error('Error fetching saved chats');
+      setSessions([]);
+    }
+  }
+
+  useEffect(() => {
+    init()    
   }, []);
 
-  async function saveChat(message: Message) {
-    let token = getAccessToken();
-    if (!token) {
-      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-      token = await refreshAccessToken(BACKEND_URL)
+  
+  async function handleNewChat() {
+    if(!token) token = await refreshAccessToken(BACKEND_URL)
+    if(!token) {
+      toast.error("Please log in.")
+      navigate("/login")
+      return;
     }
+
+    try{
+      const response = await axios.post<{ session: SessionResponse }>(`${BACKEND_URL}/second-brain/api/chatSession/create`, 
+        { title: "Untitled" },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );  
+
+      const newSession = response.data?.session
+      setCurrentSessionId(newSession.id)
+      setMessages([])
+      setReferences([])
+      setQuery('')
+    }catch(err){
+      toast.error('Could not start a new chat.')
+      console.error('Could not start a new chat. ' + err)
+    }
+
+  }
+
+  async function saveChat(message: Message, sessionId: string | null) {
+    if(!sessionId) return 
+
+    if (!token) token = await refreshAccessToken(BACKEND_URL)
     if (!token) {
       toast.error('Please log in to save chats');
       navigate('/login');
@@ -91,7 +122,7 @@ export function Chat() {
 
     try {
       await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chatMessage/send`,
+        `${BACKEND_URL}/second-brain/api/chatMessage/send/${sessionId}`,
         { sender: message.sender, content: message.content },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -101,7 +132,7 @@ export function Chat() {
     }
   }
 
-  async function handleChatQuery() {
+  async function handleChatQuery() { 
     if (!query.trim()) return;
 
     const userMessage: Message = { sender: 'user', content: query };
@@ -109,16 +140,9 @@ export function Chat() {
     setLoading(true);
 
     try {
-      await saveChat(userMessage);
-      let token = getAccessToken();
-      if (!token) {
-        const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-        await refreshAccessToken(BACKEND_URL).then(newToken => {
-          token = newToken;
-        });
-      }
-      const res = await axios.post<axiosResponse>(
-        `${import.meta.env.VITE_BACKEND_URL}/second-brain/api/chat/chat-query`,
+      await saveChat(userMessage, currentSessionId);
+      if (!token) { token = await refreshAccessToken(BACKEND_URL) }
+      const res = await axios.post<axiosResponse>(`${BACKEND_URL}/second-brain/api/chat/chat-query`,
         { query },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -127,7 +151,17 @@ export function Chat() {
       const aiMessage: Message = { sender: 'ai', content: aiResponse };
       setReferences(res.data?.references || []);
       setMessages((prev) => [...prev, aiMessage]);
-      await saveChat(aiMessage);
+      await saveChat(aiMessage, currentSessionId);
+
+      if(messages.filter(m => m.sender === "user").length === 1 && currentSessionId){
+        const newTitle = res.data?.title || "New chat"
+
+        const response = await axios.put<titleUpdateResponse>(`${BACKEND_URL}/second-brain/api/chatSession/update/${currentSessionId}`, 
+          { title: newTitle },
+          {headers: { Authorization: `Bearer ${token}` } }
+        )
+        toast.info(response.data?.message)
+      }
     } catch (err) {
       toast.error('Error fetching response');
       console.error(err)
@@ -167,7 +201,8 @@ export function Chat() {
               />
             </div>
             <div className='pb-3'>
-              <div className="flex items-center mb-2 text-gray-800 py-2 hover:bg-gray-200 rounded-md w-full cursor-pointer">
+              <div className="flex items-center mb-2 text-gray-800 py-2 hover:bg-gray-200 rounded-md w-full cursor-pointer"
+                onClick={handleNewChat}>
                 <SquarePen size="18" className='mr-4' />
                   New chat
               </div>
@@ -282,7 +317,7 @@ export function Chat() {
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleChatQuery()}
                   className="flex-1 px-4 py-2 border-2 w-full border-gray-400 rounded-md text-base"
-                  placeholder="How can I help today..."
+                  placeholder="Ask anything..."
                   disabled={loading}
                 />
               </div>

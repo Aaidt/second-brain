@@ -94,7 +94,8 @@ chatMessageRouter.post("/chat-query", async function (req: Request, res: Respons
 
         res.status(200).json({
             answers: text,
-            references: result.map(r => r.payload)
+            references: result.map(r => r.payload),
+            title: query.length > 20 ? query.slice(0, 20) + "..." : query
         })
 
     } catch (err) {
