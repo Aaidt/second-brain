@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { getAccessToken, refreshAccessToken } from "../../auth";
+import { useNavigate } from "react-router-dom";
 
 export function DeleteChat({
   open,
@@ -15,13 +16,16 @@ export function DeleteChat({
   sessionId: string
 }) {
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  const navigate = useNavigate()
 
   async function deleteChats() {
     try {
       let token = getAccessToken();
-      if (!token) {
-        const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-        token = await refreshAccessToken(BACKEND_URL)
+      if (!token) { token = await refreshAccessToken(BACKEND_URL) }
+      if(!token){
+        toast.error("Login first")
+        navigate("/login")
+        return 
       }
       await axios.delete(`${BACKEND_URL}/second-brain/api/chatSession/delete/${sessionId}`, {
         headers: { Authorization: `Bearer ${token}` },
