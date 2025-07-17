@@ -246,8 +246,8 @@ export function Chat() {
 									)}
 								</div>
 							)))}
-							<div className='flex justify-between items-center mx-1 '>
-								<h3 className="font-semibold mb-2 text-gray-800 pt-8">Previous chats:</h3>
+							<div className='flex justify-between items-center mx-1 pt-8 mb-2 '>
+								<h3 className="font-semibold text-gray-800 ">Previous chats:</h3>
 								<RefreshCcw onClick={init} className="stroke-[1.5] size-4 cursor-pointer" />
 							</div>
 						{sessions.length === 0 ? (
