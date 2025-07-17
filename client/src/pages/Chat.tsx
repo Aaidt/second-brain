@@ -237,7 +237,7 @@ export function Chat() {
 									Search chats
 							</div> */}
 						</div>
-						<h3 className="font-semibold mb-2 text-gray-800">Thoughts referred to answer your query:</h3>
+						<h3 className="font-semibold mb-2 text-gray-800">Thoughts referrenced:</h3>
 						
 							{references.length === 0 ? (
 								<p className="text-gray-500 text-sm pt-2">No queries sent.</p>
