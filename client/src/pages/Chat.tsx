@@ -173,10 +173,10 @@ export function Chat() {
 
         try{
             setMessages([])
-            const response = await axios.get<SessionResponse>(`${BACKEND_URL}/second-brain/api/chatSession/${sessionId}`, {
-                headers: { Authorization: `Bearer ${token}` }
+            const response = await axios.get<{session: SessionResponse}>(`${BACKEND_URL}/second-brain/api/chatSession/${sessionId}`, {
+                headers: { Authorization: `Bearer ${token}` }   
             })
-            setMessages(response.data?.message)
+            setMessages(response.data?.session.message)
         }catch(err){
             toast.error("Could not fetch that session");
             console.error("Error is: " + err);
