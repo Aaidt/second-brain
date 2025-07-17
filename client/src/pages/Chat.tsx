@@ -70,6 +70,7 @@ export function Chat() {
 
 	async function init() {
         const token = await ensureToken()
+        toast.info("Fetching sessions...")
 		try {
 			const fetchedSessions = await axios.get<{ sessions: SessionResponse[] }>(
 				`${BACKEND_URL}/second-brain/api/chatSession/`,
@@ -92,7 +93,7 @@ export function Chat() {
         const token = await ensureToken()
 		try{
 			const response = await axios.post<{ session: SessionResponse }>(`${BACKEND_URL}/second-brain/api/chatSession/create`, 
-				{ title: Math.random().toString() },
+				{ title: `New chat ${Math.floor(Math.random()).toString()}` },
 				{ headers: { Authorization: `Bearer ${token}` } }
 			);  
 
@@ -157,8 +158,15 @@ export function Chat() {
 					{headers: { Authorization: `Bearer ${token}` } }
 				)
 				toast.info(response.data?.message)
+
+                setSessions((prevSessions) =>
+                    prevSessions.map((s) =>
+                        s.id === currentSessionId ? { ...s, title: newTitle } : s
+                    )
+                );
 			}
-			init()
+
+
 		} catch (err) {
 			toast.error('Error fetching response');
 			console.error(err)
@@ -279,7 +287,7 @@ export function Chat() {
 											duration-200 transition-all px-4 py-2 rounded-lg ' onClick={() => fetchSession(session.id)}>
 											<div>{session.title}</div>
 											<Trash2
-												className="stroke-[1.5] size-4 cursor-pointer"
+												className="stroke-[1.5] size-4 cursor-pointer hover:stroke-red-700"
 												onClick={() => setModalOpenId(session.id)}
 											/>
 										</div>
@@ -320,34 +328,30 @@ export function Chat() {
 					<div ref={messagesEndRef} />
 				</div>
 
-				<div className="bg-white p-3 ml-15 sticky bottom-0 backdrop-blur-sm">
+				<div className="bg-white px-6 py-4 w-full sticky bottom-0 shadow-[0_-1px_10px_rgba(0,0,0,0.1)] border-t">
 					<motion.div
 						initial={{ opacity: 0, y: 10 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.8 }}
 					>
-						<div className="flex gap-2 max-w-4xl">
-							<div className="w-220 flex items-center">
-								<input
-									value={query}
-									onChange={(e) => setQuery(e.target.value)}
-									onKeyDown={(e) => e.key === 'Enter' && handleChatQuery()}
-									className="flex-1 px-4 py-2 border-2 w-full border-gray-400 rounded-md text-base"
-									placeholder="Ask anything..."
-									disabled={loading}
-								/>
-							</div>
-							<div className="-translate-y-1">
-								<Button
-									size="md"
-									bg_color="black"
-									fullWidth={false}
-									onClick={handleChatQuery}
-									loading={loading}
-									text={<SendHorizontal size={18} />}
-								/>
-							</div>
+						<div className="flex items-center gap-2 max-w-4xl mx-auto">
+                            <input
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleChatQuery()}
+                                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:outline-none text-base bg-gray-50"
+                                placeholder="Ask anything..."
+                                disabled={loading}
+                            />
+                            <Button
+                                size="md"
+                                bg_color="black"
+                                fullWidth={false}
+                                onClick={handleChatQuery}
+                                loading={loading}
+                                text={<SendHorizontal size={18} />}
+                            />
 						</div>
 					</motion.div>
 				</div>

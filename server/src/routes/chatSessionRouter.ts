@@ -1,8 +1,6 @@
 import { Router, Request, Response } from "express"
 import { prismaClient } from "../db/prisma/client"
 import { z } from "zod"
-import { genAI } from "../utils/src/client"
-import { getEmbeddingsFromGemini } from "../utils/src/client"
 import { ChatSessionSchema, validateChatSession } from "../utils/src/types"
 
 const chatSessionRouter: Router = Router()
@@ -41,6 +39,7 @@ chatSessionRouter.get("/", async (req: Request, res: Response) => {
         const sessions = await prismaClient.chatSession.findMany({
             where: { userId },
             orderBy: { created_at: "desc" },
+            take: 15
         });
         res.status(200).json({ sessions });
     } catch (err) {
