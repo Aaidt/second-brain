@@ -134,6 +134,8 @@ export function Chat() {
             return;
         }
 
+        const isFirstUserMessage = messages.filter(m => m.sender === "user").length === 0;
+
 		const userMessage: Message = { sender: 'user', content: query };
 		setMessages((prev) => [...prev, userMessage]);
 		setLoading(true);
@@ -152,12 +154,12 @@ export function Chat() {
 			setMessages((prev) => [...prev, aiMessage]);
 			await sendMessage(aiMessage, currentSessionId);
 
-			if(messages.filter(m => m.sender === "user").length === 1 && currentSessionId){
+			if(isFirstUserMessage && currentSessionId){
 				const newTitle = res.data?.title || "New chat"
 
 				const response = await axios.put<titleUpdateResponse>(`${BACKEND_URL}/second-brain/api/chatSession/update/${currentSessionId}`, 
 					{ title: newTitle },
-					{headers: { Authorization: `Bearer ${token}` } }
+					{ headers: { Authorization: `Bearer ${token}` } }
 				)
 				toast.info(response.data?.message)
 
@@ -235,7 +237,7 @@ export function Chat() {
 									Search chats
 							</div> */}
 						</div>
-						<h3 className="font-semibold mb-2 text-gray-800">Sources from your thoughts:</h3>
+						<h3 className="font-semibold mb-2 text-gray-800">Thoughts referred to answer your query:</h3>
 						
 							{references.length === 0 ? (
 								<p className="text-gray-500 text-sm pt-2">No queries sent.</p>
