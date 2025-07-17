@@ -184,6 +184,7 @@ export function Chat() {
             const response = await axios.get<{session: SessionResponse}>(`${BACKEND_URL}/second-brain/api/chatSession/${sessionId}`, {
                 headers: { Authorization: `Bearer ${token}` }   
             })
+            setCurrentSessionId(response.data.session.id)
             setMessages(response.data?.session.message)
         }catch(err){
             toast.error("Could not fetch that session");
@@ -287,7 +288,7 @@ export function Chat() {
 											duration-200 transition-all px-4 py-2 rounded-lg ' onClick={() => fetchSession(session.id)}>
 											<div>{session.title}</div>
 											<Trash2
-												className="stroke-[1.5] size-4 cursor-pointer hover:stroke-red-700"
+												className="stroke-[1.5] size-4 cursor-pointer hover:stroke-red-700 z-50"
 												onClick={() => setModalOpenId(session.id)}
 											/>
 										</div>
@@ -340,7 +341,7 @@ export function Chat() {
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleChatQuery()}
-                                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:outline-none text-base bg-gray-50"
+                                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-black/02 text-base bg-gray-50"
                                 placeholder="Ask anything..."
                                 disabled={loading}
                             />
