@@ -43,7 +43,6 @@ export function Chat() {
 	const [openIndex, setOpenIndex] = useState<number | null>(null);
 	const [isClosed, setIsClosed] = useState<boolean>(false);
 	const [sessions, setSessions] = useState<SessionResponse[]>([]);
-	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [modalOpenId, setModalOpenId] = useState<string | null>(null);
 	const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
 
@@ -281,7 +280,7 @@ export function Chat() {
 											<div>{session.title}</div>
 											<Trash2
 												className="stroke-[1.5] size-4 cursor-pointer"
-												onClick={() => setModalOpen(true)}
+												onClick={() => setModalOpenId(session.id)}
 											/>
 										</div>
 										<DeleteChat
