@@ -142,7 +142,7 @@ export function Chat() {
     try {
       await saveChat(userMessage, currentSessionId);
       if (!token) { token = await refreshAccessToken(BACKEND_URL) }
-      const res = await axios.post<axiosResponse>(`${BACKEND_URL}/second-brain/api/chat/chat-query`,
+      const res = await axios.post<axiosResponse>(`${BACKEND_URL}/second-brain/api/chatMessage/chat-query`,
         { query },
         { headers: { Authorization: `Bearer ${token}` } }
       );
