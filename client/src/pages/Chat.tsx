@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { SendHorizontal, ChevronDown, Brain, PanelLeftClose, PanelRightClose, Trash2, SquarePen, RefreshCcw } from 'lucide-react';
+import { SendHorizontal, ChevronDown, Brain, Trash2, SquarePen, RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -41,7 +41,6 @@ export function Chat() {
 	const [loading, setLoading] = useState(false);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const [openIndex, setOpenIndex] = useState<number | null>(null);
-	const [isClosed, setIsClosed] = useState<boolean>(false);
 	const [sessions, setSessions] = useState<SessionResponse[]>([]);
 	const [modalOpenId, setModalOpenId] = useState<string | null>(null);
 	const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
@@ -199,16 +198,8 @@ export function Chat() {
 	return (
 		<div className="h-screen w-screen grid grid-cols-[340px_1fr] overflow-hidden">
 			<div
-				className={`bg-white border-r border-black/15 overflow-hidden overflow-y-auto p-4 duration-300 transition-all ${
-					isClosed ? 'w-15' : 'w-85'
-				}`}
+				className={`bg-white border-r border-black/15 overflow-hidden overflow-y-auto p-4 duration-300 transition-all`}
 			>
-				{isClosed ? (
-					<PanelRightClose
-						className="cursor-pointer size-6 stroke-[1.5]"
-						onClick={() => setIsClosed(false)}
-					/>
-				) : (
 					<motion.div
 						initial={{ opacity: 0, x: -40 }}
 						whileInView={{ opacity: 1, x: 0 }}
@@ -220,10 +211,6 @@ export function Chat() {
 								<Brain className="size-6 cursor-pointer stroke-[1.5]" />
 								<p className="font-medium font-playfair text-2xl cursor-pointer">Second Brain</p>
 							</div>
-							<PanelLeftClose
-								className="cursor-pointer size-6 stroke-[1.5]"
-								onClick={() => setIsClosed(true)}
-							/>
 						</div>
 						<div className='pb-3'>
 							<div className="flex items-center mb-2 text-gray-800 px-4 py-2 hover:bg-gray-200 duration-200 transition-all rounded-md w-full cursor-pointer"
@@ -307,7 +294,6 @@ export function Chat() {
 								))
 							)}
 					</motion.div>
-				)}
 				
 				
 			</div>
