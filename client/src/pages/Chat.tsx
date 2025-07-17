@@ -102,6 +102,8 @@ export function Chat() {
 			setMessages([])
 			setReferences([])
 			setQuery('')
+
+            init()
 		}catch(err){
 			toast.error('Could not start a new chat.')
 			console.error('Could not start a new chat. ' + err)
@@ -284,8 +286,9 @@ export function Chat() {
 										key={i}
 										className="rounded-lg p-1 whitespace-pre-wrap my-1 text-md text-black max-w-sm "
 									>
-										<div className='flex items-center justify-between mx-auto cursor-pointer hover:bg-gray-200 
-											duration-200 transition-all px-4 py-2 rounded-lg ' onClick={() => fetchSession(session.id)}>
+										<div className={`${session.id === currentSessionId ? 'bg-gray-300' : null} flex items-center justify-between mx-auto cursor-pointer
+                                            hover:bg-gray-100 duration-200 transition-all px-4 py-2 rounded-lg`} 
+                                        onClick={() => fetchSession(session.id)}>
 											<div>{session.title}</div>
 											<Trash2
 												className="stroke-[1.5] size-4 cursor-pointer hover:stroke-red-700 z-50"
