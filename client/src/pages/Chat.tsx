@@ -266,13 +266,13 @@ export function Chat() {
 						{sessions.length === 0 ? (
 								<p className="text-gray-500 text-sm pt-2">No previous chats.</p>
 							) : (
-								sessions.map((session) => (
+								sessions.map((session, i) => (
 									<motion.div
 										initial={{ opacity: 0 }}
 										whileInView={{ opacity: 1 }}
 										viewport={{ once: true }}
 										transition={{ duration: 0.4 }}
-										key={session.id}
+										key={i}
 										className="rounded-lg p-1 whitespace-pre-wrap my-1 text-md text-black max-w-sm "
 									>
 										<div className='flex items-center justify-between mx-auto cursor-pointer hover:bg-gray-200 
