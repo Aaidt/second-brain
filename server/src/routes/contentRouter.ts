@@ -70,13 +70,9 @@ contentRouter.delete("/deleteOne/:contentId", async function (req: Request<{cont
 contentRouter.delete("/deleteAll", async function (req: Request, res: Response) {
     try {
         await prismaClient.content.deleteMany({
-            where: {
-                userId: req.userId
-            }
+            where: { userId: req.userId }
         })
-        res.status(201).json({
-            message: "Content deleted successfully."
-        })
+        res.status(201).json({ message: "Content deleted successfully." })
     } catch (err) {
         res.json({ message: "Server error. Error while deleting all." })
         console.error(err)
