@@ -55,7 +55,7 @@ export function PricingPage() {
         <div className="scroll-smooth font-serif text-black/95 bg-white min-h-screen flex flex-col justify-between">
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-                    <Brain />
+                    <Brain className="size-8 stroke-[1.5] mt-1" />
                     <span className="text-4xl font-playfair font-medium">SecondBrain</span>
                 </div>
                 <div onClick={() => navigate("/")}>

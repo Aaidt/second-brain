@@ -80,10 +80,8 @@ export function Signin() {
 
                 <label htmlFor="password" className="font-semibold "> Password:
                     <div className="relative">
-                        {hidden ? (<EyeOff onClick={() => setHidden(false)} className="absolute right-2 top-1/2 -translate-y-1/2 
-                            text-gray-500 h-5 w-5 cursor-pointer" />) 
-                            : (<Eye onClick={() => setHidden(true)} className="absolute right-2 top-1/2 -translate-y-1/2 
-                                text-gray-500 h-5 w-5 cursor-pointer" />)}
+                        {hidden ? (<EyeOff onClick={() => setHidden(false)} className="absolute right-2 top-1/2 text-gray-500 h-5 w-5 cursor-pointer" />) 
+                            : (<Eye onClick={() => setHidden(true)} className="absolute right-2 top-1/2 text-gray-500 h-5 w-5 cursor-pointer" />)}
 
                         <input
                             onKeyDown={async (e) => {
@@ -91,9 +89,9 @@ export function Signin() {
                                     await handleSignin()
                                 }
                             }}
-                            id="password" type="password" ref={passwordRef}
+                            id="password" type={hidden ? "password" : "text"} ref={passwordRef}
                             className="border font-normal w-full border-black/40 px-2 pr-8 py-1 mb-2 rounded-md"
-                            placeholder="********" disabled={loading} hidden={hidden} />
+                            placeholder="********" disabled={loading} />
                     </div>
                 </label>
 
