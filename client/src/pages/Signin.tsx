@@ -15,7 +15,7 @@ export function Signin() {
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const [loading, setLoading] = useState<boolean>(false)
-    const [hidden, setHidden] = useState<boolean>(false)
+    const [hidden, setHidden] = useState<boolean>(true)
 
     const navigate = useNavigate();
 

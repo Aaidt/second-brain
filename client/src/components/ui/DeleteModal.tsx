@@ -19,9 +19,7 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
         try {
             let token = getAccessToken();
             if (!token) {
-                await refreshAccessToken(BACKEND_URL).then(newToken => {
-                    token = newToken;
-                });
+                token = await refreshAccessToken(BACKEND_URL)
             }
             if (contentId) {
                 await axios.delete(`${BACKEND_URL}/second-brain/api/content/deleteOne/${contentId}`,{

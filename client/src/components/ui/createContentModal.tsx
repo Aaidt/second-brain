@@ -25,9 +25,7 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
             let token = getAccessToken();
             if (!token) {
                 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-                await refreshAccessToken(BACKEND_URL).then(newToken => {
-                    token = newToken;
-                });
+                token = await refreshAccessToken(BACKEND_URL)
             }
             await axios.post(`${BACKEND_URL}/second-brain/api/content/create`, {
                 title: titleRef.current?.value,

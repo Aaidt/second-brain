@@ -213,7 +213,8 @@ export function Chat() {
 							</div>
 						</div>
 						<div className='pb-3'>
-							<div className="flex items-center mb-2 text-sm text-gray-800 pl-2 py-2 hover:bg-gray-200 duration-200 transition-all rounded-md w-full cursor-pointer"
+							<div className="flex items-center mb-2 text-sm text-gray-800 pl-2 py-2 
+                                hover:bg-gray-200 duration-200 transition-all rounded-md w-full cursor-pointer"
 								onClick={handleNewChat}>
 								<SquarePen size="18" className='mr-2' />
 									New chat

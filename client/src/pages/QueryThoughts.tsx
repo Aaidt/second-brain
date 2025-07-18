@@ -26,7 +26,7 @@ export function QueryThoughts() {
       let token = getAccessToken();
       if (!token) {
         const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-        await refreshAccessToken(BACKEND_URL).then(newToken => { token = newToken });
+        token = await refreshAccessToken(BACKEND_URL)
       }
       const response = await axios.post<QueryResponse>(`${BACKEND_URL}/second-brain/api/chatMessage/query`, { query },
         {

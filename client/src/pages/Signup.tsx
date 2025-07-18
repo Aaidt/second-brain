@@ -18,7 +18,7 @@ export function Signup() {
     const nameRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false)
-    const [hidden, setHidden] = useState<boolean>(false)
+    const [hidden, setHidden] = useState<boolean>(true)
 
     async function handleSignup() {
         const username = usernameRef.current?.value;

@@ -79,7 +79,7 @@ export function Dashboard() {
         try {
             token = getAccessToken()
             if(!token){
-                 await refreshAccessToken(BACKEND_URL).then(newToken => token = newToken)
+                token = await refreshAccessToken(BACKEND_URL)
             }
             const response = await axios.post<ResponseData>(`${BACKEND_URL}/second-brain/api/link/share`, { share },
                 { headers: { Authorization: `Bearer ${token}` } });
