@@ -92,9 +92,9 @@ export function Signup() {
 
                 <label htmlFor="password" className="font-semibold "> Password:
                     <div className="relative">
-                        {hidden ? (<EyeOff onClick={() => setHidden(false)} className="absolute right-2 top-1/2
+                        {hidden ? (<EyeOff onClick={() => setHidden(false)} className="absolute right-2 top-1/2 -translate-y-1/2 
                             text-gray-500 h-5 w-5 cursor-pointer" />) 
-                            : (<Eye onClick={() => setHidden(true)} className="absolute right-2 top-1/2
+                            : (<Eye onClick={() => setHidden(true)} className="absolute right-2 top-1/2 -translate-y-1/2 
                                 text-gray-500 h-5 w-5 cursor-pointer" />)}
 
                         <input
