@@ -2,8 +2,9 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
 import { motion } from "framer-motion"
-import { CloseBarIcon } from "@/components/icons/CloseBarIcon";
 import { SignupFunction } from "../auth";
+import { ChevronsLeft, Eye, EyeOff } from "lucide-react";
+
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 const initial = { opacity: 0 }
@@ -17,6 +18,7 @@ export function Signup() {
     const nameRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false)
+    const [hidden, setHidden] = useState<boolean>(false)
 
     async function handleSignup() {
         const username = usernameRef.current?.value;
@@ -49,7 +51,7 @@ export function Signup() {
     return <div className="h-screen w-screen text-white/80 bg-black/95 flex justify-center items-center">
         <span onClick={() => navigate("/")}
             className="flex items-center gap-2 text-white fixed top-0 left-0 p-8 cursor-pointer hover:-translate-x-1 duration-200 transition-all">
-            <CloseBarIcon />
+            <ChevronsLeft />
         </span>
         <motion.div
             initial={initial}
@@ -89,15 +91,22 @@ export function Signup() {
                 </label>
 
                 <label htmlFor="password" className="font-semibold "> Password:
-                    <input
-                        onKeyDown={async (e) => {
-                            if (e.key === "Enter") {
-                                await handleSignup()
-                            }
-                        }}
-                        id="password" type="password" ref={passwordRef}
-                        className="border font-normal w-full border-black/40 px-2 py-1 mb-2 rounded-md"
-                        placeholder="********" disabled={loading} />
+                    <div className="relative">
+                        {hidden ? (<EyeOff onClick={() => setHidden(false)} className="absolute right-2 top-1/2 -translate-y-1/2 
+                            text-gray-500 h-5 w-5 cursor-pointer" />) 
+                            : (<Eye onClick={() => setHidden(true)} className="absolute right-2 top-1/2 -translate-y-1/2 
+                                text-gray-500 h-5 w-5 cursor-pointer" />)}
+
+                        <input
+                            onKeyDown={async (e) => {
+                                if (e.key === "Enter") {
+                                    await handleSignup()
+                                }
+                            }}
+                            id="password" type="password" ref={passwordRef}
+                            className="border font-normal w-full border-black/40 px-2 pr-8 py-1 mb-2 rounded-md"
+                            placeholder="********" disabled={loading} hidden={hidden} />
+                    </div>
                 </label>
 
                 <div className="pt-3 flex justify-center items-center">

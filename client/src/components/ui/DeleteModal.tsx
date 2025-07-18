@@ -19,7 +19,6 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
         try {
             let token = getAccessToken();
             if (!token) {
-                const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
                 await refreshAccessToken(BACKEND_URL).then(newToken => {
                     token = newToken;
                 });

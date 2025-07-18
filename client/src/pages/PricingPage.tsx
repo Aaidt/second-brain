@@ -1,8 +1,6 @@
 import { Button } from "../components/ui/Button"
 import { useNavigate } from "react-router-dom"
-// import { Footer } from "../components/ui/Footer"
-import { BrainIcon } from "../components/icons/BrainIcon"
-import { Check } from "lucide-react"
+import { Check, Brain } from "lucide-react"
 import { motion } from 'framer-motion'
 
 export function PricingPage() {
@@ -57,7 +55,7 @@ export function PricingPage() {
         <div className="scroll-smooth font-serif text-black/95 bg-white min-h-screen flex flex-col justify-between">
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-                    <BrainIcon />
+                    <Brain />
                     <span className="text-4xl font-playfair font-medium">SecondBrain</span>
                 </div>
                 <div onClick={() => navigate("/")}>
@@ -146,13 +144,13 @@ export function PricingPage() {
                                 }
                             ].map((faq, index) => (
                                 <motion.div
-                                    initial={{ opacity: 0, y: -50 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.4, ease: "easeOut" }}
                                     key={index} className="bg-black/90 text-white font-playfair hover:shadow-black/35 hover:shadow-lg duration-300 p-6 rounded-xl">
-                                    <h3 className="text-2xl font-medium font-playfair mb-2">{faq.question}</h3>
-                                    <p className="font-playfair text-md">{faq.answer}</p>
+                                    <h3 className="text-2xl font-playfair mb-2">{faq.question}</h3>
+                                    <p className="text-md">{faq.answer}</p>
                                 </motion.div>
                             ))}
                         </div>
