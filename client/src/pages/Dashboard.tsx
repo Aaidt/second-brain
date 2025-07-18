@@ -67,7 +67,7 @@ export function Dashboard() {
 
     function alertUser(share: boolean, responseData: ResponseData) {
         if (share) {
-            toast.success("Share this link to give access to others:⚡" + `${CLIENT_URL}${'/'}${responseData?.link}`)
+            toast.success("Share this link to give access to others:⚡" + `${CLIENT_URL}${'/share/'}${responseData?.link}`)
         } else {
             toast.error("You have tuned OFF sharing now. Click the button again to turn it ON")
         }

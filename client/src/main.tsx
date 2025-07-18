@@ -12,10 +12,9 @@ createRoot(document.getElementById('root')!).render(
           autoClose={5000}
           hideProgressBar={false}
           newestOnTop={true}
-          rtl={false}
           pauseOnFocusLoss
           pauseOnHover
-          theme="light"
+          theme="dark"
           transition={Zoom}
         />
   </div>

@@ -10,6 +10,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { getAccessToken, refreshAccessToken } from "@/auth";
 
+
 type Content = {
     id: string,
     share: boolean,
@@ -33,7 +34,7 @@ interface axiosResponse {
     thought: thoughts[]
 }
 
-const BACKEND_URL = process.env.VITE_BACKEND_URL
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 export function SharedBrainPage() {
     const { shareLink } = useParams(); 
