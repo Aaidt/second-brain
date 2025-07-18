@@ -22,22 +22,30 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
                 token = await refreshAccessToken(BACKEND_URL)
             }
             if (contentId) {
-                await axios.delete(`${BACKEND_URL}/second-brain/api/content/deleteOne/${contentId}`,{
-                        headers: { Authorization: `Bearer ${token}` }
-                    }
-                )
-                refresh()
-                toast.success("Content has been deleted successfully!!!")
+                try{
+                    await axios.delete(`${BACKEND_URL}/second-brain/api/content/deleteOne/${contentId}`,{
+                            headers: { Authorization: `Bearer ${token}` }
+                        }
+                    )
+                    refresh()
+                    toast.success("Content has been deleted successfully!!!")
+                }catch(err){
+                    console.error(err)
+                }
                 setOpen(false)
             }
 
             else if (ThoughtId) {
-                await axios.delete(`${BACKEND_URL}/second-brain/api/thought/delete/${ThoughtId}`, {
-                    headers: {
-                         Authorization: `Bearer ${token}` 
-                        }})
-                reFetch()
-                toast.success("Thought has been deleted successfully!!!")
+                try{
+                    await axios.delete(`${BACKEND_URL}/second-brain/api/thought/delete/${ThoughtId}`, {
+                        headers: {
+                             Authorization: `Bearer ${token}` 
+                            }})
+                    reFetch()
+                    toast.success("Thought has been deleted successfully!!!")
+                }catch(err){
+                    console.error(err)
+                }
                 setOpen(false)
             }
         } catch (err) {

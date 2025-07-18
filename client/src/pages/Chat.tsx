@@ -129,7 +129,7 @@ export function Chat() {
 	async function handleChatQuery() { 
 		if (!query.trim()) return;
         if (!currentSessionId) {
-            toast.error("Start a chat before sending a message.");
+            toast.error("Start a session before sending a message.");
             return;
         }
 
@@ -235,7 +235,7 @@ export function Chat() {
 										whileInView={{ opacity: 1, y: 0 }}
 										viewport={{ once: true }}
 										transition={{ duration: 0.3 }}
-										className="space-y-4 pr-2"
+										className="space-y-4 mb-2 pr-2"
                                         key={idx} 
 									>
                                     <div className="bg-gray-100 border text-black rounded-md p-3 shadow-sm">
