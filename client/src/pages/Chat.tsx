@@ -282,16 +282,13 @@ export function Chat() {
 											<div>{session.title}</div>
 											<Trash2
 												className="stroke-[1.5] size-4 cursor-pointer hover:stroke-red-700 z-50"
-												onClick={() => { 
-													setModalOpenId(session.id)
-													init()
-												}}
+												onClick={() => setModalOpenId(session.id)}
 											/>
 										</div>
 										<DeleteChat
 											open={modalOpenId === session.id}
 											setOpen={(val) => setModalOpenId(val ? session.id : null)}
-											onDeleteSuccess={() => setSessions([])}
+											onDeleteSuccess={() => setSessions(sessions.filter(s => s.id !== session.id))}
 											sessionId={session.id}
 										/>
 									</motion.div>
