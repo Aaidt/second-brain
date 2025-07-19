@@ -46,6 +46,7 @@ contentRouter.get("/", async function (req: Request, res: Response) {
 })
 
 contentRouter.delete("/deleteOne/:contentId", async function (req: Request<{contentId: string}, {}, {}>, res: Response) {
+    console.log("reached the url");
     const { contentId } = req.params;
     const userId = req.userId
     if(!contentId?.trim() || !userId){

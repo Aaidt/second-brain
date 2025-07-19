@@ -98,9 +98,7 @@ thoughtRouter.delete("/delete/:thoughtId", async function (req: Request<{ though
     try {
         deletedThought = await prismaClient.thought.findUnique({ where: { id: thoughtId } })
         if (!deletedThought || deletedThought.userId !== userId) {
-            res.status(403).json({
-                message: "Thought not found or not authorized."
-            })
+            res.status(403).json({ message: "Thought not found or not authorized." })
             return
         }
 
