@@ -5,8 +5,6 @@ import { toast } from 'react-toastify'
 import { YoutubeIcon } from "../icons/YoutubeIcon"
 import { TwitterIcon } from "../icons/TwitterIcon"
 import { RedditIcon } from "../icons/RedditIcon"
-import { Hover } from "@/components/ui/Hover"
-import { useState } from "react"
 // import { Notebook } from 'lucide-react'
 // import { useNavigate } from 'react-router-dom'
 // import { ContextModal } from "./ContextModal"
@@ -22,9 +20,6 @@ interface cardPropTypes {
 }
 
 export function CardComponent(cardProps: cardPropTypes) {
-    // const [open, setOpen] = useState<boolean>(false)
-    // const navigate = useNavigate()
-    const [hoveredIcon, setHoveredIcon] = useState<string | null>(null)
 
     const getYTEmbedLink = (url: string) => {
         try {
@@ -50,34 +45,19 @@ export function CardComponent(cardProps: cardPropTypes) {
                     <div className="flex justify-center items-center gap-2">
 
                         {cardProps.type === "youtube" ? (
-                            <div
-                                className="relative"
-                                onMouseEnter={() => setHoveredIcon('Link')}
-                                onMouseLeave={() => setHoveredIcon(null)}
-                            >
-                                {hoveredIcon === 'Link' && <Hover component="Link" />}
+                            <div className="relative">
                                 <YoutubeIcon onClick={() => {
                                     window.open(cardProps.link, "_blank");
                                 }} className="w-8 h-8 hover:scale-105 duration-200 transition-all" /> </div>)
 
                             : cardProps.type === "twitter" ? (
-                                <div
-                                    className="relative"
-                                    onMouseEnter={() => setHoveredIcon('Link')}
-                                    onMouseLeave={() => setHoveredIcon(null)}
-                                >
-                                    {hoveredIcon === 'Link' && <Hover component="Link" />}
+                                <div className="relative">
                                     <TwitterIcon onClick={() => {
                                         window.open(cardProps.link, "_blank");
                                     }} className="w-7 h-7 hover:scale-105 duration-200 transition-all" /> </div>)
 
                                 : cardProps.type === "reddit" ? (
-                                    <div
-                                        className="relative"
-                                        onMouseEnter={() => setHoveredIcon('Link')}
-                                        onMouseLeave={() => setHoveredIcon(null)}
-                                    >
-                                        {hoveredIcon === 'Link' && <Hover component="Link" />}
+                                    <div className="relative">
                                         <RedditIcon onClick={() => {
                                             window.open(cardProps.link, "_blank");
                                         }} className="w-8 h-8 hover:scale-105 duration-200 transition-all" /> </div>)
@@ -85,10 +65,7 @@ export function CardComponent(cardProps: cardPropTypes) {
                                     : cardProps.type === "others" ? (
                                         <div
                                             className="relative"
-                                            onMouseEnter={() => setHoveredIcon('Link')}
-                                            onMouseLeave={() => setHoveredIcon(null)}
                                         >
-                                            {hoveredIcon === 'Link' && <Hover component="Link" />}
                                             <Page /> </div>) : null
                         }
                         {/* <Notebook onClick={() => {
@@ -99,20 +76,11 @@ export function CardComponent(cardProps: cardPropTypes) {
                     </div>
                     <div className="flex gap-4">
                         {(cardProps.isSharedPage === false) ? (
-                            <div
-                                className="relative"
-                                onMouseEnter={() => setHoveredIcon('Delete')}
-                                onMouseLeave={() => setHoveredIcon(null)}
+                            <div className="relative"
                             >
-                                {hoveredIcon === 'Delete' && <Hover component="Delete" />}
                                 <Delete contentId={cardProps.id} /> </div>) : null}
 
-                        <div
-                            className="relative"
-                            onMouseEnter={() => setHoveredIcon('Share')}
-                            onMouseLeave={() => setHoveredIcon(null)}
-                        >
-                            {hoveredIcon === 'Share' && <Hover component="Share" />}
+                        <div className="relative">
                             <ShareIcon style="zoom" onClick={() => {
                                 console.log("handleShare called.")
                                 toast.success("Share using this link:⚡" + cardProps.link)
