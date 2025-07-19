@@ -274,7 +274,7 @@ export function Chat() {
 										viewport={{ once: true }}
 										transition={{ duration: 0.4 }}
 										key={i}
-										className="rounded-lg p-1 whitespace-pre-wrap text-md text-black max-w-sm "
+										className="rounded-lg whitespace-pre-wrap text-md text-black max-w-sm "
 									>
 										<div className={`${session.id === currentSessionId ? 'bg-gray-300' : null} flex items-center justify-between mx-auto cursor-pointer
                                             hover:bg-gray-100 duration-200 transition-all px-4 py-2 rounded-lg`} 
@@ -282,7 +282,10 @@ export function Chat() {
 											<div>{session.title}</div>
 											<Trash2
 												className="stroke-[1.5] size-4 cursor-pointer hover:stroke-red-700 z-50"
-												onClick={() => setModalOpenId(session.id)}
+												onClick={() => { 
+													setModalOpenId(session.id)
+													init()
+												}}
 											/>
 										</div>
 										<DeleteChat
