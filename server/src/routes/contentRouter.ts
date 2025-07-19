@@ -47,20 +47,32 @@ contentRouter.get("/", async function (req: Request, res: Response) {
 
 contentRouter.delete("/deleteOne/:contentId", async function (req: Request<{contentId: string}, {}, {}>, res: Response) {
     const { contentId } = req.params;
+    const userId = req.userId
+    if(!contentId?.trim() || !userId){
+        res.status(403).json({ message: "Unauthorized." })
+        return 
+    }
+
     if(typeof contentId !== "string"){
         res.status(403).json({ message: "Incorrect contentId sent" })
         return 
     }
     try {
+        const doesUserExist = await prismaClient.user.findFirst({
+            where: { id: userId }
+        })
+        if(!doesUserExist){
+            res.status(404).json({ message: "This user doesnt exist." })
+            return
+        }
+
         await prismaClient.content.delete({
             where: {
                 id: contentId,
-                userId: req.userId
+                userId
             }
         })
-        res.status(201).json({
-            message: "Content deleted successfully."
-        })
+        res.status(201).json({ message: "Content deleted successfully." })
     } catch (err) {
         res.json({ message: "Server error. Error while deleting one." })
         console.error(err)

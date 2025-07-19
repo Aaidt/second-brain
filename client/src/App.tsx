@@ -22,7 +22,7 @@ function App() {
         <Route path="/pricing" element={<PricingPage />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/signin" element={<Signin />}></Route>
-        <Route path="/share/:shareLink" element={
+        <Route path="/share/  :shareLink" element={
           <SidebarProvider isSharedPage={true}>
             <SharedBrainPage />
           </SidebarProvider>}
