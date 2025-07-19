@@ -76,9 +76,7 @@ chatMessageRouter.post("/chat-query", async function (req: Request, res: Respons
         });
 
         const retrievedTexts = result.map(r => `${r.payload?.title ?? ""}: ${r.payload?.thoughts ?? ""}`).join("\n");
-        if (!retrievedTexts) {
-            res.status(404).json({ message: 'No results found.' });
-        }
+        if (!retrievedTexts) { res.status(404).json({ message: 'No results found.' }) }
 
         const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
         const prompt = `You are a helpful assistant. The user has saved some personal notes. Use the following thoughts

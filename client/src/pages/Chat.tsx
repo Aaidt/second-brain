@@ -156,11 +156,10 @@ export function Chat() {
 			if(isFirstUserMessage && currentSessionId){
 				const newTitle = res.data?.title || "New chat"
 
-				const response = await axios.put<titleUpdateResponse>(`${BACKEND_URL}/second-brain/api/chatSession/update/${currentSessionId}`, 
+				await axios.put<titleUpdateResponse>(`${BACKEND_URL}/second-brain/api/chatSession/update/${currentSessionId}`, 
 					{ title: newTitle },
 					{ headers: { Authorization: `Bearer ${token}` } }
 				)
-				toast.info(response.data?.message)
 
                 setSessions((prevSessions) =>
                     prevSessions.map((s) =>
