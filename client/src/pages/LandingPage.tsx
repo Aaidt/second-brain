@@ -1,5 +1,5 @@
 import { Button } from "../components/ui/Button"
-import { ArrowRight, Brain, BookOpen, Lightbulb, Star } from "lucide-react"
+import { ArrowRight, Brain, BookOpen, Lightbulb } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useRef } from "react";
 import { motion } from "framer-motion"
@@ -179,7 +179,7 @@ export function LandingPage() {
                 </section>
 
 
-                <section ref={ref2} className="py-8 ">
+                {/* <section ref={ref2} className="py-8 ">
                     <div className="container mx-auto px-4 py-15 border-t border-black/40">
                         <div className="text-center mb-16">
                             <h2 id="" className="text-6xl italic font-playfair 
@@ -234,7 +234,7 @@ export function LandingPage() {
                         </div>
                     </div>
                 </section>
-
+ */}
 
                 <section ref={ref3} className="py-10">
                     <div className="container mx-auto pb-4 text-center pt-15 border-t border-black/40">
