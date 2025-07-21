@@ -1,5 +1,8 @@
 {
-  "devDependencies": {
+  "dependencies": {
     "vite-tsconfig-paths": "^5.1.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.15"
   }
 }
