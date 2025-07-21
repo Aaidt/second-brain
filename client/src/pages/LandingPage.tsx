@@ -44,7 +44,7 @@ export function LandingPage() {
                         Pricing
                     </div>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 font-medium">
                     <div className="mt-1">
                         <ModeToggle variable="ghost" />
                     </div>
@@ -52,12 +52,12 @@ export function LandingPage() {
                         <Button
                             hover={false} text="Sign up"
                             bg_color="defaultTheme" shadow={false}
-                            fullWidth={false} size="md"
+                            fullWidth={false} size="sm"
                         />
                     </div>
                     <div onClick={() => navigate("/signin")}>
                         <Button
-                            hover={false} size="md"
+                            hover={false} size="sm"
                             bg_color="defaultTheme" shadow={false}
                             fullWidth={false} text="Log in"
                         />
@@ -89,7 +89,7 @@ export function LandingPage() {
                                 initial={{ opacity: 0, x: -80 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.8, ease: "easeOut" }}
-                                onClick={() => navigate("/signup")}>
+                                onClick={() => navigate("/signup")} className="font-medium">
                                 <Button
                                     hover={true} text="Start for free"
                                     size="md" bg_color="defaultTheme"
@@ -171,7 +171,7 @@ export function LandingPage() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.4, delay: index * 0.2 }}
-                                    className="bg-background/95 border border-foreground/20 text-foreground p-8 rounded-xl hover:shadow-lg
+                                    className="bg-background/95 border border-foreground/30 text-foreground p-8 rounded-xl hover:shadow-lg
                                         hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1"
                                 >
                                     <div className="hover:bg-foreground/30 bg-foreground/80 text-background/80 transition-colors
@@ -260,7 +260,8 @@ export function LandingPage() {
                             initial={{ opacity: 0, x: 30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.8, ease: "easeOut" }} className="flex justify-center items-center " onClick={() => navigate("/signup")}>
+                            transition={{ duration: 0.8, ease: "easeOut" }} className="flex font-medium justify-center items-center " 
+                                onClick={() => navigate("/signup")}>
                             <Button
                                 hover={true} text="Get started now"
                                 size="md" shadow={false}

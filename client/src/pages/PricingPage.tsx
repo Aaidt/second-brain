@@ -52,16 +52,16 @@ export function PricingPage() {
     ];
 
     return (
-        <div className="scroll-smooth font-serif text-foreground/95 bg-background min-h-screen flex flex-col justify-between">
+        <div className="scroll-smooth text-foreground/95 bg-background min-h-screen flex flex-col justify-between">
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
                     <Brain className="size-8 stroke-[1.5] mt-1" />
                     <span className="text-4xl font-playfair font-medium">SecondBrain</span>
                 </div>
-                <div onClick={() => navigate("/")}>
+                <div onClick={() => navigate("/")} className="font-medium">
                     <Button
                         hover={true} text="Back to Home"
-                        bg_color="black"
+                        bg_color="defaultTheme"
                         shadow={false}
                         fullWidth={false}
                         size="md"
@@ -86,19 +86,19 @@ export function PricingPage() {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.1 }}
                                 key={index}
-                                className={`bg-black/95 text-white p-8 rounded-xl ${tier.popular
-                                    ? 'shadow-xl hover:shadow-black/60 duration-300 shadow-black/45'
-                                    : 'hover:shadow-2xl duration-300 shadow-black/60'
+                                className={`bg-background/95 text-foreground/90 p-8 rounded-xl border border-foreground/40 ${tier.popular
+                                    ? 'shadow-xl hover:shadow-foreground/20 duration-300 shadow-foreground/5'
+                                    : 'hover:shadow-xl duration-300 shadow-foreground/10'
                                     }`}
                             >
                                 {tier.popular && (
-                                    <div className="bg-white/30 text-white text-sm font-medium px-3 py-1 rounded-full w-fit mb-4">
+                                    <div className="bg-foreground/90 text-background text-sm font-medium px-3 py-1 rounded-full w-fit mb-4">
                                         Most Popular
                                     </div>
                                 )}
-                                <h3 className="text-2xl font-medium mb-2">{tier.name}</h3>
+                                <h3 className="text-xl font-medium mb-2">{tier.name}</h3>
                                 <div className="flex items-baseline mb-4">
-                                    <span className="text-4xl font-light">{tier.price}</span>
+                                    <span className="text-4xl font-light font-medium">{tier.price}</span>
                                     {tier.period && <span className="text-lg ml-1">{tier.period}</span>}
                                 </div>
                                 <p className=" mb-6">{tier.description}</p>
@@ -112,10 +112,10 @@ export function PricingPage() {
                                 </ul>
                                 <div onClick={() => navigate("/signup")}>
                                     <Button
-                                        hover={true}
+                                        hover={false}
                                         text={tier.buttonText}
                                         size="md"
-                                        bg_color="white"
+                                        bg_color="defaultTheme"
                                         shadow={false}
                                         fullWidth={true}
                                     />
@@ -148,9 +148,9 @@ export function PricingPage() {
                                     whileInView={{ opacity: 1 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.4, ease: "easeOut" }}
-                                    key={index} className="bg-black/90 text-white font-playfair hover:shadow-black/35 hover:shadow-lg duration-300 p-6 rounded-xl">
-                                    <h3 className="text-2xl font-playfair mb-2">{faq.question}</h3>
-                                    <p className="text-md">{faq.answer}</p>
+                                    key={index} className="border-b border-foreground/20 p-2 pb-8">
+                                    <h3 className="text-2xl mb-2">{faq.question}</h3>
+                                    <p className="text-lg">{faq.answer}</p>
                                 </motion.div>
                             ))}
                         </div>

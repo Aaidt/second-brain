@@ -20,7 +20,7 @@ const sizeStyles = {
     "lg": "px-4 py-2 text-lg"
 }
 
-const fixedStyles = "rounded-sm duration-200 m-2 mt-4 flex items-center cursor-pointer"
+const fixedStyles = "rounded duration-200 m-2 mt-4 flex items-center cursor-pointer"
 
 const colorStyles = {
     "black": "bg-black/85 hover:bg-black/80 text-white transition-all duration-200",

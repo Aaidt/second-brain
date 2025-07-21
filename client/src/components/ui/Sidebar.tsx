@@ -84,7 +84,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
                 text="Logout" bg_color="defaultTheme"
                 fullWidth={true}
                 shadow={false}
-                startIcon={<User size="6" strokeWidth="1.5" />}
+                startIcon={<User size="20" className="mr-2" strokeWidth="1.5" />}
               />
             </div>}
         </>

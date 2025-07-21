@@ -205,7 +205,7 @@ export function Dashboard() {
                         <Button
                             hover={true}
                             size="sm" text="Thoughts" bg_color="defaultTheme"
-                            fullWidth={false} shadow={false} startIcon={<BookOpen size="18" className="mr-1" />}
+                            fullWidth={false} shadow={false} startIcon={<BookOpen size="18" className="mr-1" strokeWidth="1.5" />}
                             onClick={() => setThoughtModalOpen(true)}
                         />
                     </motion.div>
@@ -218,7 +218,7 @@ export function Dashboard() {
                         <Button
                             hover={true}
                             size="sm" text="Content" bg_color="defaultTheme"
-                            fullWidth={false} shadow={false} startIcon={<Plus size="18" className="mr-1" />}
+                            fullWidth={false} shadow={false} startIcon={<Plus size="18" className="mr-1" strokeWidth="1.5" />}
                             onClick={() => setContentModalOpen(true)}
                         />
                     </motion.div>
@@ -231,7 +231,7 @@ export function Dashboard() {
                         <Button
                             hover={true}
                             size="sm" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="defaultTheme"
-                            fullWidth={false} shadow={false} startIcon={<Share size="18" className="mr-1" />}
+                            fullWidth={false} shadow={false} startIcon={<Share size="18" className="mr-1" strokeWidth="1.5" />}
                             onClick={handleShare}
                         />
                     </motion.div>
