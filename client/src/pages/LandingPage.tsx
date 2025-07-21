@@ -105,7 +105,7 @@ export function LandingPage() {
                                 <Button
                                     hover={true} text="Go to dashboard"
                                     startIcon={<ArrowRight className="ml-2 h-5 w-5" />}
-                                    size="lg" shadow={false}
+                                    size="md" shadow={false}
                                     fullWidth={false}
                                     bg_color="defaultText"
                                 />
