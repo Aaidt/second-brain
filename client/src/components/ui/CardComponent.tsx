@@ -1,6 +1,6 @@
 import { Delete } from "../icons/Delete"
 import { Page } from "../icons/Page"
-import { ShareIcon } from "../icons/ShareIcon"
+import { Share } from "lucide-react"
 import { toast } from 'react-toastify'
 import { YoutubeIcon } from "../icons/YoutubeIcon"
 import { TwitterIcon } from "../icons/TwitterIcon"
@@ -37,8 +37,8 @@ export function CardComponent(cardProps: cardPropTypes) {
     return (
         <div>
             {/* <ContextModal setOpen={setOpen}/> */}
-            <div className={`${cardProps.type === "youtube" ? 'max-h-125' : 'undefined'} min-w-72 min-h-96 
-    shadow shadow-black/45 bg-white text-black/90 rounded-md m-2 border border-black/30 font-playfair`}>
+            <div className={`${cardProps.type === "youtube" ? 'max-h-125' : 'undefined'} min-w-72 min-h-96
+                bg-background text-foreground/90 rounded-md m-2 border border-foreground/20 font-playfair`}>
 
                 <div className="flex justify-between pt-4 p-3 items-center transition-all duration-300 ">
 
@@ -48,7 +48,7 @@ export function CardComponent(cardProps: cardPropTypes) {
                             <div className="relative">
                                 <YoutubeIcon onClick={() => {
                                     window.open(cardProps.link, "_blank");
-                                }} className="w-8 h-8 hover:scale-105 duration-200 transition-all" /> </div>)
+                                }} className="w-7 h-7 hover:scale-105 duration-200 transition-all" /> </div>)
 
                             : cardProps.type === "twitter" ? (
                                 <div className="relative">
@@ -60,7 +60,7 @@ export function CardComponent(cardProps: cardPropTypes) {
                                     <div className="relative">
                                         <RedditIcon onClick={() => {
                                             window.open(cardProps.link, "_blank");
-                                        }} className="w-8 h-8 hover:scale-105 duration-200 transition-all" /> </div>)
+                                        }} className="w-7 h-7 hover:scale-105 duration-200 transition-all" /> </div>)
 
                                     : cardProps.type === "others" ? (
                                         <div
@@ -81,7 +81,7 @@ export function CardComponent(cardProps: cardPropTypes) {
                                 <Delete contentId={cardProps.id} /> </div>) : null}
 
                         <div className="relative">
-                            <ShareIcon style="zoom" onClick={() => {
+                            <Share className="size-5 cursor-pointer" strokeWidth="1.5" onClick={() => {
                                 console.log("handleShare called.")
                                 toast.success("Share using this link:⚡" + cardProps.link)
                             }} /> </div>
@@ -95,7 +95,7 @@ export function CardComponent(cardProps: cardPropTypes) {
                         return (
                             <div className="">
                                 <div className="flex justify-center items-center">
-                                    <h1 className="text-2xl px-4 font-medium font-playfair p-2">{cardProps.title}</h1>
+                                    <h1 className="text-2xl font-medium font-playfair">{cardProps.title}</h1>
                                 </div>
                                 <div className="flex justify-center">
                                     <iframe
@@ -106,7 +106,7 @@ export function CardComponent(cardProps: cardPropTypes) {
                                         frameBorder="0"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                         referrerPolicy="strict-origin-when-cross-origin"
-                                        className="rounded-md m-4"
+                                        className="rounded-md mb-4 mt-2 "
                                         allowFullScreen
                                     />
                                 </div>

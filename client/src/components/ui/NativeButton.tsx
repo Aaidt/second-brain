@@ -15,9 +15,9 @@ interface ButtonProps {
 }
 
 const sizeStyles = {
-    "sm": "px-4 py-2",
-    "md": "px-4 py-2",
-    "lg": "px-4 py-2"
+    "sm": "px-3 py-2 text-sm",
+    "md": "px-4 py-2 text-md",
+    "lg": "px-4 py-2 text-lg"
 }
 
 const fixedStyles = "rounded-sm duration-200 m-2 mt-4 flex items-center cursor-pointer"
@@ -33,14 +33,16 @@ const colorStyles = {
     "pale": "bg-[#DDA853]/0 hover:underline-offset-6 hover:underline transition-all duration-200",
     "purple": "bg-purple-700 hover:bg-purple-600 text-white transition-all duration-200",
     "pink": "bg-[#7743DB] hover:bg-[#7743DB]/80 transition-all duration-200 text-white",
-    "defaultTheme": "bg-foreground text-background",
+    "defaultTheme": "bg-foreground/95 text-background hover:bg-foreground/80 transition-all duration-200",
     "defaultText": "bg-background text-foreground hover:underline-offset-6 hover:underline transition-all duration-200"
 }
 
 export function Button (props: ButtonProps) {
     return (
         <button
-            className={`${'gap-1'} ${fixedStyles} ${props.hover ? 'hover:-translate-y-1' : null} ${sizeStyles[props.size]} ${props.shadow ? 'shadow-md shadow-gray-300 hover:shadow-gray-400' : null} ${props.fullWidth ? 'w-full flex justify-center' : null} ${colorStyles[props.bg_color]} `}
+            className={`${'gap-1'} ${fixedStyles} ${props.hover ? 'hover:-translate-y-1' : null} ${sizeStyles[props.size]} 
+                ${props.shadow ? 'shadow-md shadow-gray-300 hover:shadow-gray-400' : null} ${props.fullWidth ? 'w-full flex justify-center' : null}
+                ${colorStyles[props.bg_color]} `}
             onClick={props.onClick} onKeyDown={props.onKeyDown} disabled={props.loading}
         >
             {props.startIcon} {props.loading ? 'Processing...' : props.text} {props.endIcon}

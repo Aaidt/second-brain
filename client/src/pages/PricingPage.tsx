@@ -52,7 +52,7 @@ export function PricingPage() {
     ];
 
     return (
-        <div className="scroll-smooth font-serif text-black/95 bg-white min-h-screen flex flex-col justify-between">
+        <div className="scroll-smooth font-serif text-foreground/95 bg-background min-h-screen flex flex-col justify-between">
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
                     <Brain className="size-8 stroke-[1.5] mt-1" />
@@ -125,8 +125,8 @@ export function PricingPage() {
                     </div>
                 </section>
 
-                <section className="text-black py-20">
-                    <div className="container mx-auto px-4 text-center py-20 border-t border-black/30">
+                <section className="text-foreground/95 py-20">
+                    <div className="container mx-auto px-4 text-center py-20 border-t border-foreground/30">
                         <h2 className="text-5xl font-semibold font-playfair mb-6 italic">Frequently Asked Questions</h2><br />
                         <div className="max-w-3xl mx-auto space-y-6">
                             {[

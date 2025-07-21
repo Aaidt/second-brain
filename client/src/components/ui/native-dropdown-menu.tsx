@@ -29,20 +29,20 @@ export function DropDownMenu ({ options, onSelect }: DropDownMenuProps) {
       <Button
         hover={false}
         shadow={false}
-        size="md"
-        fullWidth={true}
+        size="sm"
+        fullWidth={false}
         bg_color="white"
         text={selectedValue}
-        endIcon={<ChevronDown />}
+        endIcon={<ChevronDown size="20" className="ml-1" />}
         onClick={() => setDropDown(!dropDown)}
       />
 
       {dropDown && (
-        <div className="absolute mt-2 bg-white text-black rounded shadow-md w-full z-10 ">
+        <div className="absolute mt-2 bg-background text-foreground/90 rounded shadow-md w-full z-10 ">
           {options.map((option) => (
             <div
               key={option.value}
-              className="px-4 py-2 cursor-pointer hover:bg-gray-200 rounded-md"
+              className="px-4 py-2 cursor-pointer hover:bg-foreground/20 rounded-md"
               onClick={() => handleSelect(option)}
             >
               {option.label}

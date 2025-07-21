@@ -25,8 +25,8 @@ export function Sidebar(sidebarProps: SidebarTypes) {
 
   return (
     <div
-      className={`h-full min-h-screen bg-white border border-black/20 text-black/90 border-black shadow shadow-black/20
-         transition-all duration-300 ease-in-out overflow-hidden 
+      className={`h-full min-h-screen bg-background/95 border border-foreground/20 text-foreground/90 
+        transition-all duration-300 ease-in-out overflow-hidden 
         ${sidebarClose ? "w-15" : "w-65"
         }`}
     >
@@ -40,48 +40,48 @@ export function Sidebar(sidebarProps: SidebarTypes) {
 
       {!sidebarClose && (
         <>
-          <div className="flex font-bold font-playfair items-center">
+          <div className="flex font-playfair items-center">
             <p onClick={() => navigate("/")} className="pl-6 font-medium text-4xl pt-2 cursor-pointer">Second <br /> Brain</p>
           </div>
           <div className="pt-3">
             <SideBarItems 
               onClick={() => navigate("/chat")} 
               text="Chat" 
-              icon={<MessageCircle className="stroke-[1.5] size-5" />} />
+              icon={<MessageCircle className="size-5" strokeWidth="1.5" />} />
 
             <SideBarItems 
               onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)}
               text={isSharedPage ? 'Shared Brain' : 'My Brain'} 
-              icon={<Brain className="stroke-[1.5] size-5" />} />
+              icon={<Brain className="size-5" strokeWidth="1.5" />} />
 
             <SideBarItems 
               onClick={() => sidebarProps.setType && sidebarProps.setType("thoughts")}
               text="Thoughts" 
-              icon={<BookOpen className="stroke-[1.5] size-5" />} />
+              icon={<BookOpen className="size-5" strokeWidth="1.5" />} />
 
             <SideBarItems 
               onClick={() => sidebarProps.setType && sidebarProps.setType("twitter")}
               text="Twitter" 
-              icon={<Twitter className="stroke-[1.5] size-5" />} />
+              icon={<Twitter className="size-5" strokeWidth="1.5" />} />
 
             <SideBarItems 
               onClick={() => sidebarProps.setType && sidebarProps.setType("youtube")}
               text="YouTube" 
-              icon={<Youtube className="stroke-[1.5] size-5" />} />
+              icon={<Youtube className="size-5" strokeWidth="1.5" />} />
 
             <SideBarItems 
               onClick={() => sidebarProps.setType && sidebarProps.setType("reddit")}
               text="Reddit" 
-              icon={<IoLogoReddit className="stroke-[1.5] size-6" />} />
+              icon={<IoLogoReddit className="size-6" strokeWidth="1.5" />} />
               
           </div>
 
           {isSharedPage ? null :
-            <div className="pr-5 text-xl pl-1 pt-3 "
+            <div className="pr-5 pl-1 pt-3 "
               onClick={Logout}>
               <Button
                 hover={false} size="md"
-                text="Logout" bg_color="black"
+                text="Logout" bg_color="defaultTheme"
                 fullWidth={true}
                 shadow={false}
                 startIcon={<UserIcon />}

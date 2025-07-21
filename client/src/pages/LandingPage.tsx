@@ -45,17 +45,19 @@ export function LandingPage() {
                     </div>
                 </div>
                 <div className="flex items-center gap-4">
-                <ModeToggle />
+                    <div className="mt-1">
+                        <ModeToggle variable="ghost" />
+                    </div>
                     <div onClick={() => navigate("/signup")}>
                         <Button
-                            hover={true} text="Sign up"
+                            hover={false} text="Sign up"
                             bg_color="defaultTheme" shadow={false}
                             fullWidth={false} size="md"
                         />
                     </div>
                     <div onClick={() => navigate("/signin")}>
                         <Button
-                            hover={true} size="md"
+                            hover={false} size="md"
                             bg_color="defaultTheme" shadow={false}
                             fullWidth={false} text="Log in"
                         />
@@ -131,7 +133,7 @@ export function LandingPage() {
 
 
                 <section ref={ref1} className="py-20">
-                    <div className="container mx-auto px-4 py-15 border-t border-foreground/30">
+                    <div className="container mx-auto px-4 py-15 border-t border-foreground/20">
                         <div className="text-center mb-16">
                             <h2 id="features" className="text-6xl font-playfair italic 
                             font-semibold mb-3">Organize your thoughts
@@ -241,7 +243,7 @@ export function LandingPage() {
  */}
 
                 <section ref={ref3} className="py-10">
-                    <div className="container mx-auto pb-4 text-center pt-15 border-t border-foreground/30">
+                    <div className="container mx-auto pb-4 text-center pt-15 border-t border-foreground/20">
                         <motion.div
                             initial={{ opacity: 0, x: -30 }}
                             whileInView={{ opacity: 1, x: 0 }}

@@ -13,7 +13,7 @@ export function Delete ({contentId, ThoughtId}: {contentId?: string, ThoughtId?:
             xmlns="http://www.w3.org/2000/svg"
             fill="none" viewBox="0 0 24 24"
             strokeWidth="1.5" stroke="currentColor"
-            className="cursor-pointer duration-200 hover:scale-110 size-6">
+            className="cursor-pointer duration-200 hover:scale-110 size-5">
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"

@@ -46,7 +46,7 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
             setOpen(!open)
         }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 backdrop-blur-sm z-50 flex justify-center items-center">
             <div className="flex justify-center items-center h-screen pb-10">
-                <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-md w-120 h-80 flex flex-col gap-4 p-5 text-black
+                <div onClick={(e) => e.stopPropagation()} className="bg-background rounded-md w-120 h-80 flex flex-col gap-4 p-5 text-foreground/90
                     opacity-0 scale-95 animate-[appear_0.3s_ease-out_forwards]">
                     <div className="font-bold font-playfair text-4xl pb-1 pt-2 flex justify-center">Add Content</div>
                     <div className="">
@@ -59,11 +59,11 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
                                     }
                                 }}
                                 type="text" 
-                                className="w-full rounded-md p-2 border border-black"
+                                className="w-full rounded-md p-2 border border-foreground/20"
                                 placeholder="Title..." disabled={loading} />
                             </div>
                             <div className="m-2">
-                                <input ref={linkRef} type="text" className="w-full rounded-md p-2 border border-black"
+                                <input ref={linkRef} type="text" className="w-full rounded-md p-2 border border-foreground/20"
                                     placeholder="Paste the URL here..." disabled={loading} />
                             </div>
                         </div>
@@ -84,7 +84,7 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
                             <div className="font-bold pr-3">
                                 <Button hover={false}
                                     shadow={false} size="md"
-                                    text="Submit" bg_color="black"
+                                    text="Submit" bg_color="defaultTheme"
                                     fullWidth={true}
                                     onClick={() => {
                                         handleRequest()

@@ -9,13 +9,16 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useTheme } from "@/components/ui/theme-provider"
 
-export function ModeToggle() {
+export function ModeToggle({
+  variable
+ } : 
+  {variable: "link" | "default" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined}) {
   const { setTheme } = useTheme()
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant={variable} size="lg">
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
           <span className="sr-only">Toggle theme</span>

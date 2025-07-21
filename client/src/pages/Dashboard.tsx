@@ -1,7 +1,5 @@
 import { Button } from "../components/ui/NativeButton"
 import { Sidebar } from "../components/ui/Sidebar"
-import { PlusIcon } from "../components/icons/PlusIcon"
-import { ShareIcon } from "../components/icons/ShareIcon"
 import { CardComponent } from '../components/ui/CardComponent';
 import { CreateContentModal } from "../components/ui/createContentModal"
 import { useState, useEffect, useRef } from "react";
@@ -11,12 +9,13 @@ import { SearchBar } from "../components/ui/SearchBar"
 import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
 import { CreateThoughtModal } from "../components/ui/createThoughtModal"
-import { BookIcon } from "../components/icons/BookIcon"
 import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from '../components/ui/ThoughtCards';
 import { motion } from 'framer-motion'
 import { toast } from "react-toastify"
 import { getAccessToken, refreshAccessToken } from "@/auth"
+import { ModeToggle } from "@/components/ui/mode-toggle";
+import { Plus, Share, BookOpen } from "lucide-react"
 
 export function Dashboard() {
     let token;
@@ -116,7 +115,7 @@ export function Dashboard() {
     const searchRef = useRef<HTMLInputElement>(null)
 
     return (
-        <div className="min-h-screen min-h-full w-full bg-white font-serif text-black/95">
+        <div className="min-h-screen min-h-full w-full bg-background font-serif text-foreground/95">
             <CreateContentModal open={contentModalOpen} setOpen={setContentModalOpen} />
             <CreateThoughtModal open={thoughtModalOpen} setOpen={setThoughtModalOpen} />
 
@@ -187,17 +186,26 @@ export function Dashboard() {
                 </Masonry>
             </motion.div>
 
-                <div
-                    className="pt-1 p-2 fixed right-0 top-0 flex">
+                <div className="pt-1 p-2 absolute right-0 top-0 flex">
                     <motion.div
                         initial={{ opacity: 0, y: -50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                        viewport={{ once: true }}
+                        className="text-md mt-4 mr-3">
+                        <ModeToggle variable="ghost" />
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: -50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                        viewport={{ once: true }}
                         className="text-md">
                         <Button
                             hover={true}
-                            size="md" text="Thoughts" bg_color="black"
-                            fullWidth={false} shadow={false} startIcon={<BookIcon />}
+                            size="sm" text="Thoughts" bg_color="defaultTheme"
+                            fullWidth={false} shadow={false} startIcon={<BookOpen size="18" className="mr-1" />}
                             onClick={() => setThoughtModalOpen(true)}
                         />
                     </motion.div>
@@ -205,11 +213,12 @@ export function Dashboard() {
                         initial={{ opacity: 0, y: -50 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                        viewport={{ once: true }}
                         className="text-md">
                         <Button
                             hover={true}
-                            size="md" text="Content" bg_color="black"
-                            fullWidth={false} shadow={false} startIcon={<PlusIcon />}
+                            size="sm" text="Content" bg_color="defaultTheme"
+                            fullWidth={false} shadow={false} startIcon={<Plus size="18" className="mr-1" />}
                             onClick={() => setContentModalOpen(true)}
                         />
                     </motion.div>
@@ -217,11 +226,12 @@ export function Dashboard() {
                         initial={{ opacity: 0, y: -50 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+                        viewport={{ once: true }}
                         className="text-md">
                         <Button
                             hover={true}
-                            size="md" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="black"
-                            fullWidth={false} shadow={false} startIcon={<ShareIcon style='float' />}
+                            size="sm" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="defaultTheme"
+                            fullWidth={false} shadow={false} startIcon={<Share size="18" className="mr-1" />}
                             onClick={handleShare}
                         />
                     </motion.div>

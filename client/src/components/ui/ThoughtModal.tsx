@@ -14,8 +14,8 @@ export function ThoughtModal({ open, setOpen, thought, title }: modalProps) {
             setOpen(false)
         }} className="fixed top-0 left-0 h-screen w-screen backdrop-blur-sm bg-black/70 z-50 flex justify-center items-center">
             <div className="flex justify-center items-center h-screen pb-10">
-                <div onClick={(e) => e.stopPropagation()} className="bg-[#F0ECE3] rounded-md w-[1000px] max-h-[90vh] overflow-y-auto
-                 flex flex-col gap-4 opacity-0 scale-95 animate-[appear_0.3s_ease-out_forwards] p-8 text-black">
+                <div onClick={(e) => e.stopPropagation()} className="bg-background rounded-md w-[1000px] max-h-[90vh] overflow-y-auto
+                 flex flex-col gap-4 opacity-0 scale-95 animate-[appear_0.3s_ease-out_forwards] p-8 text-foreground/90">
 
                     <div className="font-medium font-playfair text-4xl pb-3 flex justify-center">
                         {title}

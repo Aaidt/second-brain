@@ -1,5 +1,5 @@
 import { Delete } from "../icons/Delete"
-import { Page } from "../icons/Page"
+import { FileText } from "lucide-react";
 import { ThoughtModal } from "./ThoughtModal";
 import { useState } from 'react'
 
@@ -19,12 +19,12 @@ export function ThoughtCards(ThoughtCardProps: ThoughtCardPropTypes) {
     return (<div>
         <ThoughtModal title={ThoughtCardProps.title} thought={ThoughtCardProps.body} open={open} setOpen={setOpen} />
 
-        <div className={`min-w-72 min-h-96 shadow shadow-black/45 border border-black/30 bg-white rounded-md m-2 font-playfair`}>
+        <div className={`min-w-72 min-h-96 border border-foreground/30 bg-background/95 rounded-md m-2 font-playfair`}>
             <div className="flex justify-between pt-4 p-3 transition-all duration-300 ">
                 <div onClick={() => {
                     setOpen(true)
                 }}>
-                    <div className="relative"> <Page /> </div>
+                    <div className="relative"> <FileText className="cursor-pointer" strokeWidth="1.5" size="20" /> </div>
                 </div>
 
                 <div className="flex gap-4">
@@ -40,7 +40,7 @@ export function ThoughtCards(ThoughtCardProps: ThoughtCardPropTypes) {
                     <p className="line-clamp-10 font-roboto" style={{ whiteSpace: 'pre-wrap' }}>
                         {ThoughtCardProps.body}
                     </p>
-                    <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-background to-transparent"></div>
                 </div>
             </div>
         </div >
