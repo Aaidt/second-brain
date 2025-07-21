@@ -2,7 +2,7 @@ import { SideBarItems } from "./SideBarItems";
 import { useSideBar } from "../../hooks/sidebarContext"
 import { Button } from "./NativeButton"
 import { useNavigate } from "react-router-dom"
-import { UserIcon } from "../icons/UserIcon"
+import { User } from "lucide-react"
 import { IoLogoReddit } from "react-icons/io5";
 import { MessageCircle, PanelLeftClose, PanelRightClose, Brain, Youtube, Twitter, BookOpen } from "lucide-react"
 import { logout } from "@/auth";
@@ -84,7 +84,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
                 text="Logout" bg_color="defaultTheme"
                 fullWidth={true}
                 shadow={false}
-                startIcon={<UserIcon />}
+                startIcon={<User size="6" strokeWidth="1.5" />}
               />
             </div>}
         </>

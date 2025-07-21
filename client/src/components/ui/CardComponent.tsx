@@ -1,6 +1,5 @@
 import { Delete } from "../icons/Delete"
-import { Page } from "../icons/Page"
-import { Share } from "lucide-react"
+import { Share,FileText } from "lucide-react"
 import { toast } from 'react-toastify'
 import { YoutubeIcon } from "../icons/YoutubeIcon"
 import { TwitterIcon } from "../icons/TwitterIcon"
@@ -66,7 +65,7 @@ export function CardComponent(cardProps: cardPropTypes) {
                                         <div
                                             className="relative"
                                         >
-                                            <Page /> </div>) : null
+                                            <FileText /> </div>) : null
                         }
                         {/* <Notebook onClick={() => {
                             setOpen(!open)
