@@ -19,7 +19,7 @@ export function ThoughtCards(ThoughtCardProps: ThoughtCardPropTypes) {
     return (<div>
         <ThoughtModal title={ThoughtCardProps.title} thought={ThoughtCardProps.body} open={open} setOpen={setOpen} />
 
-        <div className={`min-w-72 min-h-96 border border-foreground/30 bg-background/95 rounded-md m-2 font-playfair`}>
+        <div className={`max-w-80 max-h-100 border border-foreground/30 bg-background/95 rounded-md mt-6 font-playfair`}>
             <div className="flex justify-between pt-4 p-3 transition-all duration-300 ">
                 <div onClick={() => {
                     setOpen(true)

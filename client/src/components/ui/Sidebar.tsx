@@ -27,7 +27,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
     <div
       className={`h-full min-h-screen bg-background/95 border border-foreground/20 text-foreground/90 
         transition-all duration-300 ease-in-out overflow-hidden 
-        ${sidebarClose ? "w-15" : "w-65"
+        ${sidebarClose ? "w-15" : "w-64"
         }`}
     >
       <div

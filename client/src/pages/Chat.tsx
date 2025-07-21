@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { DeleteChat } from "../components/ui/DeleteChat"
 import { getAccessToken, refreshAccessToken } from '../auth';
+import { ModeToggle } from '@/components/ui/mode-toggle';
 
 interface axiosResponse {
 	answers: string;
@@ -197,7 +198,7 @@ export function Chat() {
 	return (
 		<div className="h-screen w-screen grid grid-cols-[340px_1fr] overflow-hidden">
 			<div
-				className={`bg-white border-r border-black/15 overflow-hidden overflow-y-auto p-4 duration-300 transition-all`}
+				className={`bg-background text-foreground/90 border-r border-foreground/15 overflow-hidden overflow-y-auto p-4 duration-300 transition-all`}
 			>
 					<motion.div
 						initial={{ opacity: 0, x: -40 }}
@@ -210,24 +211,26 @@ export function Chat() {
 								<Brain className="size-6 cursor-pointer stroke-[1.5]" />
 								<p className="font-medium font-playfair text-2xl cursor-pointer">Second Brain</p>
 							</div>
+							<ModeToggle variable="ghost" />
 						</div>
 						<div className='pb-3'>
-							<div className="flex items-center mb-2 text-sm text-gray-800 pl-2 py-2 
-                                hover:bg-gray-200 duration-200 transition-all rounded-md w-full cursor-pointer"
+							<div className="flex items-center mb-2 text-sm pl-4 py-2 bg-foreground/15 text-foreground/90
+                                hover:bg-foreground/10 duration-200 transition-all rounded-md w-full cursor-pointer"
 								onClick={handleNewChat}>
 								<SquarePen size="18" className='mr-2' />
 									New chat
 							</div>
 						{/* 
-							<div className="flex items-center mb-2 text-gray-800 py-2 hover:bg-gray-200 rounded-md px-2 cursor-pointer">
+							<div className="flex items-center mb-2 text-gray-800 py-2 bg-foreground/95 text-background/90 
+								hover:bg-foreground/70 rounded-md px-2 cursor-pointer">
 								<Search size="18" className='mr-4' />
 									Search chats
 							</div> */}
 						</div>
-						<h3 className="font-semibold mb-2 text-gray-800">Thoughts referrenced:</h3>
+						<h3 className="font-semibold mb-2 text-foreground/90">Thoughts referrenced:</h3>
 						
 							{references.length === 0 ? (
-								<p className="text-gray-500 text-sm pt-2">No queries sent.</p>
+								<p className="text-foreground/90 text-sm pt-2">No queries sent.</p>
 							) : (references.map((ref, idx) => (
                                 <motion.div
 										initial={{ opacity: 0, y: -20 }}
@@ -237,7 +240,7 @@ export function Chat() {
 										className="space-y-4 mb-2 pr-2"
                                         key={idx} 
 									>
-                                    <div className="bg-gray-100 border text-black rounded-md p-3 shadow-sm">
+                                    <div className="bg-background/80 border text-foreground/90 rounded-md p-3 shadow-sm">
                                         <div className="flex items-center justify-between">
                                             <h3 className="mb-1 text-sm font-medium">{ref.title}</h3>
                                             <ChevronDown
@@ -251,7 +254,7 @@ export function Chat() {
                                             whileInView={{ opacity: 1, y: 0 }}
                                             viewport={{ once: true }}
                                             transition={{ duration: 0.2 }}
-                                            className="text-sm text-gray-700 whitespace-pre-wrap"
+                                            className="text-sm text-foreground/70 whitespace-pre-wrap"
                                             >
                                                 {ref.thoughts}
                                             </motion.div>
@@ -260,11 +263,12 @@ export function Chat() {
                                 </motion.div>
 							)))}
 							<div className='flex justify-between items-center mx-1 pt-8 mb-2 '>
-								<h3 className="font-semibold text-gray-800 ">Previous chats:</h3>
-								<RefreshCcw onClick={init} className="stroke-[1.5] size-4 cursor-pointer" />
+								<h3 className="font-semibold text-foreground/95 ">Previous chats:</h3>
+								<RefreshCcw onClick={init} className="stroke-[1.5] size-4 cursor-pointer 
+									hover:-rotate-180 hover:text-blue-600 transition-all duration-300" />
 							</div>
 						{sessions.length === 0 ? (
-								<p className="text-gray-500 text-sm pt-2">No previous chats.</p>
+								<p className="text-foreground/95 text-sm pt-2">No previous chats.</p>
 							) : (
 								sessions.map((session, i) => (
 									<motion.div
@@ -273,10 +277,10 @@ export function Chat() {
 										viewport={{ once: true }}
 										transition={{ duration: 0.4 }}
 										key={i}
-										className="rounded-lg whitespace-pre-wrap text-md text-black max-w-sm "
+										className="rounded-lg whitespace-pre-wrap text-md text-foreground/95 max-w-sm"
 									>
-										<div className={`${session.id === currentSessionId ? 'bg-gray-300' : null} flex items-center justify-between mx-auto cursor-pointer
-                                            hover:bg-gray-100 duration-200 transition-all px-4 py-2 rounded-lg`} 
+										<div className={`${session.id === currentSessionId ? 'bg-foreground/15' : null} flex items-center justify-between mx-auto cursor-pointer
+                                            hover:bg-foreground/10 duration-200 transition-all px-4 py-2 mt-1 rounded-lg`} 
                                         onClick={() => fetchSession(session.id)}>
 											<div>{session.title}</div>
 											<Trash2
@@ -299,7 +303,7 @@ export function Chat() {
 			</div>
 
 			<div className="flex flex-col h-full overflow-y-auto">
-				<div className="flex-1 px-6 py-4 space-y-4 bg-white">
+				<div className="flex-1 px-6 py-4 space-y-4 bg-background">
 					{messages.map((msg, i) => (
 						<motion.div
 							initial={{ opacity: 0 }}
@@ -308,10 +312,10 @@ export function Chat() {
 							transition={{ duration: 0.4 }}
 							key={i}
 							className={`
-								rounded-lg p-4 whitespace-pre-wrap border text-white
+								rounded-lg p-4 whitespace-pre-wrap border text-foreground/90
 								${msg.sender === 'user'
-									? 'bg-black/87 ml-auto border-r-6 border-r-green-600 max-w-sm'
-									: 'bg-black/87 mr-auto border-l-6 border-l-blue-700 max-w-2xl'}
+									? 'bg-foreground/10 ml-auto border-r-6 border-r-green-800 max-w-sm'
+									: 'bg-foreground/10 mr-auto border-l-6 border-l-blue-800 max-w-2xl'}
 							`}
 						>
 							<ReactMarkdown>{msg.content}</ReactMarkdown>
@@ -320,30 +324,33 @@ export function Chat() {
 					<div ref={messagesEndRef} />
 				</div>
 
-				<div className="bg-white px-6 py-4 w-full sticky bottom-0 shadow-[0_-1px_10px_rgba(0,0,0,0.1)] border-t">
+				<div className="bg-background/90 px-6 py-4 w-full sticky bottom-0 shadow-[0_-1px_10px_rgba(0,0,0,0.1)] border-t">
 					<motion.div
 						initial={{ opacity: 0, y: 10 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.8 }}
 					>
-						<div className="flex items-center gap-2 max-w-4xl mx-auto">
+						<div className="flex justify-center items-center gap-2 max-w-4xl mx-auto">
                             <input
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleChatQuery()}
-                                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-black/02 text-base bg-gray-50"
+                                className={`flex-1 px-4 py-2 border border-foreground/20 rounded-md 
+									focus:ring-1 focus:ring-black/02 bg-foreground/10 text-foreground`}
                                 placeholder="Ask anything..."
                                 disabled={loading}
                             />
-                            <Button
-                                size="md"
-                                bg_color="black"
-                                fullWidth={false}
-                                onClick={handleChatQuery}
-                                loading={loading}
-                                text={<SendHorizontal size={18} />}
-                            />
+							<div className='mb-2'>
+								<Button
+									size="sm"
+									bg_color="defaultTheme"
+									fullWidth={false}
+									onClick={handleChatQuery}
+									loading={loading}
+									text={<SendHorizontal size={18} />}
+								/>
+							</div>
 						</div>
 					</motion.div>
 				</div>

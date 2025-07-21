@@ -36,8 +36,8 @@ export function CardComponent(cardProps: cardPropTypes) {
     return (
         <div>
             {/* <ContextModal setOpen={setOpen}/> */}
-            <div className={`${cardProps.type === "youtube" ? 'max-h-125' : 'undefined'} min-w-72 min-h-96
-                bg-background text-foreground/90 rounded-md m-2 border border-foreground/20 font-playfair`}>
+            <div className={`${cardProps.type === "youtube" ? 'max-h-100' : 'undefined'} max-w-80 min-h-96
+                bg-background text-foreground/90 rounded-md mt-6 border border-foreground/20 font-playfair`}>
 
                 <div className="flex justify-between pt-4 p-3 items-center transition-all duration-300 ">
 
@@ -47,7 +47,7 @@ export function CardComponent(cardProps: cardPropTypes) {
                             <div className="relative">
                                 <YoutubeIcon onClick={() => {
                                     window.open(cardProps.link, "_blank");
-                                }} className="w-7 h-7 hover:scale-105 duration-200 transition-all" /> </div>)
+                                }} className="w-7 h-7 hover:scale-105 duration-200 transition-all cursor-pointer" /> </div>)
 
                             : cardProps.type === "twitter" ? (
                                 <div className="relative">
@@ -98,8 +98,8 @@ export function CardComponent(cardProps: cardPropTypes) {
                                 </div>
                                 <div className="flex justify-center">
                                     <iframe
-                                        width="250"
-                                        height="300"
+                                        width="260"
+                                        height="290"
                                         src={embedUrl}
                                         title={cardProps.title}
                                         frameBorder="0"

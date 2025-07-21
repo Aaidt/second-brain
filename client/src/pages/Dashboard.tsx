@@ -127,11 +127,11 @@ export function Dashboard() {
                 className="fixed top-0 left-0 mr-5">
                 <Sidebar type={type} setType={setType} />
             </motion.div>
-            <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-75'} duration-200 text-md pt-5 p-1`}>
+            <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-70'} duration-200 text-md pt-5 p-1`}>
                 <SearchBar ref={searchRef} />
             </div>
 
-            <div className={`${sidebarClose ? 'pl-20' : 'pl-75'} p-4 pt-10 duration-200 gap-4`}>
+            <div className={`${sidebarClose ? 'pl-20' : 'pl-70'} p-4 pt-10 duration-200 gap-4`}>
 
             <motion.div
                 initial={{ opacity: 0 }}
