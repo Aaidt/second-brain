@@ -1,4 +1,4 @@
-import { Button } from "../components/ui/Button"
+import { Button } from "../components/ui/NativeButton"
 import { Sidebar } from "../components/ui/Sidebar"
 import { PlusIcon } from "../components/icons/PlusIcon"
 import { ShareIcon } from "../components/icons/ShareIcon"

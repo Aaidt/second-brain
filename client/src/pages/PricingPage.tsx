@@ -1,4 +1,4 @@
-import { Button } from "../components/ui/Button"
+import { Button } from "../components/ui/NativeButton"
 import { useNavigate } from "react-router-dom"
 import { Check, Brain } from "lucide-react"
 import { motion } from 'framer-motion'

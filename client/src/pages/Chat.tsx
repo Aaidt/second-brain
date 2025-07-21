@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { SendHorizontal, ChevronDown, Brain, Trash2, SquarePen, RefreshCcw } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/NativeButton';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';

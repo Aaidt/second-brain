@@ -1,6 +1,6 @@
 import { useState, useRef, Dispatch, SetStateAction } from "react";
-import { Button } from "./Button"
-import { DropDownMenu } from "./dropdown-menu"
+import { Button } from "./NativeButton"
+import { DropDownMenu } from "./native-dropdown-menu"
 import { toast } from "react-toastify"
 import axios from "axios";
 import { getAccessToken, refreshAccessToken } from "../../auth";

@@ -1,6 +1,6 @@
 import { SideBarItems } from "./SideBarItems";
 import { useSideBar } from "../../hooks/sidebarContext"
-import { Button } from "./Button"
+import { Button } from "./NativeButton"
 import { useNavigate } from "react-router-dom"
 import { UserIcon } from "../icons/UserIcon"
 import { IoLogoReddit } from "react-icons/io5";

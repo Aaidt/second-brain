@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Button } from "../components/ui/Button";
+import { Button } from "../components/ui/NativeButton";
 import { getAccessToken, refreshAccessToken } from "../auth";
 
 interface QueryResponse {

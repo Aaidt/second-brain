@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
-import { Button } from "./Button"
+import { Button } from "./NativeButton"
 import { toast } from 'react-toastify'
 import axios from "axios";
 import { getAccessToken, refreshAccessToken } from "../../auth";
