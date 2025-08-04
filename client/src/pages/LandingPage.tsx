@@ -105,7 +105,6 @@ export function LandingPage() {
                             </motion.div>
                         </div>
                     </div>
-                   </div> */}
                 </section>
 
 
@@ -149,7 +148,7 @@ export function LandingPage() {
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.4, delay: index * 0.2 }}
                                     className="bg-background/95 border border-foreground/30 text-foreground p-8 rounded-xl hover:shadow-lg
-                                        hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1"
+                                        hover:shadow-foreground/50 transition-all duration-300 hover:-translate-y-1"
                                 >
                                     <div className="hover:bg-foreground/30 bg-foreground/80 text-background/80 transition-colors
                                         duration-400 p-4 rounded-full w-fit mb-6">{feature.icon}</div>

@@ -34,7 +34,7 @@ export function ThoughtCards(ThoughtCardProps: ThoughtCardPropTypes) {
                         ) : null}
                 </div>
             </div>
-            <div className="flex flex-col p-4">
+            <div className="flex flex-col p-4 max-h-100">
                 <h1 className="text-2xl font-medium mb-4 ">{ThoughtCardProps.title}</h1>
                 <div className="relative">
                     <p className="line-clamp-10 font-roboto" style={{ whiteSpace: 'pre-wrap' }}>

@@ -53,13 +53,13 @@ export function CardComponent(cardProps: cardPropTypes) {
                                 <div className="relative">
                                     <TwitterIcon onClick={() => {
                                         window.open(cardProps.link, "_blank");
-                                    }} className="w-7 h-7 hover:scale-105 duration-200 transition-all" /> </div>)
+                                    }} className="w-7 h-7 hover:scale-105 duration-200 transition-all cursor-pointer" /> </div>)
 
                                 : cardProps.type === "reddit" ? (
                                     <div className="relative">
                                         <RedditIcon onClick={() => {
                                             window.open(cardProps.link, "_blank");
-                                        }} className="w-7 h-7 hover:scale-105 duration-200 transition-all" /> </div>)
+                                        }} className="w-7 h-7 hover:scale-105 duration-200 transition-all cursor-pointer" /> </div>)
 
                                     : cardProps.type === "others" ? (
                                         <div
