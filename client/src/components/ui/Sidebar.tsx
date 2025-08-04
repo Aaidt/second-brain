@@ -25,10 +25,11 @@ export function Sidebar(sidebarProps: SidebarTypes) {
 
   return (
     <div
-      className={`h-full min-h-screen bg-background/95 border border-foreground/20 text-foreground/90 
-        transition-all duration-300 ease-in-out overflow-hidden 
-        ${sidebarClose ? "w-15" : "w-64"
-        }`}
+      className={`fixed top-0 left-0 h-full bg-background/95 border-r border-foreground/20 text-foreground/90 
+        transition-transform duration-300 ease-in-out z-50
+        ${sidebarClose ? "-translate-x-full" : "translate-x-0"}
+      `}
+      style={{ width: "16rem" }} 
     >
       <div
         className={`pt-5 pl-3 pb-3 cursor-pointer transition-transform duration-200 ${sidebarClose ? "text-center" : ""
