@@ -19,7 +19,7 @@ export function ThoughtCards(ThoughtCardProps: ThoughtCardPropTypes) {
     return (<div>
         <ThoughtModal title={ThoughtCardProps.title} thought={ThoughtCardProps.body} open={open} setOpen={setOpen} />
 
-        <div className={`max-w-80 max-h-100 border border-foreground/30 bg-background/95 rounded-md mt-6 font-playfair mx-2`}>
+        <div className={`max-w-80 max-h-100 overflow-hidden border border-foreground/30 bg-background/95 rounded-md mt-6 font-playfair mx-2`}>
             <div className="flex justify-between pt-4 p-3 transition-all duration-300 ">
                 <div onClick={() => {
                     setOpen(true)
@@ -35,7 +35,7 @@ export function ThoughtCards(ThoughtCardProps: ThoughtCardPropTypes) {
                 </div>
             </div>
             <div className="flex flex-col p-4 max-h-100">
-                <h1 className="text-2xl font-medium mb-4 ">{ThoughtCardProps.title}</h1>
+                <h1 className="text-2xl font-medium mb-4 line-clamp-2 break-words break-all">{ThoughtCardProps.title}</h1>
                 <div className="relative">
                     <p className="line-clamp-10 font-roboto" style={{ whiteSpace: 'pre-wrap' }}>
                         {ThoughtCardProps.body}

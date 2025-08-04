@@ -82,7 +82,7 @@ export function LandingPage() {
                                 initial={{ opacity: 0, x: -80 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.8, ease: "easeOut" }}
-                                onClick={() => navigate("/signup")} className="font-bold">
+                                onClick={() => navigate("/signup")} className="font-medium">
                                 <Button
                                     hover={true} text="Start for free"
                                     size="md" bg_color="defaultTheme"
