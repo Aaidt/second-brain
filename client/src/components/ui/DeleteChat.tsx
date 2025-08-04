@@ -60,13 +60,13 @@ export function DeleteChat({
             <button
               onClick={() => setOpen(false)}
               className="bg-foreground/95 duration-200 transition-all hover:bg-foreground/85 
-                px-6 py-2 rounded-sm text-background"
+                px-6 py-2 rounded-sm text-background cursor-pointer"
             >
               Back
             </button>
             <button
               onClick={deleteChats}
-              className="bg-red-900 duration-200 transition-all hover:bg-red-800 px-6 py-2 rounded-sm text-white"
+              className="bg-red-900 duration-200 transition-all hover:bg-red-800 cursor-pointer px-6 py-2 rounded-sm text-white"
             >
               Delete
             </button>
