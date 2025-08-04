@@ -82,7 +82,7 @@ export function LandingPage() {
                                 initial={{ opacity: 0, x: -80 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.8, ease: "easeOut" }}
-                                onClick={() => navigate("/signup")} className="">
+                                onClick={() => navigate("/signup")} className="font-bold">
                                 <Button
                                     hover={true} text="Start for free"
                                     size="md" bg_color="defaultTheme"
@@ -105,23 +105,7 @@ export function LandingPage() {
                             </motion.div>
                         </div>
                     </div>
-                    {/* <div className="lg:w-1/2 mt-12 lg:mt-0 flex justify-center">
-                        <div className="relative w-full max-w-md aspect-square">
-                            <motion.div
-                                initial={{ opacity: 0, y: 40 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, ease: "easeOut" }}
-                            >
-                                <img
-                                    src="https://i.pinimg.com/736x/94/18/90/9418904b172f49551a9ee8b98f7aa8a4.jpg"
-                                    alt="Second Brain Visualization"
-                                    width={500}
-                                    height={500}
-                                    className="rounded-2xl shadow-2xl hover:shadow-black/90 duration-400 shadow-black/60 animate-float"
-                                />
-                            </motion.div>
-                        </div>
-                    </div> */}
+                   </div> */}
                 </section>
 
 
@@ -178,63 +162,6 @@ export function LandingPage() {
                 </section>
 
 
-                {/* <section ref={ref2} className="py-8 ">
-                    <div className="container mx-auto px-4 py-15 border-t border-foreground">
-                        <div className="text-center mb-16">
-                            <h2 id="" className="text-6xl italic font-playfair 
-                            font-semibold mb-3">What our users say
-                            </h2>
-                            <br />
-                            <p className="text-lg">
-                                Join thousands of thinkers, creators, and <br />learners who've transformed their mental workspace.
-                            </p>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {[
-                                {
-                                    quote:
-                                        "SecondBrain has completely changed how I organize my research. I can finally see connections between ideas I never noticed before.",
-                                    author: "Dr. Sarah Chen",
-                                    role: "Professor of Cognitive Science",
-                                },
-                                {
-                                    quote:
-                                        "As a writer, keeping track of ideas is essential. This tool has become indispensable for my creative process.",
-                                    author: "James Wilson",
-                                    role: "Novelist & Screenwriter",
-                                },
-                                {
-                                    quote:
-                                        "I've tried dozens of note-taking apps, but nothing compares to the intuitive design and powerful features of SecondBrain.",
-                                    author: "Maya Rodriguez",
-                                    role: "Product Designer",
-                                },
-                            ].map((testimonial, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: index * 0.2 }}
-                                    className="bg-black/85 text-white p-8 rounded-xl hover:shadow-lg hover:shadow-black/50 transition-all duration-300 hover:-translate-y-1">
-                                    <div className="flex gap-1 mb-4">
-                                        {[...Array(5)].map((_, i) => (
-                                            <Star key={i} className="h-5 w-5 fill-[#DDA853] text-[#DDA853]" />
-                                        ))}
-                                    </div>
-                                    <p className="italic mb-6">"{testimonial.quote}"</p>
-                                    <div>
-                                        <p className="font-medium">{testimonial.author}</p>
-                                        <p className="text-sm">{testimonial.role}</p>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
- */}
-
                 <section className="py-10">
                     <div className="container mx-auto pb-4 text-center pt-15 border-t border-foreground/20">
                         <motion.div
@@ -265,8 +192,6 @@ export function LandingPage() {
                     </div>
                 </section>
             </main>
-
-            {/* <Footer /> */}
 
         </div>
     )
