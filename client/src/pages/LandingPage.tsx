@@ -9,8 +9,6 @@ export function LandingPage() {
     const navigate = useNavigate();
 
     const ref1 = useRef<HTMLDivElement>(null);
-    const ref2 = useRef<HTMLDivElement>(null);
-    const ref3 = useRef<HTMLDivElement>(null);
 
     const handleScroll = (ref: React.RefObject<HTMLDivElement | null>) => {
         ref.current?.scrollIntoView({ behavior: "smooth" })
@@ -31,12 +29,7 @@ export function LandingPage() {
                      hover:underline-offset-5 duration-200 scroll-smooth ">
                         Features
                     </div>
-                    <div
-                        onClick={() => handleScroll(ref2)}
-                        className="text-,d hover:-translate-y-1 hover:underline 
-                    hover:underline-offset-5 duration-200">
-                        Testimonials
-                    </div>
+                   
                     <div
                         onClick={() => navigate("/pricing")}
                         className="text-md hover:-translate-y-1 hover:underline 
@@ -242,7 +235,7 @@ export function LandingPage() {
                 </section>
  */}
 
-                <section ref={ref3} className="py-10">
+                <section className="py-10">
                     <div className="container mx-auto pb-4 text-center pt-15 border-t border-foreground/20">
                         <motion.div
                             initial={{ opacity: 0, x: -30 }}
