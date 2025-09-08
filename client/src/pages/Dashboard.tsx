@@ -37,8 +37,8 @@ export function Dashboard() {
     }, [])
 
     const pageContent = [
-        ...content.map(items => ({...items, category: "content"}) as ContentType),
-        ...thoughts.map(items => ({ ...items, category: "thoughts"}) as ThoughtType)
+        ...content.map(items => ({ ...items, category: "content" }) as ContentType),
+        ...thoughts.map(items => ({ ...items, category: "thoughts" }) as ThoughtType)
     ].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
 
     type ContentType = {
@@ -77,7 +77,7 @@ export function Dashboard() {
         setShare(!share)
         try {
             token = getAccessToken()
-            if(!token){
+            if (!token) {
                 token = await refreshAccessToken(BACKEND_URL)
             }
             const response = await axios.post<ResponseData>(`${BACKEND_URL}/second-brain/api/link/share`, { share },
@@ -115,7 +115,7 @@ export function Dashboard() {
     const searchRef = useRef<HTMLInputElement>(null)
 
     return (
-        <div className="min-h-screen min-h-full w-full bg-background font-serif text-foreground/95">
+        <div className="min-h-screen min-h-full w-full bg-background text-foreground/95">
             <CreateContentModal open={contentModalOpen} setOpen={setContentModalOpen} />
             <CreateThoughtModal open={thoughtModalOpen} setOpen={setThoughtModalOpen} />
 
@@ -133,15 +133,15 @@ export function Dashboard() {
 
             <div className={`${sidebarClose ? 'pl-20' : 'pl-70'} p-4 pt-10 duration-200 gap-4`}>
 
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}>
-                <Masonry
-                    breakpointCols={breakpointColumnsObj}
-                    className="flex w-auto"
-                    columnClassName="bg-clip-padding"
-                >
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}>
+                    <Masonry
+                        breakpointCols={breakpointColumnsObj}
+                        className="flex w-auto"
+                        columnClassName="bg-clip-padding"
+                    >
 
                         {pageContent.filter((content) => {
                             const searchVal = searchRef.current?.value.toLowerCase() || ""
@@ -149,20 +149,20 @@ export function Dashboard() {
                         })
                             .filter((content) => {
                                 const selectedType = type?.trim() || ''
-                                if (!selectedType) return true ;
+                                if (!selectedType) return true;
 
-                                if(['twitter', 'youtube', 'reddit', 'others'].includes(selectedType)){
+                                if (['twitter', 'youtube', 'reddit', 'others'].includes(selectedType)) {
                                     return content.category === "content" && content.type?.trim() === selectedType
                                 }
 
-                                if(selectedType === "thoughts"){
+                                if (selectedType === "thoughts") {
                                     return content.category === "thoughts"
                                 }
 
                                 return true
 
                             }).map(item => {
-                                if(item.category === "content"){
+                                if (item.category === "content") {
                                     return <CardComponent
                                         title={item.title}
                                         link={item.link}
@@ -176,65 +176,45 @@ export function Dashboard() {
                                     return <ThoughtCards
                                         id={item.id}
                                         title={item.title}
-                                        body={item.body}                       
+                                        body={item.body}
                                         created_at={item.created_at}
                                         share={share}
                                         isSharedPage={false} />
                                 }
-                            
-                        })}
-                </Masonry>
-            </motion.div>
+
+                            })}
+                    </Masonry>
+                </motion.div>
 
                 <div className="pt-1 p-2 absolute right-0 top-0 flex">
-                    <motion.div
-                        initial={{ opacity: 0, y: -50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-                        viewport={{ once: true }}
-                        className="text-md mt-4 mr-3">
+                    <div className="text-md mt-4 mr-3">
                         <ModeToggle variable="ghost" />
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: -50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-                        viewport={{ once: true }}
-                        className="text-md">
+                    <div className="text-md">
                         <Button
                             hover={true}
                             size="sm" text="Thoughts" bg_color="defaultTheme"
                             fullWidth={false} shadow={false} startIcon={<BookOpen size="18" className="mr-1" strokeWidth="1.5" />}
                             onClick={() => setThoughtModalOpen(true)}
                         />
-                    </motion.div>
-                    <motion.div
-                        initial={{ opacity: 0, y: -50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                        viewport={{ once: true }}
-                        className="text-md">
+                    </div>
+                    <div className="text-md">
                         <Button
                             hover={true}
                             size="sm" text="Content" bg_color="defaultTheme"
                             fullWidth={false} shadow={false} startIcon={<Plus size="18" className="mr-1" strokeWidth="1.5" />}
                             onClick={() => setContentModalOpen(true)}
                         />
-                    </motion.div>
-                    <motion.div
-                        initial={{ opacity: 0, y: -50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
-                        viewport={{ once: true }}
-                        className="text-md">
+                    </div>
+                    <div className="text-md">
                         <Button
                             hover={true}
                             size="sm" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="defaultTheme"
                             fullWidth={false} shadow={false} startIcon={<Share size="18" className="mr-1" strokeWidth="1.5" />}
                             onClick={handleShare}
                         />
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </div >

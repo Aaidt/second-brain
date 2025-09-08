@@ -15,7 +15,7 @@ export function LandingPage() {
     }
 
     return (
-        <div className="font-serif text-foreground/90 bg-background min-h-screen flex font-roboto flex-col justify-between">
+        <div className="text-foreground/90 bg-background min-h-screen flex font-roboto flex-col justify-between">
 
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -29,7 +29,7 @@ export function LandingPage() {
                      hover:underline-offset-5 duration-200 scroll-smooth ">
                         Features
                     </div>
-                   
+
                     <div
                         onClick={() => navigate("/pricing")}
                         className="text-md hover:-translate-y-1 hover:underline 
@@ -166,9 +166,9 @@ export function LandingPage() {
                         <motion.div
                             initial={{ opacity: 0, x: -30 }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}   
+                            viewport={{ once: true }}
                             transition={{ duration: 0.8, ease: "easeOut" }}
-                            >
+                        >
                             <h2 className="text-6xl font-semibold italic font-playfair mb-3">Ready to upgrade your thinking?</h2><br />
                             <p className="text-lg text-center mb-5">
                                 Join thousands of users who have transformed how they capture and connect ideas.<br /> Start for free, no credit
@@ -179,8 +179,8 @@ export function LandingPage() {
                             initial={{ opacity: 0, x: 30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.8, ease: "easeOut" }} className="flex font-medium justify-center items-center " 
-                                onClick={() => navigate("/signup")}>
+                            transition={{ duration: 0.8, ease: "easeOut" }} className="flex font-medium justify-center items-center "
+                            onClick={() => navigate("/signup")}>
                             <Button
                                 hover={true} text="Get started now"
                                 size="md" shadow={false}

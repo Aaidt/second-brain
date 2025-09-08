@@ -8,26 +8,24 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
+  id         String        @id @default(uuid())
   name       String
-  username   String   @unique
+  username   String        @unique
   password   String
   photo      String?
-  created_at DateTime @default(now())
-
-  Link    Link?          
-  Content Content[]
-  Thought Thought[]
-  Session ChatSession[]
+  created_at DateTime      @default(now())
+  Session    ChatSession[]
+  Content    Content[]
+  Link       Link?
+  Thought    Thought[]
 }
 
 model Link {
   id         Int      @id @default(autoincrement())
   hash       String   @unique
   created_at DateTime @default(now())
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String   @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Content {
@@ -36,9 +34,8 @@ model Content {
   link       String
   type       String
   created_at DateTime @default(now())
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Thought {
@@ -46,33 +43,29 @@ model Thought {
   title      String
   body       String
   created_at DateTime @default(now())
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ChatSession {
-  id         String   @id @default(uuid())
-  title      String   @unique
-  created_at DateTime @default(now())
+  id         String        @id @default(uuid())
+  title      String        @unique
+  userId     String
+  created_at DateTime      @default(now())
+  message    ChatMessage[]
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
-  message ChatMessage[]
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+model ChatMessage {
+  id         Int         @id @default(autoincrement())
+  content    String
+  sessionId  String
+  created_at DateTime    @default(now())
+  sender     Sender
+  session    ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 }
 
 enum Sender {
   ai
   user
-}
-
-model ChatMessage {
-  id         Int      @id @default(autoincrement())
-  sender     Sender
-  content    String
-  created_at DateTime @default(now())
-
-  sessionId String
-  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 }

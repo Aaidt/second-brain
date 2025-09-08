@@ -7,7 +7,7 @@
     "dev": "npm run build && npm run start",
     "start": "node ./dist/index.js",
     "db:init": "cd src/db/prisma && npx prisma migrate dev --name init_schema",
-    "db:generate": "cd src/db/prisma && npx prisma generate"    
+    "db:generate": "cd src/db/prisma && npx prisma generate"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +15,7 @@
   "description": "",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "@prisma/client": "^6.11.1",
+    "@prisma/client": "^6.15.0",
     "@qdrant/js-client-rest": "^1.14.1",
     "@types/axios": "^0.9.36",
     "@types/bcrypt": "^5.0.2",
@@ -32,7 +32,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "prisma": "^5.22.0",
+    "prisma": "^6.15.0",
     "typescript": "^5.8.2",
     "uuid": "^11.1.0",
     "zod": "^3.24.2"

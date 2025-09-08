@@ -17,7 +17,7 @@ interface ButtonProps {
 const sizeStyles = {
     "sm": "px-3 py-2 text-sm",
     "md": "px-4 py-2 text-md",
-    "lg": "px-4 py-2 text-lg"
+    "lg": "px-4 py-2 text-lg font-bold"
 }
 
 const fixedStyles = "rounded duration-200 m-2 mt-4 flex items-center cursor-pointer"
@@ -37,7 +37,7 @@ const colorStyles = {
     "defaultText": "bg-background text-foreground hover:underline-offset-6 hover:underline transition-all duration-200"
 }
 
-export function Button (props: ButtonProps) {
+export function Button(props: ButtonProps) {
     return (
         <button
             className={`${'gap-1'} ${fixedStyles} ${props.hover ? 'hover:-translate-y-1' : null} ${sizeStyles[props.size]} 
