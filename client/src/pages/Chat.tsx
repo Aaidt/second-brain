@@ -51,6 +51,7 @@ export function Chat() {
 
     useEffect(() => {
         scrollToBottom();
+        toast.warn("Click on NEW CHAT to create a session before chatting!!!!!")
     }, [messages]);
 
     const tokenRef = useRef<string | null>(getAccessToken())

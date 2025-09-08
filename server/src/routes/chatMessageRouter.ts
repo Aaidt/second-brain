@@ -10,7 +10,7 @@ const chatMessageRouter: Router = Router()
 
 type chatMessageInput = z.infer<typeof ChatMessageSchema>
 
-chatMessageRouter.post("/query", async function (req: Request, res: Response) {
+chatMessageRouter.post("/query", async function(req: Request, res: Response) {
     const { query } = req.body;
     const userId = req.userId
 
@@ -51,7 +51,7 @@ chatMessageRouter.post("/query", async function (req: Request, res: Response) {
     }
 });
 
-chatMessageRouter.post("/chat-query", async function (req: Request, res: Response) {
+chatMessageRouter.post("/chat-query", async function(req: Request, res: Response) {
     const { query } = req.body
     if (!query || typeof query !== "string" || !query.trim()) {
         res.status(403).json({ message: "Query must be a non-empty string" })
@@ -76,7 +76,7 @@ chatMessageRouter.post("/chat-query", async function (req: Request, res: Respons
         });
 
         const retrievedTexts = result.map(r => `${r.payload?.title ?? ""}: ${r.payload?.thoughts ?? ""}`).join("\n");
-        if (!retrievedTexts) { res.status(404).json({ message: 'No results found.' }) }
+        if (!retrievedTexts) { res.status(404).json({ message: 'No thoughts provided to reference an answer from.' }) }
 
         const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
         const prompt = `You are a helpful assistant. The user has saved some personal notes. Use the following thoughts
@@ -102,7 +102,7 @@ chatMessageRouter.post("/chat-query", async function (req: Request, res: Respons
     }
 })
 
-chatMessageRouter.post("/send/:sessionId", validateChatMessage, async function (req: Request<{ sessionId: string }, {}, chatMessageInput>, res: Response) {
+chatMessageRouter.post("/send/:sessionId", validateChatMessage, async function(req: Request<{ sessionId: string }, {}, chatMessageInput>, res: Response) {
     const { sender, content } = req.body
     const sessionId = req.params.sessionId
 
@@ -124,7 +124,7 @@ chatMessageRouter.post("/send/:sessionId", validateChatMessage, async function (
     }
 })
 
-chatMessageRouter.get("/:sessionId", async function (req: Request<{ sessionId: string }, {}, {}>, res: Response) {
+chatMessageRouter.get("/:sessionId", async function(req: Request<{ sessionId: string }, {}, {}>, res: Response) {
     const { sessionId } = req.params
     try {
         const chats = await prismaClient.chatMessage.findMany({
