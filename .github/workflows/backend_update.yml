@@ -1,0 +1,55 @@
+name: Update backend code
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/actions-setup@v4
+        with:
+          version: 10.15.1
+
+      - name: Setting up node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24.7.0
+          cache: "pnpm"
+
+      - run: pnpm install
+      - run: pnpm run build
+
+      - name: Install pm2
+        run: pnpm add --global pm2
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Setup ssh
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+
+      - name: Deploy files
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "mkdir -p ./second_brain_backend"
+          rsync -avz dist/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/second_brain_backend
+
+      - name: Start/Restart the app
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "pm2 restart second_brain_backend || cd second_brain_backend && pm2 start pnpm --name second_brain_backend -- run start"
+
+      - run: echo "JOB DONE!!!"
