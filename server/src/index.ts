@@ -20,7 +20,7 @@ app.use(cors({
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    origin: process.env.FRONTEND_URL as string  
+    origin: process.env.FRONTEND_URL as string || process.env.ALT_FE_URL as string 
 }))
 app.use(cookieParser())
 
