@@ -20,7 +20,7 @@ app.use(cors({
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    origin: process.env.FRONTEND_URL || process.env.ALT_FE_URL as string 
+    origin: "https://second-brain.codexbuild.website" || "https://second-brainfe.vercel.app" 
 }))
 app.use(cookieParser())
 
