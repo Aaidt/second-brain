@@ -17,10 +17,10 @@ const app = express()
 
 app.use(express.json())
 app.use(cors({
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    origin: ["https://second-brainfe.vercel.app", "https://second-brain.codexbuild.website"]
+   credentials: true,
+   allowedHeaders: ["Content-Type", "Authorization"],
+   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+   origin: ["https://second-brainfe.vercel.app", "https://second-brain.codexbuild.website", "http://localhost:5173"]
 }))
 app.use(cookieParser())
 
@@ -31,8 +31,8 @@ app.use("/second-brain/api/link", userMiddleware, linkRouter)
 app.use("/second-brain/api/chatMessage", userMiddleware, chatMessageRouter)
 app.use("/second-brain/api/chatSession", userMiddleware, chatSessionRouter)
 
-app.get("/healthcheck", (req: Request, res: Response ) => {
-	res.status(200).json({message:"The VM is healthy."})
+app.get("/healthcheck", (req: Request, res: Response) => {
+   res.status(200).json({ message: "The VM is healthy." })
 })
 
 app.listen(3000, () => { console.log('Server is listening on port 3000.') })
