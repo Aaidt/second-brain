@@ -2,6 +2,17 @@ name: CI/CD for backend
 on:
   push:
     branches: [main]
+    paths:
+      - "server/**"
+      - "Dockerfile/**"
+      - .github/workflows/backend_update.yml
+
+  pull_request:
+    branches: [main]
+    paths:
+      - "server/**"
+      - "Dockerfile/**"
+      - ".github/workflows/backend_update.yml"
 
 jobs:
   build:
