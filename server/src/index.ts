@@ -37,6 +37,8 @@ app.get("/healthcheck", (req: Request, res: Response) => {
 })
 
 app.get("/metrics", metricsMiddleware, async (req: Request, res: Response) => {
+   const register = new client.Registry()
+   client.collectDefaultMetrics({ register })
    const metrics = await client.register.metrics();
    res.set("Content-Type", client.register.contentType);
    res.end(metrics);
