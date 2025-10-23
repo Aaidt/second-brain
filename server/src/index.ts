@@ -9,6 +9,8 @@ import thoughtRouter from "./routes/thoughtRouter"
 import chatMessageRouter from "./routes/chatMessageRouter"
 import chatSessionRouter from "./routes/chatSessionRouter"
 import linkRouter from "./routes/linkRouter"
+import client from "prom-client"
+import { metricsMiddleware } from './metrics/metricsMiddleware'
 
 dotenv.config()
 
@@ -32,6 +34,13 @@ app.use("/second-brain/api/chatSession", userMiddleware, chatSessionRouter)
 
 app.get("/healthcheck", (req: Request, res: Response) => {
    res.status(200).json({ message: "The VM is healthy." })
+})
+
+app.get("/metrics", metricsMiddleware, async (req: Request, res: Response) => {
+   const metrics = await client.register.metrics();
+   res.set("Content-Type", client.register.contentType);
+   res.end(metrics);
+
 })
 
 app.listen(3000, () => { console.log('Server is listening on port 3000.') })
