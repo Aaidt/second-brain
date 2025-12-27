@@ -27,6 +27,7 @@ export default function Auth() {
          setVerifying(true);
          supabase.auth.verifyOtp({
             token_hash,
+            // @ts-expect-error: string is valid
             type: type || "email",
          }).then(({ error }) => {
             if (error) {
