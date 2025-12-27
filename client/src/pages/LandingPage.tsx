@@ -74,7 +74,7 @@ export function LandingPage() {
             </div>
             {session ? <div>
                <div onClick={() => navigate("/login")} className="rounded-full bg-black px-5 py-3 text-white cursor-pointer font-bold">
-                  {session.user?.email?.split("")[0]}
+                  {session.user?.email?.slice(0, 2).toUpperCase() ?? "U"}
                </div>
             </div> : <div className="font-bold" onClick={() => navigate("/login")}>
                <Button
