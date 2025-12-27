@@ -52,6 +52,20 @@ export default function Auth() {
       return () => subscription.unsubscribe();
    }, []);
 
+   const handleGoogleLogin = async () => {
+      const { error } = await supabase.auth.signInWithOAuth({
+         provider: "google",
+         options: {
+            redirectTo: window.location.origin,
+         },
+      });
+
+      if (error) {
+         setAuthError(error.message);
+      }
+   };
+
+
    const handleLogin = async (event: React.FormEvent) => {
       event.preventDefault();
       setLoading(true);
@@ -118,7 +132,7 @@ export default function Auth() {
                <p className="text-green-400 mb-6">You are logged in as: <br /> <span className="font-semibold">{session.user.email}</span></p>
                <button
                   onClick={handleLogout}
-                  className="bg-green-700 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-600 transition-transform duration-300 ease-in-out transform hover:scale-105"
+                  className="cursor-pointer bg-green-700 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-600 transition-transform duration-300 ease-in-out transform hover:scale-105"
                >
                   Sign Out
                </button>
@@ -148,10 +162,31 @@ export default function Auth() {
                <button
                   type="submit"
                   disabled={loading}
-                  className="bg-green-700 text-white text-lg font-bold py-3 rounded-lg cursor-pointer hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-green-700 text-white text-lg font-bold py-3 rounded-lg cursor-pointer 
+                  hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                >
                   {loading ? "Sending..." : "Send magic link"}
                </button>
+
+               <div className="flex items-center gap-3 my-4">
+                  <div className="flex-1 h-px bg-gray-700" />
+                  <span className="text-gray-400 text-sm">OR</span>
+                  <div className="flex-1 h-px bg-gray-700" />
+               </div>
+
+               <button
+                  onClick={handleGoogleLogin}
+                  className="flex items-center justify-center gap-3 border border-gray-600 text-white py-3 rounded-lg 
+                  hover:bg-gray-800/50 cursor-pointer transition-colors"
+               >
+                  <img
+                     src="https://www.svgrepo.com/show/475656/google-color.svg"
+                     alt="Google"
+                     className="w-5 h-5"
+                  />
+                  Continue with Google
+               </button>
+
             </form>
          </>
       );
