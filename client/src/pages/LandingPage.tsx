@@ -196,11 +196,11 @@ export function LandingPage() {
             </section>
 
 
-            <div className="scroll-smooth text-foreground/95 bg-background min-h-screen flex flex-col justify-between">
+            <div className="scroll-smooth text-black/95 bg-white min-h-screen flex flex-col justify-between">
                <main className="flex-grow">
                   <section className="container mx-auto px-4 py-20">
 
-                     <div className="container mx-auto px-4 text-center py-20 border-t border-foreground/30">
+                     <div className="container mx-auto px-4 text-center py-20 border-t border-black/30">
                         <h1 className="text-5xl md:text-5xl font-semibold font-playfair mb-3 italic ">Simple, Transparent Pricing</h1><br />
                         <p className="text-xl">
                            Choose the plan that's right for you. All plans include a 14-day free trial.
@@ -215,13 +215,13 @@ export function LandingPage() {
                               viewport={{ once: true }}
                               transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.1 }}
                               key={index}
-                              className={`bg-background/95 text-foreground/90 p-8 rounded-xl border border-foreground/40 ${tier.popular
-                                 ? 'shadow-xl hover:shadow-foreground/20 duration-300 shadow-foreground/5'
-                                 : 'hover:shadow-xl duration-300 shadow-foreground/10'
+                              className={`bg-white/95 text-black/90 p-8 rounded-xl border border-black/40 ${tier.popular
+                                 ? 'shadow-xl hover:shadow-black/20 duration-300 shadow-black/5'
+                                 : 'hover:shadow-xl duration-300 shadow-black/10'
                                  }`}
                            >
                               {tier.popular && (
-                                 <div className="bg-foreground/90 text-background text-sm font-medium px-3 py-1 rounded-full w-fit mb-4">
+                                 <div className="bg-black/90 text-white text-sm font-medium px-3 py-1 rounded-full w-fit mb-4">
                                     Most Popular
                                  </div>
                               )}
@@ -254,8 +254,8 @@ export function LandingPage() {
                      </div>
                   </section>
 
-                  <section className="text-foreground/95 py-10">
-                     <div className="container mx-auto px-4 text-center py-20 border-t border-foreground/30">
+                  <section className="text-black/95 py-10">
+                     <div className="container mx-auto px-4 text-center py-20 border-t border-black/30">
                         <h2 className="text-5xl font-semibold font-playfair mb-6 italic">Frequently Asked Questions</h2><br />
                         <div className="max-w-3xl mx-auto space-y-6">
                            {[
@@ -277,7 +277,7 @@ export function LandingPage() {
                                  whileInView={{ opacity: 1 }}
                                  viewport={{ once: true }}
                                  transition={{ duration: 0.4, ease: "easeOut" }}
-                                 key={index} className="border-b border-foreground/20 p-2 pb-8">
+                                 key={index} className="border-b border-black/20 p-2 pb-8">
                                  <h3 className="text-2xl mb-2">{faq.question}</h3>
                                  <p className="text-lg">{faq.answer}</p>
                               </motion.div>
