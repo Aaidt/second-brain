@@ -15,7 +15,7 @@ export function LandingPage() {
       supabase.auth.getSession().then(({ data: { session } }) => {
          setSession(session)
       })
-   }, [])
+   }, [supabase.auth])
 
    const pricingTiers = [
       {
