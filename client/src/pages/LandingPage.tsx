@@ -16,12 +16,12 @@ export function LandingPage() {
    return (
       <div className="text-black/90 bg-white min-h-screen flex font-roboto flex-col justify-between">
 
-         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-2">
+         <div className="px-8 py-4 flex items-center justify-between gap-4 ">
+            <div className="flex items-center gap-4">
                <Brain className="size-8 stroke-[1.5] mt-1" />
                <span className="text-4xl font-medium font-playfair">SecondBrain</span>
             </div>
-            <div className="cursor-pointer hidden md:flex items-center gap-6">
+            <div className="cursor-pointer hidden md:flex items-center gap-6 ">
                <div
                   onClick={() => handleScroll(ref1)}
                   className="text-md hover:-translate-y-1 hover:underline 
@@ -36,23 +36,15 @@ export function LandingPage() {
                   Pricing
                </div>
             </div>
-            <div className="flex items-center gap-4 font-medium">
 
-               <div onClick={() => navigate("/signup")}>
-                  <Button
-                     hover={false} text="Sign up"
-                     bg_color="defaultTheme" shadow={false}
-                     fullWidth={false} size="sm"
-                  />
-               </div>
-               <div onClick={() => navigate("/signin")}>
-                  <Button
-                     hover={false} size="sm"
-                     bg_color="defaultTheme" shadow={false}
-                     fullWidth={false} text="Log in"
-                  />
-               </div>
+            <div onClick={() => navigate("/login")}>
+               <Button
+                  hover={false} size="md"
+                  bg_color="defaultTheme" shadow={false}
+                  fullWidth={false} text="Login"
+               />
             </div>
+
          </div>
 
          <main className="flex-grow">
