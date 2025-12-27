@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { DeleteChat } from "../components/ui/DeleteChat"
-import { getAccessToken, refreshAccessToken } from '../auth';
 import { ModeToggle } from '@/components/ui/mode-toggle';
+import { supabase } from '@/lib/supabase';
+import { Session } from '@supabase/supabase-js';
 
 interface axiosResponse {
    answers: string;
@@ -44,6 +45,12 @@ export function Chat() {
    const [sessions, setSessions] = useState<SessionResponse[]>([]);
    const [modalOpenId, setModalOpenId] = useState<string | null>(null);
    const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
+   const [session, setSession] = useState<Session | null>(null);
+
+   supabase.auth.getSession().then(({data: {session}}) => {
+      setSession(session);
+   })
+   const token = session?.access_token;
 
    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -57,22 +64,7 @@ export function Chat() {
       toast.warn("Click on NEW CHAT to create a session before chatting!!!!!")
    }, [])
 
-   const tokenRef = useRef<string | null>(getAccessToken())
-
-   async function ensureToken() {
-      if (!tokenRef.current) {
-         tokenRef.current = await refreshAccessToken(BACKEND_URL);
-      }
-      if (!tokenRef.current) {
-         toast.error("Please log in.")
-         navigate("/login")
-         return;
-      }
-      return tokenRef.current;
-   }
-
    async function init() {
-      const token = await ensureToken()
       toast.info("Fetching sessions...")
       try {
          const fetchedSessions = await axios.get<{ sessions: SessionResponse[] }>(
@@ -93,7 +85,6 @@ export function Chat() {
 
 
    async function handleNewChat() {
-      const token = await ensureToken()
       try {
          const response = await axios.post<{ session: SessionResponse }>(`${BACKEND_URL}/second-brain/api/chatSession/create`,
             { title: `New chat ${(Math.random()).toString().slice(0, 8)}` },
@@ -115,8 +106,6 @@ export function Chat() {
 
    async function sendMessage(message: Message, sessionId: string | null) {
       if (!sessionId) return
-
-      const token = await ensureToken()
 
       try {
          await axios.post(
@@ -145,7 +134,6 @@ export function Chat() {
 
       try {
          await sendMessage(userMessage, currentSessionId);
-         const token = await ensureToken()
          const res = await axios.post<axiosResponse>(`${BACKEND_URL}/second-brain/api/chatMessage/chat-query`,
             { query },
             { headers: { Authorization: `Bearer ${token}` } }
@@ -183,7 +171,6 @@ export function Chat() {
    }
 
    async function fetchSession(sessionId: string) {
-      const token = await ensureToken()
 
       try {
          setMessages([])

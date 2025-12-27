@@ -2,12 +2,10 @@ import { Dashboard } from "./pages/Dashboard"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { LandingPage } from "./pages/LandingPage"
 import { SharedBrainPage } from "./pages/SharedBrainPage"
-import { ProtectedRoute } from "./pages/ProtectedRoute"
 import { SidebarProvider } from "./hooks/sidebarContext"
 import { Chat } from "./pages/Chat"
 import { QueryThoughts } from "./pages/QueryThoughts"
 import { ThemeProvider } from "@/components/ui/theme-provider"
-// import { VectorGraph } from "./pages/VectorGraph"
 import Auth from "./pages/Auth"
 
 
@@ -26,24 +24,13 @@ function App() {
                   </SidebarProvider>}
                />
                <Route path="/dashboard" element={
-                  <ProtectedRoute>
                      <SidebarProvider isSharedPage={false}><Dashboard /></SidebarProvider>
-                  </ProtectedRoute>
                }>
                </Route>
 
-               <Route path="/query" element={<ProtectedRoute><QueryThoughts /></ProtectedRoute>}></Route>
+               <Route path="/query" element={<QueryThoughts />}></Route>
 
-               <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>}></Route>
-
-               {/* <Route path="/visualise"
-            element={
-              <ProtectedRoute>
-                <VectorGraph />
-              </ProtectedRoute>
-            }>
-          </Route> */}
-
+               <Route path="/chat" element={<Chat />}></Route>
             </Routes>
          </BrowserRouter>
       </ThemeProvider>

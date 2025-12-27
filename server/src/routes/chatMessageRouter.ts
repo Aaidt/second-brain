@@ -1,5 +1,5 @@
-import { Router, Request, Response } from "express"
 // import { getEmbeddingsFromGemini } from '../utils/src/client'
+import { Router, Request, Response } from "express"
 import { getMistralEmbeddings } from "../utils/src/mistral_client"
 import { qdrantClient } from '../utils/src/qdrant'
 import { genAI } from "../utils/src/client"

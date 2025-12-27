@@ -13,14 +13,27 @@ import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from '../components/ui/ThoughtCards';
 import { motion } from 'framer-motion'
 import { toast } from "react-toastify"
-import { getAccessToken, refreshAccessToken } from "@/auth"
+import { supabase } from "@/lib/supabase"
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Plus, Share, BookOpen } from "lucide-react"
+import { Session } from "@supabase/supabase-js";
+import { useNavigate } from "react-router-dom";
 
 export function Dashboard() {
-    let token;
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const CLIENT_URL = import.meta.env.VITE_CLIENT_URL;
+    const navigate = useNavigate();
+
+    const [session, setSession] = useState<Session | null>(null);
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session);
+     });
+    const token = session?.access_token; 
+    if(!session){
+        alert("User is not logged in!!!");
+        navigate("/login");
+    }
 
     const [type, setType] = useState<string | undefined>()
 
@@ -76,10 +89,6 @@ export function Dashboard() {
     async function handleShare() {
         setShare(!share)
         try {
-            token = getAccessToken()
-            if (!token) {
-                token = await refreshAccessToken(BACKEND_URL)
-            }
             const response = await axios.post<ResponseData>(`${BACKEND_URL}/second-brain/api/link/share`, { share },
                 { headers: { Authorization: `Bearer ${token}` } });
 

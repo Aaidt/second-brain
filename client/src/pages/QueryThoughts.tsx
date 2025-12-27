@@ -2,7 +2,8 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Button } from "../components/ui/NativeButton";
-import { getAccessToken, refreshAccessToken } from "../auth";
+import { supabase } from "@/lib/supabase";
+import { Session } from "@supabase/supabase-js";
 
 interface QueryResponse {
   results: { title: string; thoughts: string; userId: string }[];
@@ -13,7 +14,12 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 export function QueryThoughts() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<QueryResponse["results"]>([]);
+  const [session, setSession] = useState<Session | null>(null);
 
+  supabase.auth.getSession().then(({data: {session}}) => {
+    setSession(session);
+  });
+  const token = session?.access_token;
 
   async function handleSearch() {
 
@@ -23,11 +29,6 @@ export function QueryThoughts() {
     }
 
     try {
-      let token = getAccessToken();
-      if (!token) {
-        const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-        token = await refreshAccessToken(BACKEND_URL)
-      }
       const response = await axios.post<QueryResponse>(`${BACKEND_URL}/second-brain/api/chatMessage/query`, { query },
         {
           headers: { 
