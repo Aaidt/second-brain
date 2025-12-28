@@ -1,9 +1,10 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useContent } from "../../hooks/useContent"
 import { toast } from 'react-toastify'
 import { useThoughts } from "../../hooks/useThoughts"
 import axios from "axios";
-import { getAccessToken, refreshAccessToken } from "../../auth";
+import { Session } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase";
 
 export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
     open: boolean,
@@ -14,13 +15,15 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
     const { refresh } = useContent();
     const { reFetch } = useThoughts();
+    const [session, setSession] = useState<Session | null>(null);
+
+    supabase.auth.getSession().then(({data: {session}}) => {
+      setSession(session);
+    })
+    const token = session?.access_token;
 
     async function deletePost() {
         try {
-            let token = getAccessToken();
-            if (!token) {
-                token = await refreshAccessToken(BACKEND_URL)
-            }
             if (contentId) {
                 try{
                     await axios.delete(`${BACKEND_URL}/second-brain/api/content/deleteOne/${contentId}`,{

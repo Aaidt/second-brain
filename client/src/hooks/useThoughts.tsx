@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios"
-import { getAccessToken, refreshAccessToken } from "../auth";
+import { supabase } from "@/lib/supabase";
+import { Session } from "@supabase/supabase-js";
 
 export const useThoughts = () => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -17,14 +18,15 @@ export const useThoughts = () => {
     }
 
     const [thoughts, setThoughts] = useState<thoughts[]>([])
+    const [session, setSession] = useState<Session | null>(null);
+
+    supabase.auth.getSession().then(({data: {session}}) => {
+        setSession(session);
+    })
+    const token = session?.access_token;
 
     async function reFetch() {
         try {
-            let token = getAccessToken();
-            if (!token) {
-                const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-                token = await refreshAccessToken(BACKEND_URL)
-            }
             const response = await axios.get<ResponseData>(`${BACKEND_URL}/second-brain/api/thought`, {
                 headers: { Authorization: `Bearer ${token}` }
             })

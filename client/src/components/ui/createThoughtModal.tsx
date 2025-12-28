@@ -2,8 +2,8 @@ import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
 import { Button } from "./NativeButton"
 import { toast } from 'react-toastify'
 import axios from "axios";
-import { getAccessToken, refreshAccessToken } from "../../auth";
-
+import { supabase } from "@/lib/supabase";
+import { Session } from "@supabase/supabase-js";
 type modalProps = {
     open: boolean,
     setOpen: Dispatch<SetStateAction<boolean>>
@@ -15,7 +15,14 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
     const titleRef = useRef<HTMLInputElement>(null)
     const [value, setValue] = useState<string | number | readonly string[] | undefined>('');
     const [loading, setLoading] = useState<boolean>(false)
+    const [session, setSession] = useState<Session | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+
+    supabase.auth.getSession().then(({data: {session}}) => {
+        setSession(session);
+    })
+    const token = session?.access_token;
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -27,12 +34,6 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
     async function handleRequest() {
         setLoading(true)
         try {
-            let token = getAccessToken();
-            if (!token) {
-                const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-                token = await refreshAccessToken(BACKEND_URL)
-            }
-            
             await axios.post(`${BACKEND_URL}/second-brain/api/thought/create`, {
                 title: titleRef.current?.value,
                 thoughts: textareaRef.current?.value

@@ -3,8 +3,8 @@ import { Button } from "./NativeButton"
 import { DropDownMenu } from "./native-dropdown-menu"
 import { toast } from "react-toastify"
 import axios from "axios";
-import { getAccessToken, refreshAccessToken } from "../../auth";
-
+import { supabase } from "@/lib/supabase"; 
+import { Session } from "@supabase/supabase-js";
 type modalProps = {
     open: boolean,
     setOpen: Dispatch<SetStateAction<boolean>>
@@ -15,18 +15,19 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 export function CreateContentModal({ open, setOpen }: modalProps) {
     const [selectedVal, setSelectedVal] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+    const [session, setSession] = useState<Session | null>(null);
     const titleRef = useRef<HTMLInputElement>(null)
     const linkRef = useRef<HTMLInputElement>(null)
     const type = selectedVal
 
+    supabase.auth.getSession().then(({data: {session}}) => {
+        setSession(session);
+    })
+    const token = session?.access_token;
+
     const handleRequest = async () => {
         setLoading(true)
         try{
-            let token = getAccessToken();
-            if (!token) {
-                const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-                token = await refreshAccessToken(BACKEND_URL)
-            }
             await axios.post(`${BACKEND_URL}/second-brain/api/content/create`, {
                 title: titleRef.current?.value,
                 link: linkRef.current?.value,

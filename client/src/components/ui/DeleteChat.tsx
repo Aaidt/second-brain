@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { getAccessToken, refreshAccessToken } from "../../auth";
-import { useNavigate } from "react-router-dom";
+import { supabase } from "@/lib/supabase";
+import { Session } from "@supabase/supabase-js";
 
 export function DeleteChat({
     open,
@@ -16,17 +16,15 @@ export function DeleteChat({
     sessionId: string
 }) {
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-  const navigate = useNavigate()
+  const [session, setSession] = useState<Session | null>(null);
+
+  supabase.auth.getSession().then(({data: {session}}) => {
+    setSession(session);
+  })
+  const token = session?.access_token;
 
   async function deleteChats() {
     try {
-            let token = getAccessToken();
-            if (!token) { token = await refreshAccessToken(BACKEND_URL) }
-            if(!token){
-                toast.error("Login first")
-                navigate("/login")
-                return 
-            }
             await axios.delete(`${BACKEND_URL}/second-brain/api/chatSession/delete/${sessionId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
