@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { User } from "lucide-react"
 import { IoLogoReddit } from "react-icons/io5";
 import { MessageCircle, PanelLeftClose, PanelRightClose, Brain, Youtube, Twitter, BookOpen } from "lucide-react"
-import { logout } from "@/auth";
+import { supabase } from "@/lib/supabase";
 
 interface SidebarTypes {
     type?: string | undefined,
@@ -16,11 +16,9 @@ export function Sidebar(sidebarProps: SidebarTypes) {
     const navigate = useNavigate()
     const { sidebarClose, setSidebarClose, isSharedPage } = useSideBar()
 
-    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
     async function Logout() {
-        await logout(BACKEND_URL)
-        navigate("/signin");
+        await supabase.auth.signOut();
+        navigate("/login");
     }
 
     return (

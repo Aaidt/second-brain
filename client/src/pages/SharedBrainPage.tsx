@@ -8,8 +8,8 @@ import { motion } from 'framer-motion'
 import { ThoughtCards } from "../components/ui/ThoughtCards"
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { getAccessToken, refreshAccessToken } from "@/auth";
-
+import { supabase } from "@/lib/supabase";
+import { Session } from "@supabase/supabase-js";
 
 type Content = {
     id: string,
@@ -42,23 +42,12 @@ export function SharedBrainPage() {
     const [type, setType] = useState<string | undefined>();
     const [content, setContent] = useState<Content[]>([]); 
     const [thoughts, setThoughts] = useState<thoughts[]>([]);
-    const [token, setToken] = useState<string | null>(null);
+    const [session, setSession] = useState<Session | null>(null)
 
-    useEffect(() => {
-        async function getToken() {
-            try {
-                let accessToken = getAccessToken();
-                if (!accessToken) {
-                    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-                    accessToken = await refreshAccessToken(BACKEND_URL);
-                }
-                setToken(accessToken);
-            } catch (err) {
-                console.error(err);
-            }
-        }
-        getToken();
-    }, []);
+    supabase.auth.getSession().then(({data: {session}}) => {
+        setSession(session);
+    });
+    const token = session?.access_token;
 
     useEffect(() => {
         async function fetch() {
