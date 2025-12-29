@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { supabaseServer } from "./lib/supabaseServer";
 
 export default async function proxy(req: Request) {
-    const authHeader = req.headers.get("x-user-id");
+    const authHeader = req.headers.get("Authorization");
 
     if(!authHeader?.startsWith("Bearer ")){
         return NextResponse.json({
