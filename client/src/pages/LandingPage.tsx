@@ -3,13 +3,13 @@ import { ArrowRight, Brain, Check, BookOpen, Lightbulb } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion"
-import { createClient, Session } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase";
+import { Session } from "@supabase/supabase-js";
 
 export function LandingPage() {
    const navigate = useNavigate();
 
    const [session, setSession] = useState<Session | null>(null)
-   const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY);
 
    useEffect(() => {
       supabase.auth.getSession().then(({ data: { session } }) => {
