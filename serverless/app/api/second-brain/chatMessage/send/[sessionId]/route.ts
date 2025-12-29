@@ -2,15 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
 
 export async function POST(
-  req: NextRequest,
+  req: Request,
   {
     params,
   }: {
-    params: { sessionId: string };
+    params: Promise<{ sessionId: string }>;
   }
 ) {
-  const userId = req.headers.get("authorization");
-  const sessionId = params.sessionId;
+  const userId = req.headers.get("x-user-id");
+  const { sessionId } = await params;
   const { sender, content } = await req.json();
   if (!userId) {
     return NextResponse.json(
@@ -31,7 +31,7 @@ export async function POST(
         },
       },
     });
-    NextResponse.json(
+    return NextResponse.json(
       {
         message: "Messages sent successfully!!!",
       },
@@ -39,7 +39,7 @@ export async function POST(
     );
   } catch (err) {
     console.error("Error while saving chats. " + err);
-    NextResponse.json(
+    return NextResponse.json(
       {
         message: "Server error. Error while saving messages.",
       },

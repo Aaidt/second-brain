@@ -3,8 +3,8 @@ import { qdrantClient } from "@/lib/qdrantClient";
 import { getMistralEmbeddings } from "@/lib/mistralClient";
 import { genAI } from "@/lib/geminiClient";
 
-export async function POST(req: NextRequest) {
-  const userId = req.headers.get("authorization");
+export async function POST(req: Request) {
+  const userId = req.headers.get("x-user-id");
   const { query } = await req.json();
   if (!userId) {
     return NextResponse.json(
@@ -16,13 +16,12 @@ export async function POST(req: NextRequest) {
   }
 
   if (!query || typeof query !== "string" || !query.trim()) {
-    NextResponse.json(
+    return NextResponse.json(
       {
         message: "Query must be a non-empty string",
       },
       { status: 404 }
     );
-    return;
   }
 
   try {
@@ -40,7 +39,7 @@ export async function POST(req: NextRequest) {
       .map((r) => `${r.payload?.title ?? ""}: ${r.payload?.thoughts ?? ""}`)
       .join("\n");
     if (!retrievedTexts) {
-      NextResponse
+      return NextResponse
         .json({ 
             message: "No thoughts provided to reference an answer from."
          }, { status: 403 });
@@ -59,13 +58,13 @@ export async function POST(req: NextRequest) {
     const response = await model.generateContent(prompt);
     const text = response.response.text();
 
-    NextResponse.json({
+    return NextResponse.json({
       answers: text,
       references: result.map((r) => r.payload),
       title: query.length > 30 ? query.slice(0, 30) + "..." : query,
     }, { status: 200 });
   } catch (err) {
     console.error(err);
-    NextResponse.json({ message: "Error generating answer" }, { status: 500 });
+    return NextResponse.json({ message: "Error generating answer" }, { status: 500 });
   }
 }

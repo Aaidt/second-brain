@@ -3,9 +3,9 @@ import { prismaClient } from "@/lib/prisma";
 import { getMistralEmbeddings } from "@/lib/mistralClient";
 import { qdrantClient } from "@/lib/qdrantClient";
 
-export async function POST(req: NextRequest){
+export async function POST(req: Request){
     const { title, thoughts } = await req.json();
-    const userId = req.headers.get("authorization")
+    const userId = req.headers.get("x-user-id")
     if(!userId) {
         return NextResponse.json({
             message: "user is not authorized"
@@ -39,10 +39,9 @@ export async function POST(req: NextRequest){
          // rollback the Db insert.
          await prismaClient.thought.delete({ where: { id: saved.id } })
 
-         NextResponse.json({
+         return NextResponse.json({
             message: "No vector embeddings processed."
          }, { status: 401 });
-         return
       }
 
       try {
@@ -61,21 +60,21 @@ export async function POST(req: NextRequest){
             ]
          })
 
-         NextResponse.json({
+         return NextResponse.json({
              message: "Successfully added the thought." },
             { status: 201 })
       } catch (qdrantErr) {
          console.error("Error while inserting in qdrant db is: " + qdrantErr);
          // rollack db insert
          await prismaClient.thought.delete({ where: { id: saved.id } });
-         NextResponse.json({ message: "Failed to upsert thought to Qdrant DB. Had to rollback. " },
+         return NextResponse.json({ message: "Failed to upsert thought to Qdrant DB. Had to rollback. " },
             { status: 500 }
          )
       }
 
    } catch (err) {
       console.error("Error is: " + err)
-      NextResponse.json({ 
+      return NextResponse.json({ 
         message: "Content not added. Something went wrong" }, { status: 500 })
    }
 }

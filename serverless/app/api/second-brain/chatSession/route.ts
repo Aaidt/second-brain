@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
 
-export async function POST(req: NextRequest) {
-  const userId = req.headers.get("authorization");
+export async function POST(req: Request) {
+  const userId = req.headers.get("x-user-id");
   const { title } = await req.json();
   if (!userId) {
     return NextResponse.json(
@@ -14,8 +14,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (!title || !userId) {
-    NextResponse.json({ message: "Title and userId are required." }, { status: 401 });
-    return;
+    return NextResponse.json({ message: "Title and userId are required." }, { status: 401 });
 }
 
 try {
@@ -25,10 +24,10 @@ try {
             user: { connect: { id: userId } },
         },
     });
-    NextResponse.json({ session }, { status: 200 });
+    return NextResponse.json({ session }, { status: 200 });
 } catch (err) {
-    NextResponse.json({ message: "Error creating session." }, { status: 500 });
     console.error("Error is: " + err)
+    return NextResponse.json({ message: "Error creating session." }, { status: 500 });
 }
 
 }

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
 
-export async function GET(req: NextRequest){
-    const userId = req.headers.get("authorization");
+export async function GET(req: Request){
+    const userId = req.headers.get("x-user-id");
     if(!userId){
         return NextResponse.json({
             message: "user is not authenticated"
@@ -15,9 +15,9 @@ export async function GET(req: NextRequest){
             orderBy: { created_at: "desc" },
             take: 15
         });
-        NextResponse.json({ sessions }, { status: 201 });
+        return NextResponse.json({ sessions }, { status: 201 });
     } catch (err) {
-        NextResponse.json({ message: "Error fetching sessions." }, { status: 500 });
         console.error("Error is: " + err)
+        return NextResponse.json({ message: "Error fetching sessions." }, { status: 500 });
     }
 }

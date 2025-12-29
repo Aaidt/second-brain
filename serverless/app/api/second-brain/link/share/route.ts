@@ -12,7 +12,7 @@ const hashLink = (len: number) => {
    return hash
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
    const { share } = await req.json();
 
    const userId = req.headers.get("x-user-id")
@@ -26,8 +26,7 @@ export async function POST(req: NextRequest) {
          const link = hashLink(20);
          const existingLink = await prismaClient.link.findFirst({ where: { userId } })
          if (existingLink) {
-            NextResponse.json({ link: existingLink.hash })
-            return;
+            return NextResponse.json({ link: existingLink.hash })
          }
          await prismaClient.link.create({
             data: {
@@ -37,15 +36,15 @@ export async function POST(req: NextRequest) {
                }
             }
          })
-         NextResponse.json({ link })
+         return NextResponse.json({ link })
       } else {
          await prismaClient.link.deleteMany({
             where: { userId }
          })
-         NextResponse.json({ message: "Removed link" })
+         return NextResponse.json({ message: "Removed link" })
       }
    } catch (err) {
-      NextResponse.json({ message: "Server error. Could not delete." })
       console.error(err)
+      return NextResponse.json({ message: "Server error. Could not delete." })
    }
 }

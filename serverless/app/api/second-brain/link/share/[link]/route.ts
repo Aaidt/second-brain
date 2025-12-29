@@ -1,23 +1,20 @@
 import { NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
 
-export async function POST({ params }: { params: { link: string } }
+export async function POST(req: Request, { params }: { params: Promise<{ link: string }> }
 ) {
-
-   const link = params.link;
+   const { link } = await params;
 
    try {
       if (!link) {
-         NextResponse.json({ message: "Link is required." })
-         return
+         return NextResponse.json({ message: "Link is required." })
       }
 
       const hashLink = await prismaClient.link.findFirst({
          where: { hash: link }
       })
       if (!hashLink) {
-         NextResponse.json({ message: "Invalid link." })
-         return
+         return NextResponse.json({ message: "Invalid link." })
       }
 
       const content = await prismaClient.content.findMany({
@@ -32,18 +29,18 @@ export async function POST({ params }: { params: { link: string } }
          where: { id: hashLink.userId }
       })
       if (!user) {
-         NextResponse.json({
+         return NextResponse.json({
             message: "User not found."
          })
       }
 
-      NextResponse.json({
+      return NextResponse.json({
          username: user?.username,
          content,
          thought
       })
    } catch (err) {
-      NextResponse.json({ message: "Server error. Error in the sharing process." })
       console.error(err)
+      return NextResponse.json({ message: "Server error. Error in the sharing process." })
    }
 }

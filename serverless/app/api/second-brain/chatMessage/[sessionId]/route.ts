@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
 
-export async function POST(req: NextRequest, { params }: {
-    params: { sessionId: string }
+export async function POST(req: Request, { params }: {
+    params: Promise<{ sessionId: string }>
 }) {
-  const userId = req.headers.get("authorization");
-    const sessionId = params.sessionId;
+  const userId = req.headers.get("x-user-id");
+  const { sessionId } = await params;
   if (!userId) {
     return NextResponse.json(
       {
@@ -20,10 +20,10 @@ export async function POST(req: NextRequest, { params }: {
        where: { sessionId }
     })
 
-    NextResponse.json({ chats }, { status: 200 })
+    return NextResponse.json({ chats }, { status: 200 })
  } catch (err) {
     console.error('Error retrieving chats:', err);
-    NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
  }
 
 }

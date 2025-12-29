@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
 import { qdrantClient } from "@/lib/qdrantClient";
 
-export async function DELETE(req: NextRequest, { params } : {
-    params: { thoughtId: string }
+export async function DELETE(req: Request, { params } : {
+    params: Promise<{ thoughtId: string }>
 }){
-    const thoughtId = params.thoughtId;
-    const userId = req.headers.get("authorization")
+    const { thoughtId } = await params;
+    const userId = req.headers.get("x-user-id")
     if(!userId) {
         return NextResponse.json({
             message: "user is not authorized"
@@ -49,18 +49,17 @@ export async function DELETE(req: NextRequest, { params } : {
               }
            })
   
-           NextResponse.json({ 
+           console.error("Qdrant deletion error: " + qdrantErr)
+           return NextResponse.json({ 
             message: "Failed to delete from Qdrant, rolled back the db." }, {
                 status: 500
             })
-           console.error("Qdrant deletion error: " + qdrantErr)
-           return
         }
   
-        NextResponse.json({ message: "Deleted successfully." }, { status: 200 })
+        return NextResponse.json({ message: "Deleted successfully." }, { status: 200 })
      } catch (err) {
         console.error("Error deleting thought: ", err);
-        NextResponse.json({
+        return NextResponse.json({
            message: "Server error. Failed to delete thought."
         }, { status: 500 });
      }

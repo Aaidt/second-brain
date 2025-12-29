@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
 
 export async function GET(req: NextRequest){
-    const userId = req.headers.get("authorization")
+    const userId = req.headers.get("x-user-id")
     if(!userId) {
         return NextResponse.json({
             message: "user is not authorized"
@@ -13,9 +13,9 @@ export async function GET(req: NextRequest){
         const thoughts = await prismaClient.thought.findMany({
            where: { userId }
         });
-        NextResponse.json({ thoughts }, { status: 201 });
+        return NextResponse.json({ thoughts }, { status: 201 });
      } catch (err) {
-        NextResponse.json({ message: "Server error. Not found." }, { status: 500 })
         console.error("Error is: " + err)
+        return NextResponse.json({ message: "Server error. Not found." }, { status: 500 })
      }
 }

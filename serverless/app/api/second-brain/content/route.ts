@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
 
-export async function GET(req: NextRequest){
-    const userId = req.headers.get("authorization");
+export async function GET(req: Request){
+    const userId = req.headers.get("x-user-id");
     if(!userId){
         return NextResponse.json({
             message: "user is not authorized"
@@ -11,13 +11,13 @@ export async function GET(req: NextRequest){
     try {
         const content = await prismaClient.content.findMany({ where: { userId } })
 
-        NextResponse.json({content }, { 
+        return NextResponse.json({content }, { 
             status: 200
         })
     } catch (err) {
-        NextResponse.json({ 
+        console.error(err)
+        return NextResponse.json({ 
             message: "Server error. Could not get content." },
         { status: 500 })
-        console.error(err)
     }
 }
