@@ -17,12 +17,12 @@ import { supabase } from "@/lib/supabase"
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Plus, Share, BookOpen } from "lucide-react"
 import { Session } from "@supabase/supabase-js";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export function Dashboard() {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const CLIENT_URL = import.meta.env.VITE_CLIENT_URL;
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const [session, setSession] = useState<Session | null>(null);
 
@@ -39,10 +39,10 @@ export function Dashboard() {
     
         return () => subscription.unsubscribe();
       }, []);
-    if(!session){
-        alert("User is not logged in!!!");
-        navigate("/login");
-    }
+    // if(!session){
+    //     alert("User is not logged in!!!");
+    //     navigate("/login");
+    // }
 
     const [type, setType] = useState<string | undefined>()
 
@@ -96,7 +96,7 @@ export function Dashboard() {
 
 
     async function handleShare() {
-        if(!session?.access_token) return 
+        if(!session?.access_token) return console.log("no access token: ", session?.access_token);
         setShare(!share)
         try {
             const response = await axios.post<ResponseData>(`${BACKEND_URL}/api/second-brain/link/share`, { share },
