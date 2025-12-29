@@ -27,6 +27,9 @@ export const useContent = () => {
         setSession(session);
     })
     const token = session?.access_token;
+    if(!token){
+        alert("no token")
+    }
 
     async function refresh() {
         try {
