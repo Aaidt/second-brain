@@ -36,7 +36,8 @@ export const useContent = () => {
     
         return () => subscription.unsubscribe();
       }, []);
-
+      
+      console.log("access_token", session?.access_token)
     async function refresh() {
         if(!session?.access_token) return;
 

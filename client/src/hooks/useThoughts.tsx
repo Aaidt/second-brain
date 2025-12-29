@@ -35,6 +35,7 @@ export const useThoughts = () => {
       }, []);
 
     async function reFetch() {
+        console.log("access_token", session?.access_token)
         if(!session?.access_token) return;
         try {
             const response = await axios.get<ResponseData>(`${BACKEND_URL}/api/second-brain/thought`, {
