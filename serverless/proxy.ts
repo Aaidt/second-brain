@@ -29,3 +29,6 @@ export default async function proxy(req: Request) {
     
     return res;
 }        
+export const config = {
+    matcher: ["/second-brain/*"],
+};
