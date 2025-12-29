@@ -53,7 +53,7 @@ export function SharedBrainPage() {
         async function fetch() {
             try {
                 const res = await axios.post<axiosResponse>(
-                    `${BACKEND_URL}/second-brain/api/link/share/${shareLink}`,
+                    `${BACKEND_URL}/api/second-brain/link/share/${shareLink}`,
                     {
                         headers: { Authorization: `Bearer ${token}` },
                         withCredentials: true

@@ -34,7 +34,7 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
     async function handleRequest() {
         setLoading(true)
         try {
-            await axios.post(`${BACKEND_URL}/second-brain/api/thought/create`, {
+            await axios.post(`${BACKEND_URL}/api/second-brain/thought/create`, {
                 title: titleRef.current?.value,
                 thoughts: textareaRef.current?.value
             }, { headers: { Authorization: `Bearer ${token}` } })

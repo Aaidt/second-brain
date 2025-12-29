@@ -30,7 +30,7 @@ export const useContent = () => {
 
     async function refresh() {
         try {
-            const response = await axios.get<ResponseData>(`${BACKEND_URL}/second-brain/api/content`, {
+            const response = await axios.get<ResponseData>(`${BACKEND_URL}/api/second-brain/content`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             setContent(response.data?.content)

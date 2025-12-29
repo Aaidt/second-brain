@@ -26,7 +26,7 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
         try {
             if (contentId) {
                 try{
-                    await axios.delete(`${BACKEND_URL}/second-brain/api/content/deleteOne/${contentId}`,{
+                    await axios.delete(`${BACKEND_URL}/api/second-brain/content/deleteOne/${contentId}`,{
                             headers: { Authorization: `Bearer ${token}` }
                         }
                     )
@@ -40,7 +40,7 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
 
             else if (ThoughtId) {
                 try{
-                    await axios.delete(`${BACKEND_URL}/second-brain/api/thought/delete/${ThoughtId}`, {
+                    await axios.delete(`${BACKEND_URL}/api/second-brain/thought/delete/${ThoughtId}`, {
                         headers: {
                              Authorization: `Bearer ${token}` 
                             }})

@@ -89,7 +89,7 @@ export function Dashboard() {
     async function handleShare() {
         setShare(!share)
         try {
-            const response = await axios.post<ResponseData>(`${BACKEND_URL}/second-brain/api/link/share`, { share },
+            const response = await axios.post<ResponseData>(`${BACKEND_URL}/api/second-brain/link/share`, { share },
                 { headers: { Authorization: `Bearer ${token}` } });
 
             if (!response) {

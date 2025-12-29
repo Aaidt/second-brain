@@ -29,7 +29,7 @@ export function QueryThoughts() {
     }
 
     try {
-      const response = await axios.post<QueryResponse>(`${BACKEND_URL}/second-brain/api/chatMessage/query`, { query },
+      const response = await axios.post<QueryResponse>(`${BACKEND_URL}/api/second-brain/chatMessage/query`, { query },
         {
           headers: { 
             Authorization: `Bearer ${token}` 

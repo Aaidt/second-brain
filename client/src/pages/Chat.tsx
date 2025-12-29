@@ -68,7 +68,7 @@ export function Chat() {
       toast.info("Fetching sessions...")
       try {
          const fetchedSessions = await axios.get<{ sessions: SessionResponse[] }>(
-            `${BACKEND_URL}/second-brain/api/chatSession/`,
+            `${BACKEND_URL}/api/second-brain/chatSession/`,
             { headers: { Authorization: `Bearer ${token}` } }
          );
          setSessions(fetchedSessions.data.sessions || []);
@@ -86,7 +86,7 @@ export function Chat() {
 
    async function handleNewChat() {
       try {
-         const response = await axios.post<{ session: SessionResponse }>(`${BACKEND_URL}/second-brain/api/chatSession/create`,
+         const response = await axios.post<{ session: SessionResponse }>(`${BACKEND_URL}/api/second-brain/chatSession/create`,
             { title: `New chat ${(Math.random()).toString().slice(0, 8)}` },
             { headers: { Authorization: `Bearer ${token}` } }
          );
@@ -109,7 +109,7 @@ export function Chat() {
 
       try {
          await axios.post(
-            `${BACKEND_URL}/second-brain/api/chatMessage/send/${sessionId}`,
+            `${BACKEND_URL}/api/second-brain/chatMessage/send/${sessionId}`,
             { sender: message.sender, content: message.content },
             { headers: { Authorization: `Bearer ${token}` } }
          );
@@ -134,7 +134,7 @@ export function Chat() {
 
       try {
          await sendMessage(userMessage, currentSessionId);
-         const res = await axios.post<axiosResponse>(`${BACKEND_URL}/second-brain/api/chatMessage/chat-query`,
+         const res = await axios.post<axiosResponse>(`${BACKEND_URL}/api/second-brain/chatMessage/chat-query`,
             { query },
             { headers: { Authorization: `Bearer ${token}` } }
          );
@@ -148,7 +148,7 @@ export function Chat() {
          if (isFirstUserMessage && currentSessionId) {
             const newTitle = res.data?.title || "New chat"
 
-            await axios.put<titleUpdateResponse>(`${BACKEND_URL}/second-brain/api/chatSession/update/${currentSessionId}`,
+            await axios.put<titleUpdateResponse>(`${BACKEND_URL}/api/second-brain/chatSession/update/${currentSessionId}`,
                { title: newTitle },
                { headers: { Authorization: `Bearer ${token}` } }
             )
@@ -174,7 +174,7 @@ export function Chat() {
 
       try {
          setMessages([])
-         const response = await axios.get<{ session: SessionResponse }>(`${BACKEND_URL}/second-brain/api/chatSession/${sessionId}`, {
+         const response = await axios.get<{ session: SessionResponse }>(`${BACKEND_URL}/api/second-brain/chatSession/${sessionId}`, {
             headers: { Authorization: `Bearer ${token}` }
          })
          setCurrentSessionId(response.data.session.id)

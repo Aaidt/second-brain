@@ -28,7 +28,7 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
     const handleRequest = async () => {
         setLoading(true)
         try{
-            await axios.post(`${BACKEND_URL}/second-brain/api/content/create`, {
+            await axios.post(`${BACKEND_URL}/api/second-brain/content/create`, {
                 title: titleRef.current?.value,
                 link: linkRef.current?.value,
                 type

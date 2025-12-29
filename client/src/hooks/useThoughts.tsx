@@ -27,7 +27,7 @@ export const useThoughts = () => {
 
     async function reFetch() {
         try {
-            const response = await axios.get<ResponseData>(`${BACKEND_URL}/second-brain/api/thought`, {
+            const response = await axios.get<ResponseData>(`${BACKEND_URL}/api/second-brain/thought`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
 

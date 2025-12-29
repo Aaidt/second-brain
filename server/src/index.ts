@@ -25,12 +25,12 @@ app.use(cors({
 }))
 app.use(cookieParser())
 
-app.use("/second-brain/api/auth", authRouter)
-app.use("/second-brain/api/content", userMiddleware, contentRouter)
-app.use("/second-brain/api/thought", userMiddleware, thoughtRouter)
-app.use("/second-brain/api/link", userMiddleware, linkRouter)
-app.use("/second-brain/api/chatMessage", userMiddleware, chatMessageRouter)
-app.use("/second-brain/api/chatSession", userMiddleware, chatSessionRouter)
+// app.use("/api/second-brain/auth", authRouter)
+app.use("/api/second-brain/content", userMiddleware, contentRouter)
+app.use("/api/second-brain/thought", userMiddleware, thoughtRouter)
+app.use("/api/second-brain/link", userMiddleware, linkRouter)
+app.use("/api/second-brain/chatMessage", userMiddleware, chatMessageRouter)
+app.use("/api/second-brain/chatSession", userMiddleware, chatSessionRouter)
 
 app.get("/healthcheck", (req: Request, res: Response) => {
    res.status(200).json({ message: "The VM is healthy." })
