@@ -48,7 +48,6 @@ export const useThoughts = () => {
     }
 
     useEffect(() => {
-        if(!session) return;
         reFetch();
         const interval = setInterval(reFetch, 10 * 1000);
 

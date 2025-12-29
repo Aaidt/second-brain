@@ -51,7 +51,6 @@ export const useContent = () => {
     }
 
     useEffect(() => {
-        if(!session) return;
 
         refresh()
         const interval = setInterval(refresh, 10*1000)
