@@ -23,18 +23,26 @@ export const useContent = () => {
     const [content, setContent] = useState<Content[]>([]);
     const [session, setSession] = useState<Session | null>(null);
 
-    supabase.auth.getSession().then(({data: {session}}) => {
-        setSession(session);
-    })
-    const token = session?.access_token;
-    if(!token){
-        alert("no token")
-    }
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data }) => {
+          setSession(data.session);
+        });
+    
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+          setSession(session);
+        });
+    
+        return () => subscription.unsubscribe();
+      }, []);
 
     async function refresh() {
+        if(!session?.access_token) return;
+
         try {
             const response = await axios.get<ResponseData>(`${BACKEND_URL}/api/second-brain/content`, {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization: `Bearer ${session?.access_token}` }
             })
             setContent(response.data?.content)
         } catch (err) {
@@ -43,8 +51,9 @@ export const useContent = () => {
     }
 
     useEffect(() => {
+        if(!session) return;
+
         refresh()
-        
         const interval = setInterval(refresh, 10*1000)
 
         return () => clearInterval(interval)

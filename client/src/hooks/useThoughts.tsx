@@ -20,18 +20,25 @@ export const useThoughts = () => {
     const [thoughts, setThoughts] = useState<thoughts[]>([])
     const [session, setSession] = useState<Session | null>(null);
 
-    supabase.auth.getSession().then(({data: {session}}) => {
-        setSession(session);
-    })
-    const token = session?.access_token;
-    if(!token){
-        alert("no token")
-    }
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data }) => {
+          setSession(data.session);
+        });
+    
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+          setSession(session);
+        });
+    
+        return () => subscription.unsubscribe();
+      }, []);
 
     async function reFetch() {
+        if(!session?.access_token) return;
         try {
             const response = await axios.get<ResponseData>(`${BACKEND_URL}/api/second-brain/thought`, {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization: `Bearer ${session?.access_token}` }
             })
 
             setThoughts(response.data?.thoughts);
@@ -41,6 +48,7 @@ export const useThoughts = () => {
     }
 
     useEffect(() => {
+        if(!session) return;
         reFetch();
         const interval = setInterval(reFetch, 10 * 1000);
 

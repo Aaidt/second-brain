@@ -1,4 +1,4 @@
-import { useState, useRef, Dispatch, SetStateAction } from "react";
+import { useState, useRef, Dispatch, useEffect, SetStateAction } from "react";
 import { Button } from "./NativeButton"
 import { DropDownMenu } from "./native-dropdown-menu"
 import { toast } from "react-toastify"
@@ -20,19 +20,30 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
     const linkRef = useRef<HTMLInputElement>(null)
     const type = selectedVal
 
-    supabase.auth.getSession().then(({data: {session}}) => {
-        setSession(session);
-    })
-    const token = session?.access_token;
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data }) => {
+          setSession(data.session);
+        });
+    
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+          setSession(session);
+        });
+    
+        return () => subscription.unsubscribe();
+      }, []);
 
     const handleRequest = async () => {
         setLoading(true)
+        if(!session?.access_token) return;
+
         try{
             await axios.post(`${BACKEND_URL}/api/second-brain/content/create`, {
                 title: titleRef.current?.value,
                 link: linkRef.current?.value,
                 type
-            }, { headers: { Authorization: `Bearer ${token}` } })
+            }, { headers: { Authorization: `Bearer ${session?.access_token}` } })
             toast.success("Content added sucessfully!!!");
         }catch(err){
             console.error(err);

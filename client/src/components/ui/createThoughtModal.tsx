@@ -19,10 +19,19 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
 
-    supabase.auth.getSession().then(({data: {session}}) => {
-        setSession(session);
-    })
-    const token = session?.access_token;
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data }) => {
+          setSession(data.session);
+        });
+    
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+          setSession(session);
+        });
+    
+        return () => subscription.unsubscribe();
+      }, []);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -33,11 +42,12 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
 
     async function handleRequest() {
         setLoading(true)
+        if(!session?.access_token) return;
         try {
             await axios.post(`${BACKEND_URL}/api/second-brain/thought/create`, {
                 title: titleRef.current?.value,
                 thoughts: textareaRef.current?.value
-            }, { headers: { Authorization: `Bearer ${token}` } })
+            }, { headers: { Authorization: `Bearer ${session?.access_token}` } })
 
             setValue("");
 

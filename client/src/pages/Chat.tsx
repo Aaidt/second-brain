@@ -47,10 +47,19 @@ export function Chat() {
    const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
    const [session, setSession] = useState<Session | null>(null);
 
-   supabase.auth.getSession().then(({data: {session}}) => {
-      setSession(session);
-   })
-   const token = session?.access_token;
+   useEffect(() => {
+      supabase.auth.getSession().then(({ data }) => {
+        setSession(data.session);
+      });
+  
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((_event, session) => {
+        setSession(session);
+      });
+  
+      return () => subscription.unsubscribe();
+    }, []);
 
    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -66,10 +75,11 @@ export function Chat() {
 
    async function init() {
       toast.info("Fetching sessions...")
+      if(!session?.access_token) return 
       try {
          const fetchedSessions = await axios.get<{ sessions: SessionResponse[] }>(
             `${BACKEND_URL}/api/second-brain/chatSession/`,
-            { headers: { Authorization: `Bearer ${token}` } }
+            { headers: { Authorization: `Bearer ${session?.access_token}` } }
          );
          setSessions(fetchedSessions.data.sessions || []);
       } catch (err) {
@@ -85,10 +95,11 @@ export function Chat() {
 
 
    async function handleNewChat() {
+      if(!session?.access_token) return 
       try {
          const response = await axios.post<{ session: SessionResponse }>(`${BACKEND_URL}/api/second-brain/chatSession/create`,
             { title: `New chat ${(Math.random()).toString().slice(0, 8)}` },
-            { headers: { Authorization: `Bearer ${token}` } }
+            { headers: { Authorization: `Bearer ${session.access_token}` } }
          );
 
          const newSession = response.data?.session
@@ -105,13 +116,14 @@ export function Chat() {
    }
 
    async function sendMessage(message: Message, sessionId: string | null) {
+      if(!session?.access_token) return 
       if (!sessionId) return
 
       try {
          await axios.post(
             `${BACKEND_URL}/api/second-brain/chatMessage/send/${sessionId}`,
             { sender: message.sender, content: message.content },
-            { headers: { Authorization: `Bearer ${token}` } }
+            { headers: { Authorization: `Bearer ${session?.access_token}` } }
          );
       } catch (err) {
          console.error('Error sending queries:', err);
@@ -120,6 +132,7 @@ export function Chat() {
    }
 
    async function handleChatQuery() {
+      if(!session?.access_token) return 
       if (!query.trim()) return;
       if (!currentSessionId) {
          toast.error("Start a session before sending a message.");
@@ -136,7 +149,7 @@ export function Chat() {
          await sendMessage(userMessage, currentSessionId);
          const res = await axios.post<axiosResponse>(`${BACKEND_URL}/api/second-brain/chatMessage/chat-query`,
             { query },
-            { headers: { Authorization: `Bearer ${token}` } }
+            { headers: { Authorization: `Bearer ${session.access_token}` } }
          );
 
          const aiResponse = res.data?.answers || 'No answer';
@@ -150,7 +163,7 @@ export function Chat() {
 
             await axios.put<titleUpdateResponse>(`${BACKEND_URL}/api/second-brain/chatSession/update/${currentSessionId}`,
                { title: newTitle },
-               { headers: { Authorization: `Bearer ${token}` } }
+               { headers: { Authorization: `Bearer ${session.access_token}` } }
             )
 
             setSessions((prevSessions) =>
@@ -171,11 +184,11 @@ export function Chat() {
    }
 
    async function fetchSession(sessionId: string) {
-
+      if(!session?.access_token) return 
       try {
          setMessages([])
          const response = await axios.get<{ session: SessionResponse }>(`${BACKEND_URL}/api/second-brain/chatSession/${sessionId}`, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${session?.access_token}` }
          })
          setCurrentSessionId(response.data.session.id)
          setMessages(response.data?.session.message)

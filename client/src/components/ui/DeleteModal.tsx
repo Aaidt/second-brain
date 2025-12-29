@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { useContent } from "../../hooks/useContent"
 import { toast } from 'react-toastify'
 import { useThoughts } from "../../hooks/useThoughts"
@@ -17,17 +17,27 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
     const { reFetch } = useThoughts();
     const [session, setSession] = useState<Session | null>(null);
 
-    supabase.auth.getSession().then(({data: {session}}) => {
-      setSession(session);
-    })
-    const token = session?.access_token;
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data }) => {
+          setSession(data.session);
+        });
+    
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+          setSession(session);
+        });
+    
+        return () => subscription.unsubscribe();
+      }, []);
 
     async function deletePost() {
+        if(!session?.access_token) return 
         try {
             if (contentId) {
                 try{
                     await axios.delete(`${BACKEND_URL}/api/second-brain/content/deleteOne/${contentId}`,{
-                            headers: { Authorization: `Bearer ${token}` }
+                            headers: { Authorization: `Bearer ${session?.access_token}` }
                         }
                     )
                     refresh()
@@ -42,7 +52,7 @@ export function DeleteModal({ open, setOpen, contentId, ThoughtId }: {
                 try{
                     await axios.delete(`${BACKEND_URL}/api/second-brain/thought/delete/${ThoughtId}`, {
                         headers: {
-                             Authorization: `Bearer ${token}` 
+                             Authorization: `Bearer ${session?.access_token}` 
                             }})
                     reFetch()
                     toast.success("Thought has been deleted successfully!!!")

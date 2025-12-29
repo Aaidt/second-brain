@@ -44,18 +44,28 @@ export function SharedBrainPage() {
     const [thoughts, setThoughts] = useState<thoughts[]>([]);
     const [session, setSession] = useState<Session | null>(null)
 
-    supabase.auth.getSession().then(({data: {session}}) => {
-        setSession(session);
-    });
-    const token = session?.access_token;
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data }) => {
+          setSession(data.session);
+        });
+    
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+          setSession(session);
+        });
+    
+        return () => subscription.unsubscribe();
+      }, []);
 
     useEffect(() => {
         async function fetch() {
+            if(!session?.access_token) return 
             try {
                 const res = await axios.post<axiosResponse>(
                     `${BACKEND_URL}/api/second-brain/link/share/${shareLink}`,
                     {
-                        headers: { Authorization: `Bearer ${token}` },
+                        headers: { Authorization: `Bearer ${session?.access_token}` },
                         withCredentials: true
                     }
                 );
@@ -67,8 +77,8 @@ export function SharedBrainPage() {
                 console.error(err);
             }
         }
-        if (shareLink && token) fetch();
-    }, [shareLink, token]);
+        if (shareLink && session?.access_token) fetch();
+    }, [shareLink, session?.access_token]);
 
     const { sidebarClose } = useSideBar();
 

@@ -26,10 +26,19 @@ export function Dashboard() {
 
     const [session, setSession] = useState<Session | null>(null);
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-        setSession(session);
-     });
-    const token = session?.access_token; 
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data }) => {
+          setSession(data.session);
+        });
+    
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+          setSession(session);
+        });
+    
+        return () => subscription.unsubscribe();
+      }, []);
     if(!session){
         alert("User is not logged in!!!");
         navigate("/login");
@@ -87,10 +96,11 @@ export function Dashboard() {
 
 
     async function handleShare() {
+        if(!session?.access_token) return 
         setShare(!share)
         try {
             const response = await axios.post<ResponseData>(`${BACKEND_URL}/api/second-brain/link/share`, { share },
-                { headers: { Authorization: `Bearer ${token}` } });
+                { headers: { Authorization: `Bearer ${session.access_token}` } });
 
             if (!response) {
                 toast.error('Issue with the Backend response')

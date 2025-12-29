@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Button } from "../components/ui/NativeButton";
@@ -16,13 +16,22 @@ export function QueryThoughts() {
   const [results, setResults] = useState<QueryResponse["results"]>([]);
   const [session, setSession] = useState<Session | null>(null);
 
-  supabase.auth.getSession().then(({data: {session}}) => {
-    setSession(session);
-  });
-  const token = session?.access_token;
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   async function handleSearch() {
-
+    if(!session?.access_token) return 
     if (!query.trim()) {
       toast.error("Query cannot be empty");
       return;
@@ -32,7 +41,7 @@ export function QueryThoughts() {
       const response = await axios.post<QueryResponse>(`${BACKEND_URL}/api/second-brain/chatMessage/query`, { query },
         {
           headers: { 
-            Authorization: `Bearer ${token}` 
+            Authorization: `Bearer ${session?.access_token}` 
           }
         });
       if (!response) {
