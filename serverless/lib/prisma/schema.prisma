@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+   provider = "prisma-client"
+   output   = "../generated/prisma"
+}
+
+datasource db {
+   provider = "postgresql"
+}
+
+model User {
+   id         String        @id @default(uuid())
+   name       String
+   username   String        @unique
+   password   String
+   photo      String?
+   created_at DateTime      @default(now())
+   Session    ChatSession[]
+   Content    Content[]
+   Link       Link?
+   Thought    Thought[]
+}
+
+model Link {
+   id         Int      @id @default(autoincrement())
+   hash       String   @unique
+   created_at DateTime @default(now())
+   userId     String   @unique
+   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Content {
+   id         String   @id @default(uuid())
+   title      String
+   link       String
+   type       String
+   created_at DateTime @default(now())
+   userId     String
+   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Thought {
+   id         String   @id @default(uuid())
+   title      String
+   body       String
+   created_at DateTime @default(now())
+   userId     String
+   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ChatSession {
+   id         String        @id @default(uuid())
+   title      String        @unique
+   userId     String
+   created_at DateTime      @default(now())
+   message    ChatMessage[]
+   user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ChatMessage {
+   id         Int         @id @default(autoincrement())
+   content    String
+   sessionId  String
+   created_at DateTime    @default(now())
+   sender     Sender
+   session    ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+enum Sender {
+   ai
+   user
+}

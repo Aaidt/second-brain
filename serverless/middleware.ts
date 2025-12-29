@@ -7,21 +7,21 @@ export default async function middleware(req: NextRequest) {
 
     if(!authHeader?.startsWith("Bearer ")){
         return NextResponse.json({
-            error: "Not authorized"
+            message: "Not authorized"
         }, { status: 401 })
     }
     const token = authHeader?.split(" ")[1];
 
     if(!token){
         return NextResponse.json({
-            error: "No token present."
+            message: "No token present."
         })
     }
     const { data, error } = await supabaseServer.auth.getUser(token); 
 
     if(error || !data.user) {
         return NextResponse.json({
-            error: "Invalid token"
+            message: "Invalid token"
         }, { status: 401 })
     }
 
