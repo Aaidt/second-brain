@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "dev": "npm run db:generate && dev",
+    "build": "npm run db:generate && next build",
+    "start": "npm run db:generate && next start",
+    "db:generate": "cd lib/prisma && npx prisma generate"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
