@@ -35,8 +35,7 @@ export const useThoughts = () => {
       }, []);
 
     async function reFetch() {
-        console.log("access_token", session?.access_token)
-        if(!session?.access_token) return;
+        if(!session?.access_token) return console.log("no access token: ", session?.access_token);
         try {
             const response = await axios.get<ResponseData>(`${BACKEND_URL}/api/second-brain/thought`, {
                 headers: { Authorization: `Bearer ${session?.access_token}` }

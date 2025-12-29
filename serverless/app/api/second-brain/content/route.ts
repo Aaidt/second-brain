@@ -11,7 +11,7 @@ export async function GET(req: Request){
     try {
         const content = await prismaClient.content.findMany({ where: { userId } })
 
-        return NextResponse.json({content }, { 
+        return NextResponse.json({ content }, { 
             status: 200
         })
     } catch (err) {

@@ -37,9 +37,8 @@ export const useContent = () => {
         return () => subscription.unsubscribe();
       }, []);
       
-      console.log("access_token", session?.access_token)
     async function refresh() {
-        if(!session?.access_token) return;
+        if(!session?.access_token) return console.log("no access token");
 
         try {
             const response = await axios.get<ResponseData>(`${BACKEND_URL}/api/second-brain/content`, {
