@@ -135,7 +135,7 @@ export function LandingPage() {
             </nav>
             {session ? (
               <button
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/login")}
                 className="h-10 w-10 rounded-full border border-white/10 bg-neutral-900 text-teal-400 font-bold flex items-center justify-center hover:bg-neutral-800 transition-colors"
               >
                 {session.user?.email?.[0]?.toUpperCase()}
