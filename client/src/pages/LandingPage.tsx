@@ -90,7 +90,7 @@ import {
                <a href="#faq" className="hover:text-teal-400 transition-colors">FAQ</a>
              </nav>
              {session ? (
-               <button onClick={() => navigate("/dashboard")} className="h-10 w-10 rounded-full bg-teal-500 text-black font-bold flex items-center justify-center shadow-lg shadow-teal-500/20">
+               <button onClick={() => navigate("/login")} className="h-10 w-10 rounded-full bg-teal-500 text-black font-bold flex items-center justify-center shadow-lg shadow-teal-500/20">
                  {session.user?.email?.[0]?.toUpperCase()}
                </button>
              ) : (
