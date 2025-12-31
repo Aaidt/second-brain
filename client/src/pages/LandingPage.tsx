@@ -185,18 +185,18 @@ export function LandingPage() {
                      {session ? (
                         <button
                            onClick={() => navigate("/dashboard")}
-                           className="h-10 w-10 rounded-full border border-white/10 bg-neutral-900 text-teal-400 font-bold flex items-center justify-center hover:bg-neutral-800 transition-colors"
+                           className="group flex items-center gap-3 px-6 py-3.5 rounded-xl border border-white/10 bg-neutral-900 text-white font-black text-[11px] tracking-[0.15em] hover:bg-neutral-800 hover:border-teal-500/50 transition-all active:scale-95"
                         >
                            Go to dashboard
-                           <ArrowRight className="h-4 w-4 ml-2" />
+                           <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                         </button>
                      ) : (
                         <button
                            onClick={() => navigate("/login")}
-                           className="flex items-center px-6 py-3 rounded-full bg-white text-black text-xs font-bold hover:bg-teal-400 transition-all"
+                           className="group flex items-center gap-3 px-6 py-3.5 rounded-xl bg-white text-black font-black text-[11px] tracking-[0.15em] hover:bg-teal-400 transition-all shadow-xl shadow-teal-500/5 active:scale-95"
                         >
                            INITIALIZE BRAIN
-                           <ArrowRight className="h-4 w-4 ml-2" />
+                           <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                         </button>
                      )}
                   </motion.div>

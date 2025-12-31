@@ -46,7 +46,7 @@ export const useContent = () => {
          console.log("no access token");
          return;
       }
-
+      console.log(session)
       try {
          const response = await axios.get<ResponseData>(`${BACKEND_URL}/api/second-brain/content`, {
             headers: { Authorization: `Bearer ${session.access_token}` }
@@ -65,7 +65,7 @@ export const useContent = () => {
       const interval = setInterval(refresh, 10 * 1000)
 
       return () => clearInterval(interval)
-   }, [session])
+   }, [])
 
    return { content, refresh }
 }
