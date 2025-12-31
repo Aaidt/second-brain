@@ -132,7 +132,7 @@ export default function Auth() {
                 <div className="w-full border-t border-white/10"></div>
               </div>
               <div className="relative flex justify-center text-[10px] uppercase tracking-widest font-black">
-                <span className="bg-[#0b0b0b] px-4 text-white/20">Or continue with</span>
+                {/* <span className="bg-white/0 px-4 text-white/20">Or continue with</span> */}
               </div>
             </div>
 
