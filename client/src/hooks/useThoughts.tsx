@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios"
 import { supabase } from "@/lib/supabase";
 import { Session } from "@supabase/supabase-js";
@@ -20,29 +20,21 @@ export const useThoughts = () => {
     const [thoughts, setThoughts] = useState<thoughts[]>([])
     const [session, setSession] = useState<Session | null>(null);
 
-    // useEffect(() => {
-    //     supabase.auth.getSession().then(({ data }) => {
-    //       setSession(data.session);
-    //     });
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data }) => {
+          setSession(data.session);
+        });
     
-    //     const {
-    //       data: { subscription },
-    //     } = supabase.auth.onAuthStateChange((_event, session) => {
-    //       setSession(session);
-    //     });
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+          setSession(session);
+        });
     
-    //     return () => subscription.unsubscribe();
-    //   }, []);
+        return () => subscription.unsubscribe();
+      }, []);
 
-    async function reFetch() {
-        const { data: { session } } = await supabase.auth.getSession();
-        setSession(session);
-
-        if (!session?.access_token) {
-            console.log("no access token");
-            return;
-        }
-        console.log(session)
+    const reFetch = useCallback(async () => {
         try {
             const response = await axios.get<ResponseData>(`${BACKEND_URL}/api/second-brain/thought`, {
                 headers: { Authorization: `Bearer ${session?.access_token}` }
@@ -52,16 +44,11 @@ export const useThoughts = () => {
         } catch (err) {
             console.log(err);
         }
-    }
+    }, [session?.access_token, BACKEND_URL])
 
     useEffect(() => {
-         // Only start refreshing when we have a session
-        if (!session?.access_token) return;
         reFetch();
-        const interval = setInterval(reFetch, 10 * 1000);
-
-        return () => clearInterval(interval);
-    }, [])
+    }, [reFetch])
 
     return { thoughts, reFetch }
 }
