@@ -71,16 +71,24 @@ export function LandingPage() {
 
   const faqs = [
     {
-      q: "What makes this different from a notes app?",
-      a: "Most apps are folders; SecondBrain is a network. We use semantic analysis to find connections between your ideas that you might have forgotten.",
+      q: "How does SecondBrain work?",
+      a: "SecondBrain helps you capture, organize, and connect your thoughts. Simply add your ideas, and our AI-powered system automatically links related concepts and helps you discover patterns in your thinking.",
     },
     {
-      q: "Is my thinking really private?",
-      a: "We use zero-knowledge encryption for Pro users. Your neural network is yours alone—we cannot see your notes, and we don't train public models on them.",
+      q: "Is my data secure?",
+      a: "Yes, your data is encrypted and stored securely. We take privacy seriously and never share your personal information with third parties.",
     },
     {
-      q: "Can I use it offline?",
-      a: "Yes. The Architect and Studio plans include a robust local-first engine that syncs whenever you're back online.",
+      q: "Can I cancel my subscription anytime?",
+      a: "Yes, you can cancel your subscription at any time. Your data will remain accessible, and you can export it whenever you need.",
+    },
+    {
+      q: "Do you offer a free trial?",
+      a: "Yes, all paid plans include a 14-day free trial. No credit card required to get started.",
+    },
+    {
+      q: "What happens if I exceed my plan limits?",
+      a: "We'll notify you before you reach your limits. You can upgrade your plan at any time to continue using SecondBrain without interruption.",
     },
   ];
 
@@ -354,12 +362,12 @@ export function LandingPage() {
         </section>
 
         {/* FAQ SECTION */}
-        <section id="faq" className="max-w-2xl mx-auto px-6 py-40">
+        <section id="faq" className="max-w-2xl mx-auto px-6 py-28">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold tracking-tighter uppercase">
+            <h2 className="text-5xl md:text-6xl font-bold text-white uppercase mb-4 tracking-tighter">
               FAQ
             </h2>
-            <div className="w-10 h-[1px] bg-teal-500 mx-auto mt-4" />
+            <div className="w-10 h-[4px] bg-teal-500 mx-auto mt-4" />
           </div>
           <div className="space-y-2">
             {faqs.map((faq, i) => (
