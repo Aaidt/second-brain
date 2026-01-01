@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Brain, ArrowRight, Mail, Lock, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+// import { Session } from "@supabase/supabase-js";
+// import axios from "axios";
 
 export default function Auth() {
    const navigate = useNavigate();
@@ -11,6 +13,23 @@ export default function Auth() {
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
    const [error, setError] = useState<string | null>(null);
+   // const [session, setSession] = useState<Session | null>(null);
+
+   //  useEffect(() => {
+   //      supabase.auth.getSession().then(({ data }) => {
+   //        setSession(data.session);
+   //      });
+    
+   //      const {
+   //        data: { subscription },
+   //      } = supabase.auth.onAuthStateChange((_event, session) => {
+   //        setSession(session);
+   //      });
+    
+   //      return () => subscription.unsubscribe();
+   //    }, []);
+      
+   // const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
    const handleAuth = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -22,6 +41,10 @@ export default function Auth() {
             ? await supabase.auth.signInWithPassword({ email, password })
             : await supabase.auth.signUp({ email, password });
 
+         // const user_data = await axios.post(`${BACKEND_URL}/api/second-brain/auth/sync-user`, {
+         //    headers: { Authorization: `Bearer ${session?.access_token}`}
+         // });
+         // console.log("user data: ", user_data);
          if (error) throw error;
          navigate("/dashboard");
       } catch (err) {
@@ -55,7 +78,7 @@ export default function Auth() {
             <motion.div
                initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
-               className="w-full max-w-md"
+               className="w-full m  -w-md"
             >
                {/* Card Wrapper */}
                <div className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-[32px] p-8 md:p-10 shadow-2xl">
@@ -140,6 +163,7 @@ export default function Auth() {
                      onClick={async () => {
                         setLoading(true);
                         try {
+                           
                            const { error } = await supabase.auth.signInWithOAuth({
                               provider: 'google',
                               options: {

@@ -22,6 +22,11 @@ export async function POST(req: Request){
 
    let saved;
    try {
+      const user = await prismaClient.user.findUnique({where: { id: userId } })
+      if(!user){
+         console.log("Theres no user with that id");
+         return NextResponse.json({ message: "Invalid user" }, { status: 401 });
+      }
       saved = await prismaClient.thought.create({
          data: {
             title: title,
@@ -32,6 +37,7 @@ export async function POST(req: Request){
             created_at: new Date()
          }
       });
+      console.log(saved);
 
       const vector = await getMistralEmbeddings(fullText)
       console.log("length: " + vector?.length)

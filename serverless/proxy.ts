@@ -48,7 +48,7 @@ export default async function proxy(req: Request) {
          message: "Invalid token"
       }, { status: 401 })
    }
-
+   
    const res = NextResponse.next();
    if (origin) {
       res.headers.set("Access-Control-Allow-Origin", origin);

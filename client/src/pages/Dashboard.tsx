@@ -39,6 +39,24 @@ export function Dashboard() {
     
         return () => subscription.unsubscribe();
       }, []);
+
+    useEffect(() => {
+        async function syncUser() {
+            if (session?.access_token) {
+                try {
+                    await axios.post(`${BACKEND_URL}/api/second-brain/auth/sync-user`, {}, {
+                        headers: {
+                            Authorization: `Bearer ${session.access_token}`
+                        }
+                    });
+                } catch (error) {
+                    console.error("Failed to sync user:", error);
+                }
+            }
+        }
+        syncUser();
+    }, [session, BACKEND_URL]);
+
     // if(!session){
     //     alert("User is not logged in!!!");
     //     navigate("/login");
