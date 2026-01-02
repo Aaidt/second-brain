@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
 
-export async function GET(req: Request, { params } : {
+export async function DELETE(req: Request, { params } : {
     params: Promise<{ sessionId: string }>
 }){
     const userId = req.headers.get("x-user-id");
