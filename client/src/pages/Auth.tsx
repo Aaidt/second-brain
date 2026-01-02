@@ -78,7 +78,7 @@ export default function Auth() {
             <motion.div
                initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
-               className="w-full m  -w-md"
+               className="w-full max-w-md"
             >
                {/* Card Wrapper */}
                <div className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-[32px] p-8 md:p-10 shadow-2xl">
