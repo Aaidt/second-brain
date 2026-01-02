@@ -33,7 +33,7 @@ const colorStyles = {
    "pale": "bg-[#DDA853]/0 hover:underline-offset-6 hover:underline transition-all duration-200",
    "purple": "bg-purple-700 hover:bg-purple-600 text-white transition-all duration-200",
    "pink": "bg-[#7743DB] hover:bg-[#7743DB]/80 transition-all duration-200 text-white",
-   "defaultTheme": "bg-black/95 text-white hover:bg-black/80 transition-all duration-200",
+   "defaultTheme": "bg-foreground/95 text-background hover:bg-foreground/80 transition-all duration-200",
    "defaultText": "bg-white text-black hover:underline-offset-6 hover:underline transition-all duration-200"
 }
 
