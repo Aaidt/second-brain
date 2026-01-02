@@ -12,16 +12,16 @@ import { CreateThoughtModal } from "../components/ui/createThoughtModal"
 import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from '../components/ui/ThoughtCards';
 import { motion } from 'framer-motion'
-import { toast } from "react-toastify"
+// import { toast } from "react-toastify"
 import { supabase } from "@/lib/supabase"
 import { ModeToggle } from "@/components/ui/mode-toggle";
-import { Plus, Share, BookOpen } from "lucide-react"
+import { Plus, BookOpen } from "lucide-react"
 import { Session } from "@supabase/supabase-js";
 // import { useNavigate } from "react-router-dom";
 
 export function Dashboard() {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-    const CLIENT_URL = import.meta.env.VITE_CLIENT_URL;
+    // const CLIENT_URL = import.meta.env.VITE_CLIENT_URL;
     // const navigate = useNavigate();
 
     const [session, setSession] = useState<Session | null>(null);
@@ -66,7 +66,7 @@ export function Dashboard() {
 
     const [contentModalOpen, setContentModalOpen] = useState(false);
     const [thoughtModalOpen, setThoughtModalOpen] = useState(false);
-    const [share, setShare] = useState(true)
+    // const [share, setShare] = useState(true)
 
     const { content, refresh } = useContent()
     const { thoughts, reFetch } = useThoughts()
@@ -100,17 +100,17 @@ export function Dashboard() {
         created_at: Date
     }
 
-    interface ResponseData {
-        link: string
-    }
+    // interface ResponseData {
+    //     link: string
+    // }
 
-    function alertUser(share: boolean, responseData: ResponseData) {
-        if (share) {
-            toast.success("Share this link to give access to others:⚡" + `${CLIENT_URL}${'/share/'}${responseData?.link}`)
-        } else {
-            toast.error("You have tuned OFF sharing now. Click the button again to turn it ON")
-        }
-    }
+    // function alertUser(share: boolean, responseData: ResponseData) {
+    //     if (share) {
+    //         toast.success("Share this link to give access to others:⚡" + `${CLIENT_URL}${'/share/'}${responseData?.link}`)
+    //     } else {
+    //         toast.error("You have tuned OFF sharing now. Click the button again to turn it ON")
+    //     }
+    // }
 
 
     // async function handleShare() {
@@ -205,7 +205,7 @@ export function Dashboard() {
                                         link={item.link}
                                         id={item.id}
                                         type={item.type}
-                                        share={share}
+                                        // share={share}
                                         isSharedPage={false}
                                         created_at={item.created_at} />
                                 }
@@ -215,7 +215,7 @@ export function Dashboard() {
                                         title={item.title}
                                         body={item.body}
                                         created_at={item.created_at}
-                                        share={share}
+                                        // share={share}
                                         isSharedPage={false} />
                                 }
 
