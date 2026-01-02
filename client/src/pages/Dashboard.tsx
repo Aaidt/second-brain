@@ -113,23 +113,23 @@ export function Dashboard() {
     }
 
 
-    async function handleShare() {
-        if(!session?.access_token) return console.log("no access token: ", session?.access_token);
-        setShare(!share)
-        try {
-            const response = await axios.post<ResponseData>(`${BACKEND_URL}/api/second-brain/link/share`, { share },
-                { headers: { Authorization: `Bearer ${session.access_token}` } });
+    // async function handleShare() {
+    //     if(!session?.access_token) return console.log("no access token: ", session?.access_token);
+    //     setShare(!share)
+    //     try {
+    //         const response = await axios.post<ResponseData>(`${BACKEND_URL}/api/second-brain/link/share`, { share },
+    //             { headers: { Authorization: `Bearer ${session.access_token}` } });
 
-            if (!response) {
-                toast.error('Issue with the Backend response')
-            }
+    //         if (!response) {
+    //             toast.error('Issue with the Backend response')
+    //         }
 
-            alertUser(share, response.data)
-        }
-        catch (err) {
-            toast.error('err:' + err);
-        }
-    }
+    //         alertUser(share, response.data)
+    //     }
+    //     catch (err) {
+    //         toast.error('err:' + err);
+    //     }
+    // }
 
     const { sidebarClose } = useSideBar();
 
@@ -244,14 +244,14 @@ export function Dashboard() {
                             onClick={() => setContentModalOpen(true)}
                         />
                     </div>
-                    <div className="text-md">
+                    {/* <div className="text-md">
                         <Button
                             hover={true}
                             size="sm" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="defaultTheme"
                             fullWidth={false} shadow={false} startIcon={<Share size="18" className="mr-1" strokeWidth="1.5" />}
                             onClick={handleShare}
                         />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div >
