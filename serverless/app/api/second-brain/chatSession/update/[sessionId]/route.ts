@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
 
-export async function GET(req: Request, { params } : {
+export async function PUT(req: Request, { params } : {
     params: Promise<{ sessionId: string }>
 }){
     const { sessionId } = await params;
