@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { MoveUp, ChevronDown, Brain, Trash2, SquarePen, RefreshCcw } from 'lucide-react';
 import { toast } from 'react-toastify';
@@ -73,12 +73,12 @@ export function Chat() {
       toast.warn("Click on NEW CHAT to create a session before chatting!!!!!")
    }, [])
 
-   async function init() {
-      toast.info("Fetching sessions...")
-      if(!session?.access_token) return 
+   const init = useCallback(async () => {
+      toast.info("Fetching sessions..." )
+      if(session?.access_token) {
       try {
          const fetchedSessions = await axios.get<{ sessions: SessionResponse[] }>(
-            `${BACKEND_URL}/api/second-brain/chatSession/`,
+            `${BACKEND_URL}/api/second-brain/chatSession`,
             { headers: { Authorization: `Bearer ${session?.access_token}` } }
          );
          setSessions(fetchedSessions.data.sessions || []);
@@ -88,10 +88,11 @@ export function Chat() {
          setSessions([]);
       }
    }
+   }, [session?.access_token]);
 
    useEffect(() => {
       init()
-   }, []);
+   }, [init]);
 
 
    async function handleNewChat() {

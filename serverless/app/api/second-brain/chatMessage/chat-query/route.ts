@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { qdrantClient } from "@/lib/qdrantClient";
 import { getMistralEmbeddings } from "@/lib/mistralClient";
-import { genAI } from "@/lib/geminiClient";
+// import { genAI } from "@/lib/geminiClient";
+import axios from "axios";
+// import { headers } from "next/headers";
+
+interface chatQueryResponse {
+  choices: { message: { content: string } }[]
+}
 
 export async function POST(req: Request) {
   const userId = req.headers.get("x-user-id");
@@ -14,6 +20,8 @@ export async function POST(req: Request) {
       { status: 401 }
     );
   }
+
+  const openRouterApiKey = process.env.OPENROUTER_API_KEY;
 
   if (!query || typeof query !== "string" || !query.trim()) {
     return NextResponse.json(
@@ -45,7 +53,7 @@ export async function POST(req: Request) {
          }, { status: 403 });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-001" });
     const prompt =
       `You are a helpful assistant. The user has saved some personal notes. Use the following thoughts
           to answer their question.
@@ -55,16 +63,26 @@ export async function POST(req: Request) {
           If the queries are not relevant, answer on your own.
           `.trim();
 
-    const response = await model.generateContent(prompt);
-    const text = response.response.text();
+    // const response = await model.generateContent(prompt);
+    const response = await axios.post<chatQueryResponse>("https://openrouter.ai/api/v1/chat/completions", {
+      model: "openrouter/auto",
+      messages: [{ role: "user", content: prompt }],
+    }, {
+      headers: {
+        Authorization: 'Bearer ' + openRouterApiKey,
+        'HTTP-Referer': 'https://second-brainfe.vercel.app', 
+        'X-Title': 'Second Brain', 
+      }
+    });
+    const text = response.data?.choices[0].message.content;
 
     return NextResponse.json({
       answers: text,
       references: result.map((r) => r.payload),
       title: query.length > 30 ? query.slice(0, 30) + "..." : query,
     }, { status: 200 });
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ message: "Error generating answer" }, { status: 500 });
+  } catch (err: any) {
+    console.error("Error generating answer:", err?.response?.data || err.message);
+    return NextResponse.json({ message: "Error generating answer", error: err?.response?.data || err.message }, { status: 500 });
   }
 }

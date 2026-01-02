@@ -16,6 +16,8 @@
     "@qdrant/js-client-rest": "^1.16.2",
     "@supabase/auth-helpers-nextjs": "^0.15.0",
     "@supabase/supabase-js": "^2.89.0",
+    "@types/axios": "^0.9.36",
+    "axios": "^1.13.2",
     "dotenv": "^17.2.3",
     "next": "16.1.1",
     "next-auth": "^4.24.13",
