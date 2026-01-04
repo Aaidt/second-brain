@@ -93,7 +93,7 @@ export function LandingPage() {
    ];
 
    return (
-      <div className="min-h-screen bg-[#050505] text-[#E5E5E5] selection:bg-teal-500/30 selection:text-teal-200 font-sans antialiased">
+      <div className="min-h-screen bg-[#050505] text-[#E5E5E5] selection:bg-teal-500/30 selection:text-teal-200 font-sans antialiased overflow-x-hidden">
          {/* NOISE GRAIN OVERLAY - Makes it look more 'physical' and professional */}
          <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-[9999] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
 
@@ -154,72 +154,104 @@ export function LandingPage() {
 
          <main>
             {/* HERO SECTION */}
-            <section className="relative max-w-7xl mx-auto px-6 pt-24 pb-40">
-               <div className="grid lg:grid-cols-12 gap-12 items-center">
+            <section className="relative max-w-7xl mx-auto px-6 pt-32 pb-40 bg-dot-grid-white">
+               {/* Sketchy decorative elements */}
+               <div className="absolute top-20 left-10 w-24 h-24 border-2 border-teal-500/20 rounded-full blur-xl animate-pulse" />
+               <div className="absolute top-40 right-20 w-32 h-32 border-2 border-purple-500/20 rounded-full blur-xl animate-pulse delay-700" />
+               
+               <div className="grid lg:grid-cols-12 gap-16 items-center">
                   {/* LEFT COLUMN: TEXT & CTA */}
                   <motion.div
-                     className="lg:col-span-7"
+                     className="lg:col-span-7 relative z-10"
                      initial={{ opacity: 0, x: -30 }}
                      animate={{ opacity: 1, x: 0 }}
                      transition={{ duration: 0.8, ease: "easeOut" }}
                   >
-                     <div className="inline-flex items-center gap-2 px-3 py-1 mb-8 text-[10px] font-black rounded-full border border-teal-500/20 bg-teal-500/5 text-teal-400 tracking-[0.2em] uppercase">
-                        <Zap className="h-3 w-3 fill-teal-400" /> Neural Knowledge
-                        System
+                     <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 text-sm transform -rotate-2 font-kalam font-bold text-teal-300 border-2 border-teal-500/30 rounded-[255px_15px_225px_15px/15px_225px_15px_255px] hover:scale-105 transition-transform cursor-default">
+                        <Zap className="h-4 w-4 fill-teal-300" />
+                        <span>Generic memory is out. Context is in.</span>
                      </div>
 
-                     <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-[0.85] mb-8">
+                     <h1 className="text-7xl md:text-9xl font-black tracking-tighter leading-[0.9] mb-8 text-white">
                         Your mind, <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-teal-100 italic font-serif">
-                           augmented.
+                        <span className="relative inline-block">
+                           <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-teal-200 font-kalam italic transform -rotate-3 inline-block">
+                              unleashed.
+                           </span>
+                           {/* Highlight effect */}
+                           <span className="absolute -bottom-2 left-0 right-0 h-4 bg-teal-500/20 -rotate-2 rounded-full blur-sm" />
                         </span>
                      </h1>
 
-                     <p className="text-lg text-white/40 max-w-md leading-relaxed font-medium mb-10">
-                        The semantic interface for professional thinkers. Capture
-                        context, visualize connections, and offload your memory to a
-                        digital nervous system.
+                     <p className="text-xl text-neutral-400 max-w-lg leading-relaxed font-medium mb-10 font-kalam">
+                        The messy, chaotic, beautiful way you think—now captured perfectly. 
+                        Draw connections, map ideas, and never lose a thought again.
                      </p>
 
-                     {/* REFINED SMALLER BUTTON */}
-                     {session ? (
-                        <button
-                           onClick={() => navigate("/dashboard")}
-                           className="flex items-center gap-3 px-6 py-3.5 rounded-xl border border-white/10 bg-teal-900 text-white font-black hover:bg-teal-800 hover:border-teal-500/50 transition-all active:scale-95"
-                        >
-                           Go to dashboard
-                           <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                        </button>
-                     ) : (
-                        <button
-                           onClick={() => navigate("/login")}
-                           className="group flex items-center gap-3 px-6 py-3.5 rounded-xl bg-white text-black font-black hover:bg-teal-400 transition-all shadow-xl shadow-teal-500/5 active:scale-95"
-                        >
-                           INITIALIZE BRAIN
-                           <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                        </button>
-                     )}
+                     {/* CTA BUTTONS */}
+                     <div className="flex flex-col sm:flex-row items-center gap-6">
+                        {session ? (
+                           <button
+                              onClick={() => navigate("/dashboard")}
+                              className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-[255px_15px_225px_15px/15px_225px_15px_255px] border-2 border-teal-400 bg-teal-400 text-black text-lg font-bold font-kalam hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(20,184,166,0.5)] transition-all active:translate-y-0 active:shadow-none"
+                           >
+                              Jump to Dashboard
+                              <ArrowRight className="h-5 w-5" />
+                           </button>
+                        ) : (
+                           <button
+                              onClick={() => navigate("/login")}
+                              className="w-full sm:w-auto group flex items-center justify-center gap-3 px-8 py-4 rounded-[255px_15px_225px_15px/15px_225px_15px_255px] bg-teal-400 text-black text-lg font-bold font-kalam hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(20,184,166,0.5)] transition-all active:translate-y-0 active:shadow-none"
+                           >
+                              Start for free 
+                              <ArrowRight className="h-5 w-5 group-hover:rotate-[-45deg] transition-transform" />
+                           </button>
+                        )}
+                        
+                        <div className="flex items-center gap-2 text-neutral-500 text-sm font-kalam font-bold transform rotate-2">
+                           <div className="w-8 h-px bg-neutral-700" />
+                           <span>Free forever for dreamers</span>
+                        </div>
+                     </div>
                   </motion.div>
 
-                  {/* RIGHT COLUMN: RELEVANT IMAGE */}
+                  {/* RIGHT COLUMN: HERO IMAGE */}
                   <motion.div
-                     className="lg:col-span-5 relative"
-                     initial={{ opacity: 0, scale: 0.9, x: 20 }}
-                     animate={{ opacity: 1, scale: 1, x: 0 }}
+                     className="lg:col-span-5 relative perspective-1000"
+                     initial={{ opacity: 0, scale: 0.9, rotate: 5 }}
+                     animate={{ opacity: 1, scale: 1, rotate: 3 }}
                      transition={{ duration: 1, delay: 0.2 }}
                   >
-                     <div className="relative z-10 rounded-[32px] overflow-hidden border border-white/10 bg-neutral-900 shadow-2xl">
-                        <img
-                           src="https://i.pinimg.com/736x/9a/15/d9/9a15d96b98e19134a4103067def8d755.jpg"
-                           alt="SecondBrain"
-                           className="w-full h-auto object-cover opacity-80 hover:opacity-100 transition-opacity duration-700"
-                        />
-                        {/* Subtle Overlay to blend with dark theme */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-60" />
+                     {/* Roughly drawn border container */}
+                     <div className="relative z-10 rounded-2xl bg-[#111] p-2 border-2 border-white/10 shadow-2xl transform hover:rotate-0 transition-transform duration-500">
+                         {/* Sketchy border overlay */}
+                        <div className="absolute inset-0 border-2 border-white/20 rounded-[255px_15px_225px_15px/15px_225px_15px_255px] pointer-events-none" />
+                        
+                        <div className="relative rounded-xl overflow-hidden aspect-[4/3] group">
+                            <img
+                               src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
+                               alt="SecondBrain Interface"
+                               className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                            
+                            {/* Floating Elements on top of image */}
+                            <div className="absolute bottom-6 left-6 right-6">
+                               <div className="flex items-center gap-4 mb-4">
+                                  <div className="h-10 w-10 rounded-full bg-teal-400 flex items-center justify-center font-bold text-black border-2 border-black rotate-[-6deg] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                     <Brain className="h-6 w-6" />
+                                  </div>
+                                  <div className="h-2 w-20 bg-white/20 rounded-full" />
+                               </div>
+                               <div className="p-4 bg-black/80 backdrop-blur-md rounded-xl border border-white/10 font-kalam text-white/80">
+                                  "It's like my brain, but organized."
+                               </div>
+                            </div>
+                        </div>
                      </div>
 
-                     {/* Decorative Glow behind image */}
-                     <div className="absolute -inset-4 bg-teal-500/10 blur-[60px] rounded-full z-0" />
+                     {/* Back layer decoration */}
+                     <div className="absolute -inset-4 bg-teal-500/20 blur-[80px] rounded-full z-0 pointer-events-none" />
                   </motion.div>
                </div>
             </section>
@@ -232,11 +264,11 @@ export function LandingPage() {
                <div className="container mx-auto px-6 lg:px-12">
                   {/* Features Grid */}
 
-                  <div className="mb-10">
-                     <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 uppercase tracking-tighter text-center">
+                  <div className="mb-16 text-center">
+                     <h2 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter transform -rotate-2">
                         Features
                      </h2>
-                     <div className="w-20 h-1 bg-teal-500 mx-auto" />
+                     <div className="w-32 h-2 bg-teal-500/80 mx-auto rounded-[255px_15px_225px_15px/15px_225px_15px_255px] rotate-2" />
                   </div>
                   <div className="grid md:grid-cols-3 gap-1 px-4 lg:px-0 mb-32 bg-white/5 border border-white/5 rounded-[40px] overflow-hidden">
                      {[
@@ -276,17 +308,17 @@ export function LandingPage() {
                   {/* Pricing Header */}
                   <div
                      id="pricing"
-                     className="text-center mb-20 pt-16 border-t border-black/10"
+                     className="text-center mb-20 pt-16 border-t border-dashed border-white/10"
                   >
-                     <h2 className="text-5xl md:text-6xl font-bold text-white uppercase mb-4 tracking-tighter">
+                     <h2 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter transform rotate-1">
                         Simple Pricing
                      </h2>
 
-                     <p className="text-xl text-white/50 max-w-2xl mx-auto font-medium mt-4">
-                        Choose the plan that fits your needs
+                     <p className="text-xl text-white/50 max-w-2xl mx-auto font-kalam transform -rotate-1">
+                        Choose the plan that fits your needs (no hidden fees, we promise)
                      </p>
 
-                     <div className="w-20 h-1 bg-teal-500 mx-auto mt-6" />
+                     <div className="w-40 h-2 bg-teal-500/80 mx-auto mt-8 rounded-[255px_15px_225px_15px/15px_225px_15px_255px] -rotate-1" />
                   </div>
 
                   {/* Unified Pricing Monolith */}
