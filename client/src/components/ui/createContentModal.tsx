@@ -56,32 +56,40 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
     return (open &&
         <div onClick={() => {
             setOpen(!open)
-        }} className="fixed top-0 left-0 h-screen w-screen bg-black/70 backdrop-blur-sm z-50 flex justify-center items-center">
-            <div className="flex justify-center items-center h-screen pb-10">
-                <div onClick={(e) => e.stopPropagation()} className="bg-background rounded-md w-120 h-80 flex flex-col gap-4 p-5 text-foreground/90
-                    opacity-0 scale-95 animate-[appear_0.3s_ease-out_forwards]">
-                    <div className="font-bold font-playfair text-4xl pb-1 pt-2 flex justify-center">Add Content</div>
-                    <div className="">
+        }} className="fixed inset-0 h-screen w-screen bg-black/80 backdrop-blur-md z-[100] flex justify-center items-center">
+            <div className="flex justify-center items-center h-screen pb-10 w-full">
+                <div onClick={(e) => e.stopPropagation()} className="bg-[#111] border border-white/10 rounded-2xl w-[500px] max-w-[90vw] flex flex-col gap-6 p-8 text-gray-200
+                    opacity-0 scale-95 animate-[appear_0.3s_ease-out_forwards] relative">
+                    
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/5 blur-[60px] rounded-full pointer-events-none" />
+
+                    <div className="font-bold font-playfair text-3xl pb-2 text-center text-white border-b border-white/5">ADD CONTENT</div>
+                    
+                    <div className="space-y-4">
                         <div>
-                            <div className="m-2">
+                            <div className="mb-4">
+                                <label className="text-xs font-bold uppercase tracking-widest text-teal-500/80 mb-2 block">Title</label>
                                 <input ref={titleRef} 
                                 onKeyDown={(e) => {
                                     if(e.key === "Enter"){
+                                        e.preventDefault();
                                         linkRef.current?.focus()
                                     }
                                 }}
                                 type="text" 
-                                className="w-full rounded-md p-2 border border-foreground/20"
+                                className="w-full bg-[#0A0A0A] rounded-xl p-3 border border-white/10 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/20 outline-none transition-all placeholder:text-gray-600"
                                 placeholder="Title..." disabled={loading} />
                             </div>
-                            <div className="m-2">
-                                <input ref={linkRef} type="text" className="w-full rounded-md p-2 border border-foreground/20"
+                            <div className="mb-4">
+                                <label className="text-xs font-bold uppercase tracking-widest text-teal-500/80 mb-2 block">Link</label>
+                                <input ref={linkRef} type="text" className="w-full bg-[#0A0A0A] rounded-xl p-3 border border-white/10 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/20 outline-none transition-all placeholder:text-gray-600"
                                     placeholder="Paste the URL here..." disabled={loading} />
                             </div>
                         </div>
 
                         <div>
-                            <div className="pr-3 ">
+                            <div className="mb-6">
+                                <label className="text-xs font-bold uppercase tracking-widest text-teal-500/80 mb-2 block">Type</label>
                                 <DropDownMenu
                                     options={[
                                         { label: "YouTube", value: "youtube" },
@@ -93,11 +101,11 @@ export function CreateContentModal({ open, setOpen }: modalProps) {
                                 />
                             </div>
 
-                            <div className="font-bold pr-3">
-                                <Button hover={false}
-                                    shadow={false} size="md"
-                                    text="Submit" bg_color="defaultTheme"
-                                    fullWidth={true}
+                            <div className="font-bold flex justify-end">
+                                <Button hover={true}
+                                    shadow={false} size="lg"
+                                    text="Add Content" bg_color="defaultTheme"
+                                    fullWidth={false}
                                     onClick={() => {
                                         handleRequest()
                                         setOpen(!open)

@@ -52,31 +52,31 @@ export function DeleteChat({
     open && (
       <div
         onClick={() => setOpen(false)}
-        className="fixed top-0 left-0 h-screen w-screen backdrop-blur-sm bg-black/70 z-100 flex justify-center items-center"
+        className="fixed inset-0 h-screen w-screen backdrop-blur-md bg-black/80 z-[200] flex justify-center items-center"
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="bg-background rounded-md w-122 h-35 flex flex-col text-foreground/95 opacity-0 scale-95 
-            animate-[appear_0.3s_ease-out_forwards] font-inter justify-center items-center"
+          className="bg-[#111] border border-white/10 rounded-2xl w-[400px] flex flex-col p-8 opacity-0 scale-95 
+            animate-[appear_0.3s_ease-out_forwards] font-sans shadow-2xl"
         >
-          <p className="text-md text-center pt-2">
-            You will permanently delete all previous chats.
-            <br />
-            Do you still want to proceed?
-          </p>
-          <div className="flex gap-10 pt-4">
+          <div className="text-center mb-6">
+            <h3 className="text-xl font-bold text-white mb-2">Delete Chat?</h3>
+            <p className="text-white/50 text-sm">
+                This action is permanent and cannot be undone. All messages in this session will be lost.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
             <button
               onClick={() => setOpen(false)}
-              className="bg-foreground/95 duration-200 transition-all hover:bg-foreground/85 
-                px-6 py-2 rounded-sm text-background cursor-pointer"
+              className="px-4 py-3 rounded-xl border border-white/10 text-white hover:bg-white/5 transition-colors font-medium text-sm"
             >
-              Back
+              Cancel
             </button>
             <button
               onClick={deleteChats}
-              className="bg-red-900 duration-200 transition-all hover:bg-red-800 cursor-pointer px-6 py-2 rounded-sm text-white"
+              className="px-4 py-3 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-colors font-medium text-sm"
             >
-              Delete
+              Delete Forever
             </button>
           </div>
         </div>

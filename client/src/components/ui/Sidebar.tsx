@@ -23,8 +23,8 @@ export function Sidebar(sidebarProps: SidebarTypes) {
 
     return (
         <div
-            className={`h-full min-h-screen bg-background/95 border border-foreground/20 text-foreground/90 
-        transition-all duration-200 ease-in-out overflow-hidden 
+            className={`h-full min-h-screen bg-black/20 backdrop-blur-xl border border-white/10 text-gray-300
+        transition-all duration-200 ease-in-out overflow-hidden z-20
         ${sidebarClose ? "w-15" : "w-64"
                 }`}
         >
@@ -49,7 +49,7 @@ export function Sidebar(sidebarProps: SidebarTypes) {
 
                         <SideBarItems
                             onClick={() => sidebarProps.setType && sidebarProps.setType(undefined)}
-                            text={isSharedPage ? 'Shared Brain' : 'My Brain'}
+                            text="My Brain"
                             icon={<Brain className="size-5" strokeWidth="1.5" />} />
 
                         <SideBarItems

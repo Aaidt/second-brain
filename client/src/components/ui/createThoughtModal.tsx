@@ -64,51 +64,52 @@ export function CreateThoughtModal({ open, setOpen }: modalProps) {
     return (open &&
         <div onClick={() => { 
             setOpen(!open)
-        }} className="fixed top-0 left-0 h-screen w-screen backdrop-blur-sm bg-black/70 z-50 flex justify-center items-center">
-            <div className="flex justify-center items-center h-screen pb-10">
-                <div onClick={(e) => e.stopPropagation()} className="bg-background rounded-md w-[1000px] max-h-[90vh] overflow-y-auto flex flex-col gap-4 
-                    opacity-0 scale-95 animate-[appear_0.3s_ease-out_forwards] p-5 text-foreground/90">
-                    <div className="font-bold font-playfair text-4xl pb-3 flex justify-center">Add Thoughts</div>
-                    <div className="">
-                        <div className="m-2">
+        }} className="fixed inset-0 h-screen w-screen backdrop-blur-md bg-black/80 z-[100] flex justify-center items-center">
+            <div className="flex justify-center items-center h-screen pb-10 w-full">
+                <div onClick={(e) => e.stopPropagation()} className="bg-[#111] border border-white/10 rounded-2xl w-[900px] max-w-[90vw] max-h-[85vh] overflow-y-auto flex flex-col gap-4 
+                    opacity-0 scale-95 animate-[appear_0.3s_ease-out_forwards] p-6 text-gray-200 relative">
+                    
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/5 blur-[60px] rounded-full pointer-events-none" />
+
+                    <div className="font-bold font-playfair text-3xl pb-2 text-center text-white border-b border-white/5">CAPTURE THOUGHT</div>
+                    
+                    <div className="space-y-4">
+                        <div className="">
+                            <label className="text-xs font-bold uppercase tracking-widest text-teal-500/80 mb-2 block">Title</label>
                             <input ref={titleRef}
                                 type="text"
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter") {
+                                        e.preventDefault();
                                         textareaRef.current?.focus()
                                     }
                                 }}
-                                className="w-full rounded-md text-xl font-medium p-2 border border-foreground/20"
-                                placeholder="Title..."
+                                className="w-full bg-[#0A0A0A] rounded-xl text-xl font-medium p-3 border border-white/10 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/20 outline-none transition-all placeholder:text-gray-600"
+                                placeholder="What's on your mind?"
                                 disabled={loading} />
                         </div>
-                        <div className="m-2">
+                        <div className="">
+                            <label className="text-xs font-bold uppercase tracking-widest text-teal-500/80 mb-2 block">Elaboration</label>
                             <textarea
                                 ref={textareaRef}
                                 value={value}
                                 onChange={(e) => setValue(e.target.value)}
-                                className="w-[900px] resize-none overflow-hidden  bg-transparent outline-none text-xl leading-relaxed"
+                                className="w-full min-h-[150px] resize-none bg-[#0A0A0A] rounded-xl text-lg p-3 border border-white/10 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/20 outline-none transition-all leading-relaxed placeholder:text-gray-600"
                                 placeholder="Start typing..."
                                 style={{
-                                    border: "none",
-                                }}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter") {
-                                        handleRequest()
-                                        setOpen(!open)
-                                    }
+                                    height: "auto",
                                 }}
                                 disabled={loading}
                             />
                         </div>
 
-                        <div className="font-bold pr-3">
+                        <div className="font-bold pt-2 flex justify-end">
                             <Button 
                                 loading={loading}
-                                hover={false} shadow={false}
-                                size="md" text="Submit"
+                                hover={true} shadow={false}
+                                size="lg" text="Create Thought"
                                 bg_color="defaultTheme"
-                                fullWidth={true}
+                                fullWidth={false}
                                 onClick={() => {
                                     handleRequest()
                                     setOpen(!open)

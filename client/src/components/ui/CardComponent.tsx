@@ -37,7 +37,7 @@ export function CardComponent(cardProps: cardPropTypes) {
         <div>
             {/* <ContextModal setOpen={setOpen}/> */}
             <div className={`${cardProps.type === "youtube" ? 'max-h-100' : 'undefined'} max-w-80 min-h-96
-                bg-background text-foreground/90 rounded-md mx-2 mt-6 border border-foreground/20 font-playfair`}>
+                bg-[#111] text-gray-300 rounded-2xl mx-2 mt-6 border border-white/10 shadow-xl font-playfair hover:border-teal-500/30 transition-colors`}>
 
                 <div className="flex justify-between pt-4 p-3 items-center transition-all duration-300 ">
 

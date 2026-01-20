@@ -1,7 +1,5 @@
 import { Delete } from "../icons/Delete"
 import { FileText } from "lucide-react";
-import { ThoughtModal } from "./ThoughtModal";
-import { useState } from 'react'
 
 interface ThoughtCardPropTypes {
     title: string,
@@ -9,22 +7,23 @@ interface ThoughtCardPropTypes {
     id?: string,
     share?: boolean,
     isSharedPage: boolean,
-    created_at: Date 
+    created_at: Date,
+    onView?: () => void
 }
 
 export function ThoughtCards(ThoughtCardProps: ThoughtCardPropTypes) {
     // const sentences = ThoughCardProps.thoughts.split(/[.!?]+/).slice(0, 3).join('. ') + '.';
-    const [open, setOpen] = useState<boolean>(false)
+    // const [open, setOpen] = useState<boolean>(false) removed unused state
 
     return (<div>
-        <ThoughtModal title={ThoughtCardProps.title} thought={ThoughtCardProps.body} open={open} setOpen={setOpen} />
-
-        <div className={`max-w-80 max-h-100 overflow-hidden border border-foreground/30 bg-background/95 rounded-md mt-6 font-playfair mx-2`}>
+        <div className={`max-w-80 max-h-100 overflow-hidden border border-white/10 bg-[#111] text-gray-300 rounded-2xl mt-6 font-playfair mx-2 shadow-xl hover:border-teal-500/30 transition-colors`}>
             <div className="flex justify-between pt-4 p-3 transition-all duration-300 ">
                 <div onClick={() => {
-                    setOpen(true)
+                   if (ThoughtCardProps.onView) {
+                       ThoughtCardProps.onView()
+                   }
                 }}>
-                    <div className="relative"> <FileText className="cursor-pointer" strokeWidth="1.5" size="20" /> </div>
+                    <div className="relative"> <FileText className="cursor-pointer text-gray-400 hover:text-gray-200 transition-colors" strokeWidth="1.5" size="20" /> </div>
                 </div>
 
                 <div className="flex gap-4">
@@ -34,13 +33,13 @@ export function ThoughtCards(ThoughtCardProps: ThoughtCardPropTypes) {
                         ) : null}
                 </div>
             </div>
-            <div className="flex flex-col p-4 max-h-100">
-                <h1 className="text-2xl font-medium mb-4 line-clamp-2 break-words break-all">{ThoughtCardProps.title}</h1>
+            <div className="flex flex-col p-4 max-h-100 cursor-pointer" onClick={() => ThoughtCardProps.onView && ThoughtCardProps.onView()}>
+                <h1 className="text-2xl font-medium mb-4 line-clamp-2 break-words break-all text-gray-200">{ThoughtCardProps.title}</h1>
                 <div className="relative">
-                    <p className="line-clamp-10 font-roboto" style={{ whiteSpace: 'pre-wrap' }}>
+                    <p className="line-clamp-10 font-roboto text-gray-400" style={{ whiteSpace: 'pre-wrap' }}>
                         {ThoughtCardProps.body}
                     </p>
-                    <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-background to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#111] to-transparent"></div>
                 </div>
             </div>
         </div >

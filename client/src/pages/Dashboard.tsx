@@ -8,13 +8,14 @@ import axios from "axios";
 import { SearchBar } from "../components/ui/SearchBar"
 import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
-import { CreateThoughtModal } from "../components/ui/createThoughtModal"
+import { ThoughtModal } from "@/components/ui/ThoughtModal";
+// cleaned imports
+import { CreateThoughtModal } from "@/components/ui/createThoughtModal";
 import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from '../components/ui/ThoughtCards';
 import { motion } from 'framer-motion'
 // import { toast } from "react-toastify"
 import { supabase } from "@/lib/supabase"
-import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Plus, BookOpen } from "lucide-react"
 import { Session } from "@supabase/supabase-js";
 // import { useNavigate } from "react-router-dom";
@@ -66,6 +67,7 @@ export function Dashboard() {
 
     const [contentModalOpen, setContentModalOpen] = useState(false);
     const [thoughtModalOpen, setThoughtModalOpen] = useState(false);
+    const [, setShowSearch] = useState(false); // Dummy state to trigger re-render on search input
     // const [share, setShare] = useState(true)
 
     const { content, refresh } = useContent()
@@ -150,25 +152,60 @@ export function Dashboard() {
     const breakpointColumnsObj = sidebarClose ? breakpointColumnsObjClosed : breakpointColumnsObjOpen;
 
     const searchRef = useRef<HTMLInputElement>(null)
+    const [selectedThought, setSelectedThought] = useState<{title: string, body: string} | null>(null);
 
     return (
-        <div className="min-h-screen min-h-full w-full bg-background text-foreground/95">
+        <div className="min-h-screen min-h-full w-full bg-[#050505] text-[#E5E5E5] selection:bg-teal-500/30 selection:text-teal-200 font-sans antialiased overflow-x-hidden relative">
+            {/* NOISE GRAIN OVERLAY */}
+            <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-[9999] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+
+            {/* REFINED BACKGROUND ACCENTS */}
+            <div className="fixed inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] rounded-full bg-teal-500/5 blur-[140px]" />
+                <div className="absolute bottom-[0%] left-[-10%] w-[600px] h-[600px] rounded-full bg-blue-500/5 blur-[140px]" />
+            </div>
+
             <CreateContentModal open={contentModalOpen} setOpen={setContentModalOpen} />
             <CreateThoughtModal open={thoughtModalOpen} setOpen={setThoughtModalOpen} />
+            
+            {/* VIEW THOUGHT MODAL - Rendered at root to escape clipping */}
+            <ThoughtModal 
+                open={selectedThought !== null} 
+                setOpen={(val) => !val && setSelectedThought(null)} 
+                title={selectedThought?.title || ""} 
+                thought={selectedThought?.body || ""} 
+            />
 
 
             <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
-                className="fixed top-0 left-0 mr-5">
+                className="fixed top-0 left-0 mr-5 z-20">
                 <Sidebar type={type} setType={setType} />
             </motion.div>
-            <div className={`flex ${sidebarClose ? 'pl-20' : 'pl-70'} duration-200 text-md pt-5 p-1`}>
-                <SearchBar ref={searchRef} />
+            <div className={`flex flex-col md:flex-row items-center justify-between ${sidebarClose ? 'pl-20' : 'pl-70'} duration-200 pt-8 pr-8 gap-4 relative z-10`}>
+                <div className="w-full md:w-auto">
+                    <SearchBar ref={searchRef} onChange={() => setShowSearch(prev => !prev)} /> 
+                </div>
+
+                <div className="flex items-center gap-3">
+                    <Button
+                        hover={true}
+                        size="sm" text="Thoughts" bg_color="defaultTheme"
+                        fullWidth={false} shadow={false} startIcon={<BookOpen size="16" className="mr-2" strokeWidth="2" />}
+                        onClick={() => setThoughtModalOpen(true)}
+                    />
+                    <Button
+                        hover={true}
+                        size="sm" text="Content" bg_color="defaultTheme"
+                        fullWidth={false} shadow={false} startIcon={<Plus size="18" className="mr-1" strokeWidth="2" />}
+                        onClick={() => setContentModalOpen(true)}
+                    />
+                </div>
             </div>
 
-            <div className={`${sidebarClose ? 'pl-20' : 'pl-70'} p-4 pt-10 duration-200 gap-4`}>
+            <div className={`${sidebarClose ? 'pl-20' : 'pl-70'} p-4 pt-6 duration-200 relative z-10`}>
 
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -201,6 +238,7 @@ export function Dashboard() {
                             }).map(item => {
                                 if (item.category === "content") {
                                     return <CardComponent
+                                        key={item.id}
                                         title={item.title}
                                         link={item.link}
                                         id={item.id}
@@ -211,48 +249,20 @@ export function Dashboard() {
                                 }
                                 else {
                                     return <ThoughtCards
+                                        key={item.id}
                                         id={item.id}
                                         title={item.title}
                                         body={item.body}
                                         created_at={item.created_at}
                                         // share={share}
-                                        isSharedPage={false} />
+                                        isSharedPage={false} 
+                                        onView={() => setSelectedThought({title: item.title, body: item.body})}
+                                        />
                                 }
 
                             })}
                     </Masonry>
                 </motion.div>
-
-                <div className="pt-1 p-2 absolute right-0 top-0 flex">
-                    <div className="text-md mt-4 mr-3">
-                        <ModeToggle variable="ghost" />
-                    </div>
-
-                    <div className="text-md">
-                        <Button
-                            hover={true}
-                            size="sm" text="Thoughts" bg_color="defaultTheme"
-                            fullWidth={false} shadow={false} startIcon={<BookOpen size="18" className="mr-1" strokeWidth="1.5" />}
-                            onClick={() => setThoughtModalOpen(true)}
-                        />
-                    </div>
-                    <div className="text-md">
-                        <Button
-                            hover={true}
-                            size="sm" text="Content" bg_color="defaultTheme"
-                            fullWidth={false} shadow={false} startIcon={<Plus size="18" className="mr-1" strokeWidth="1.5" />}
-                            onClick={() => setContentModalOpen(true)}
-                        />
-                    </div>
-                    {/* <div className="text-md">
-                        <Button
-                            hover={true}
-                            size="sm" text={`Share Brain: ${share ? 'OFF' : 'ON'}`} bg_color="defaultTheme"
-                            fullWidth={false} shadow={false} startIcon={<Share size="18" className="mr-1" strokeWidth="1.5" />}
-                            onClick={handleShare}
-                        />
-                    </div> */}
-                </div>
             </div>
         </div >
     )

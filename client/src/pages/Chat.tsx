@@ -1,12 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { MoveUp, ChevronDown, Brain, Trash2, SquarePen, RefreshCcw } from 'lucide-react';
+import { MoveUp, ChevronDown, Brain, Trash2, SquarePen, RefreshCcw, PanelLeftClose, PanelRightClose } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { DeleteChat } from "../components/ui/DeleteChat"
-import { ModeToggle } from '@/components/ui/mode-toggle';
 import { supabase } from '@/lib/supabase';
 import { Session } from '@supabase/supabase-js';
 
@@ -199,164 +198,219 @@ export function Chat() {
       }
    }
 
-   return (
-      <div className="h-screen w-screen grid grid-cols-[340px_1fr] overflow-hidden">
-         <div
-            className={`bg-background text-foreground/90 border-r border-foreground/15 overflow-hidden overflow-y-auto p-4 duration-300 transition-all`}
-         >
-            <motion.div
-               initial={{ opacity: 0, x: -40 }}
-               whileInView={{ opacity: 1, x: 0 }}
-               viewport={{ once: true }}
-               transition={{ duration: 0.3 }}
-            >
-               <div className="flex justify-between">
-                  <div className="mb-6 flex gap-1 items-center" onClick={() => navigate('/dashboard')}>
-                     <Brain className="size-6 cursor-pointer stroke-[1.5]" />
-                     <p className="font-medium font-playfair text-2xl cursor-pointer">Second Brain</p>
-                  </div>
-                  <ModeToggle variable="ghost" />
-               </div>
-               <div className='pb-3'>
-                  <div className="flex items-center mb-2 text-sm pl-4 py-2 bg-foreground/15 text-foreground/90
-                                hover:bg-foreground/10 duration-200 transition-all rounded-md w-full cursor-pointer"
-                     onClick={handleNewChat}>
-                     <SquarePen size="18" className='mr-2' />
-                     New chat
-                  </div>
-                  {/* 
-							<div className="flex items-center mb-2 text-gray-800 py-2 bg-foreground/95 text-background/90 
-								hover:bg-foreground/70 rounded-md px-2 cursor-pointer">
-								<Search size="18" className='mr-4' />
-									Search chats
-							</div> */}
-               </div>
-               <h3 className="font-semibold mb-2 text-foreground/90">Thoughts referrenced:</h3>
+   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-               {references.length === 0 ? (
-                  <p className="text-foreground/90 text-sm pt-2">No queries sent.</p>
-               ) : (references.map((ref, idx) => (
-                  <motion.div
-                     initial={{ opacity: 0, y: -20 }}
-                     whileInView={{ opacity: 1, y: 0 }}
-                     viewport={{ once: true }}
-                     transition={{ duration: 0.3 }}
-                     className="space-y-4 mb-2 pr-2"
-                     key={idx}
-                  >
-                     <div className="bg-background/80 border text-foreground/90 rounded-md p-3 shadow-sm">
-                        <div className="flex items-center justify-between">
-                           <h3 className="mb-1 text-sm font-medium">{ref.title}</h3>
-                           <ChevronDown
-                              onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-                              className="size-5 stroke-[1.5] cursor-pointer"
-                           />
-                        </div>
-                        {openIndex === idx && (
-                           <motion.div
-                              initial={{ opacity: 0, y: -40 }}
-                              whileInView={{ opacity: 1, y: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 0.2 }}
-                              className="text-sm text-foreground/70 whitespace-pre-wrap"
-                           >
-                              {ref.thoughts}
-                           </motion.div>
-                        )}
-                     </div>
-                  </motion.div>
-               )))}
-               <div className='flex justify-between items-center mx-1 pt-8 mb-2 '>
-                  <h3 className="font-semibold text-foreground/95 ">Previous chats:</h3>
-                  <RefreshCcw onClick={init} className="stroke-[1.5] size-4 cursor-pointer 
-									hover:-rotate-180 hover:text-blue-600 transition-all duration-300" />
-               </div>
-               {sessions.length === 0 ? (
-                  <p className="text-foreground/95 text-sm pt-2">No previous chats.</p>
-               ) : (
-                  sessions.map((session, i) => (
-                     <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4 }}
-                        key={i}
-                        className="rounded-lg whitespace-pre-wrap text-md text-foreground/95 max-w-sm"
-                     >
-                        <div className={`${session.id === currentSessionId ? 'bg-foreground/15' : null} flex items-center justify-between mx-auto cursor-pointer
-                                            hover:bg-foreground/10 duration-200 transition-all px-4 py-2 mt-1 rounded-lg`}
-                           onClick={() => fetchSession(session.id)}>
-                           <div>{session.title}</div>
-                           <Trash2
-                              className="stroke-[1.5] size-4 cursor-pointer hover:stroke-red-700 z-50"
-                              onClick={() => setModalOpenId(session.id)}
-                           />
-                        </div>
-                        <DeleteChat
-                           open={modalOpenId === session.id}
-                           setOpen={(val) => setModalOpenId(val ? session.id : null)}
-                           onDeleteSuccess={() => setSessions(sessions.filter(s => s.id !== session.id))}
-                           sessionId={session.id}
-                        />
-                     </motion.div>
-                  ))
-               )}
-            </motion.div>
+    return (
+       <div className={`h-screen w-screen grid ${isSidebarOpen ? "grid-cols-[340px_1fr]" : "grid-cols-[0px_1fr]"} overflow-hidden bg-[#050505] text-[#E5E5E5] font-sans antialiased selection:bg-teal-500/30 selection:text-teal-200 relative transition-all duration-300 ease-in-out`}>
+          {/* NOISE GRAIN OVERLAY */}
+          <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-[9999] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+ 
+          {/* REFINED BACKGROUND ACCENTS */}
+          <div className="fixed inset-0 overflow-hidden pointer-events-none">
+             <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] rounded-full bg-teal-500/5 blur-[140px]" />
+             <div className="absolute bottom-[0%] left-[-10%] w-[600px] h-[600px] rounded-full bg-blue-500/5 blur-[140px]" />
+          </div>
+
+          <div
+             className={`bg-black/20 backdrop-blur-xl border-r border-white/10 overflow-hidden overflow-y-auto p-4 duration-300 transition-all z-10 relative
+             ${!isSidebarOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}
+             `}
+          >
+             <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3 }}
+             >
+                <div className="flex justify-between items-center mb-6">
+                  <div className="flex gap-2 items-center cursor-pointer group" onClick={() => navigate('/dashboard')}>
+                      <div className="p-1.5 rounded-lg bg-gradient-to-br from-neutral-800 to-neutral-900 border border-white/10 group-hover:border-teal-500/50 transition-all">
+                        <Brain className="size-5 text-teal-400 stroke-[1.5]" />
+                      </div>
+                      <span className="font-bold tracking-tight uppercase text-lg text-white/90 group-hover:text-white transition-colors">SecondBrain</span>
+                   </div>
+                   <div onClick={() => setIsSidebarOpen(false)} className="cursor-pointer text-white/40 hover:text-white transition-colors">
+                        <PanelLeftClose size={20} />
+                   </div>
+                </div>
+
+                <div className='pb-6'>
+                   <button 
+                      className="flex items-center justify-center w-full py-3 px-4 rounded-xl bg-teal-400/10 text-teal-400 border border-teal-400/20 hover:bg-teal-400/20 hover:border-teal-400/40 transition-all duration-300 font-bold text-sm tracking-wide uppercase group mb-2"
+                      onClick={handleNewChat}>
+                      <SquarePen size="18" className='mr-2 group-hover:scale-110 transition-transform' />
+                      New chat
+                   </button>
+                </div>
+                
+                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/30 mb-4 px-2">Thoughts Referenced</h3>
+
+                {references.length === 0 ? (
+                   <div className="px-2 py-8 text-center border border-dashed border-white/5 rounded-xl">
+                      <p className="text-white/20 text-xs font-medium">No references yet</p>
+                   </div>
+                ) : (references.map((ref, idx) => (
+                   <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3 }}
+                      className="space-y-4 mb-2"
+                      key={idx}
+                   >
+                      <div className="bg-white/5 border border-white/5 hover:border-white/10 text-white/80 rounded-xl p-3 shadow-none transition-all">
+                         <div className="flex items-center justify-between group cursor-pointer" onClick={() => setOpenIndex(openIndex === idx ? null : idx)}>
+                            <h3 className="mb-px text-xs font-bold line-clamp-1">{ref.title}</h3>
+                            <ChevronDown
+                               className={`size-4 text-white/40 group-hover:text-white transition-colors duration-200 ${openIndex === idx ? 'rotate-180' : ''}`}
+                            />
+                         </div>
+                         <AnimatePresence>
+                         {openIndex === idx && (
+                            <motion.div
+                               initial={{ height: 0, opacity: 0 }}
+                               animate={{ height: "auto", opacity: 1 }}
+                               exit={{ height: 0, opacity: 0 }}
+                               className="overflow-hidden"
+                            >
+                               <div className="pt-3 text-xs text-white/50 leading-relaxed border-t border-white/5 mt-2">
+                                  {ref.thoughts}
+                               </div>
+                            </motion.div>
+                         )}
+                         </AnimatePresence>
+                      </div>
+                   </motion.div>
+                )))}
+                
+                <div className='flex justify-between items-center px-2 mt-8 mb-4 border-t border-white/5 pt-6'>
+                   <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/30">History</h3>
+                   <RefreshCcw onClick={init} className="stroke-[1.5] size-3.5 text-white/30 cursor-pointer 
+                                     hover:rotate-180 hover:text-teal-400 transition-all duration-300" />
+                </div>
+                <div className="space-y-1">
+                {sessions.length === 0 ? (
+                   <p className="px-2 text-white/20 text-xs">No previous chats.</p>
+                ) : (
+                   sessions.map((session, i) => (
+                      <motion.div
+                         initial={{ opacity: 0 }}
+                         whileInView={{ opacity: 1 }}
+                         viewport={{ once: true }}
+                         transition={{ duration: 0.4 }}
+                         key={i}
+                         className="group relative"
+                      >
+                         <div className={`${session.id === currentSessionId ? 'bg-white/10 text-white' : 'text-white/50 hover:bg-white/5 hover:text-white/80'} 
+                                            flex items-center justify-between cursor-pointer
+                                            duration-200 transition-all px-3 py-2.5 rounded-lg text-sm font-medium`}
+                            onClick={() => fetchSession(session.id)}>
+                            <div className="truncate pr-6">{session.title}</div>
+                            <Trash2
+                               className="opacity-0 group-hover:opacity-100 absolute right-2 stroke-[1.5] size-3.5 cursor-pointer text-white/20 hover:text-red-400 transition-all"
+                               onClick={(e) => { e.stopPropagation(); setModalOpenId(session.id); }}
+                            />
+                         </div>
+                      </motion.div>
+                   ))
+                )}
+                </div>
+             </motion.div>
 
 
-         </div>
+          </div>
+          
+          <DeleteChat
+            open={!!modalOpenId}
+            setOpen={(val) => setModalOpenId(val ? modalOpenId : null)} // Only close
+            onDeleteSuccess={() => {
+                setSessions(sessions.filter(s => s.id !== modalOpenId));
+                setModalOpenId(null);
+            }}
+            sessionId={modalOpenId || ""}
+         />
 
-         <div className="flex flex-col h-full overflow-y-auto">
-            <div className="flex-1 px-6 py-4 space-y-4 bg-background">
-               {messages.map((msg, i) => (
-                  <motion.div
-                     initial={{ opacity: 0 }}
-                     whileInView={{ opacity: 1 }}
-                     viewport={{ once: true }}
-                     transition={{ duration: 0.4 }}
-                     key={i}
-                     className={`
-								rounded-lg p-4 whitespace-pre-wrap border text-foreground/90
-								${msg.sender === 'user'
-                           ? 'bg-foreground/10 ml-auto border-r-6 border-r-green-800 max-w-sm'
-                           : 'bg-foreground/10 mr-auto border-l-6 border-l-blue-800 max-w-2xl'}
-							`}
-                  >
-                     <ReactMarkdown>{msg.content}</ReactMarkdown>
-                  </motion.div>
-               ))}
-               <div ref={messagesEndRef} />
-            </div>
-
-            <div className="bg-background/90 px-6 py-4 w-full sticky bottom-0 shadow-[0_-1px_10px_rgba(0,0,0,0.1)]">
-               <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8 }}
-               >
-                  <div className="flex justify-center items-center gap-2 max-w-4xl mx-auto">
-                     <input
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && handleChatQuery()}
-                        className={`flex-1 px-4 py-2 border border-foreground/20 rounded-2xl
-									focus:ring-1 focus:ring-black/02 bg-foreground/10 text-foreground`}
-                        placeholder="Ask anything..."
-                        disabled={loading}
-                     />
-                     <div className=''>
-                        <button
-                           className="cursor-pointer rounded-full text-background bg-foreground p-2 z-100"
-                           onClick={handleChatQuery}
-                        >
-                           <MoveUp size={20} />
-                        </button>
-                     </div>
-                  </div>
-               </motion.div>
-            </div>
-         </div>
-      </div>
-   );
-}
+          <div className="flex flex-col h-full overflow-hidden relative z-10">
+             {!isSidebarOpen && (
+                 <div className="absolute top-4 left-4 z-50">
+                    <button 
+                        onClick={() => setIsSidebarOpen(true)}
+                        className="p-2 rounded-lg bg-black/20 border border-white/10 text-white/40 hover:text-white hover:bg-white/5 transition-all backdrop-blur-md"
+                    >
+                        <PanelRightClose size={20} />
+                    </button>
+                 </div>
+             )}
+             <div className="h-full w-full relative">
+                 <div className="absolute inset-0 overflow-y-auto px-4 md:px-20 pt-8 pb-28 scrollbar-hide space-y-6">
+                    {messages.length === 0 && (
+                      <div className="h-full flex flex-col items-center justify-center opacity-30 select-none pointer-events-none">
+                         <Brain className="size-24 mb-4 text-white/20" />
+                         <p className="text-xl font-kalam text-white/40 rotate-[-2deg]">Start thinking...</p>
+                      </div>
+                    )}
+                    {messages.map((msg, i) => (
+                       <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.4 }}
+                          key={i}
+                          className={`flex w-full ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                       >
+                         <div className={`
+                             rounded-2xl p-5 md:p-6 whitespace-pre-wrap max-w-3xl text-sm md:text-base leading-relaxed font-medium shadow-xl backdrop-blur-sm
+                             ${msg.sender === 'user'
+                                ? 'bg-teal-500/10 border border-teal-500/20 text-teal-50 rounded-br-none'
+                                : 'bg-[#111] border border-white/10 text-white/80 rounded-bl-none'}
+                          `}>
+                          <ReactMarkdown 
+                            components={{
+                               code: ({node, ...props}) => <code className="bg-black/30 rounded px-1.5 py-0.5 text-xs font-mono" {...props} />
+                            }}
+                          >
+                            {msg.content}
+                          </ReactMarkdown>
+                          </div>
+                       </motion.div>
+                    ))}
+                    <div ref={messagesEndRef} />
+                 </div>
+    
+                 <div className="absolute bottom-0 left-0 w-full px-4 md:px-20 pb-4 pt-10 z-20 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent pointer-events-none">
+                    <motion.div
+                       initial={{ opacity: 0, y: 10 }}
+                       whileInView={{ opacity: 1, y: 0 }}
+                       viewport={{ once: true }}
+                       transition={{ duration: 0.8 }}
+                       className="pointer-events-auto"
+                    >
+                       <div className="relative max-w-3xl mx-auto">
+                          <div className="flex items-center gap-2 bg-[#212121] p-2 pl-4 rounded-[26px] shadow-lg relative">
+                             <input
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleChatQuery()}
+                                className="flex-1 py-2 bg-transparent text-white placeholder:text-white/40 focus:outline-none text-[15px]"
+                                placeholder="Ask anything..."
+                                disabled={loading}
+                             />
+                             <button
+                                className="p-1.5 rounded-full bg-white text-black hover:bg-gray-200 disabled:opacity-50 disabled:hover:bg-white transition-all duration-200 flex items-center justify-center"
+                                onClick={handleChatQuery}
+                                disabled={loading || !query.trim()}
+                             >
+                                {loading ? <RefreshCcw className="animate-spin size-5" /> : <MoveUp className="size-5" strokeWidth={2.5} />}
+                             </button>
+                          </div>
+                       </div>
+                       <p className="text-center text-[10px] text-white/30 mt-2 font-medium">
+                          AI can make mistakes. Check important info.
+                       </p>
+                    </motion.div>
+                 </div>
+             </div>
+          </div>
+       </div>
+    );
+ }
