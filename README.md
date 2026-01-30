@@ -1,4 +1,4 @@
-# 🧠 Second Brain (Serverless Edition)
+# 🧠 Second Brain
 
 Second Brain is an AI-powered knowledge management and chat application designed to capture, organize, and retrieve your thoughts and ideas. It leverages advanced vector search and Large Language Models (LLMs) to provide a "second brain" that you can query in natural language.
 
