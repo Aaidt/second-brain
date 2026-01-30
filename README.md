@@ -1,55 +1,119 @@
-# 🧠 Second Brain
-![Alt](https://repobeats.axiom.co/api/embed/fa8652287408755e9114263560c515eaef4f568d.svg "Repobeats analytics image")
+# 🧠 Second Brain (Serverless Edition)
 
-Second Brain is a full-stack AI-powered chat and knowledge management application. It allows users to create, manage, store and reference their thoughts and knowledge in a structured and searchable way and query them. The app features authentication, session management, and a modern, responsive UI.
-
----
-
-## Features
-
-- **AI Chat Sessions:** Start new chat sessions, continue previous ones, and interact with an AI assistant.
-- **Session History:** View, revisit, and delete previous chat sessions.
-- **References:** See which of your stored thoughts were used to answer your queries.
-- **Authentication:** Secure login and token-based session management.
-- **Modern UI:** Responsive, user-friendly interface built with React and Tailwind CSS.
-- **Persistent Storage:** All chats and thoughts are stored in a database for future reference.
+Second Brain is an AI-powered knowledge management and chat application designed to capture, organize, and retrieve your thoughts and ideas. It leverages advanced vector search and Large Language Models (LLMs) to provide a "second brain" that you can query in natural language.
 
 ---
 
-## Tech Stack
+## 🚀 Demo
 
-- **Frontend:** React, TypeScript, Tailwind CSS, Framer Motion, React Markdown, React Toastify
-- **Backend:** Node.js, Express, TypeScript, Prisma ORM
-- **Database:** NeonDb (Configured via Prisma, e.g., PostgreSQL or SQLite)
-- **Authentication:** JWT-based (Access and refresh tokens)
-- **Other:** Axios, Vite, Lucide Icons
+### Live Deployment
+You can access the deployed serverless backend API here:
+**[🔗 Live Serverless API Link](YOUR_LIVE_LINK_HERE)**
+
+### Demo
+![Application Demo](assets/demo.gif)
 
 ---
 
-## Project Structure
+## 🛠 Tech Stack
 
+### Serverless Backend (Deployed)
+Built with **Next.js** to function as a robust, scalable API.
+-   **Framework:** Next.js (Serverless Functions)
+-   **Database:** PostgreSQL (NeonDB) via Prisma ORM
+-   **Vector Database:** Qdrant (for semantic search and memory)
+-   **AI Models:** Google Gemini, Mistral AI, OpenRouter
+-   **Authentication:** Supabase Auth & NextAuth
+-   **Deployment:** Vercel (or compatible serverless platform)
+
+### Frontend (Local)
+A modern, responsive interface built for speed and aesthetics.
+-   **Framework:** React (Vite)
+-   **Styling:** Tailwind CSS, Framer Motion
+-   **State/Logic:** Axios, React Router, React Toastify
+
+---
+
+## ✨ Features
+
+-   **AI Chat Interface:** Conversational access to your knowledge base using state-of-the-art LLMs.
+-   **Memory & Context:** Uses Vector Embeddings (Qdrant) to recall relevant past interactions and stored notes.
+-   **Secure Authentication:** User management handled via Supabase.
+-   **Responsive Design:** Clean, modern UI optimized for all devices.
+-   **Serverless Architecture:** Scalable and cost-effective backend logic.
+
+---
+
+## ⚙️ Local Setup Guide
+
+Follow these steps to get the full stack running locally.
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/second-brain.git
+cd second-brain
 ```
-second-brain/
-  client/      # Frontend React app
-  server/      # Backend API (Express + Prisma)
+
+### 2. Backend Setup (Serverless)
+
+Navigate to the serverless directory:
+```bash
+cd serverless
+```
+
+Install dependencies:
+```bash
+npm install
+```
+
+Create a `.env` file based on `.env.example` and add your keys:
+```env
+# Database & Auth
+DATABASE_URL="postgresql://..."
+NEXT_PUBLIC_SUPABASE_URL="your-supabase-url"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
+SUPABASE_SERVICE_ROLE_KEY="your-service-key"
+
+# AI Services
+GEMINI_API_KEY="your-gemini-key"
+MISTRAL_API_KEY="your-mistral-key"
+OPENROUTER_API_KEY="your-openrouter-key"
+
+# Vector DB
+QDRANT_API_KEY="your-qdrant-key"
+QDRANT_CLOUD_URL="your-qdrant-url"
+```
+
+Run the development server:
+```bash
+npm run dev
+```
+
+### 3. Frontend Setup (Client)
+
+Open a new terminal and navigate to the client directory:
+```bash
+cd client
+```
+
+Install dependencies:
+```bash
+npm install
+```
+
+Create a `.env` file based on `.env.example`:
+```env
+VITE_BACKEND_URL="http://localhost:3000/api" # Or your deployed API URL
+VITE_CLIENT_URL="http://localhost:5173"
+```
+
+Run the frontend:
+```bash
+npm run dev
 ```
 
 ---
 
-## Contributing
+## 📄 License
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
-
----
-
-## License
-
-[MIT](LICENSE)
-
----
-
-**Note:**  
-- Make sure your database is running and accessible.
-- Adjust environment variables as needed for your setup.
-- For production, set secure values for secrets and use a production-ready database.
-
+This project is licensed under the MIT License.
