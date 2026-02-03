@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
+import { redis } from "@/lib/redis";
 
 export async function DELETE(req: Request, { params } : {
     params: Promise<{ contentId: string }>
@@ -20,21 +21,14 @@ export async function DELETE(req: Request, { params } : {
              })
     }
     try {
-        const doesUserExist = await prismaClient.user.findFirst({
-            where: { id: userId }
-        })
-        if(!doesUserExist){
-            return NextResponse.json({
-                 message: "This user doesnt exist." 
-                }, { status: 404 });
-        }
-
         await prismaClient.content.delete({
             where: {
                 id: contentId,
                 userId
             }
         })
+        await redis.del(`content:${userId}`);
+
         return NextResponse.json(
             { message: "Content deleted successfully." }, { status: 201 })
     } catch (err) {

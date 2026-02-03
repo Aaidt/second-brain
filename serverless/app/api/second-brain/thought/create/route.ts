@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
 import { getMistralEmbeddings } from "@/lib/mistralClient";
 import { qdrantClient } from "@/lib/qdrantClient";
+import { redis } from "@/lib/redis";
 
 export async function POST(req: Request){
+
     const { title, thoughts } = await req.json();
     const userId = req.headers.get("x-user-id")
     if(!userId) {
@@ -22,11 +24,6 @@ export async function POST(req: Request){
 
    let saved;
    try {
-      const user = await prismaClient.user.findUnique({where: { id: userId } })
-      if(!user){
-         console.log("Theres no user with that id");
-         return NextResponse.json({ message: "Invalid user" }, { status: 401 });
-      }
       saved = await prismaClient.thought.create({
          data: {
             title: title,
@@ -37,7 +34,7 @@ export async function POST(req: Request){
             created_at: new Date()
          }
       });
-      console.log(saved);
+      // console.log(saved);
 
       const vector = await getMistralEmbeddings(fullText)
       console.log("length: " + vector?.length)
@@ -65,6 +62,9 @@ export async function POST(req: Request){
                }
             ]
          })
+         
+         await redis.del(`thoughts:${userId}`);
+
 
          return NextResponse.json({
              message: "Successfully added the thought." },
@@ -75,7 +75,7 @@ export async function POST(req: Request){
          await prismaClient.thought.delete({ where: { id: saved.id } });
          return NextResponse.json({ message: "Failed to upsert thought to Qdrant DB. Had to rollback. " },
             { status: 500 }
-         )
+         )  
       }
 
    } catch (err) {

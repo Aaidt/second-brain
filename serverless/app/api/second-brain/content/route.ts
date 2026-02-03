@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
+import { redis } from "@/lib/redis";
 
 export async function GET(req: Request){
     const userId = req.headers.get("x-user-id");
@@ -9,7 +10,18 @@ export async function GET(req: Request){
         }, { status: 401 })
     }
     try {
+        const cacheKey = `content:${userId}`;
+        const cachedContent = await redis.get(cacheKey);
+
+        if (cachedContent) {
+            return NextResponse.json({
+                content: JSON.parse(cachedContent)
+            }, { status: 200 })
+        }
+
         const content = await prismaClient.content.findMany({ where: { userId } })
+
+        await redis.set(cacheKey, JSON.stringify(content));
 
         return NextResponse.json({ content }, { 
             status: 200

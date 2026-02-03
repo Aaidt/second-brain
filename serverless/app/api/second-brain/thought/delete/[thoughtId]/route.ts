@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
 import { qdrantClient } from "@/lib/qdrantClient";
+import { redis } from "@/lib/redis";
 
 export async function DELETE(req: Request, { params } : {
     params: Promise<{ thoughtId: string }>
 }){
     const { thoughtId } = await params;
+
     const userId = req.headers.get("x-user-id")
     if(!userId) {
         return NextResponse.json({
@@ -55,6 +57,8 @@ export async function DELETE(req: Request, { params } : {
                 status: 500
             })
         }
+        
+        await redis.del(`thoughts:${userId}`);
   
         return NextResponse.json({ message: "Deleted successfully." }, { status: 200 })
      } catch (err) {

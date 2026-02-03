@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "./lib/supabaseServer";
+import dotenv from "dotenv"
+dotenv.config()
 
 const ALLOWED_ORIGINS = [
-   "http://localhost:5173",        
-   "https://second-brainfe.vercel.app",   
- ];
+   "http://localhost:5173",
+   process.env.FRONTEND_URL,
+];
 
 export default async function proxy(req: Request) {
    const origin = req.headers.get("origin");
@@ -12,20 +14,20 @@ export default async function proxy(req: Request) {
    // Only allow known origins
    if (origin && !ALLOWED_ORIGINS.includes(origin)) {
       return new NextResponse("CORS blocked", { status: 403 });
-    }
+   }
 
-    // Handle preflight
-    if (req.method === "OPTIONS") {
+   // Handle preflight
+   if (req.method === "OPTIONS") {
       return new NextResponse(null, {
-        status: 204,
-        headers: {
-          "Access-Control-Allow-Origin": origin ?? "",
-          "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
-          "Access-Control-Allow-Headers": "Authorization, Content-Type",
-          "Access-Control-Allow-Credentials": "true",
-        },
+         status: 204,
+         headers: {
+            "Access-Control-Allow-Origin": origin ?? "",
+            "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers": "Authorization, Content-Type",
+            "Access-Control-Allow-Credentials": "true",
+         },
       });
-    }
+   }
 
    const authHeader = req.headers.get("Authorization");
 
@@ -48,13 +50,13 @@ export default async function proxy(req: Request) {
          message: "Invalid token"
       }, { status: 401 })
    }
-   
+
    const res = NextResponse.next();
    if (origin) {
       res.headers.set("Access-Control-Allow-Origin", origin);
       res.headers.set("Access-Control-Allow-Credentials", "true");
       res.headers.set("x-user-id", data.user.id);
-    }
+   }
 
    return res;
 }        

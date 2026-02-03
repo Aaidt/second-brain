@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { prismaClient } from "@/lib/prisma"; 
+import { redis } from "@/lib/redis";
 
 export async function POST(req: Request) {
     const { title, link, type } = await req.json();
@@ -24,6 +25,9 @@ export async function POST(req: Request) {
                 }
             }
         })
+
+        await redis.del(`content:${userId}`);
+
         return NextResponse.json({ 
             message: "Content has been added successfully." 
         }, { status: 200 })

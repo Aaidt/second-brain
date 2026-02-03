@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prismaClient } from "@/lib/prisma";
+import { redis } from "@/lib/redis";
 
 export async function POST(req: Request, { params }: { params: Promise<{ link: string }> }
 ) {
@@ -8,6 +9,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ link: s
    try {
       if (!link) {
          return NextResponse.json({ message: "Link is required." })
+      }
+
+      const cacheKey = `share:${link}`;
+      const cachedData = await redis.get(cacheKey);
+
+      if (cachedData) {
+         return NextResponse.json(JSON.parse(cachedData));
       }
 
       const hashLink = await prismaClient.link.findFirst({
@@ -34,11 +42,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ link: s
          })
       }
 
-      return NextResponse.json({
+      const responseData = {
          username: user?.username,
          content,
          thought
-      })
+      };
+
+      await redis.set(cacheKey, JSON.stringify(responseData), 'EX', 60);
+
+      return NextResponse.json(responseData)
    } catch (err) {
       console.error(err)
       return NextResponse.json({ message: "Server error. Error in the sharing process." })
