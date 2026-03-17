@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "./lib/supabaseServer";
-import dotenv from "dotenv"
-dotenv.config()
 
 const ALLOWED_ORIGINS = [
    "http://localhost:5173",
-   process.env.FRONTEND_URL,
+   process.env.FRONTEND_URL!,
 ];
 
 export default async function proxy(req: Request) {
