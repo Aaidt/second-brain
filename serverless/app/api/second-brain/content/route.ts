@@ -12,6 +12,7 @@ export async function GET(req: Request){
     try {
         const cacheKey = `content:${userId}`;
         const cachedContent = await redis.get(cacheKey);
+        console.log("cached response: ", cachedContent)
 
         if (cachedContent) {
             return NextResponse.json({
