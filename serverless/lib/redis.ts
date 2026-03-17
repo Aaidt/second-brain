@@ -7,6 +7,6 @@ const getRedisUrl = () => {
     throw new Error("REDIS_URL is not defined");
 }
 
-export const redis = new Redis(process.env.REDISCONN as string)
+export const redis = new Redis(process.env.REDIS_URL as string)
 redis.on('error', (err) => console.error('Redis Error:', err));
 redis.on('ready', () => console.log('Connected to Redis'));   
