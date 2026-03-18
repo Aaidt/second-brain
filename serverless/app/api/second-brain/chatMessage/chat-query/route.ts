@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { qdrantClient } from "@/lib/qdrantClient";
 import { getMistralEmbeddings } from "@/lib/mistralClient";
 // import { genAI } from "@/lib/geminiClient";
@@ -48,9 +48,9 @@ export async function POST(req: Request) {
       .join("\n");
     if (!retrievedTexts) {
       return NextResponse
-        .json({ 
-            message: "No thoughts provided to reference an answer from."
-         }, { status: 403 });
+        .json({
+          message: "No thoughts provided to reference an answer from."
+        }, { status: 403 });
     }
 
     // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-001" });
@@ -65,13 +65,15 @@ export async function POST(req: Request) {
 
     // const response = await model.generateContent(prompt);
     const response = await axios.post<chatQueryResponse>("https://openrouter.ai/api/v1/chat/completions", {
-      model: "openrouter/auto",
+      model: "openrouter/free",
       messages: [{ role: "user", content: prompt }],
+      reasoning: { enabled: true }
     }, {
       headers: {
         Authorization: 'Bearer ' + openRouterApiKey,
-        'HTTP-Referer': 'https://second-brainfe.vercel.app', 
-        'X-Title': 'Second Brain', 
+        'HTTP-Referer': 'https://second-brainfe.vercel.app',
+        'X-Title': 'Second Brain',
+        "Content-Type": "application/json"
       }
     });
     const text = response.data?.choices[0].message.content;

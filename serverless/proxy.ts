@@ -45,7 +45,7 @@ export default async function proxy(req: Request) {
 
    if (error || !data.user) {
       return NextResponse.json({
-         message: "Invalid token"
+         message: "Invalid token (from proxy)"
       }, { status: 401 })
    }
 
