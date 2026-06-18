@@ -9,7 +9,6 @@ import { SearchBar } from "../components/ui/SearchBar"
 import { useSideBar } from "../hooks/sidebarContext";
 import Masonry from "react-masonry-css"
 import { ThoughtModal } from "@/components/ui/ThoughtModal";
-// cleaned imports
 import { CreateThoughtModal } from "@/components/ui/createThoughtModal";
 import { useThoughts } from "../hooks/useThoughts"
 import { ThoughtCards } from '../components/ui/ThoughtCards';

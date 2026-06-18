@@ -104,7 +104,6 @@ npm install
 Create a `.env` file based on `.env.example`:
 ```env
 VITE_BACKEND_URL="http://localhost:3000/api" # Or your deployed API URL
-VITE_CLIENT_URL="http://localhost:5173"
 ```
 
 Run the frontend:
